@@ -3,29 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>S. Jeevanandham | UI/UX & Embedded Developer</title>
+  <title>S. Jeevanandham | Senior HMI Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet" />
   <style>
-    /* ── TOKENS ──────────────────────────────────────────────── */
     :root {
-      --bg:        #080c14;
-      --surface:   #0e1624;
-      --surface2:  #141f33;
-      --border:    rgba(255,255,255,0.07);
-      --amber:     #f59e0b;
-      --amber-dim: rgba(245,158,11,0.12);
-      --amber-glow:rgba(245,158,11,0.25);
-      --cyan:      #22d3ee;
-      --text:      #e2e8f0;
-      --muted:     #64748b;
-      --mono:      'Share Tech Mono', monospace;
-      --sans:      'Barlow', sans-serif;
-      --display:   'Barlow Condensed', sans-serif;
+      --bg:         #080c14;
+      --surface:    #0e1624;
+      --surface2:   #141f33;
+      --border:     rgba(255,255,255,0.07);
+      --amber:      #f59e0b;
+      --amber-dim:  rgba(245,158,11,0.12);
+      --amber-glow: rgba(245,158,11,0.25);
+      --cyan:       #22d3ee;
+      --green:      #34d399;
+      --text:       #e2e8f0;
+      --muted:      #64748b;
+      --mono:       'Share Tech Mono', monospace;
+      --sans:       'Barlow', sans-serif;
+      --display:    'Barlow Condensed', sans-serif;
     }
-
-    /* ── RESET ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
@@ -37,703 +35,598 @@
       overflow-x: hidden;
     }
     a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; }
 
-    /* ── GRID OVERLAY (atmosphere) ───────────────────────────── */
     body::before {
       content: '';
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background-image:
-        linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px);
+        linear-gradient(rgba(245,158,11,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,158,11,0.025) 1px, transparent 1px);
       background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
     }
 
-    /* ── NAV ─────────────────────────────────────────────────── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 18px 40px;
-      background: rgba(8,12,20,0.85);
-      backdrop-filter: blur(12px);
+      background: rgba(8,12,20,0.88);
+      backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
     }
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--amber);
-      letter-spacing: 0.08em;
-    }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
+    .nav-logo { font-family: var(--mono); font-size: 12px; color: var(--amber); letter-spacing: 0.1em; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
     .nav-links a {
-      font-family: var(--mono);
-      font-size: 12px;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      text-transform: uppercase;
-      transition: color 0.2s;
+      font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+      color: var(--muted); text-transform: uppercase; transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--amber); }
-
-    /* hamburger */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 4px;
-    }
-    .hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--amber);
-      transition: all 0.3s;
-    }
+    .nav-links a:hover, .nav-links a.active { color: var(--amber); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--amber); }
     .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 61px; left: 0; right: 0;
-      background: rgba(8,12,20,0.97);
-      border-bottom: 1px solid var(--border);
-      z-index: 99;
-      padding: 24px 40px;
-      flex-direction: column;
-      gap: 20px;
+      display: none; position: fixed; top: 61px; left: 0; right: 0;
+      background: rgba(8,12,20,0.97); border-bottom: 1px solid var(--border);
+      z-index: 99; padding: 24px 40px; flex-direction: column; gap: 18px;
     }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    .mobile-menu a { font-family: var(--mono); font-size: 12px; color: var(--muted); text-transform: uppercase; }
     .mobile-menu a:hover { color: var(--amber); }
 
-    /* ── HERO ────────────────────────────────────────────────── */
+    /* HERO */
     #hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 40px 80px;
-      overflow: hidden;
-    }
-    .hero-inner {
-      position: relative;
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 120px 40px 80px; overflow: hidden;
       z-index: 1;
-      max-width: 900px;
     }
+    .hero-inner { position: relative; z-index: 1; max-width: 860px; }
     .hero-tag {
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--amber);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeUp 0.6s 0.2s forwards;
+      font-family: var(--mono); font-size: 11px; color: var(--amber);
+      letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 20px;
+      opacity: 0; animation: fadeUp 0.6s 0.2s forwards;
     }
     .hero-name {
-      font-family: var(--display);
-      font-size: clamp(52px, 10vw, 110px);
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      text-transform: uppercase;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.35s forwards;
+      font-family: var(--display); font-size: clamp(50px, 9.5vw, 108px);
+      font-weight: 800; line-height: 0.93; letter-spacing: -0.02em; text-transform: uppercase;
+      opacity: 0; animation: fadeUp 0.7s 0.35s forwards;
     }
     .hero-name span { color: var(--amber); }
+    .hero-title {
+      margin-top: 22px; font-size: 14px; font-weight: 400; color: var(--amber);
+      font-family: var(--mono); letter-spacing: 0.05em;
+      opacity: 0; animation: fadeUp 0.6s 0.48s forwards;
+    }
     .hero-role {
-      margin-top: 28px;
-      font-size: 18px;
-      font-weight: 300;
-      color: var(--muted);
-      max-width: 540px;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.5s forwards;
+      margin-top: 14px; font-size: 17px; font-weight: 300; color: var(--muted); max-width: 560px;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+    .hero-badges {
+      margin-top: 28px; display: flex; gap: 8px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.6s 0.65s forwards;
+    }
+    .badge {
+      font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+      color: var(--text); background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 3px; padding: 5px 11px;
     }
     .hero-cta {
-      margin-top: 44px;
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.65s forwards;
+      margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.7s 0.75s forwards;
     }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 28px;
-      font-family: var(--mono);
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      border-radius: 4px;
-      transition: all 0.25s;
-      cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 26px; font-family: var(--mono); font-size: 12px;
+      letter-spacing: 0.08em; border-radius: 4px; transition: all 0.25s; cursor: pointer;
     }
-    .btn-primary {
-      background: var(--amber);
-      color: #080c14;
-      font-weight: 700;
-      border: none;
-    }
+    .btn-primary { background: var(--amber); color: #080c14; font-weight: 700; border: none; }
     .btn-primary:hover { background: #fbbf24; transform: translateY(-2px); box-shadow: 0 8px 24px var(--amber-glow); }
-    .btn-outline {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border);
-    }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
     .btn-outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
 
-    /* big decorative circle */
     .hero-deco {
-      position: absolute;
-      right: -180px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 600px;
-      height: 600px;
-      border-radius: 50%;
-      border: 1px solid rgba(245,158,11,0.12);
-      animation: spin 40s linear infinite;
+      position: absolute; right: -160px; top: 50%; transform: translateY(-50%);
+      width: 580px; height: 580px; border-radius: 50%;
+      border: 1px solid rgba(245,158,11,0.1); animation: spin 40s linear infinite;
     }
     .hero-deco::after {
-      content: '';
-      position: absolute;
-      inset: 40px;
-      border-radius: 50%;
-      border: 1px dashed rgba(245,158,11,0.08);
-      animation: spin 25s linear infinite reverse;
+      content: ''; position: absolute; inset: 44px; border-radius: 50%;
+      border: 1px dashed rgba(245,158,11,0.06); animation: spin 24s linear infinite reverse;
     }
 
-    /* ── SECTION COMMONS ─────────────────────────────────────── */
-    section {
-      position: relative;
-      z-index: 1;
-      padding: 100px 40px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    .section-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--amber);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-family: var(--display);
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 800;
-      text-transform: uppercase;
-      line-height: 1;
-      letter-spacing: -0.01em;
-      margin-bottom: 48px;
-    }
-    .divider {
-      width: 100%;
-      height: 1px;
-      background: var(--border);
-      max-width: 1100px;
-      margin: 0 auto;
-    }
+    /* SHARED */
+    .section-wrap { position: relative; z-index: 1; padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+    .full-section { position: relative; z-index: 1; padding: 100px 40px; }
+    .full-section .inner { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: var(--mono); font-size: 10px; color: var(--amber); letter-spacing: 0.28em; text-transform: uppercase; margin-bottom: 10px; }
+    .section-title { font-family: var(--display); font-size: clamp(30px, 5vw, 50px); font-weight: 800; text-transform: uppercase; line-height: 1; letter-spacing: -0.01em; margin-bottom: 48px; }
+    .divider { width: 100%; height: 1px; background: var(--border); position: relative; z-index: 1; }
 
-    /* ── ABOUT ───────────────────────────────────────────────── */
-    #about .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: start;
-    }
-    #about p {
-      font-size: 16px;
-      color: var(--muted);
-      line-height: 1.9;
-    }
-    #about p + p { margin-top: 16px; }
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px 20px;
-      transition: border-color 0.25s;
-    }
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: start; }
+    .about-text p { font-size: 15px; color: var(--muted); line-height: 1.95; }
+    .about-text p + p { margin-top: 14px; }
+    .highlight { color: var(--text); }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 22px 18px; transition: border-color 0.25s; }
     .stat-card:hover { border-color: var(--amber); }
-    .stat-num {
-      font-family: var(--display);
-      font-size: 42px;
-      font-weight: 800;
-      color: var(--amber);
-      line-height: 1;
-    }
-    .stat-label {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-top: 6px;
-    }
+    .stat-num { font-family: var(--display); font-size: 40px; font-weight: 800; color: var(--amber); line-height: 1; }
+    .stat-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 6px; }
 
-    /* ── SKILLS ──────────────────────────────────────────────── */
-    #skills { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); max-width: 100%; padding: 100px 40px; }
-    #skills .inner { max-width: 1100px; margin: 0 auto; }
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+    /* EXPERIENCE */
+    .exp-band { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-item {
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 32px; padding: 32px 0; border-bottom: 1px solid var(--border);
     }
-    .skill-group {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 28px 24px;
-      transition: border-color 0.25s, transform 0.25s;
-    }
+    .exp-item:last-child { border-bottom: none; }
+    .exp-period { font-family: var(--mono); font-size: 11px; color: var(--amber); letter-spacing: 0.1em; margin-bottom: 6px; }
+    .exp-company { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .exp-role { font-family: var(--display); font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.01em; margin-bottom: 8px; }
+    .exp-desc { font-size: 14px; color: var(--muted); line-height: 1.85; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 26px 22px; transition: border-color 0.25s, transform 0.25s; }
     .skill-group:hover { border-color: var(--amber); transform: translateY(-4px); }
-    .skill-group-title {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--amber);
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-    .skill-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .tag {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text);
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 4px 10px;
-      letter-spacing: 0.05em;
-    }
+    .skill-group-title { font-family: var(--mono); font-size: 10px; color: var(--amber); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 14px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag { font-family: var(--mono); font-size: 10px; color: var(--text); background: var(--surface2); border: 1px solid var(--border); border-radius: 3px; padding: 4px 9px; }
 
-    /* ── PROJECTS ────────────────────────────────────────────── */
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
     .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 36px 32px;
-      position: relative;
-      overflow: hidden;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 32px 28px; position: relative; overflow: hidden;
       transition: border-color 0.3s, transform 0.3s;
     }
+    .project-card.wide { grid-column: 1 / -1; }
     .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
       background: linear-gradient(90deg, var(--amber), var(--cyan));
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.4s ease;
+      transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
     }
-    .project-card:hover { border-color: var(--amber-glow); transform: translateY(-4px); }
+    .project-card:hover { border-color: rgba(245,158,11,0.3); transform: translateY(-4px); }
     .project-card:hover::before { transform: scaleX(1); }
-    .project-num {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--amber);
-      letter-spacing: 0.2em;
-      margin-bottom: 16px;
-    }
-    .project-title {
-      font-family: var(--display);
-      font-size: 22px;
-      font-weight: 700;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .project-desc {
-      font-size: 14px;
-      color: var(--muted);
-      line-height: 1.8;
-    }
-    .project-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 20px;
-    }
-    .project-tag {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--amber);
-      background: var(--amber-dim);
-      border: 1px solid rgba(245,158,11,0.2);
-      border-radius: 3px;
-      padding: 3px 10px;
-      letter-spacing: 0.08em;
-    }
+    .project-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; gap: 12px; }
+    .project-num { font-family: var(--mono); font-size: 10px; color: var(--amber); letter-spacing: 0.2em; flex-shrink: 0; }
+    .project-domain { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-align: right; }
+    .project-period { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 10px; }
+    .project-title { font-family: var(--display); font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 10px; line-height: 1.15; }
+    .project-desc { font-size: 13px; color: var(--muted); line-height: 1.85; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+    .project-tag { font-family: var(--mono); font-size: 10px; color: var(--amber); background: var(--amber-dim); border: 1px solid rgba(245,158,11,0.18); border-radius: 3px; padding: 3px 9px; }
 
-    /* ── CONTACT ─────────────────────────────────────────────── */
-    #contact {
-      text-align: center;
-      padding: 120px 40px;
-    }
-    #contact .section-title { margin-bottom: 16px; }
-    #contact .sub {
-      font-size: 16px;
-      color: var(--muted);
-      margin-bottom: 48px;
-      max-width: 480px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 60px;
-    }
+    /* CERTS */
+    .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .cert-card { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 24px 20px; transition: border-color 0.25s; }
+    .cert-card:hover { border-color: var(--green); }
+    .cert-icon { font-size: 20px; margin-bottom: 10px; }
+    .cert-name { font-family: var(--sans); font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.4; }
+    .cert-org { font-family: var(--mono); font-size: 10px; color: var(--green); letter-spacing: 0.1em; }
+
+    /* CONTACT */
+    .contact-wrap { text-align: center; }
+    .contact-sub { font-size: 15px; color: var(--muted); margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .contact-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
     .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px 28px;
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--text);
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      padding: 14px 24px; font-family: var(--mono); font-size: 12px; color: var(--text);
       transition: border-color 0.25s, color 0.25s;
     }
     .contact-item:hover { border-color: var(--amber); color: var(--amber); }
-    .contact-icon { font-size: 16px; }
+    .contact-note { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; margin-top: 14px; }
 
-    /* ── FOOTER ──────────────────────────────────────────────── */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 40px;
-      text-align: center;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      position: relative;
-      z-index: 1;
+      border-top: 1px solid var(--border); padding: 28px 40px; text-align: center;
+      font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.14em;
+      position: relative; z-index: 1;
     }
 
-    /* ── ANIMATIONS ──────────────────────────────────────────── */
+    /* ANIMATIONS */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(22px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes spin {
       from { transform: translateY(-50%) rotate(0deg); }
       to   { transform: translateY(-50%) rotate(360deg); }
     }
-    .reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .reveal.visible {
-      opacity: 1;
-      transform: none;
-    }
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .d1 { transition-delay: 0.1s; }
+    .d2 { transition-delay: 0.2s; }
 
-    /* ── RESPONSIVE ──────────────────────────────────────────── */
-    @media (max-width: 768px) {
-      nav { padding: 16px 24px; }
+    /* RESPONSIVE */
+    @media (max-width: 860px) {
+      nav { padding: 15px 20px; }
       .nav-links { display: none; }
       .hamburger { display: flex; }
-
-      #hero { padding: 100px 24px 60px; }
+      #hero { padding: 100px 20px 60px; }
       .hero-deco { display: none; }
-
-      section { padding: 72px 24px; }
-      #skills { padding: 72px 24px; }
-
-      #about .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .stats { grid-template-columns: 1fr 1fr; }
-
-      .skills-grid { grid-template-columns: 1fr; }
-
+      .section-wrap { padding: 72px 20px; }
+      .full-section { padding: 72px 20px; }
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
       .projects-grid { grid-template-columns: 1fr; }
-
-      #contact { padding: 80px 24px; }
-      footer { padding: 24px; }
+      .project-card.wide { grid-column: auto; }
+      .certs-grid { grid-template-columns: 1fr; }
+      .exp-item { grid-template-columns: 1fr; gap: 6px; }
+    }
+    @media (max-width: 540px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-links { flex-direction: column; align-items: stretch; }
+      .contact-item { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav>
-    <div class="nav-logo">SJS_PORTFOLIO.v2</div>
-    <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+<nav>
+  <div class="nav-logo">SJS // PORTFOLIO_2026</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#about"    onclick="closeMenu()">About</a>
-    <a href="#skills"   onclick="closeMenu()">Skills</a>
-    <a href="#projects" onclick="closeMenu()">Projects</a>
-    <a href="#contact"  onclick="closeMenu()">Contact</a>
-  </div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about"          onclick="closeMenu()">About</a>
+  <a href="#experience"     onclick="closeMenu()">Experience</a>
+  <a href="#skills"         onclick="closeMenu()">Skills</a>
+  <a href="#projects"       onclick="closeMenu()">Projects</a>
+  <a href="#certifications" onclick="closeMenu()">Certs</a>
+  <a href="#contact"        onclick="closeMenu()">Contact</a>
+</div>
 
-  <!-- HERO -->
-  <section id="hero" style="max-width:100%; padding-left:40px;">
-    <div class="hero-deco"></div>
-    <div class="hero-inner">
-      <div class="hero-tag">// HMI Engineer &amp; UX Designer</div>
-      <h1 class="hero-name">
-        S.&nbsp;<span>Jeevanandham</span>
-      </h1>
-      <p class="hero-role">
-        Building precision-grade Human Machine Interfaces for Automotive &amp; Medical systems — where every pixel is engineered, not just designed.
-      </p>
-      <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary">View Projects</a>
-        <a href="#contact"  class="btn btn-outline">Get In Touch</a>
-      </div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-deco"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">// Senior Software Engineer — HMI &amp; Embedded Systems</div>
+    <h1 class="hero-name">S.&nbsp;<span>Jeevanandham</span></h1>
+    <div class="hero-title">Automotive HMI &nbsp;·&nbsp; Infotainment &nbsp;·&nbsp; Instrument Clusters &nbsp;·&nbsp; Medical Device HMI</div>
+    <p class="hero-role">
+      4.9+ years engineering precision-grade Human Machine Interfaces for automotive and medical platforms — from pixel-perfect QML to real-time embedded firmware.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">Qt / QML</span>
+      <span class="badge">Embedded C++</span>
+      <span class="badge">LVGL</span>
+      <span class="badge">A-SPICE</span>
+      <span class="badge">ISO 26262</span>
+      <span class="badge">Linux / Yocto</span>
+      <span class="badge">FreeRTOS</span>
     </div>
-  </section>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="#contact"  class="btn btn-outline">Get In Touch</a>
+    </div>
+  </div>
+</section>
 
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-label">// 01 — About</div>
-    <h2 class="section-title">Who I Am</h2>
-    <div class="about-grid reveal">
-      <div>
-        <p>
-          I'm a UI/UX designer and embedded software engineer specialising in Human Machine Interfaces for the Automotive and Medical industries. I bridge the gap between rigorous embedded systems engineering and polished, intuitive user experience.
-        </p>
-        <p>
-          My core stack is Qt/QML and Embedded C++, enabling me to work across the full product lifecycle — from UX wireframes and visual design to real-time firmware integration and hardware bring-up.
-        </p>
-        <p>
-          I care deeply about the intersection of form and function: an instrument cluster that's beautiful to look at but also legible at 200 km/h, or a medical device UI that keeps clinicians in flow during critical procedures.
-        </p>
-      </div>
+<!-- ABOUT -->
+<section id="about" class="section-wrap">
+  <div class="section-label">// 01 — About</div>
+  <h2 class="section-title">Who I Am</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <span class="highlight">Senior Software Engineer</span> with 4.9+ years building production-grade Human Machine Interfaces for the automotive and medical industries. My work spans the full stack — from UX wireframes and visual design in Figma through to Qt/QML implementation and low-level Embedded C++ on STM32, i.MX6, MIMXRT1170, and i.MX8 platforms.</p>
+      <p>On the automotive side I've shipped Instrument Clusters, Infotainment Systems, and ADAS visualisation for leading OEMs, working in <span class="highlight">A-SPICE aligned</span> Agile environments with Jenkins CI/CD and requirements tooling like Polarion.</p>
+      <p>In the medical domain I designed and built a Physiotherapy Laser Therapy device HMI end-to-end — including a custom UART communication framework with CRC validation, SQLite3 patient database, and safety-aware interaction design.</p>
+      <p>I care about where engineering discipline meets great UX: interfaces that are beautiful, legible, deterministic, and safe.</p>
+    </div>
+    <div>
       <div class="stats">
-        <div class="stat-card">
-          <div class="stat-num">4+</div>
-          <div class="stat-label">Years experience</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">10+</div>
-          <div class="stat-label">Projects shipped</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">2</div>
-          <div class="stat-label">Industries</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Pixels perfected</div>
-        </div>
+        <div class="stat-card"><div class="stat-num">4.9+</div><div class="stat-label">Years experience</div></div>
+        <div class="stat-card"><div class="stat-num">8+</div><div class="stat-label">Projects shipped</div></div>
+        <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Safety domains</div></div>
+        <div class="stat-card"><div class="stat-num">5+</div><div class="stat-label">HMI toolchains</div></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <!-- SKILLS -->
-  <div id="skills">
+<!-- EXPERIENCE -->
+<div id="experience" class="exp-band">
+  <div class="full-section">
     <div class="inner">
-      <div class="section-label">// 02 — Skills</div>
-      <h2 class="section-title">Toolbox</h2>
-      <div class="skills-grid reveal">
-        <div class="skill-group">
-          <div class="skill-group-title">UI / UX Design</div>
-          <div class="skill-tags">
-            <span class="tag">Qt/QML</span>
-            <span class="tag">Figma</span>
-            <span class="tag">HMI Design</span>
-            <span class="tag">Wireframing</span>
-            <span class="tag">Prototyping</span>
-            <span class="tag">Animation</span>
+      <div class="section-label">// 02 — Experience</div>
+      <h2 class="section-title">Career</h2>
+      <div class="exp-list">
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-period">SEP 2024 — JAN 2026</div>
+            <div class="exp-company">PixelExpert Technology &amp; Services<br>Chennai, Tamil Nadu</div>
+          </div>
+          <div>
+            <div class="exp-role">Senior Software Engineer</div>
+            <p class="exp-desc">Led HMI design and development for a medical physiotherapy laser therapy device — full ownership from UX design through Qt/QML implementation, embedded C++ backend, UART communication framework with CRC, and SQLite3 patient database. Delivered safety-aware screen interactions and conducted structured validation aligned with medical development discipline.</p>
           </div>
         </div>
-        <div class="skill-group">
-          <div class="skill-group-title">Embedded Engineering</div>
-          <div class="skill-tags">
-            <span class="tag">C++17</span>
-            <span class="tag">Embedded C</span>
-            <span class="tag">RTOS</span>
-            <span class="tag">CAN Bus</span>
-            <span class="tag">UART / SPI</span>
-            <span class="tag">CMake</span>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-period">APR 2022 — AUG 2024</div>
+            <div class="exp-company">PixelExpert Technology &amp; Services<br>Chennai, Tamil Nadu</div>
+          </div>
+          <div>
+            <div class="exp-role">Embedded Software Engineer</div>
+            <p class="exp-desc">Developed automotive Instrument Cluster and Infotainment HMI components across multiple OEM programs using Qt/QML, LVGL, Candera CGI Studio, and Embedded C. Worked as HCL external engineer on a SUV infotainment platform delivering Calls, Media, Settings, and Vehicle Stats modules in an A-SPICE aligned Jenkins CI/CD environment.</p>
           </div>
         </div>
-        <div class="skill-group">
-          <div class="skill-group-title">Platforms & Tools</div>
-          <div class="skill-tags">
-            <span class="tag">Linux</span>
-            <span class="tag">Yocto</span>
-            <span class="tag">Git</span>
-            <span class="tag">Jenkins</span>
-            <span class="tag">JIRA</span>
-            <span class="tag">VS Code</span>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-period">SEP 2021 — MAR 2022</div>
+            <div class="exp-company">PixelExpert Technology &amp; Services<br>Chennai, Tamil Nadu</div>
+          </div>
+          <div>
+            <div class="exp-role">Graduate Engineer Trainee</div>
+            <p class="exp-desc">Hands-on embedded development training covering UART, SPI, I²C, GPIO on STM32 platforms. Built TouchGFX-based Instrument Cluster prototype with speedometer, odometer, alerts, trip metres, and fuel gauge. Foundational training in structured UI graphics and embedded integration.</p>
+          </div>
+        </div>
+        <div class="exp-item reveal">
+          <div>
+            <div class="exp-period">MAY 2019 — SEP 2019</div>
+            <div class="exp-company">Lapiz Digital Services<br>Chennai, Tamil Nadu</div>
+          </div>
+          <div>
+            <div class="exp-role">Graphics Designer Trainee</div>
+            <p class="exp-desc">Internship focused on visual design fundamentals, digital graphics production, and creative tooling across Adobe Creative Suite.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- PROJECTS -->
-  <section id="projects">
-    <div class="section-label">// 03 — Projects</div>
-    <h2 class="section-title">Selected Work</h2>
-    <div class="projects-grid">
+<div class="divider"></div>
 
-      <div class="project-card reveal">
+<!-- SKILLS -->
+<section id="skills" class="section-wrap">
+  <div class="section-label">// 03 — Skills</div>
+  <h2 class="section-title">Toolbox</h2>
+  <div class="skills-grid">
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Languages</div>
+      <div class="skill-tags">
+        <span class="tag">C++ (C++11–C++17)</span><span class="tag">Embedded C</span>
+        <span class="tag">QML</span><span class="tag">Lua</span><span class="tag">SCML</span>
+        <span class="tag">OOP / STL</span><span class="tag">Smart Pointers</span>
+      </div>
+    </div>
+    <div class="skill-group reveal d1">
+      <div class="skill-group-title">HMI Frameworks</div>
+      <div class="skill-tags">
+        <span class="tag">Qt/QML</span><span class="tag">Qt Widgets</span><span class="tag">LVGL</span>
+        <span class="tag">TouchGFX</span><span class="tag">Candera CGI Studio</span>
+        <span class="tag">Crank Storyboard</span><span class="tag">GUI Guider</span>
+        <span class="tag">VG Lite</span><span class="tag">Qt 3D Studio</span>
+      </div>
+    </div>
+    <div class="skill-group reveal d2">
+      <div class="skill-group-title">Embedded &amp; OS</div>
+      <div class="skill-tags">
+        <span class="tag">FreeRTOS</span><span class="tag">Embedded Linux</span>
+        <span class="tag">Yocto</span><span class="tag">Ubuntu</span>
+        <span class="tag">STM32</span><span class="tag">i.MX6</span>
+        <span class="tag">MIMXRT1170</span><span class="tag">i.MX8M</span>
+      </div>
+    </div>
+    <div class="skill-group reveal">
+      <div class="skill-group-title">Communication</div>
+      <div class="skill-tags">
+        <span class="tag">CAN Bus</span><span class="tag">UART / CRC</span>
+        <span class="tag">SPI</span><span class="tag">I²C</span><span class="tag">GPIO</span>
+      </div>
+    </div>
+    <div class="skill-group reveal d1">
+      <div class="skill-group-title">Tools &amp; DevOps</div>
+      <div class="skill-tags">
+        <span class="tag">Git</span><span class="tag">Plastic SCM</span><span class="tag">Jenkins</span>
+        <span class="tag">CMake</span><span class="tag">Jira</span><span class="tag">Polarion</span>
+        <span class="tag">STM32CubeIDE</span><span class="tag">MCUXpresso</span>
+        <span class="tag">GDB</span><span class="tag">DLT Viewer</span><span class="tag">SQLite3</span>
+      </div>
+    </div>
+    <div class="skill-group reveal d2">
+      <div class="skill-group-title">Design &amp; UX</div>
+      <div class="skill-tags">
+        <span class="tag">Figma</span><span class="tag">Adobe Illustrator</span>
+        <span class="tag">Adobe XD</span><span class="tag">Photoshop</span>
+        <span class="tag">GIMP</span><span class="tag">FontForge</span>
+        <span class="tag">Affinity</span><span class="tag">Miro</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="section-wrap">
+  <div class="section-label">// 04 — Projects</div>
+  <h2 class="section-title">Selected Work</h2>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-period">OCT 2024 — JAN 2026</div>
+      <div class="project-header">
         <div class="project-num">PROJECT_01</div>
-        <div class="project-title">Technomed Laser Therapy HMI</div>
-        <p class="project-desc">
-          End-to-end Human Machine Interface for a medical laser therapy device. Designed and implemented in Qt/QML with tight real-time C++ backend integration, ensuring clinical-grade reliability and regulatory compliance. Focused on reducing cognitive load for operating clinicians.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Qt/QML</span>
-          <span class="project-tag">C++</span>
-          <span class="project-tag">Medical</span>
-          <span class="project-tag">Real-time</span>
-        </div>
+        <div class="project-domain">Medical Device</div>
       </div>
+      <div class="project-title">Physiotherapy Laser Therapy HMI</div>
+      <p class="project-desc">Full-ownership HMI for a medical laser therapy device — treatment workflows, safety-aware UI logic, SQLite3 patient records &amp; treatment history, and a custom UART communication framework with CRC validation and secure response handling. Linux-based device control integration.</p>
+      <div class="project-tags">
+        <span class="project-tag">Qt/QML</span><span class="project-tag">C++</span>
+        <span class="project-tag">SQLite3</span><span class="project-tag">UART/CRC</span>
+        <span class="project-tag">Linux</span>
+      </div>
+    </div>
 
-      <div class="project-card reveal">
+    <div class="project-card reveal d1">
+      <div class="project-period">NOV 2023 — SEP 2024</div>
+      <div class="project-header">
         <div class="project-num">PROJECT_02</div>
-        <div class="project-title">Automotive Instrument Cluster UI</div>
-        <p class="project-desc">
-          High-fidelity instrument cluster simulation with smooth physics-based gauge animations, real-time CAN data integration, and day/night theme switching. Designed for glanceability and legibility under variable lighting conditions.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Qt/QML</span>
-          <span class="project-tag">CAN Bus</span>
-          <span class="project-tag">Animation</span>
-          <span class="project-tag">Automotive</span>
-        </div>
+        <div class="project-domain">Automotive</div>
       </div>
+      <div class="project-title">LVGL Cluster — MIMXRT1170 EVKB</div>
+      <p class="project-desc">High-performance next-gen instrument cluster using Embedded C, LVGL, and VG Lite. ADAS-style visualisation widgets and low-level GPU rendering optimisations for smooth real-time gauge and alert rendering on NXP MIMXRT1170.</p>
+      <div class="project-tags">
+        <span class="project-tag">LVGL</span><span class="project-tag">VG Lite</span>
+        <span class="project-tag">Embedded C</span><span class="project-tag">MIMXRT1170</span>
+        <span class="project-tag">ADAS</span>
+      </div>
+    </div>
 
-      <div class="project-card reveal" style="grid-column: 1 / -1;">
+    <div class="project-card wide reveal">
+      <div class="project-period">MAR 2023 — SEP 2023</div>
+      <div class="project-header">
         <div class="project-num">PROJECT_03</div>
-        <div class="project-title">ADAS Warning &amp; Alert System</div>
-        <p class="project-desc">
-          Designed the UI/UX and implemented the alert rendering pipeline for an Advanced Driver Assistance System. Built with stringent ISO 26262 ASIL-B awareness, prioritising clarity and non-distraction while conveying critical collision and lane-departure warnings in under 200 ms.
-        </p>
-        <div class="project-tags">
-          <span class="project-tag">Qt/QML</span>
-          <span class="project-tag">ISO 26262</span>
-          <span class="project-tag">C++</span>
-          <span class="project-tag">Automotive</span>
-          <span class="project-tag">ADAS</span>
-        </div>
+        <div class="project-domain">Automotive · Infotainment · OEM</div>
       </div>
-
+      <div class="project-title">SUV In-Vehicle Infotainment System</div>
+      <p class="project-desc">HMI developer on a production SUV infotainment platform (HCL external assignment). Delivered Calls, Media, Settings, Vehicle Statistics, Steering Controls, and Bezel Button modules. Full A-SPICE aligned Agile sprints via Jira, Polarion, Plastic SCM, and Jenkins CI/CD. System validation via TK Logger for latency control and reliability assurance.</p>
+      <div class="project-tags">
+        <span class="project-tag">Qt/QML</span><span class="project-tag">C++</span>
+        <span class="project-tag">Jenkins</span><span class="project-tag">Plastic SCM</span>
+        <span class="project-tag">A-SPICE</span><span class="project-tag">Figma Enterprise</span>
+        <span class="project-tag">Polarion</span><span class="project-tag">Linux</span>
+      </div>
     </div>
-  </section>
 
-  <div class="divider"></div>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-label">// 04 — Contact</div>
-    <h2 class="section-title">Let's Build Something</h2>
-    <p class="sub">Open to embedded UI roles, HMI consulting, and collaborative projects across automotive and medical domains.</p>
-    <div class="contact-links reveal">
-      <a href="mailto:jeevanandhamsivashankaran@gmail.com" class="contact-item">
-        <span class="contact-icon">✉</span>
-        jeevanandhamsivashankaran@gmail.com
-      </a>
-      <a href="https://linkedin.com/in/jeevanandhamsivashankaran/" target="_blank" class="contact-item">
-        <span class="contact-icon">in</span>
-        LinkedIn Profile
-      </a>
-      <a href="https://github.com/jeevanandhamsivasankar" target="_blank" class="contact-item">
-        <span class="contact-icon">⌥</span>
-        GitHub
-      </a>
+    <div class="project-card reveal">
+      <div class="project-period">NOV 2022 — MAR 2023</div>
+      <div class="project-header">
+        <div class="project-num">PROJECT_04</div>
+        <div class="project-domain">Automotive</div>
+      </div>
+      <div class="project-title">Sports Bike Cluster — i.MX6 Qt/QML</div>
+      <p class="project-desc">Advanced instrument cluster on i.MX6 with Qt/QML and Linux. 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations.</p>
+      <div class="project-tags">
+        <span class="project-tag">Qt/QML</span><span class="project-tag">C++</span>
+        <span class="project-tag">i.MX6</span><span class="project-tag">Linux</span>
+        <span class="project-tag">SQLite3</span><span class="project-tag">UART</span>
+      </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    © 2026 S. JEEVANANDHAM — BUILT WITH PRECISION
-  </footer>
+    <div class="project-card reveal d1">
+      <div class="project-period">JAN 2022 — SEP 2022</div>
+      <div class="project-header">
+        <div class="project-num">PROJECT_05</div>
+        <div class="project-domain">Automotive · OEM (NDA)</div>
+      </div>
+      <div class="project-title">Two-Wheeler OEM Cluster — CGI Studio</div>
+      <p class="project-desc">Production Instrument Cluster HMI for a leading two-wheeler OEM. State machines, structured UI navigation, settings &amp; core functional workflows with driver readability and safety principles. Performance-optimised 2D/2.5D animations. CMake build workflows and automotive documentation standards.</p>
+      <div class="project-tags">
+        <span class="project-tag">Candera CGI Studio</span><span class="project-tag">Lua</span>
+        <span class="project-tag">SCML</span><span class="project-tag">CMake</span>
+        <span class="project-tag">Photoshop</span>
+      </div>
+    </div>
 
-  <script>
-    // Mobile menu
-    function toggleMenu() {
-      document.getElementById('mobileMenu').classList.toggle('open');
-    }
-    function closeMenu() {
-      document.getElementById('mobileMenu').classList.remove('open');
-    }
+    <div class="project-card wide reveal">
+      <div class="project-period">R&amp;D / INTERNAL CAPABILITY WORK</div>
+      <div class="project-header">
+        <div class="project-num">R&amp;D_01</div>
+        <div class="project-domain">Automotive · ADAS</div>
+      </div>
+      <div class="project-title">ADAS 3D Demonstrator — i.MX8M</div>
+      <p class="project-desc">Collision visualisation and parking assist UI demonstrator on i.MX8M using Qt 3D Studio and Blender-produced 3D assets. Capability and innovation project demonstrating real-time 3D rendering pipelines for next-generation ADAS HMI concepts.</p>
+      <div class="project-tags">
+        <span class="project-tag">Qt 3D Studio</span><span class="project-tag">Blender</span>
+        <span class="project-tag">i.MX8M</span><span class="project-tag">ADAS</span>
+        <span class="project-tag">3D Rendering</span>
+      </div>
+    </div>
 
-    // Scroll reveal
-    const revealEls = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    revealEls.forEach(el => observer.observe(el));
+  </div>
+</section>
 
-    // Active nav link highlight
-    const sections = document.querySelectorAll('section[id], div[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 120) current = s.id;
-      });
-      navLinks.forEach(a => {
-        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--amber)' : '';
-      });
-    });
-  </script>
+<div class="divider"></div>
+
+<!-- CERTIFICATIONS -->
+<div id="certifications" class="full-section" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="inner">
+    <div class="section-label">// 05 — Certifications</div>
+    <h2 class="section-title">Credentials</h2>
+    <div class="certs-grid">
+      <div class="cert-card reveal">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-name">Qt 6 Core — Beginner, Intermediate &amp; Advanced</div>
+        <div class="cert-org">UDEMY</div>
+      </div>
+      <div class="cert-card reveal d1">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-name">QML for Beginners</div>
+        <div class="cert-org">UDEMY</div>
+      </div>
+      <div class="cert-card reveal d2">
+        <div class="cert-icon">✅</div>
+        <div class="cert-name">Google UX Design Professional Certificate</div>
+        <div class="cert-org">COURSERA — CREDLY VERIFIED</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section id="contact" class="section-wrap contact-wrap">
+  <div class="section-label" style="text-align:center;">// 06 — Contact</div>
+  <h2 class="section-title" style="text-align:center;">Let's Work Together</h2>
+  <p class="contact-sub">Open to senior HMI engineering roles, embedded UI consulting, and collaborative automotive or medical device projects. Based in Chennai, India.</p>
+  <div class="contact-links reveal">
+    <a href="mailto:jeevanandhamsivashankaran@gmail.com" class="contact-item">
+      <span>✉</span> jeevanandhamsivashankaran@gmail.com
+    </a>
+    <a href="tel:+918111010315" class="contact-item">
+      <span>☎</span> +91 811 101 0315
+    </a>
+  </div>
+  <div class="contact-links reveal" style="margin-top:10px;">
+    <a href="https://linkedin.com/in/jeevanandhamsivashankaran/" target="_blank" class="contact-item">
+      <span>in</span> LinkedIn
+    </a>
+    <a href="https://behance.net/s_jeevanandham" target="_blank" class="contact-item">
+      <span>◈</span> Behance Portfolio
+    </a>
+    <a href="https://github.com/jeevanandhamsivasankar" target="_blank" class="contact-item">
+      <span>⌥</span> GitHub
+    </a>
+  </div>
+  <p class="contact-note">Chennai, Tamil Nadu, India</p>
+</section>
+
+<footer>© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — BUILT WITH PRECISION</footer>
+
+<script>
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function closeMenu()  { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const allSections = document.querySelectorAll('[id]');
+  const navLinks    = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let cur = '';
+    allSections.forEach(s => { if (window.scrollY >= s.offsetTop - 130) cur = s.id; });
+    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur));
+  }, { passive: true });
+</script>
 </body>
 </html>
