@@ -1,48 +1,739 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Jeevanandham | UI/UX & Embedded Developer</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S. Jeevanandham | UI/UX & Embedded Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ──────────────────────────────────────────────── */
+    :root {
+      --bg:        #080c14;
+      --surface:   #0e1624;
+      --surface2:  #141f33;
+      --border:    rgba(255,255,255,0.07);
+      --amber:     #f59e0b;
+      --amber-dim: rgba(245,158,11,0.12);
+      --amber-glow:rgba(245,158,11,0.25);
+      --cyan:      #22d3ee;
+      --text:      #e2e8f0;
+      --muted:     #64748b;
+      --mono:      'Share Tech Mono', monospace;
+      --sans:      'Barlow', sans-serif;
+      --display:   'Barlow Condensed', sans-serif;
+    }
+
+    /* ── RESET ───────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    /* ── GRID OVERLAY (atmosphere) ───────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(8,12,20,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--amber);
+      letter-spacing: 0.08em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 61px; left: 0; right: 0;
+      background: rgba(8,12,20,0.97);
+      border-bottom: 1px solid var(--border);
+      z-index: 99;
+      padding: 24px 40px;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--amber); }
+
+    /* ── HERO ────────────────────────────────────────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 40px 80px;
+      overflow: hidden;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--amber);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-name {
+      font-family: var(--display);
+      font-size: clamp(52px, 10vw, 110px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+    }
+    .hero-name span { color: var(--amber); }
+    .hero-role {
+      margin-top: 28px;
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 540px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.5s forwards;
+    }
+    .hero-cta {
+      margin-top: 44px;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      border-radius: 4px;
+      transition: all 0.25s;
+      cursor: pointer;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: #080c14;
+      font-weight: 700;
+      border: none;
+    }
+    .btn-primary:hover { background: #fbbf24; transform: translateY(-2px); box-shadow: 0 8px 24px var(--amber-glow); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); }
+
+    /* big decorative circle */
+    .hero-deco {
+      position: absolute;
+      right: -180px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      border: 1px solid rgba(245,158,11,0.12);
+      animation: spin 40s linear infinite;
+    }
+    .hero-deco::after {
+      content: '';
+      position: absolute;
+      inset: 40px;
+      border-radius: 50%;
+      border: 1px dashed rgba(245,158,11,0.08);
+      animation: spin 25s linear infinite reverse;
+    }
+
+    /* ── SECTION COMMONS ─────────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 48px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────────────── */
+    #about .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    #about p {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+    #about p + p { margin-top: 16px; }
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 24px 20px;
+      transition: border-color 0.25s;
+    }
+    .stat-card:hover { border-color: var(--amber); }
+    .stat-num {
+      font-family: var(--display);
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--amber);
+      line-height: 1;
+    }
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ── SKILLS ──────────────────────────────────────────────── */
+    #skills { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); max-width: 100%; padding: 100px 40px; }
+    #skills .inner { max-width: 1100px; margin: 0 auto; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .skill-group {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 28px 24px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .skill-group:hover { border-color: var(--amber); transform: translateY(-4px); }
+    .skill-group-title {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .tag {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 4px 10px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── PROJECTS ────────────────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 36px 32px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--cyan));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover { border-color: var(--amber-glow); transform: translateY(-4px); }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--amber);
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+    }
+    .project-title {
+      font-family: var(--display);
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .project-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--amber);
+      background: var(--amber-dim);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: 3px;
+      padding: 3px 10px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── CONTACT ─────────────────────────────────────────────── */
+    #contact {
+      text-align: center;
+      padding: 120px 40px;
+    }
+    #contact .section-title { margin-bottom: 16px; }
+    #contact .sub {
+      font-size: 16px;
+      color: var(--muted);
+      margin-bottom: 48px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 28px;
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text);
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .contact-item:hover { border-color: var(--amber); color: var(--amber); }
+    .contact-icon { font-size: 16px; }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      from { transform: translateY(-50%) rotate(0deg); }
+      to   { transform: translateY(-50%) rotate(360deg); }
+    }
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      #hero { padding: 100px 24px 60px; }
+      .hero-deco { display: none; }
+
+      section { padding: 72px 24px; }
+      #skills { padding: 72px 24px; }
+
+      #about .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .stats { grid-template-columns: 1fr 1fr; }
+
+      .skills-grid { grid-template-columns: 1fr; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+
+      #contact { padding: 80px 24px; }
+      footer { padding: 24px; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-    <h1>S. Jeevanandham</h1>
-    <p>UI/UX Designer | Qt/QML Developer | Embedded C++ Engineer</p>
-</header>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">SJS_PORTFOLIO.v2</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
 
-<section id="about">
-    <h2>About Me</h2>
-    <p>
-        I design and develop Human Machine Interfaces for Automotive and Medical systems.
-        Strong in Qt/QML, Embedded C++, and UX Design.
-    </p>
-</section>
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about"    onclick="closeMenu()">About</a>
+    <a href="#skills"   onclick="closeMenu()">Skills</a>
+    <a href="#projects" onclick="closeMenu()">Projects</a>
+    <a href="#contact"  onclick="closeMenu()">Contact</a>
+  </div>
 
-<section id="projects">
-    <h2>Projects</h2>
-
-    <div class="project">
-        <h3>Technomed Laser Therapy HMI</h3>
-        <p>Medical device interface using Qt/QML & C++.</p>
+  <!-- HERO -->
+  <section id="hero" style="max-width:100%; padding-left:40px;">
+    <div class="hero-deco"></div>
+    <div class="hero-inner">
+      <div class="hero-tag">// HMI Engineer &amp; UX Designer</div>
+      <h1 class="hero-name">
+        S.&nbsp;<span>Jeevanandham</span>
+      </h1>
+      <p class="hero-role">
+        Building precision-grade Human Machine Interfaces for Automotive &amp; Medical systems — where every pixel is engineered, not just designed.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact"  class="btn btn-outline">Get In Touch</a>
+      </div>
     </div>
+  </section>
 
-    <div class="project">
-        <h3>Automotive Cluster UI</h3>
-        <p>Instrument cluster simulation using QML animations.</p>
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-label">// 01 — About</div>
+    <h2 class="section-title">Who I Am</h2>
+    <div class="about-grid reveal">
+      <div>
+        <p>
+          I'm a UI/UX designer and embedded software engineer specialising in Human Machine Interfaces for the Automotive and Medical industries. I bridge the gap between rigorous embedded systems engineering and polished, intuitive user experience.
+        </p>
+        <p>
+          My core stack is Qt/QML and Embedded C++, enabling me to work across the full product lifecycle — from UX wireframes and visual design to real-time firmware integration and hardware bring-up.
+        </p>
+        <p>
+          I care deeply about the intersection of form and function: an instrument cluster that's beautiful to look at but also legible at 200 km/h, or a medical device UI that keeps clinicians in flow during critical procedures.
+        </p>
+      </div>
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Years experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Projects shipped</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Industries</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Pixels perfected</div>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-<section id="contact">
-    <h2>Contact</h2>
-    <p>Email: yourmail@gmail.com</p>
-    <p>LinkedIn: linkedin.com/in/yourprofile</p>
-</section>
+  <div class="divider"></div>
 
-<footer>
-    <p>© 2026 Jeevanandham</p>
-</footer>
+  <!-- SKILLS -->
+  <div id="skills">
+    <div class="inner">
+      <div class="section-label">// 02 — Skills</div>
+      <h2 class="section-title">Toolbox</h2>
+      <div class="skills-grid reveal">
+        <div class="skill-group">
+          <div class="skill-group-title">UI / UX Design</div>
+          <div class="skill-tags">
+            <span class="tag">Qt/QML</span>
+            <span class="tag">Figma</span>
+            <span class="tag">HMI Design</span>
+            <span class="tag">Wireframing</span>
+            <span class="tag">Prototyping</span>
+            <span class="tag">Animation</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Embedded Engineering</div>
+          <div class="skill-tags">
+            <span class="tag">C++17</span>
+            <span class="tag">Embedded C</span>
+            <span class="tag">RTOS</span>
+            <span class="tag">CAN Bus</span>
+            <span class="tag">UART / SPI</span>
+            <span class="tag">CMake</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <div class="skill-group-title">Platforms & Tools</div>
+          <div class="skill-tags">
+            <span class="tag">Linux</span>
+            <span class="tag">Yocto</span>
+            <span class="tag">Git</span>
+            <span class="tag">Jenkins</span>
+            <span class="tag">JIRA</span>
+            <span class="tag">VS Code</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-label">// 03 — Projects</div>
+    <h2 class="section-title">Selected Work</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT_01</div>
+        <div class="project-title">Technomed Laser Therapy HMI</div>
+        <p class="project-desc">
+          End-to-end Human Machine Interface for a medical laser therapy device. Designed and implemented in Qt/QML with tight real-time C++ backend integration, ensuring clinical-grade reliability and regulatory compliance. Focused on reducing cognitive load for operating clinicians.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Qt/QML</span>
+          <span class="project-tag">C++</span>
+          <span class="project-tag">Medical</span>
+          <span class="project-tag">Real-time</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-num">PROJECT_02</div>
+        <div class="project-title">Automotive Instrument Cluster UI</div>
+        <p class="project-desc">
+          High-fidelity instrument cluster simulation with smooth physics-based gauge animations, real-time CAN data integration, and day/night theme switching. Designed for glanceability and legibility under variable lighting conditions.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Qt/QML</span>
+          <span class="project-tag">CAN Bus</span>
+          <span class="project-tag">Animation</span>
+          <span class="project-tag">Automotive</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal" style="grid-column: 1 / -1;">
+        <div class="project-num">PROJECT_03</div>
+        <div class="project-title">ADAS Warning &amp; Alert System</div>
+        <p class="project-desc">
+          Designed the UI/UX and implemented the alert rendering pipeline for an Advanced Driver Assistance System. Built with stringent ISO 26262 ASIL-B awareness, prioritising clarity and non-distraction while conveying critical collision and lane-departure warnings in under 200 ms.
+        </p>
+        <div class="project-tags">
+          <span class="project-tag">Qt/QML</span>
+          <span class="project-tag">ISO 26262</span>
+          <span class="project-tag">C++</span>
+          <span class="project-tag">Automotive</span>
+          <span class="project-tag">ADAS</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-label">// 04 — Contact</div>
+    <h2 class="section-title">Let's Build Something</h2>
+    <p class="sub">Open to embedded UI roles, HMI consulting, and collaborative projects across automotive and medical domains.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:jeevanandhamsivashankaran@gmail.com" class="contact-item">
+        <span class="contact-icon">✉</span>
+        jeevanandhamsivashankaran@gmail.com
+      </a>
+      <a href="https://linkedin.com/in/jeevanandhamsivashankaran/" target="_blank" class="contact-item">
+        <span class="contact-icon">in</span>
+        LinkedIn Profile
+      </a>
+      <a href="https://github.com/jeevanandhamsivasankar" target="_blank" class="contact-item">
+        <span class="contact-icon">⌥</span>
+        GitHub
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 S. JEEVANANDHAM — BUILT WITH PRECISION
+  </footer>
+
+  <script>
+    // Mobile menu
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+    function closeMenu() {
+      document.getElementById('mobileMenu').classList.remove('open');
+    }
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Active nav link highlight
+    const sections = document.querySelectorAll('section[id], div[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 120) current = s.id;
+      });
+      navLinks.forEach(a => {
+        a.style.color = a.getAttribute('href') === '#' + current ? 'var(--amber)' : '';
+      });
+    });
+  </script>
 </body>
 </html>
