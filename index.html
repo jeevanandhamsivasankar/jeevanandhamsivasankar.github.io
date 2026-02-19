@@ -466,7 +466,7 @@
     <div class="stats">
       <div class="stat-card">
         <div class="stat-icon"><span class="ms">schedule</span></div>
-        <div class="stat-num">4.9+</div>
+        <div class="stat-num" data-target="5">0+</div>
         <div class="stat-label">Years experience</div>
       </div>
       <div class="stat-card">
@@ -1182,6 +1182,31 @@
     });
     document.addEventListener('mouseleave', () => { profileCard.style.transform = ''; });
   }
+</script>
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+  const counters = document.querySelectorAll(".stat-num");
+  const speed = 200;
+
+  counters.forEach(counter => {
+    const updateCount = () => {
+      const target = +counter.getAttribute("data-target");
+      if (!target) return;
+
+      const count = +counter.innerText.replace("+", "");
+      const inc = target / speed;
+
+      if (count < target) {
+        counter.innerText = Math.ceil(count + inc) + "+";
+        setTimeout(updateCount, 20);
+      } else {
+        counter.innerText = target + "+";
+      }
+    };
+
+    updateCount();
+  });
+});
 </script>
 </body>
 </html>
