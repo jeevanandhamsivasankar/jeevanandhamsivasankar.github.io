@@ -100,7 +100,8 @@ tests/ (or colocated *.test.js)  Vitest + @testing-library/react + jsdom
 
 - Visual and behavioural parity with the current site (same CSS rules/values, same markup class names, same text content).
 - `npm run lint`, `npm test`, `npm run build` must all pass. CI (`.github/workflows/ci.yml`) runs lint + build and must also run tests.
-- No new runtime dependencies. Dev dependencies allowed: vitest, @testing-library/react, @testing-library/jest-dom, jsdom.
+- No new runtime dependencies. Dev dependencies allowed: vitest, @vitest/coverage-v8, @testing-library/react, @testing-library/dom, @testing-library/jest-dom, @testing-library/user-event, jsdom, @playwright/test.
+- Visual baseline: commit `dd9a86d` (pre-refactor monolith on `main`) is the parity reference.
 - Accessibility: keep prefers-reduced-motion support, alt text, semantic landmarks; aim for WCAG 2.1 AA.
 - Performance: initial JS should not grow; lazy sections should reduce initial chunk.
 - Deployment unchanged (GitHub Pages, base '/').
