@@ -311,7 +311,7 @@ flowchart LR
 | From | May import | Must NOT import | Rationale |
 |---|---|---|---|
 | `models/` | `models/` (siblings, e.g. `validate.js`) | React, `data/`, `config/`, `hooks/`, `components/`, `sections/`, `lib/` | Domain core must stay pure and framework-free. It is testable in plain Node. |
-| `lib/` | nothing (siblings only) | React, everything else | Pure functions (ADR-011, ADR-007) |
+| `lib/` | nothing (siblings only) | React, everything else | Pure functions (ADR-011, ADR-007). `storage.js` is the one guarded I/O adapter, with storage injectable (ADR-018). |
 | `config/site.js` | nothing | everything | Leaf constants |
 | `data/` | `models/`, `config/site.js` | React, `hooks/`, `components/`, `sections/`, `context/` | Content is plain data validated by the factories (ADR-009) |
 | `config/sections.js` | React (`lazy` only), `sections/` | `data/`, `components/`, `hooks/` | Registry declares *what* renders. It holds no content. |
@@ -1468,7 +1468,7 @@ Format: Context, Decision, Alternatives considered, Consequences. Status is **Ac
 ### ADR-013 Content Security Policy via meta tag, injected at build time
 
 - **Context:** QA-9. GitHub Pages cannot set response headers.
-- **Decision:** Inject the policy from section 8.6 as `<meta http-equiv="Content-Security-Policy">` into `dist/index.html` only, using an inline Vite plugin (`transformIndexHtml`, `apply: 'build'`). This depends on ADR-002 (no inline `<style>`) and ADR-011 (no inline script). Qualification tests assert there are no CSP violations: a Playwright `page.on('console')` check for CSP errors.
+- **Decision:** Inject the policy from section 8.6 as `<meta http-equiv="Content-Security-Policy">` into `dist/index.html` only, using an inline Vite plugin (`transformIndexHtml`, `apply: 'build'`). This depends on ADR-002 (no inline `<style>`) and ADR-017 (theme applied by React, so no inline script). Qualification tests assert there are no CSP violations: a Playwright `page.on('console')` check for CSP errors.
 - **Alternatives:**
   - No CSP: the status quo.
   - Hosting behind Cloudflare or Netlify for real headers: violates C-4.
