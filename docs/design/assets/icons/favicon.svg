@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>SJ</title>
+  <!-- Pixel-grid monogram: every edge sits on a 4-unit (=1px at 16x16) boundary, no font dependency. -->
+  <rect width="64" height="64" rx="12" fill="#060c18"/>
+  <rect x="2" y="2" width="60" height="60" rx="10" fill="none" stroke="#f59e0b" stroke-width="4" stroke-opacity=".9"/>
+  <path fill="#f59e0b" d="M12 16h20v8h-20z M12 24h8v4h-8z M12 28h20v8h-20z M24 36h8v4h-8z M12 40h20v8h-20z M44 16h8v32h-8z M36 40h8v8h-8z M36 36h8v4h-8z"/>
+</svg>
