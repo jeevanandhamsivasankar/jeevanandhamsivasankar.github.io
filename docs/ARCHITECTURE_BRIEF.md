@@ -122,3 +122,18 @@ tests/ (or colocated *.test.js)  Vitest + @testing-library/react + jsdom
 
 Test case IDs: `UT-<UNIT>-NNN`, `IT-NNN`, `QT-NNN`. Every test title starts with its ID. Qualification tests run at desktop (1366x800) and mobile (390x844) viewports, block Google Fonts requests (offline-safe), and include accessibility checks (landmarks, alt text, keyboard nav, reduced motion), SEO meta checks, link integrity (internal anchors + resume asset), and screenshot-based visual regression.
 Scripts: `npm test` (unit+integration), `npm run test:coverage`, `npm run test:qualification`. Coverage target: >=90% lines for models/lib/hooks, >=80% overall.
+
+## Process: V-model
+
+```
+SRS  ─────────────────────────────▶  Qualification test (QT, SWE.6)
+  SADS  ───────────────────────▶  Integration test (IT, SWE.5)
+    SUDS  ─────────────────▶  Unit test (UT, SWE.4)
+          Implementation (SWE.3)
+```
+
+1. Specification (left side): SRS -> SADS -> SUDS, plus STP with test cases and traceability.
+2. Implementation against SUDS.
+3. Verification (right side): UT -> IT -> QT.
+4. Test/fix loop: the test runner produces `docs/TEST_REPORT.md` (pass/fail per test case ID, defects `DEF-NNN` with reproduction and suspected unit). The developer fixes code (never weakens or skips a test unless the test itself contradicts the SRS, which must be recorded), then all levels re-run. Repeat until all green.
+5. Release: lint + all tests + build green -> PR -> CI green -> merge to `main` -> `npm run deploy` to `gh-pages`.
