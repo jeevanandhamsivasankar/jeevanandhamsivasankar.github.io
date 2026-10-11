@@ -138,3 +138,9 @@ SRS  ─────────────────────────
 3. Verification (right side): UT -> IT -> QT.
 4. Test/fix loop: the test runner produces `docs/TEST_REPORT.md` (pass/fail per test case ID, defects `DEF-NNN` with reproduction and suspected unit). The developer fixes code (never weakens or skips a test unless the test itself contradicts the SRS, which must be recorded), then all levels re-run. Repeat until all green.
 5. Release: lint + all tests + build green -> PR -> CI green -> merge to `main` -> `npm run deploy` to `gh-pages`.
+
+## ID conventions (binding for all documents and tests)
+
+- Unit IDs: `UNIT-` + source file base name converted to UPPER_SNAKE_CASE. Examples: `src/hooks/useTheme.js` -> `UNIT-USE_THEME`; `src/components/tech/TechIcon.jsx` -> `UNIT-TECH_ICON`; `src/lib/solar.js` -> `UNIT-SOLAR`; `src/sections/Hero.jsx` -> `UNIT-HERO`; `src/models/createModels.js` -> `UNIT-CREATE_MODELS`; `src/data/experience.js` -> `UNIT-DATA_EXPERIENCE` (data files get a `DATA_` prefix); `src/config/sections.js` -> `UNIT-CONFIG_SECTIONS`; `src/config/site.js` -> `UNIT-CONFIG_SITE`; CSS files -> `UNIT-STYLE_<NAME>`.
+- Unit test IDs: `UT-<UNIT suffix>-NNN` (e.g. `UT-USE_THEME-003`). Integration: `IT-NNN`. Qualification: `QT-NNN`.
+- Test files: `tests/unit/<path mirroring src>/<File>.test.js[x]`, `tests/integration/<topic>.test.jsx`, `tests/qualification/<area>.spec.js`.
