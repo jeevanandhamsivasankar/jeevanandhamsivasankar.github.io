@@ -16,4 +16,19 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - name: Unit + integration tests
+        run: npm test
       - run: npm run build
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Qualification tests
+        run: npm run test:qualification
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

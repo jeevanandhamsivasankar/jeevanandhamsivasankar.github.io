@@ -5,7 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'coverage', 'playwright-report', 'test-results', 'blob-report']),
   {
     files: ['**/*.{js,jsx}'],
     extends: [
@@ -24,6 +24,30 @@ export default defineConfig([
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+    },
+  },
+  // Node-side config files
+  {
+    files: ['*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
+  // Vitest unit/integration tests and shared test utilities
+  {
+    files: ['tests/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: { ...globals.browser, ...globals.node, ...globals.vitest },
+    },
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  // Playwright qualification tests run in Node; `use` is the fixture callback,
+  // not React's use() hook.
+  {
+    files: ['tests/qualification/**/*.js'],
+    languageOptions: { globals: { ...globals.node } },
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
     },
   },
 ])
