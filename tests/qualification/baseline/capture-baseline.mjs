@@ -45,6 +45,15 @@ export const HIDDEN_SELECTORS = [
   '.gauge-widget svg',
 ]
 export const HIDE_CSS = `${HIDDEN_SELECTORS.join(', ')} { visibility: hidden !important; }`
+// Collapse every CSS animation/transition to its end state. Needed because reduced motion keeps
+// animation-delay, and a full-page screenshot (which re-lays-out the page) restarts entrance
+// animations such as `.gauge-widget { animation: fadeIn 0.9s 0.5s both }`, capturing them at opacity 0.
+export const FREEZE_CSS = [
+  '*, *::before, *::after {',
+  '  animation-delay: 0s !important; animation-duration: 0s !important;',
+  '  transition-delay: 0s !important; transition-duration: 0s !important;',
+  '}',
+].join(' ')
 const HIDE_NAV_CSS = 'nav.nav { visibility: hidden !important; }'
 
 export const CLOCKS = {
@@ -86,12 +95,16 @@ async function preparePage(browser, vpName, theme) {
   await page.clock.pauseAt(instant)
   await page.goto(BASE_URL, { waitUntil: 'load' })
   await page.waitForSelector('#hero')
+  await page.addStyleTag({ content: FREEZE_CSS })
   await page.addStyleTag({ content: HIDE_CSS })
   await page.evaluate(() => {
     document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible'))
   })
-  // CSS transitions are not driven by page.clock; reduced motion makes them 0.01ms.
+  // CSS animations/transitions are not driven by page.clock. Reduced motion shortens their
+  // duration to 0.01ms but keeps animation-delay (e.g. hero gauge `fadeIn 0.9s 0.5s both`),
+  // so force every finite animation to its end state instead of racing the delay.
   await page.waitForTimeout(400)
+  await finishAnimations(page)
   await page.evaluate(() => document.fonts && document.fonts.ready)
   const actualTheme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'))
   if (actualTheme !== theme) {
@@ -100,12 +113,22 @@ async function preparePage(browser, vpName, theme) {
   return { context, page }
 }
 
+async function finishAnimations(page) {
+  await page.evaluate(() => {
+    for (const a of document.getAnimations()) {
+      const t = a.effect && a.effect.getComputedTiming()
+      if (t && Number.isFinite(t.endTime)) a.finish()
+    }
+  })
+}
+
 async function scrollTop(page) {
   await page.evaluate(() => {
     window.scrollTo(0, 0)
     window.dispatchEvent(new Event('scroll'))
   })
   await page.waitForTimeout(150)
+  await finishAnimations(page)
 }
 
 function collectDom({ selector, hidden, props }) {
@@ -169,6 +192,7 @@ async function captureCombo(browser, vpName, theme) {
     const loc = page.locator(selector).first()
     await loc.scrollIntoViewIfNeeded()
     await page.waitForTimeout(100)
+    await finishAnimations(page)
     const f = `section-${id}-${tag}.png`
     await loc.screenshot({ path: resolve(OUT_DIR, f) })
     files.push(f)
@@ -210,6 +234,7 @@ async function main() {
     clockMode: 'page.clock.install({time}) + page.clock.pauseAt(time)',
     blockedHosts: BLOCKED_HOSTS.source,
     injectedCss: HIDE_CSS,
+    freezeCss: FREEZE_CSS,
     sectionScreenshotCss: HIDE_NAV_CSS,
     hiddenSelectors: HIDDEN_SELECTORS,
     sections: SECTION_IDS,
