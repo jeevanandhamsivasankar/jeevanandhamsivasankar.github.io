@@ -1,8 +1,15 @@
 # Software Architecture Design Specification (SADS)
 
 **Product:** Portfolio site of S. Jeevanandham, Senior HMI Engineer (https://jeevanandhamsivasankar.github.io)
-**Document ID:** SADS
-**Status:** Baseline for the modular redesign
+**Document ID:** SADS  |  **Version:** 1.1  |  **Date:** 2026-10-11
+**Status:** Updated to SRS v1.1 (baselined by the Product Owner, `docs/reviews/SRS_PO_REVIEW.md`)
+
+### Change history
+
+| Version | Date | Change |
+|---|---|---|
+| 1.0 | 2026-10-11 | Initial architecture specification: views, ARC-001..ARC-020, patterns, domain model, ADR-001..ADR-016, migration plan. |
+| 1.1 | 2026-10-11 | Aligned with SRS v1.1. **ADR-011 rewritten:** the corrected solar longitude sign (+0.1487 h), the IST-midnight day-of-year and time-zone-safe IST (FR-THEME-002) are now fixed in this release rather than preserved. **New ADRs:** ADR-017 (theme applied before first paint), ADR-018 (persisted manual theme override, `jsv-theme-override`), ADR-019 (visibility-gated speedometer loop, NFR-PERF-006), ADR-020 (skip link and `:focus-visible` indicator, NFR-A11Y-008/009), ADR-021 (IntersectionObserver fallback for reveal, NFR-RELI-005). **New units:** `src/lib/storage.js` (in ARC-007) and `src/hooks/useInView.js` (in ARC-009). **Updated:** runtime views 4.4.1 and 4.4.2, new view 4.4.6 (gauge visibility gate), ARC-002, ARC-003, ARC-007, ARC-009, ARC-013, ARC-014, ARC-017, section 8 (state, error handling, accessibility, security), ADR-014 (`si:` alt text stays the slug per NFR-A11Y-004), ADR-015, the migration steps and the risks. New findings P-23 to P-25. |
 **Authoritative input:** `docs/ARCHITECTURE_BRIEF.md`. Where this document and the brief disagree, the brief wins and this document must be corrected.
 
 ---
@@ -67,13 +74,14 @@ Out of scope:
 | Ref | Document | Relationship |
 |---|---|---|
 | [BRIEF] | `docs/ARCHITECTURE_BRIEF.md` | Authoritative target layout, patterns, constraints and test strategy |
-| [SRS] | `docs/SRS.md` | Requirements. Functional areas: NAV, HERO, ABOUT, EXP, SKILL, PROJ, DESIGN, EDU, CERT, RES, CONT, THEME, FX, GEN. NFR categories: PERF, A11Y, SEC, MAINT, PORT, USAB, RELI, SEO, DEPLOY. |
+| [SRS] | `docs/SRS.md` (SRS-PORTFOLIO-001 v1.1, Baselined) | Requirements. Functional areas: NAV, HERO, ABOUT, EXP, SKILL, PROJ, DESIGN, EDU, CERT, RES, CONT, THEME, FX, GEN. NFR categories: PERF, A11Y, SEC, MAINT, PORT, USAB, RELI, SEO, DEPLOY. |
+| [PO-REV] | `docs/reviews/SRS_PO_REVIEW.md` | Product Owner decisions F-01..F-24 and OBS-1..OBS-19 that this version implements |
 | [SUDS] | `docs/SUDS.md` | Unit design. Each unit belongs to exactly one ARC element in section 5. |
 | [STP] | `docs/STP.md` | Test plan and the traceability matrix Requirement -> ARC -> UNIT -> TC |
 | [WCAG] | WCAG 2.1 Level AA | Accessibility target |
 | [ASPICE] | Automotive SPICE SWE.4 / SWE.5 / SWE.6 | Test level structure |
 
-SRS, SUDS and STP are being written at the same time as this document. This document therefore refers to requirement **areas** (for example "FR-THEME-*"), not to individual requirement numbers.
+SUDS and STP are being written at the same time as this document. This document mostly refers to requirement **areas** (for example "FR-THEME-*"). From v1.1 it also cites individual SRS v1.1 IDs where an ADR implements a specific baselined requirement (for example FR-THEME-008 or NFR-PERF-006).
 
 ---
 
@@ -93,7 +101,7 @@ SRS, SUDS and STP are being written at the same time as this document. This docu
 | ID | Attribute (NFR category) | Stimulus | Response / measure |
 |---|---|---|---|
 | QA-1 | Performance (PERF) | First visit on a cold cache | The initial JS chunk (gzip) is no larger than the monolith baseline of **84.79 kB gzip / 304.14 kB raw**, measured from `vite build` at `dd9a86d`. CSS ships as a separate render-blocking stylesheet. |
-| QA-2 | Performance (PERF) | The page runs idle in a background tab or below 900 px, where the gauge is hidden | No animation loop runs while it is not visible. The Speedometer's rAF loop pauses (section 8.6). |
+| QA-2 | Performance (PERF) | The page runs idle in a background tab or below 900 px, where the gauge is hidden | No animation loop runs while it is not visible. The Speedometer schedules no `requestAnimationFrame` and causes no re-render while it is hidden by CSS, scrolled out of view or in a hidden tab (NFR-PERF-006, ADR-019, section 4.4.6). |
 | QA-3 | Maintainability (MAINT) | The owner adds a new project | Exactly one object literal is added in `src/data/projects.js`. A validation error names the field if the data is malformed. |
 | QA-4 | Maintainability (MAINT) | A developer adds a new section | One file is added in `src/sections/` and one entry in `src/config/sections.js`. Nav and page order update automatically. |
 | QA-5 | Testability (MAINT) | Solar theme logic must be verified for a given date | `lib/solar.js` is a pure function of `(Date)`. No DOM or React is needed (ADR-011). |
@@ -140,14 +148,14 @@ All line references are to `src/App.jsx` at commit `dd9a86d` (2,469 lines). Lint
 | P-01 | **Single module with no separation of concerns.** Styles, data, logic and presentation share one file. | 1-2469 | Hard to review, test or change in isolation. Any edit re-bundles everything. | Layered layout (section 4.2), ARC-001..ARC-020 |
 | P-02 | **CSS injected as a JS string.** `<style>{CSS}</style>` is rendered by `App`, so no styles exist until JS has executed. The string is part of the JS bundle and is re-reconciled on every `App` render (every theme toggle). | 6-917, 2437 | No CSS before JS. CSS is not cacheable apart from JS. A strict CSP would need `style-src 'unsafe-inline'`. | ADR-002, ARC-017 |
 | P-03 | **`useReveal` effect has no dependency array.** It creates a new `IntersectionObserver` and re-queries `document.querySelectorAll(".reveal")` after **every** `App` render. It only runs when `App` re-renders, so elements mounted later by a child, such as a lazy section resolving, are never observed. | 967-976 (no deps at 975), 2433 | Wasted work today. With code splitting, below-the-fold content would stay at `opacity: 0` permanently. | ADR-012, ARC-009 (`useReveal(rootRef)`) |
-| P-04 | **Theme attribute applied in `useEffect`.** `data-theme` is set after the first paint, so day-time visitors see the night palette (`:root` default) for one frame. | 955-957 | Theme flash. | ADR-011 |
-| P-05 | **Solar correction sign error.** The comment says "+0.18h", but `(80.27 / 15) - 5.5` evaluates to about **-0.149 h**. For Chennai, local solar noon in IST is about 12:09, so the correction should be about +0.149 h. Day/night switches about 18 minutes off, before even accounting for the equation of time. | 941-943 | Theme transitions are slightly early or late. | Kept as-is for parity (ADR-011). Raised as a defect for an SRS decision (FR-THEME-*). |
+| P-04 | **Theme attribute applied in `useEffect`.** `data-theme` is set after the first paint, so day-time visitors see the night palette (`:root` default) for one frame. | 955-957 | Theme flash. | ADR-017 (FR-THEME-001) |
+| P-05 | **Solar correction sign error.** The comment says "+0.18h", but `(80.27 / 15) - 5.5` evaluates to about **-0.149 h**. For Chennai, local solar noon in IST is about 12:09, so the correction should be about +0.149 h. Day/night switches about 18 minutes off, before even accounting for the equation of time. | 941-943 | Theme switches about 18 min early. | **Fixed in this release** per SRS v1.1 FR-THEME-002 step 6 (OBS-16). See ADR-011. |
 | P-06 | **Impure, non-deterministic data.** `PARTICLES` uses `Math.random()` at module load, and `useTypewriter` adds `Math.random() * 30` jitter. | 1709-1719, 1016 | Rendered output cannot be snapshotted. Particle positions differ on each load. | ADR-007, `lib/random.js` |
 | P-07 | **Re-render storms.** `Speedometer` calls two `setState`s per animation frame, about 60 renders per second, indefinitely. It keeps running when the gauge is hidden (`.hero-center { display: none }` below 900 px) or off-screen. `CursorGlow` calls `setState` on every `mousemove`. | 1743-1753, 888, 1690-1695 | CPU and battery drain, especially on mobile where the gauge is invisible. | Section 8.6, ADR-015 |
 | P-08 | **`Ms` drops `className`.** `Nav` passes `className="ms"`, but `Ms` does not forward it. The CSS rules `.nav-link .ms`, `.theme-btn .ms`, `.theme-btn:hover .ms` and `.btn .ms` never match. | 1056-1063, 1840, 249-250, 289, 440 | Dead CSS, and the visible behaviour differs from what the CSS intends. | Recorded. Parity requires keeping the current visual result, so `Icon` does **not** add `.ms` automatically (see risk R-2). |
 | P-09 | **Material Symbols ligature text is exposed to assistive technology.** Icon spans have no `aria-hidden`, so screen readers announce "rocket_launch", "open_in_new" and so on. | 1056-1063 (all usages) | A11Y defect (WCAG 1.1.1 / 1.3.1). | `Icon` renders `aria-hidden="true"` by default (ARC-010). This does not change visible output. |
 | P-10 | **Nav accessibility gaps.** The hamburger has no `aria-expanded` or `aria-controls`. The theme toggle has no pressed or state semantics. `<nav>` has no accessible name. | 1832, 1852, 1856 | A11Y | ARC-014 |
-| P-11 | **Stale clock in theme badge.** `timeStr` is computed at render time and only refreshes when `Nav` happens to re-render on scroll changes. | 1827-1828 | The displayed time drifts. | `useClock` behaviour folded into `useTheme`'s minute tick (ARC-009) |
+| P-11 | **Stale clock in theme badge.** `timeStr` is computed at render time and only refreshes when `Nav` happens to re-render on scroll changes. | 1827-1828 | The displayed time drifts. | A 60 s clock tick in `useTheme` that runs whether or not an override is active (FR-THEME-005, ARC-009) |
 | P-12 | **Duplicated content facts.** "4.9+" years appears 6 times. Email, phone and the Behance URL are each hard-coded at least twice. The resume path appears 5 times. The gauge stats duplicate `STATS`. | 1087, 1904, 1926, 1990, 2239, 2307; 2374, 2415-2416; 2267, 2420; 1914, 2361, 2364, 2389, 2393; 1925-1936 | Inconsistency risk on update. | `config/site.js` and `data/profile.js` as the single source (ARC-003, ARC-006) |
 | P-13 | **JSX inside data.** Each `DESIGN_CARDS[].art` is a JSX SVG tree, and `CUSTOM_SVGS` maps keys to JSX factories. | 2146-2257, 1126-1434 | Data cannot be pure, so models cannot be React-free. | Registry by key: `artKey` and `svg:` keys (ADR-004, section 6.4) |
 | P-14 | **Content hard-coded in markup.** Education cards, the ISO 26262 strip, hero badges, the profile panel, contact links and the footer text are literals inside JSX. | 2294-2313, 2079-2098, 1907, 1963-1972, 2415-2423, 2464 | Content edits require editing presentation code. | ARC-006 data modules |
@@ -155,10 +163,13 @@ All line references are to `src/App.jsx` at commit `dd9a86d` (2,469 lines). Lint
 | P-16 | **Order and nav defined separately.** The `NAV` array (1074-1084), the `App` JSX order (2442-2460) and the hard-coded labels "01 — About" ... "09 — Contact" in each section must be kept in sync manually. | 1074-1084, 2442-2460, 1986 ... 2411 | Adding or reordering a section touches at least 3 places. | Section registry (ADR-004) |
 | P-17 | **Scroll handlers are not throttled.** `useActiveSection` walks every `[data-section]` and reads `offsetTop` on every scroll event. That layout read can force reflow. | 980-989 | Scroll jank on low-end devices. | rAF-coalesced handler (ARC-009) |
 | P-18 | **No error containment.** There is no Error Boundary. Any render error blanks the whole page. | `src/main.jsx` | Reliability | ARC-015 |
-| P-19 | **Runtime third-party dependency.** Tech icons load from `https://cdn.simpleicons.org/<slug>`, with `alt={slug}` even though the visible label already names the skill. | 1445, 1449 | Privacy, availability and CSP surface. Redundant alt text. | ADR-014. `alt=""` (decorative) for parity of visible output. |
+| P-19 | **Runtime third-party dependency.** Tech icons load from `https://cdn.simpleicons.org/<slug>`, with `alt={slug}` even though the visible label already names the skill. | 1445, 1449 | Privacy, availability and CSP surface. | ADR-014. `alt` stays the slug, as NFR-A11Y-004 requires. |
 | P-20 | **No tests. CI runs only lint and build.** | `.github/workflows/ci.yml` | Regressions are undetected. | ADR-006, ADR-016, ARC-019, ARC-020 |
 | P-21 | **Inline style objects recreated per render.** Examples: Education tags, resume preview rows and links, and `Resume.BARS` defined inside the component. | 2310, 2346-2351, 2375, 2380, 2389-2396 | Minor performance cost. Styling is scattered. | Data moved to modules. Inline styles kept as-is for parity in the first pass. |
 | P-22 | **Inconsistent section root elements.** Experience, Design, Certifications and Resume use `<div>` and the others use `<section>`. | 2016, 2261, 2324, 2353 | Weaker landmark semantics | The `Section` wrapper takes an `as` prop. The current element type is preserved for parity. Switching to `<section>` is CSS-safe, because CSS targets classes, and is recorded as an optional A11Y improvement. |
+| P-23 | **Day-of-year rolls over at about 12:00 IST and IST is derived from the browser time zone.** `Math.round((istDate - start) / 86400000)` with `start = new Date(year, 0, 0)` changes value around noon. `getTimezoneOffset()` plus local getters can be off by an hour near a DST change in the visitor's zone. | 928-932 | Wrong day number for half of each day. Time-zone-dependent result. | Fixed per FR-THEME-002 steps 1-2 (OBS-2, F-03). See ADR-011. |
+| P-24 | **No skip link and browser-default focus rings.** Keyboard users tab through 12 nav controls, and the default ring is weak on the dark glass nav. | 1832-1872 (nav), CSS 6-917 (no `:focus-visible` rule) | WCAG 2.4.1 / 2.4.7 gaps | ADR-020 (NFR-A11Y-008, NFR-A11Y-009) |
+| P-25 | **Inconsistent resume download filenames.** The Hero CTA (1914) and the preview "Download" link (2389) use a bare `download` attribute. Only 2361 sets `Jeevanandham_SeniorHMIEngineer_Resume.pdf`. | 1914, 2361, 2389 | A recruiter gets differently named copies. | All three use `RESUME.downloadName` from ARC-003 (FR-HERO-007, FR-RES-003, F-02) |
 
 Several things are already good and are preserved: `prefers-reduced-motion` CSS (908-916), `rel="noopener noreferrer"` on every `target="_blank"` (2267, 2364, 2393, 2419-2421), the `aria-hidden` decorative layers (1677, 1700), the profile image with intrinsic size, `decoding="async"` and an `onError` fallback (1954-1961), and SEO metadata in `index.html`.
 
@@ -351,8 +362,8 @@ sequenceDiagram
     B->>M: execute entry module
     M->>M: data modules evaluate, factories validate and freeze
     M->>B: createRoot(#root).render(StrictMode > ErrorBoundary > App)
-    B->>TP: first render: useState(() => resolveTheme(new Date()))
-    TP->>B: useLayoutEffect sets html[data-theme] before paint
+    B->>TP: first render: useState(() => readThemeOverride() ?? getSunPhase(new Date()))
+    TP->>B: useLayoutEffect sets html[data-theme] before paint (ADR-017)
     A->>R: SECTIONS.map(entry)
     R-->>A: Hero (eager) + lazy placeholders
     A-->>B: commit: Orbs, CursorGlow, Nav, Hero, Suspense fallbacks, Footer
@@ -380,37 +391,51 @@ sequenceDiagram
     participant N as Nav (theme button)
     participant C as ThemeContext
     participant H as useTheme
+    participant ST as lib/storage.js
     participant L as lib/solar.js
     participant D as document.documentElement
 
-    Note over H: Load
-    H->>L: getSunPhase(new Date())
-    L-->>H: "day" | "night"
-    H->>D: setAttribute("data-theme", phase) in useLayoutEffect
-    H->>H: setInterval(60 s) while manual === false
-    loop every 60 s (auto mode)
+    Note over H: Load (first render of ThemeProvider)
+    H->>ST: readThemeOverride()
+    alt stored value is "day" or "night"
+        ST-->>H: theme
+        H->>H: manual = true (no theme interval is started)
+    else missing, invalid or storage throws
+        ST-->>H: null
         H->>L: getSunPhase(new Date())
-        L-->>H: phase
-        H->>H: setTheme(phase) (bails out if unchanged), setNow(Date)
-        H->>D: setAttribute when changed
+        L-->>H: "day" or "night"
+        H->>H: manual = false
+    end
+    H->>D: setAttribute("data-theme", theme) in useLayoutEffect, before first paint
+    H->>H: clock interval (60 s), always running: setNow(new Date())
+    opt manual === false
+        loop every 60 s
+            H->>L: getSunPhase(new Date())
+            L-->>H: phase
+            H->>H: setTheme(phase) (bails out if unchanged)
+            H->>D: setAttribute when changed
+        end
     end
     Note over U,D: Manual toggle
-    U->>N: click "Day"/"Night"
+    U->>N: click "Day" or "Night"
     N->>C: toggle()
     C->>H: toggle()
-    H->>H: manual = true (interval cleared), theme = opposite
+    H->>H: manual = true (theme interval cleared), theme = opposite
+    H->>ST: writeThemeOverride(theme) (try/catch, failure ignored)
     H->>D: setAttribute("data-theme", theme)
     D-->>U: CSS custom properties switch, 0.4-1.2 s transitions
 ```
 
-Behavioural contract (parity with lines 924-965):
+Behavioural contract (SRS v1.1 FR-THEME-001..008):
 
-- The initial theme is computed from IST using the Chennai coordinates.
-- The phase is re-evaluated every 60 s until the user toggles.
-- After a manual toggle, automatic switching stops for the life of the page. Nothing is persisted.
+- The initial theme is a valid stored override if there is one (FR-THEME-008). Otherwise it is computed by `lib/solar.js` from the instant, using IST derived with UTC getters and the Chennai coordinates (FR-THEME-002, ADR-011).
+- `data-theme` is written in a layout effect, so it is set before the browser paints the first commit of the app (FR-THEME-001, ADR-017).
+- With no override, the phase is re-evaluated every 60 s. The theme interval is not started when an override exists at mount, and it is cleared once the user toggles (FR-THEME-003).
+- A toggle writes `jsv-theme-override` = `day` or `night` through the guarded accessor. If storage is unavailable, the toggle still works for the page lifetime (ADR-018).
+- The badge clock (`now`) has its own 60 s tick that runs whether or not an override is active (FR-THEME-005).
 - `data-theme` is always explicitly `"day"` or `"night"`. CSS line 832 (`[data-theme="night"] .chip-icon-wrap img`) depends on the explicit `"night"` value.
 
-The context value is `{ theme, isDay, toggle, now }`. `now` is refreshed on the same 60 s tick, which fixes the stale badge clock (P-11).
+The context value is `{ theme, isDay, toggle, now }`, memoised.
 
 #### 4.4.3 Reveal-on-scroll observer flow
 
@@ -429,7 +454,7 @@ sequenceDiagram
         IO-->>RH: entry.isIntersecting
         RH->>E: classList.add("visible")
         RH->>IO: unobserve(E)
-    else not supported (old browser / jsdom without stub)
+    else IntersectionObserver missing (NFR-RELI-005, ADR-021)
         RH->>E: classList.add("visible") for all immediately
     end
     S->>RH: unmount
@@ -476,6 +501,43 @@ sequenceDiagram
 ```
 
 The offset (140 px), the default (`"hero"`) and the "last match wins" rule are identical to lines 978-992. The only change is coalescing reads to one per animation frame (P-17). `useScrolled` keeps `scrollY > 30` (line 997) for the `.nav.scrolled` class.
+
+#### 4.4.6 Speedometer visibility gate (NFR-PERF-006)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant SP as Speedometer
+    participant IV as useInView(ref)
+    participant IO as IntersectionObserver
+    participant DOC as document (visibilitychange)
+    participant RM as usePrefersReducedMotion
+    participant RAF as requestAnimationFrame
+
+    SP->>IV: mount with ref on the svg
+    IV->>IO: observe(svg), threshold 0
+    IV->>DOC: addEventListener("visibilitychange")
+    IO-->>IV: isIntersecting (false while .hero-center is display:none at 900 px or less, or scrolled away)
+    DOC-->>IV: document.visibilityState
+    IV-->>SP: inView = isIntersecting AND visibilityState === "visible"
+    SP->>RM: reducedMotion?
+    alt inView AND NOT reducedMotion
+        SP->>RAF: requestAnimationFrame(tick), t continues from tRef
+        loop each frame
+            RAF-->>SP: tick: tRef += 0.006, setSpeed, setRpm
+        end
+    else hidden, off-screen, tab hidden or reduced motion
+        SP->>RAF: cancelAnimationFrame(id), no new frames
+        Note over SP: last frame stays rendered, no re-renders
+    end
+```
+
+Rules:
+
+- `t` lives in a ref (`tRef`), so the loop resumes from its current value when it becomes visible again (NFR-PERF-006).
+- An element with `display: none` never intersects. One IntersectionObserver therefore covers both the "hidden at 900 px or less" case and the "scrolled out of view" case without reading media queries.
+- If IntersectionObserver is missing, `useInView` reports `true`, so the gauge still animates (the baseline behaviour). Document visibility is still honoured.
+- Under reduced motion, the static t = 0 frame from ADR-015 is rendered.
 
 ### 4.5 Deployment view
 
@@ -531,7 +593,7 @@ Each element maps to a folder or file group in the brief. Unit-level detail (pro
 
 - **Location:** `src/App.jsx`
 - **Responsibilities:**
-  - Compose `ThemeProvider` -> `GradientOrbs`, `CursorGlow` -> `Nav` -> `<main>` (registry render with dividers, per-section `ErrorBoundary` + `Suspense`) -> `Footer`.
+  - Compose `ThemeProvider` -> skip link (`<a class="skip-link" href="#main">Skip to content</a>`, first focusable element, ADR-020) -> `GradientOrbs`, `CursorGlow` -> `Nav` -> `<main id="main" tabIndex={-1}>` -> `<main>` (registry render with dividers, per-section `ErrorBoundary` + `Suspense`) -> `Footer`.
   - No content and no styles.
 - **Provided interface:** `export default function App()`.
 - **Required interface:** ARC-004 (`SECTIONS`), ARC-008, ARC-012, ARC-014, ARC-015.
@@ -545,7 +607,8 @@ Each element maps to a folder or file group in the brief. Unit-level detail (pro
   - `OWNER_NAME`, `OWNER_TITLE`, `LOCATION`
   - `EMAIL`, `PHONE`, `PHONE_HREF`
   - `URLS` (`linkedin`, `behance`, `github`, `canonical`)
-  - `RESUME` (`href: "Jeevanandham_Resume.pdf"`, `downloadName: "Jeevanandham_SeniorHMIEngineer_Resume.pdf"`, `pages: 3`)
+  - `RESUME` (`href: "Jeevanandham_Resume.pdf"`, `downloadName: "Jeevanandham_SeniorHMIEngineer_Resume.pdf"`, `pages: 3`). All three download links (Hero CTA, Resume button, Resume preview link) use `downloadName` (P-25, FR-HERO-007, FR-RES-003).
+  - `THEME_STORAGE_KEY = "jsv-theme-override"` (FR-THEME-008)
   - `FOOTER_TEXT`
   - `THEME_GEO` (`lat 13.08`, `lon 80.27`, `tzOffsetHours 5.5`)
 - **Provided interface:** named ES exports, all `Object.freeze`d.
@@ -600,13 +663,14 @@ Each element maps to a folder or file group in the brief. Unit-level detail (pro
 
 ### ARC-007 Pure libraries
 
-- **Location:** `src/lib/solar.js`, `src/lib/random.js`
+- **Location:** `src/lib/solar.js`, `src/lib/random.js`, `src/lib/storage.js` (**new in v1.1**)
 - **Responsibilities:**
-  - `solar.js`: `getSunPhase(date, geo = THEME_GEO_DEFAULT) -> "day" | "night"`, plus the helpers `toIst(date)`, `dayOfYear(date)` and `sunriseSunsetHours(dayOfYear, latDeg)`. The arithmetic is identical to lines 925-944, including P-05.
+  - `solar.js`: `getSunPhase(date, geo = THEME_GEO_DEFAULT) -> "day" | "night"`, plus the helpers `toIst(date)`, `dayOfYear(date)`, `sunriseSunsetHours(dayOfYear, latDeg)` and the constant `LONGITUDE_CORRECTION_H` (= 5.5 − 80.27/15 ≈ +0.14867 h). The algorithm follows SRS v1.1 FR-THEME-002: steps 3-5 and 7 are unchanged from lines 925-944, and steps 1, 2 and 6 are corrected (ADR-011).
+  - `storage.js`: `readThemeOverride(storage = globalThis.localStorage) -> "day" | "night" | null` and `writeThemeOverride(theme, storage = globalThis.localStorage) -> boolean`. Every access is wrapped in try/catch. Invalid values read as `null`. Only the key `jsv-theme-override` is ever touched (FR-THEME-008, ADR-018). The storage parameter makes it testable with a stub. This module performs I/O, so it is the one module in `lib/` that is not strictly pure, but it holds no state and imports nothing.
   - `random.js`: `mulberry32(seed) -> () => number in [0, 1)` and `createParticles(count, rng) -> Particle[]`. The particle field formulas are identical to lines 1709-1719, with `Math.random` replaced by `rng`.
-- **Provided interface:** pure functions only, with no module state.
-- **Required interface:** none.
-- **Requirement areas:** FR-THEME-*, FR-FX-*, NFR-MAINT-*.
+- **Provided interface:** functions only, with no module state. `solar.js` and `random.js` are pure. `storage.js` is a guarded I/O adapter.
+- **Required interface:** none (`storage.js` takes `localStorage` as an injectable default parameter).
+- **Requirement areas:** FR-THEME-002, FR-THEME-008, FR-FX-003, NFR-MAINT-*.
 
 ### ARC-008 Theme context
 
@@ -623,22 +687,23 @@ Each element maps to a folder or file group in the brief. Unit-level detail (pro
 
 | Hook | Contract | Origin (lines) |
 |---|---|---|
-| `useTheme()` | `-> {theme, isDay, toggle, now}`. Calls `lib/solar`. Uses a 60 s interval while in auto mode. Sets `data-theme` in a layout effect. | 924-965 |
-| `useReveal(rootRef)` | Observer pattern. Threshold 0.06. Adds `visible` and unobserves. Falls back to "all visible" when there is no IO. | 967-976 |
+| `useTheme()` | `-> {theme, isDay, toggle, now}`. Initial state: `readThemeOverride()` or else `getSunPhase(new Date())`. Sets `data-theme` in a layout effect (ADR-017). Theme interval (60 s) only without an override. Clock interval (60 s) always. `toggle` writes the override (ADR-018). | 924-965 |
+| `useReveal(rootRef)` | Observer pattern. Threshold 0.06. Adds `visible` and unobserves. Without IntersectionObserver it adds `visible` to every `.reveal` under the root immediately and throws nothing (NFR-RELI-005, ADR-021). | 967-976 |
 | `useActiveSection(defaultId = "hero")` | `-> activeId`. rAF-coalesced scroll handler with a 140 px offset. Also handles the one-shot hash scroll after lazy content appears. | 978-992 |
 | `useScrolled(threshold = 30)` | `-> boolean` | 994-1002 |
 | `useTypewriter(words, {speed=65, deleteSpeed=35, pause=1800, jitter=30, rng=Math.random, enabled=true})` | `-> string`. With `enabled=false` it returns `words[0]`. | 1004-1036 |
 | `useParallax({enabled=true})` | `-> ref`. Applies `perspective(900px) rotateY(x) rotateX(-y) translateZ(8px)` with ±7°. | 1038-1051 |
 | `usePrefersReducedMotion()` | `-> boolean` via `matchMedia("(prefers-reduced-motion: reduce)")` with a change listener. Returns `false` without `matchMedia`. | new |
+| `useInView(ref, {trackDocumentVisibility = true})` (**new in v1.1**) | `-> boolean`: `true` while the element intersects the viewport (IntersectionObserver, threshold 0) and, when tracking is on, `document.visibilityState === "visible"`. Returns `true` when IntersectionObserver is missing. Disconnects and removes the listener on unmount (NFR-PERF-006, ADR-019). | new |
 
-- **Required interface:** React, ARC-007.
-- **Requirement areas:** FR-THEME, FR-NAV and FR-FX, all `-*`; NFR-A11Y-*, NFR-PERF-*.
+- **Required interface:** React, ARC-007 (`solar`, `storage`).
+- **Requirement areas:** FR-THEME, FR-NAV and FR-FX, all `-*`; NFR-A11Y-*, NFR-PERF-006, NFR-RELI-005.
 
 ### ARC-010 UI primitives
 
 - **Location:** `src/components/ui/{Icon, SectionLabel, SectionTitle, Button, Badge, Section}.jsx`
 - **Responsibilities:** Content-agnostic presentational components.
-  - `Icon` (was `Ms`): the same inline style object as line 1057, with `aria-hidden="true"` by default and an optional `label` that switches to `role="img"` + `aria-label`.
+  - `Icon` (was `Ms`): the same inline style object as line 1057, with `aria-hidden="true"` by default (NFR-A11Y-007) and an optional `label` that switches to `role="img"` + `aria-label`. It does not emit the `ms` class (P-08, F-17).
   - `SectionLabel` (was `SL`): `<div class="section-label">` + Icon(13) + text.
   - `SectionTitle` (was `ST`): `<h2 class="section-title">`.
   - `Button`: `<a class="btn btn-{variant}">` with `variant ∈ amber | outline | green`, plus `icon`, `href`, `download`, `external`. `external` adds `target="_blank" rel="noopener noreferrer"`.
@@ -675,16 +740,16 @@ Each element maps to a folder or file group in the brief. Unit-level detail (pro
 - **Location:** `src/components/widgets/Speedometer.jsx`
 - **Responsibilities:** Animated SVG gauge (speed 0-180, RPM 0-8000), geometry identical to lines 1739-1816.
   - The pure geometry helpers (`arcPath`, `angleFor`, `ticks`) are module-level functions that can be exported for unit tests.
-  - The rAF loop pauses when the widget is not intersecting the viewport, when the document is hidden, or when reduced motion is preferred (then it renders the frame at t=0).
+  - The rAF loop runs only while `useInView(svgRef)` is `true` and reduced motion is not preferred. It schedules no frame and triggers no re-render otherwise, and resumes from `tRef` when visible again (NFR-PERF-006, ADR-019, section 4.4.6). Under reduced motion it renders the frame at t=0 (ADR-015).
   - SVG `id`s (`gbg`, `arcGrad`, `rpmGrad`, `needleGrad`, `glow`, `softGlow`) are kept for parity. Only one instance exists.
-- **Required interface:** React, ARC-009.
-- **Requirement areas:** FR-HERO-*, FR-FX-*, NFR-PERF-*.
+- **Required interface:** React, ARC-009 (`useInView`, `usePrefersReducedMotion`).
+- **Requirement areas:** FR-HERO-*, FR-FX-*, NFR-PERF-006, NFR-A11Y-002.
 
 ### ARC-014 Layout
 
 - **Location:** `src/components/layout/{Nav, Footer, Divider}.jsx`
 - **Responsibilities:**
-  - `Nav` renders the logo, the desktop links from `NAV_ITEMS`, the theme badge (`DAY`/`NIGHT` · time, `en-IN`, 12 h) and the theme toggle from `useThemeContext`, the hamburger with `aria-expanded`/`aria-controls="mobile-menu"`, and the mobile menu, which closes on link click.
+  - `Nav` renders the logo, the desktop links from `NAV_ITEMS`, the theme badge (`DAY`/`NIGHT` · time, `en-IN`, 12 h) and the theme toggle from `useThemeContext`, the hamburger with `aria-expanded`/`aria-controls="mobile-menu"` (FR-NAV-011), and the mobile menu, which closes on link click. While the menu is open, Escape closes it and returns focus to the hamburger (FR-NAV-012). The badge time comes from the context `now` and refreshes at least every 60 s (FR-THEME-005).
   - `Footer` renders the icon + `FOOTER_TEXT` + icon.
   - `Divider` renders `<div class="divider">`.
 - **Required interface:** ARC-004, ARC-003, ARC-008, ARC-009, ARC-010.
@@ -713,7 +778,7 @@ Each element maps to a folder or file group in the brief. Unit-level detail (pro
 ### ARC-017 Styles
 
 - **Location:** `src/styles/{tokens, base, components, sections, index}.css`
-- **Responsibilities:** The monolith CSS (lines 6-917) split by concern, with **every rule and value unchanged and the relative cascade order preserved** (section 8.1).
+- **Responsibilities:** The monolith CSS (lines 6-917) split by concern, with **every rule and value unchanged and the relative cascade order preserved** (section 8.1). v1.1 adds exactly two new rule groups, appended so they cannot change existing cascade outcomes: `.skip-link` (+ `:focus`) in `components.css`, and the `:focus-visible` / `:focus:not(:focus-visible)` rules in `base.css` (ADR-020). The CSS-equivalence test allow-lists these selectors.
 - **Provided interface:** global class names and the custom properties `--bg … --glass-shine`, `--dx`, `--dur`, `--delay`, `--sg-color`.
 - **Required interface:** none. It is imported by ARC-001.
 - **Requirement areas:** FR-THEME-*, NFR-A11Y-*, NFR-PORT-*.
@@ -1122,12 +1187,12 @@ A CSS-equivalence test (section 10, step 2) enforces this. It concatenates `styl
 
 | State | Owner | Scope | Persistence |
 |---|---|---|---|
-| Theme (`day`/`night`), manual flag, `now` | `useTheme` via `ThemeProvider` | Global (context) | None. It resets on reload, which is parity. |
+| Theme (`day`/`night`), manual flag, `now` | `useTheme` via `ThemeProvider` | Global (context) | Only the manual choice, in `localStorage` key `jsv-theme-override` (`day` or `night`), via `lib/storage.js` (FR-THEME-008, ADR-018). The automatic theme and the clock are not stored. |
 | Active section id | `useActiveSection` in `Nav` | Nav | None |
 | Nav scrolled flag | `useScrolled` in `Nav` | Nav | None |
-| Mobile menu open | `useState` in `Nav` | Nav | None |
+| Mobile menu open | `useState` in `Nav` (Escape closes it, FR-NAV-012) | Nav | None |
 | Typewriter text and index | `useTypewriter` in `Hero` (ref + state) | Hero | None |
-| Speedometer speed and RPM | `Speedometer` local state | Widget | None |
+| Speedometer speed and RPM, `tRef`, in-view flag | `Speedometer` local state + `useInView` | Widget | None |
 | Cursor position | `CursorGlow` local state | Effect | None |
 | Icon load failure | `TechIcon` local state | Per icon | None |
 | Chip hover | `SkillChip` local state | Per chip | None |
@@ -1145,17 +1210,23 @@ There is no global store. React state plus one context is sufficient. Adding a s
 | Lazy chunk load failure | `React.lazy` promise rejection, surfaced to the boundary | Fallback with a "Reload page" button (`location.reload()`) |
 | Render error in App, Nav or Hero | Page-level `ErrorBoundary` (`main.jsx`) | Minimal static page with name, title, email and resume link |
 | Simple Icons image error | `<img onError>` | `Icon("code")` fallback (parity, line 1453) |
+| `localStorage` unavailable, throwing (private mode, blocked site data, quota) or holding an invalid value | try/catch and value check in `lib/storage.js` | Read returns `null`, so the automatic theme applies. A failed write is ignored and the toggle still works for the page lifetime. No console error (FR-THEME-008). |
+| IntersectionObserver missing | Feature check in `useReveal` and `useInView` | Reveal: all `.reveal` content is made visible immediately (NFR-RELI-005). Gauge: treated as in view, with document visibility still honoured. |
 | Profile photo error | `<img onError>` | Hide the image (parity, line 1960). The gradient frame remains. |
-| Missing browser APIs (IO, matchMedia, rAF) | Feature detection in hooks | Degrade: content visible, no motion |
+| Missing browser APIs (matchMedia, rAF) | Feature detection in hooks | Degrade: content visible, no motion |
 | `useThemeContext` used outside the provider | Hook guard | Throws `Error("useThemeContext must be used within ThemeProvider")`. This is a developer error caught in tests. |
 
 ### 8.4 Accessibility (target WCAG 2.1 AA, NFR-A11Y-*)
 
 - **Landmarks:** `<nav aria-label="Primary">`, `<main>` and `<footer>` are kept. Sections keep their element type for parity. Switching the 4 `div` sections to `<section aria-labelledby>` is an allowed follow-up (P-22).
 - **Headings:** exactly one `<h1>` (hero name), and an `<h2>` per section via `SectionTitle`. The Resume section has a `SectionLabel` but its heading is an `h3`. That is recorded and kept for parity.
-- **Icons:** `Icon` is `aria-hidden` by default (P-09). Decorative effects (`orbs-wrap`, `cursor-glow`, particles, hero rings) are `aria-hidden`. Tech logos in chips use `alt=""` because the chip label names the skill (P-19). The profile photo keeps `alt="S. Jeevanandham"`. The Speedometer SVG gets `role="img"` and `aria-label="HMI cluster demo gauge"`.
-- **Keyboard:** all interactive elements are native `<a>` or `<button>`. Focus order follows DOM order. The hamburger gets `aria-expanded` and `aria-controls`. The theme toggle gets an `aria-label` that names the target mode. The mobile menu closes on link activation (parity).
-- **Motion:** CSS reduced-motion block (lines 908-916) plus JS motion suppression via `usePrefersReducedMotion` (ADR-015). Reveal content becomes visible immediately when IO is absent.
+- **Icons:** `Icon` is `aria-hidden` by default (P-09). Decorative effects (`orbs-wrap`, `cursor-glow`, particles, hero rings) are `aria-hidden`. Tech logos in chips keep `alt` = slug, as NFR-A11Y-004 requires. The profile photo keeps `alt="S. Jeevanandham"`. The Speedometer SVG gets `role="img"` and `aria-label="HMI cluster demo gauge"`.
+- **Keyboard:** all interactive elements are native `<a>` or `<button>`. Focus order follows DOM order.
+  - The first focusable element is a "Skip to content" link to `<main id="main" tabindex="-1">`. It is visually hidden until it has keyboard focus, then shown above the nav (z-index above 300) with theme tokens (NFR-A11Y-008, ADR-020).
+  - Keyboard focus is shown with `:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px }`. Pointer focus gets no new outline, so pointer visuals keep parity (NFR-A11Y-009, ADR-020).
+  - The hamburger gets `aria-expanded` and `aria-controls` (FR-NAV-011). Escape closes the open mobile menu and returns focus to the hamburger (FR-NAV-012).
+  - The theme toggle keeps `title="Toggle day/night theme"`, and its visible label names the target mode. The mobile menu closes on link activation (parity).
+- **Motion:** CSS reduced-motion block (lines 908-916) plus JS motion suppression via `usePrefersReducedMotion` (ADR-015). Reveal content becomes visible immediately when IO is absent (NFR-RELI-005, ADR-021).
 - **Contrast:** token values are unchanged. Contrast is verified in qualification tests with an axe-style rule set, implemented as Playwright evaluations without new dependencies, or as manual checks recorded in STP.
 
 ### 8.5 Performance and chunking strategy
@@ -1186,6 +1257,7 @@ Rules and techniques:
 - **No secrets.** The bundle contains only public content. Email and phone are intentionally public. No API keys and no environment variables are used, so `import.meta.env` must not be introduced for secrets.
 - **External links.** Every `target="_blank"` anchor uses `rel="noopener noreferrer"`. This is centralised in `Button` and `ContactLink` rendering (`external: true`), and an integration test asserts it for every `a[target=_blank]`.
 - **No dangerous sinks.** There is no `dangerouslySetInnerHTML`, `eval` or dynamic `Function`. Bio emphasis is expressed as structured data (segments), not HTML strings.
+- **Client-side storage.** One `localStorage` entry, `jsv-theme-override`, holds only `day` or `night`. It holds no personal data, so no consent banner is needed. It is read through a validator, so a tampered value cannot inject anything (ADR-018).
 - **Third-party origins** are limited to `fonts.googleapis.com`, `fonts.gstatic.com` and `cdn.simpleicons.org`.
 - **CSP on GitHub Pages** (ADR-013). Pages cannot send response headers, so CSP is delivered as `<meta http-equiv="Content-Security-Policy">` in `index.html`. Proposed production policy:
 
@@ -1358,17 +1430,31 @@ Format: Context, Decision, Alternatives considered, Consequences. Status is **Ac
   - Validation only in tests: a second code path, and data could bypass it.
 - **Consequences:** Strong guarantees with one code path. Deploy discipline is required because `npm run deploy` is a manual command. STP adds a pre-deploy checklist item.
 
-### ADR-011 Pure solar module; theme applied before paint; algorithm preserved bit-for-bit
+### ADR-011 Pure solar module with the corrected algorithm (SRS v1.1 FR-THEME-002)
 
-- **Context:** P-04 and P-05. The sunrise and sunset logic is embedded in the hook and is untestable. The attribute is applied after paint, and the longitude correction has a sign error.
-- **Decision:**
-  - Extract `getSunPhase(date, geo)` to `lib/solar.js`, keeping the arithmetic identical to lines 925-944.
-  - `useTheme` initialises state lazily from `getSunPhase(new Date())` and writes `data-theme` in `useLayoutEffect`, which runs before the browser paints the first commit. No inline `<script>` is added to `index.html`, which keeps CSP `script-src 'self'` (ADR-013).
-  - The correction-sign issue (P-05) is **not** fixed in the refactor. It is reported to the SRS owner as a defect against FR-THEME-*. If the fix is accepted later, it is a one-line change in `lib/solar.js` with updated unit-test expectations.
+*Revised in v1.1. The v1.0 decision to preserve the sign error was superseded by the Product Owner decision (PO-REV F-03, F-04; OBS-2, OBS-16).*
+
+- **Context:** P-05 and P-23. The sunrise and sunset logic is embedded in the hook and is untestable. It also has three defects:
+  1. **Sign error.** The longitude correction has the wrong sign: `80.27/15 − 5.5 ≈ −0.1487 h`. Chennai (80.27° E) lies west of the IST meridian (82.5° E), so local solar noon is about 12:09 IST and the correction must be `5.5 − 80.27/15 ≈ +0.1487 h`. The baseline switches about 18 min early.
+  2. **Day-of-year rollover.** The day-of-year is a rounded difference against `new Date(year, 0, 0)`, so it advances at about 12:00 IST.
+  3. **Time-zone dependence.** IST is derived through `getTimezoneOffset()` and local getters, which depend on the browser time zone and DST.
+- **Decision:** Extract `getSunPhase(date, geo)` to `lib/solar.js` (ARC-007) and implement SRS v1.1 FR-THEME-002 exactly:
+  - (1) IST wall clock = UTC epoch ms + 5.5 h, read **with UTC getters only**.
+  - (2) `dayOfYear` = the IST calendar day number (1 on 1 January), **changing at 00:00 IST**.
+  - (3)-(5) Unchanged declination, hour angle and sunrise/sunset formulas.
+  - (6) `LONGITUDE_CORRECTION_H = 5.5 − 80.27/15` (≈ **+0.1487 h**). The source comment states this value and its derivation.
+  - (7) `day` iff `sunrise + c ≤ hourIST < sunset + c`.
+  - The function takes the instant as a parameter, with no `new Date()` inside, so tests can inject dates.
+- **Verification:**
+  - Unit tests assert the SRS acceptance values: the day-172 window is about 05:46 to 18:32 IST and the day-355 window is about 06:32 to 17:46 IST (±1 min). The constant equals +0.14867 to 4 decimals. Noon and midnight rollover behave as specified. The results are identical when run under `TZ=UTC`, `TZ=Asia/Kolkata` and `TZ=America/New_York` near a DST change.
+  - A comparison against the baseline implementation over a 365 d × 1440 min grid shows differences **only** in the expected bands around sunrise and sunset. This is the documented parity deviation under NFR-MAINT-008.
 - **Alternatives:**
-  - An inline pre-hydration script in `index.html`: earliest possible, but needs a CSP hash or `'unsafe-inline'`.
-  - Fixing P-05 now: breaks behavioural parity, the acceptance bar.
-- **Consequences:** The theme flash is eliminated after the JS loads. CSS now loads first, and the `:root` night tokens apply until the layout effect runs, which happens before the first React paint. The algorithm is fully unit-testable at fixed instants.
+  - Preserving the baseline arithmetic (the v1.0 decision): rejected by the PO because only the switch time changes and the fix is cheap.
+  - A full NOAA solar algorithm with the equation of time: more accurate, but not required. The SRS keeps the approximate model.
+- **Consequences:**
+  - (+) The switch times are closer to real Chennai sunrise and sunset. The result does not depend on the visitor's time zone. The logic is fully unit-testable.
+  - (−) The theme at a given instant near sunrise or sunset differs from the baseline. Qualification screenshots therefore use fixed clock instants away from the switch bands, such as 12:00 and 23:00 IST.
+- **Related:** applying the result before first paint is ADR-017. Persistence of manual choices is ADR-018.
 
 ### ADR-012 Per-section reveal observer instead of a global, dependency-less effect
 
@@ -1397,7 +1483,7 @@ Format: Context, Decision, Alternatives considered, Consequences. Status is **Ac
 - **Decision:**
   - Keep runtime CDN loading inside the `si` strategy, with the existing `onError` fallback to `Icon("code")`.
   - Add `loading="lazy"` and `decoding="async"`, which are invisible changes. Skills is lazy anyway.
-  - Use `alt=""` because the visible chip label names the skill.
+  - Keep `alt` = slug, as NFR-A11Y-004 requires (v1.1; v1.0 had proposed `alt=""`).
   - The origin is whitelisted in CSP `img-src`.
 - **Alternatives:**
   - Vendoring the about 20 SVGs into `public/icons/`: removes the third-party dependency, but CDN-coloured output would differ, which is a parity risk. It is recorded as a future option.
@@ -1412,7 +1498,7 @@ Format: Context, Decision, Alternatives considered, Consequences. Status is **Ac
   - `CursorGlow` is not mounted. It is `display:none` under reduced motion already, so this is visually identical.
   - `useTypewriter({enabled:false})` returns `HERO_ROLES[0]` statically.
 - **Alternatives:** CSS only, the status quo. It leaves JS motion and CPU usage in place.
-- **Consequences:** Better A11Y and battery behaviour. For users without the preference, behaviour is unchanged, so parity holds for the default case. Reduced-motion behaviour is a documented, intentional deviation, mapped to NFR-A11Y-*.
+- **Consequences:** Better A11Y and battery behaviour (NFR-A11Y-002). For users without the preference, behaviour is unchanged, so parity holds for the default case. Visibility gating of the gauge for all users is the separate decision ADR-019. Reduced-motion behaviour is a documented, intentional deviation, mapped to NFR-A11Y-*.
 
 ### ADR-016 Playwright-based qualification testing against the production build
 
@@ -1434,6 +1520,95 @@ Format: Context, Decision, Alternatives considered, Consequences. Status is **Ac
   - (−) Longer CI time (Chromium install) and baseline maintenance when visuals legitimately change.
   - (−) Font blocking means screenshots use fallback fonts. They are consistent between baseline and candidate, which is what parity needs.
 
+### ADR-017 Apply the theme before first paint through ThemeProvider initial state and a layout effect
+
+- **Context:** FR-THEME-001 (OBS-17, F-05). The baseline writes `data-theme` in a passive `useEffect` (lines 955-957), which runs after the browser has painted. A day-time visitor sees one night frame of the rendered app. CSP (ADR-013) forbids an inline pre-hydration script (`script-src 'self'`, no hash).
+- **Options:**
+  1. An inline `<script>` in `index.html` that sets `data-theme` before any CSS paint.
+  2. Set `data-theme` synchronously in `main.jsx` before `createRoot().render()`.
+  3. `ThemeProvider` computes the initial theme in a lazy `useState` initializer and writes the attribute in `useLayoutEffect`.
+- **Decision:** Option 3.
+  - `useTheme` computes its initial state once with `readThemeOverride() ?? getSunPhase(new Date())`.
+  - It writes `document.documentElement.dataset.theme` in `useLayoutEffect([theme])`. Layout effects run synchronously after React commits the DOM and **before** the browser paints that commit, so the first painted frame of the app already has the correct tokens.
+  - The same layout effect handles later changes (toggle, auto switch), so one effect owns the attribute.
+- **Justification:**
+  - Option 1 is rejected because it violates CSP ADR-013, or needs a hash that must be maintained.
+  - Option 2 meets FR-THEME-001 equally well, but it duplicates the decision logic outside the provider. There would then be two writers of `data-theme`, two places that read storage, and a risk of disagreement under StrictMode or tests. Its only extra benefit is covering the short gap between module evaluation and React's first commit, during which `#root` is still empty.
+  - **Residual:** before the JS executes, the browser may paint the empty page with the `:root` (night) background. No CSP-compatible approach can avoid that, and FR-THEME-001 scopes the requirement to the rendered app. It is accepted.
+- **Verification:** IT: the attribute is set when the provider's first layout effect has run, before any passive effect. QT: an init script records `data-theme` in the first rAF after `#root` gains children, with a mocked daytime clock, and it reads `day` (per the FR-THEME-001 acceptance criteria).
+- **Consequences:**
+  - (+) A single owner and no inline script.
+  - (−) `useLayoutEffect` warns during server rendering, which is not used (CSR only). Tests run in jsdom, where it behaves like `useEffect` but still runs before the test's assertions.
+
+### ADR-018 Persist the manual theme override in localStorage through a guarded accessor
+
+- **Context:** FR-THEME-008 (OBS-3, F-06). The baseline override is lost on reload. The PO approved persistence as a per-viewer convenience, with a guarded fallback.
+- **Decision:**
+  - A new unit, `src/lib/storage.js` (ARC-007), exposes `readThemeOverride(storage?)` and `writeThemeOverride(theme, storage?)`.
+  - The key is `THEME_STORAGE_KEY = "jsv-theme-override"` (ARC-003). The value is `"day"` or `"night"`.
+  - Every `localStorage` access, including the property lookup on `globalThis` (which can throw when site data is blocked), is inside try/catch.
+  - A read returns `null` for a missing value, an invalid value or an exception. A write returns `false` on failure and never throws.
+  - `useTheme` reads once for its initial state. A valid value counts as an active manual override, so no theme interval is started (FR-THEME-003). Each toggle writes the new value. Nothing else is stored, and the override is never cleared automatically.
+- **Alternatives:**
+  - `sessionStorage`: does not survive a browser restart, which falls short of FR-THEME-008.
+  - Cookies: sent to the server for nothing, and a consent question.
+  - A query parameter: not sticky.
+  - Ungarded `localStorage` access: throws in some private modes and blocked-storage configurations.
+- **Consequences:**
+  - (+) The chosen theme survives reloads. Every failure mode degrades to the automatic theme with no console error. The accessor is unit-testable with an injected stub.
+  - (−) A visitor who once toggled never gets automatic switching again in that browser unless they clear site data. This is accepted by FR-THEME-008, which defines no reset control.
+
+### ADR-019 Gate the speedometer animation loop on visibility
+
+- **Context:** NFR-PERF-006 (OBS-18, F-13). The baseline loop (lines 1743-1753) calls `setState` twice per frame, forever, including at 900 px or less where `.hero-center` is `display: none`, when the gauge is scrolled away, and in background tabs. Browsers throttle rAF in hidden tabs, but the React re-renders still run when frames fire, and nothing stops the loop on visible but scrolled-away pages.
+- **Decision:**
+  - A new unit, `src/hooks/useInView.js` (ARC-009), combines an IntersectionObserver on the gauge's `<svg>` (threshold 0) with `visibilitychange`, and returns one boolean.
+  - `Speedometer` keeps `t` in a ref and runs an effect keyed on `[inView, reducedMotion]`. When the gauge is in view and reduced motion is off, it requests a frame. Otherwise it cancels the frame and schedules nothing.
+  - The last rendered frame stays on screen, so there is no visual change. When the gauge becomes visible again, the loop resumes from the current `t`.
+  - `display: none` produces no intersection, so no `matchMedia("(max-width: 900px)")` is needed. That keeps the CSS breakpoint the single source of truth.
+- **Alternatives:**
+  - Pausing only on `visibilitychange`: misses the mobile case, which is the main battery concern.
+  - A matchMedia check on the 900 px breakpoint: duplicates the CSS breakpoint in JS.
+  - Driving the needle via CSS animations: a rewrite of the widget, with parity risk.
+  - Writing SVG attributes imperatively without React state: an optimisation that is not needed once gated, with more parity risk.
+- **Consequences:**
+  - (+) Zero rAF calls at 390x844, which QT verifies with an rAF-counting init script. The loop stops after scrolling to `#contact`.
+  - (+) `useInView` is reusable, but is used only by the gauge in this release.
+  - (−) Without IntersectionObserver the gauge always animates, the baseline behaviour, while document visibility is still honoured.
+
+### ADR-020 Skip link and keyboard-only `:focus-visible` indicator
+
+- **Context:** NFR-A11Y-008 and NFR-A11Y-009 (OBS-15, F-10, F-11). There is no bypass mechanism, and focus relies on weak browser defaults. Pointer visuals must keep parity (NFR-MAINT-008).
+- **Decision:**
+  - **Skip link.** `App` (ARC-002) renders `<a className="skip-link" href="#main">Skip to content</a>` as the first child, before the effects and `Nav`. `<main>` gets `id="main"` and `tabIndex={-1}`, so following the link moves focus there natively, with no JS.
+    - CSS in `components.css`: `.skip-link` is visually hidden by default, using an off-screen position rather than `display: none`, so it stays focusable.
+    - `.skip-link:focus` moves on-screen at the top left with `z-index: 301` (above the nav's 300) and uses theme tokens (`--glass-bg`, `--amber`, `--mono`).
+  - **Focus indicator.** CSS in `base.css`, appended after the existing rules:
+    - `a:focus-visible, button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }`
+    - `:focus:not(:focus-visible) { outline: none; }`
+    - This applies to links, buttons and link cards (`.behance-card`) in both themes through the `--amber` token. Pointer focus shows nothing new.
+- **Alternatives:**
+  - A JS-managed skip link or focus ring (`keydown` tracking): `:focus-visible` is supported by every target browser.
+  - Applying `:focus` styles to everything: changes pointer visuals and breaks parity.
+  - Making the skip link always visible: a visual change.
+- **Consequences:**
+  - (+) Meets WCAG 2.4.1 and 2.4.7 with no change to screenshots taken without keyboard focus.
+  - (−) Two new CSS rule groups, allow-listed in the CSS-equivalence test (ARC-017).
+  - (−) `<main tabindex="-1">` may show a focus ring when focused programmatically. `:focus:not(:focus-visible)` suppresses it for that case in current browsers.
+
+### ADR-021 Reveal fallback when IntersectionObserver is unavailable
+
+- **Context:** NFR-RELI-005 (F-12). `.reveal` starts at `opacity: 0` (CSS lines 536-537). Without IntersectionObserver, which can be missing on old browsers, in some embedded webviews and in locked-down environments, all reveal content would stay invisible to a recruiter.
+- **Decision:** `useReveal(rootRef)` checks `typeof window !== "undefined" && "IntersectionObserver" in window`. If the API is missing, it adds `visible` to every `.reveal` element under the root synchronously in its effect, and creates no observer. Construction of the observer is also wrapped in try/catch with the same fallback. It never throws. The same check makes `useInView` report `true` (ADR-019).
+- **Alternatives:**
+  - A `@supports`-style CSS-only fallback: CSS cannot detect a JS API.
+  - A `<noscript>`-style class on `<html>`: it would need an inline script, which ADR-013 forbids.
+  - A polyfill: a new dependency, which C-2 forbids.
+- **Consequences:**
+  - (+) Content is always visible.
+  - (−) There is no animation in the fallback case, which is acceptable.
+  - (+) This also simplifies jsdom tests: without a stub, reveal elements become visible.
+
 ### ADR summary
 
 | ADR | Title | Status |
@@ -1448,12 +1623,17 @@ Format: Context, Decision, Alternatives considered, Consequences. Status is **Ac
 | ADR-008 | No new runtime dependencies | Accepted |
 | ADR-009 | Domain models as frozen plain objects produced by factory functions | Accepted |
 | ADR-010 | Fail-fast content validation at module evaluation, gated by CI | Accepted |
-| ADR-011 | Pure solar module; theme applied before paint; algorithm preserved bit-for-bit | Accepted |
+| ADR-011 | Pure solar module with the corrected algorithm (SRS v1.1 FR-THEME-002) | Accepted (revised in v1.1) |
 | ADR-012 | Per-section reveal observer instead of a global, dependency-less effect | Accepted |
 | ADR-013 | Content Security Policy via meta tag, injected at build time | Accepted |
 | ADR-014 | Keep Simple Icons CDN at runtime with strategy-level fallback | Accepted |
 | ADR-015 | Honour prefers-reduced-motion in JavaScript-driven motion | Accepted |
 | ADR-016 | Playwright-based qualification testing against the production build | Accepted |
+| ADR-017 | Apply the theme before first paint through ThemeProvider initial state and a layout effect | Accepted (v1.1) |
+| ADR-018 | Persist the manual theme override in localStorage through a guarded accessor | Accepted (v1.1) |
+| ADR-019 | Gate the speedometer animation loop on visibility | Accepted (v1.1) |
+| ADR-020 | Skip link and keyboard-only `:focus-visible` indicator | Accepted (v1.1) |
+| ADR-021 | Reveal fallback when IntersectionObserver is unavailable | Accepted (v1.1) |
 
 ---
 
@@ -1467,17 +1647,17 @@ Each step leaves the app building, linting and visually identical. Steps 0-2 est
 |---|---|---|
 | 0 | **Baseline capture** at `dd9a86d`. Record the build sizes (304.14 kB / 84.79 kB gzip). Add Playwright and generate screenshot baselines of the monolith (desktop and mobile, top of each section, both themes via `page.clock`, particles masked because they are random in the baseline). | Baselines committed. Size recorded in STP. |
 | 1 | **Test infrastructure.** Add Vitest, RTL, jest-dom and jsdom, plus `tests/setup.js` (IO, matchMedia and rAF stubs). Add the scripts `test`, `test:coverage` and `test:qualification`. Add the `npm test` step to CI and the qualification job. Add the ESLint override for tests. | `npm test` passes, with a smoke test rendering `App`. |
-| 2 | **Parity fixtures.** (a) Extract the baseline `CSS` string to `tests/fixtures/baseline.css`. (b) Generate a DOM snapshot of the monolith rendered in jsdom with mocked `Math.random`, fixed time and all `.reveal` made visible, saved to `tests/fixtures/baseline-dom.html`. Write the CSS-equivalence and DOM-parity integration tests, which normalise whitespace and ignore particle inline styles and added `aria-*` attributes. | Both parity tests pass against the monolith itself. |
+| 2 | **Parity fixtures.** (a) Extract the baseline `CSS` string to `tests/fixtures/baseline.css`. (b) Generate a DOM snapshot of the monolith rendered in jsdom with mocked `Math.random`, fixed time and all `.reveal` made visible, saved to `tests/fixtures/baseline-dom.html`. Write the CSS-equivalence and DOM-parity integration tests. They normalise whitespace and ignore particle inline styles. They allow-list exactly the parity deviations listed in NFR-MAINT-008: added `aria-*` attributes, the skip link, `main#main[tabindex]`, `download` filenames, and the `.skip-link` and `:focus-visible` CSS. | Both parity tests pass against the monolith itself. |
 | 3 | **Styles.** Move the CSS into `styles/*.css` per section 8.1. Import `styles/index.css` in `main.jsx`. Remove `<style>{CSS}</style>`. | CSS-equivalence test passes. Screenshots match. |
-| 4 | **Pure core.** Create `lib/solar.js` and `lib/random.js`, and refactor `useTheme` and `Particles` to use them. Unit tests use fixed dates and seeds. Re-baseline the particle region of the screenshots once (ADR-007). | Unit tests pass. Theme decisions are identical across a 24 h × 365 d grid compared to the inline implementation. |
+| 4 | **Pure core.** Create `lib/solar.js` with the corrected FR-THEME-002 algorithm (ADR-011), `lib/random.js` and `lib/storage.js`. Refactor `useTheme` and `Particles` to use them. Unit tests use fixed dates, seeds and a storage stub. Re-baseline the particle region of the screenshots once (ADR-007). | Unit tests pass, including the SRS window values and the multi-time-zone runs. Against the inline implementation over a 365 d × 1440 min grid, decisions differ only in the expected sunrise and sunset bands. |
 | 5 | **Models.** Add `models/` (types, validate, factories) with unit tests. | At least 90 % coverage for models. |
 | 6 | **Config and data.** Add `config/site.js`. Move all data into `data/*.js` through the factories, including content currently literal in JSX (P-14) and `artKey`s (P-13). The monolith components now import from the data modules. | DOM-parity test passes. |
-| 7 | **Hooks and context.** Move the hooks to `hooks/`. Add `usePrefersReducedMotion`. Change `useReveal` to the per-root form (ADR-012), still called from `App` with a root ref on `<main>` until sections are split. Add `ThemeContext` and make `Nav` consume it. | Hook unit tests pass. DOM parity holds. |
+| 7 | **Hooks and context.** Move the hooks to `hooks/`. Add `usePrefersReducedMotion`. Change `useReveal` to the per-root form (ADR-012), still called from `App` with a root ref on `<main>` until sections are split. Add `useInView`. Add `ThemeContext` with the layout-effect attribute write (ADR-017) and override persistence (ADR-018), and make `Nav` consume it, including the ticking clock. Add the IO fallback in `useReveal` (ADR-021). | Hook unit tests pass. DOM parity holds. |
 | 8 | **Primitives and components.** Extract `ui/`, `tech/` (strategies, `CUSTOM_SVGS`), `effects/`, `widgets/`, `layout/` and `ErrorBoundary`. Add the `aria-hidden` and `aria-expanded` attributes (accepted parity deltas, whitelisted in the DOM-parity normaliser). | Unit tests pass. Screenshots match. |
 | 9 | **Sections.** Extract the ten `sections/*.jsx` files, each default-exported, all still imported eagerly. Introduce the `Section` wrapper with `as` to keep the `div`/`section` element types. | DOM parity and screenshots hold. |
 | 10 | **Registry.** Add `config/sections.js`. `App` and `Nav` render from it, and headings derive from it. | Integration tests: order, nav and headings. |
 | 11 | **Code splitting.** Switch the nine sections to `React.lazy`. Add the per-section `ErrorBoundary` + `Suspense` + placeholder and `useHashScroll`. Remove the global `useReveal` from `App`. | The build shows separate chunks. Initial JS gzip is at or below the baseline. Qualification deep-link (`/#contact`) and reveal tests pass. |
-| 12 | **Performance and A11Y refinements.** Speedometer visibility pause, rAF coalescing, reduced-motion gating (ADR-015). | Qualification reduced-motion and CPU-idle checks pass. |
+| 12 | **Performance and A11Y refinements.** Speedometer visibility gate (ADR-019), rAF coalescing, reduced-motion gating (ADR-015), skip link and `:focus-visible` (ADR-020), Escape for the mobile menu (FR-NAV-012), unified resume `download` filename (P-25). | Qualification rAF-count, reduced-motion, skip-link, focus-visible and keyboard checks pass. Screenshots without focus match the baseline. |
 | 13 | **Hardening.** Add the import-boundary ESLint rules and the architecture test. Add the CSP plugin (ADR-013). Reach the coverage targets. | `npm run lint`, `npm test`, `npm run build` and `npm run test:qualification` are all green in CI. |
 | 14 | **Release.** Merge to `main`. CI is green. `npm run deploy`. Smoke-check production (QT smoke subset against the live URL, optional). | Live site matches the baselines. |
 
@@ -1491,7 +1671,7 @@ Each step leaves the app building, linting and visually identical. Steps 0-2 est
 | R-4 | **Hash deep links land at the wrong position** before lazy content mounts | Med / Med | Placeholders carry `id` and `minHeight`. `useHashScroll` re-scrolls after mount. QT for `/#projects` and `/#contact`. |
 | R-5 | **Layout shift (CLS) from Suspense placeholders** | Med / Low | Registry `minHeight` per section, approximated from the baseline section heights. Chunks load immediately after the first commit. |
 | R-6 | **Stale chunks after redeploy** (CDN caches `index.html` for 10 min, so old hashes return 404) | Low / Med | `gh-pages` replaces the branch content. The section `ErrorBoundary` offers a reload. Optionally keep previous assets with `gh-pages --add`, which is a documented option but not the default. |
-| R-7 | **Theme flash or regression** when switching to `useLayoutEffect` and context | Low / Med | Unit tests with fixed time. QT with `page.clock` at 06:00, 12:00, 18:30 and 23:00 IST. The `data-theme` value set is unchanged (`day`/`night`). |
+| R-7 | **Theme flash or regression** from `useLayoutEffect`, context, persistence and the corrected solar algorithm | Low / Med | Unit tests with fixed instants and SRS window values. QT with `page.clock` at 12:00 and 23:00 IST for screenshots, plus boundary checks. Storage cleared before each QT. Tests with storage throwing or holding an invalid value. The `data-theme` value set is unchanged (`day`/`night`). |
 | R-8 | **StrictMode double-invocation** creates duplicate observers, intervals or rAF loops in dev | Med / Low | Every effect has a symmetric cleanup. Hook tests run under StrictMode wrappers. |
 | R-9 | **Content drift during the move** (typos, missing items) | Med / High | DOM-parity snapshot (text-exact). Factory validation. Item-count invariants (section 7). |
 | R-10 | **Bundle grows** (for example, the registry pulls lazy sections eagerly through a static import) | Low / Med | Only dynamic `import()` in `config/sections.js`. The architecture test forbids static imports of lazy sections. CI prints the size, and STP tracks the budget. |
@@ -1500,6 +1680,8 @@ Each step leaves the app building, linting and visually identical. Steps 0-2 est
 | R-13 | **CSP breaks something** (an origin or inline usage overlooked) | Low / High | CSP is added last (step 13). A Playwright test fails on any CSP console error. The meta tag is build-only. |
 | R-14 | **Reduced-motion change perceived as a regression** | Low / Low | It is limited to users with the preference set, documented in ADR-015 and mapped to an NFR-A11Y requirement. |
 | R-15 | **Manual deploy from an unverified tree** | Low / High | Release step 14: deploy only from a green `main`. A future option is a CI-driven deploy job, which would be outside the current C-4 scope. |
+| R-16 | **Persisted override confuses testing or support** ("the theme does not follow the sun") | Med / Low | QT clears `localStorage` in `beforeEach`. STP documents the key `jsv-theme-override`. The behaviour is specified by FR-THEME-008. |
+| R-17 | **Gauge never animates on desktop** if `useInView` misreports, for example because the observer targets an element that has zero size during the first layout | Low / Med | Observe the `<svg>`, which has an intrinsic viewBox size. UT for the hook. QT at 1366x800 asserts that the rAF count increases while the hero is in view. |
 
 ---
 
