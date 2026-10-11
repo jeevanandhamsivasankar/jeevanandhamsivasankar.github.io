@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 // GLOBAL STYLES
 // ─────────────────────────────────────────────────────────────────────────────
 const CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 /* ── NIGHT (default) THEME ── */
 :root {
@@ -904,6 +903,17 @@ footer {
   .btn { width: 100%; justify-content: center; }
   .nav-right { gap: 6px; }
 }
+
+/* ── ACCESSIBILITY: respect reduced-motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .particle, .cursor-glow { display: none !important; }
+}
 `;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1021,7 +1031,7 @@ function useTypewriter(words, speed = 65, deleteSpeed = 35, pause = 1800) {
     };
     t = setTimeout(tick, 900);
     return () => clearTimeout(t);
-  }, []);
+  }, [words, speed, deleteSpeed, pause]);
   return display;
 }
 
@@ -1695,22 +1705,23 @@ function CursorGlow() {
 // ─────────────────────────────────────────────────────────────────────────────
 // PARTICLES
 // ─────────────────────────────────────────────────────────────────────────────
-function Particles() {
-  const particles = useRef(Array.from({ length: 18 }, (_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: 20 + Math.random() * 70,
-    size: 1.5 + Math.random() * 2.5,
-    dur: 4 + Math.random() * 5,
-    delay: Math.random() * 6,
-    dx: (Math.random() - 0.5) * 60 + "px",
-    color: ["#f59e0b","#22d3ee","#34d399","#a78bfa","#fb7185"][Math.floor(Math.random() * 5)],
-    opacity: 0.3 + Math.random() * 0.5,
-  }))).current;
+// Generated once at module load so particle positions stay stable across renders
+const PARTICLES = Array.from({ length: 18 }, (_, i) => ({
+  id: i,
+  x: Math.random() * 100,
+  y: 20 + Math.random() * 70,
+  size: 1.5 + Math.random() * 2.5,
+  dur: 4 + Math.random() * 5,
+  delay: Math.random() * 6,
+  dx: (Math.random() - 0.5) * 60 + "px",
+  color: ["#f59e0b","#22d3ee","#34d399","#a78bfa","#fb7185"][Math.floor(Math.random() * 5)],
+  opacity: 0.3 + Math.random() * 0.5,
+}));
 
+function Particles() {
   return (
     <>
-      {particles.map(p => (
+      {PARTICLES.map(p => (
         <div key={p.id} className="particle" style={{
           left: `${p.x}%`, top: `${p.y}%`,
           width: p.size, height: p.size,
@@ -1865,9 +1876,11 @@ function Nav({ theme, onToggle }) {
 // ─────────────────────────────────────────────────────────────────────────────
 // HERO
 // ─────────────────────────────────────────────────────────────────────────────
+const HERO_ROLES = ["Qt / QML Developer","Embedded HMI Engineer","UX / UI Engineer","Instrument Cluster Dev","Medical Device HMI Eng"];
+
 function Hero() {
   const cardRef = useParallax();
-  const typed = useTypewriter(["Qt / QML Developer","Embedded HMI Engineer","UX / UI Engineer","Instrument Cluster Dev","Medical Device HMI Eng"]);
+  const typed = useTypewriter(HERO_ROLES);
 
   return (
     <section id="hero" data-section="hero" className="hero">
@@ -1939,7 +1952,9 @@ function Hero() {
             <div className="corner corner-tl" /><div className="corner corner-tr" />
             <div className="corner corner-bl" /><div className="corner corner-br" />
             <img
-              src="profile.png"
+              src="profile.webp"
+              width={600} height={900}
+              decoding="async"
               alt="S. Jeevanandham"
               className="profile-photo"
               onError={e => { e.target.style.display = "none"; }}
