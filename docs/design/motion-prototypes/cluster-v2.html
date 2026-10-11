@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cluster v2 – Motion Prototype</title>
+<!--
+  MOTION PROTOTYPE P-1 · Instrument cluster v2 (Release 2.0 candidate)
+  See docs/design/MOTION_SPEC.md §5.1 and FR-MOTION-010..016.
+  Self-contained: no external dependencies, no network.
+
+  What it demonstrates
+  - Speedometer + tachometer + gear indicator + 6 telltales + odometer + CAN ticker
+  - Deterministic drive-cycle simulation (time-based, frame-rate independent)
+  - Damped needle physics (2nd-order spring-damper, semi-implicit Euler, fixed 240 Hz sub-steps)
+  - Compositor-friendly rendering: static dial faces painted once; needles are separate
+    <svg> layers rotated with CSS transform; arcs use stroke-dasharray on their own layer;
+    digital values throttled to 5 Hz (as in production clusters) and written only on change
+  - Pauses when off-screen (IntersectionObserver) or when the tab is hidden (visibilitychange)
+  - prefers-reduced-motion: renders one static, representative frame (t = 30.5 s, cruising)
+  - URL params: ?t=<seconds> freezes at that simulation time (deterministic screenshots),
+                ?rm=1 forces the reduced-motion path, ?hud=0 hides the perf HUD
+  - window.__motion exposes stats for Playwright (frames, avgMs, p95Ms, running, state)
+-->
+<style>
+:root {
+  /* ---- Motion tokens (subset of MOTION_SPEC §3) ---- */
+  --dur-instant: 80ms; --dur-fast: 140ms; --dur-base: 220ms; --dur-slow: 360ms; --dur-deliberate: 600ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-telltale: cubic-bezier(0.4, 0, 1, 1); /* LED-like fast rise */
+
+  /* ---- Colour tokens copied from the current site (night) ---- */
+  --bg: #060c18; --surf: #0d1626; --bdr: rgba(255,255,255,0.07);
+  --amber: #f59e0b; --cyan: #22d3ee; --green: #34d399; --rose: #fb7185; --violet: #a78bfa;
+  --text: #e2e8f0; --text2: #94a3b8; --muted: #475569;
+  --mono: 'Share Tech Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --disp: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; }
+body { min-height: 100vh; padding: 24px 16px 48px; }
+.wrap { max-width: 1040px; margin: 0 auto; }
+h1 { font-family: var(--mono); font-size: 12px; letter-spacing: .24em; color: var(--amber); text-transform: uppercase; font-weight: 400; }
+p.lede { color: var(--text2); font-size: 14px; margin: 6px 0 18px; max-width: 70ch; line-height: 1.6; }
+
+/* ---- Cluster ---- */
+.cluster {
+  position: relative; width: 100%; aspect-ratio: 960 / 400;
+  border-radius: 28px; overflow: hidden; isolation: isolate;
+  background: radial-gradient(ellipse 60% 90% at 50% 50%, #0d1830 0%, #070d1a 70%);
+  border: 1px solid rgba(245,158,11,0.18);
+  box-shadow: 0 30px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.cluster > svg, .cluster > .layer { position: absolute; inset: 0; width: 100%; height: 100%; }
+.needle {
+  /* Each needle is its own compositor layer: rotation never repaints the dial. */
+  will-change: transform; transform-box: border-box;
+  pointer-events: none;
+}
+#spdNeedle { transform-origin: 26.0417% 50%; }  /* 250/960, 200/400 */
+#rpmNeedle { transform-origin: 73.9583% 50%; }  /* 710/960 */
+.arcs { will-change: transform; } /* isolate arc repaints to their own layer */
+
+/* Digital readouts (HTML over SVG so text stays crisp and accessible) */
+.ro { position: absolute; transform: translate(-50%, -50%); text-align: center; font-family: var(--mono); pointer-events: none; }
+.ro-speed { left: 26.04%; top: 76%; }
+.ro-speed b { display: block; font-family: var(--disp); font-weight: 700; font-size: clamp(22px, 5.2vw, 52px); line-height: 1; font-variant-numeric: tabular-nums; }
+.ro-speed span, .ro-rpm span { font-size: clamp(8px, 1vw, 11px); letter-spacing: .2em; color: rgba(245,158,11,.75); }
+.ro-rpm { left: 73.96%; top: 76%; }
+.ro-rpm b { display: block; font-family: var(--disp); font-weight: 700; font-size: clamp(16px, 3.2vw, 32px); line-height: 1; color: var(--text); font-variant-numeric: tabular-nums; }
+
+.center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 19%; text-align: center; font-family: var(--mono); }
+.prnd { display: flex; justify-content: center; gap: .6em; font-size: clamp(9px, 1.3vw, 14px); color: var(--muted); letter-spacing: .1em; }
+.prnd i { font-style: normal; transition: color var(--dur-fast) var(--ease-standard); }
+.prnd i.on { color: var(--text); }
+.gear { font-family: var(--disp); font-weight: 700; font-size: clamp(30px, 7vw, 72px); line-height: 1.05; color: var(--cyan); font-variant-numeric: tabular-nums; }
+.mode { font-size: clamp(8px, .95vw, 11px); letter-spacing: .22em; color: var(--green); }
+.odo { margin-top: .7em; font-size: clamp(8px, 1vw, 11px); color: var(--text2); letter-spacing: .08em; font-variant-numeric: tabular-nums; line-height: 1.5; }
+
+.telltales { position: absolute; top: 5.5%; left: 50%; transform: translateX(-50%); display: flex; gap: clamp(6px, 1.4vw, 16px); }
+.tt { width: clamp(14px, 2.4vw, 24px); height: clamp(14px, 2.4vw, 24px); opacity: .08; color: var(--muted);
+      transition: opacity var(--dur-instant) var(--ease-telltale), color var(--dur-instant) linear; }
+.tt.on { opacity: 1; }
+.tt svg { width: 100%; height: 100%; display: block; }
+.tt-green.on { color: #22c55e; } .tt-blue.on { color: #3b82f6; } .tt-red.on { color: #ef4444; } .tt-amber.on { color: #f59e0b; }
+
+/* CAN ticker */
+.can {
+  margin-top: 14px; border: 1px solid var(--bdr); border-radius: 12px; background: rgba(13,22,38,.7);
+  padding: 10px 14px; font-family: var(--mono); font-size: 11px; color: var(--text2);
+  height: calc(6 * 1.6em + 20px + 1.6em); overflow: hidden; contain: strict; line-height: 1.6;
+}
+.can .hdr { color: var(--cyan); letter-spacing: .18em; font-size: 10px; display: flex; justify-content: space-between; }
+.can pre { font: inherit; white-space: pre; margin: 0; }
+.can .sig { color: var(--amber); }
+
+.controls { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+button {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--text2);
+  background: rgba(13,22,38,.7); border: 1px solid rgba(255,255,255,.12); border-radius: 8px; padding: 8px 14px; cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), transform var(--dur-instant) var(--ease-standard);
+}
+button:hover { color: var(--amber); border-color: var(--amber); }
+button:active { transform: scale(.98); }
+button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.hud { position: fixed; right: 12px; bottom: 12px; font-family: var(--mono); font-size: 10px; color: var(--green);
+       background: rgba(0,0,0,.65); border: 1px solid rgba(52,211,153,.3); border-radius: 6px; padding: 6px 9px; line-height: 1.5; z-index: 10; }
+.hud.warn { color: var(--rose); border-color: rgba(251,113,133,.4); }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.spacer { height: 0; }
+.spacer.tall { height: 140vh; }
+
+@media (max-width: 600px) {
+  .cluster { aspect-ratio: 960 / 520; }
+  .can { font-size: 10px; }
+  .can .raw { display: none; }
+  .odo { display: none; }
+  .center { width: 22%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; animation-delay: 0s !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Prototype P-1 · Instrument cluster v2</h1>
+  <p class="lede">Drive-cycle simulation with damped needle physics. Speed and RPM are coupled through a 6-speed gearbox model.
+    Needles are compositor layers, digital values update at 5&nbsp;Hz, and the loop pauses when the cluster is off-screen or the tab is hidden.</p>
+
+  <div class="cluster" id="cluster" role="img" aria-label="Animated instrument cluster demo: speedometer, tachometer, gear indicator and warning lamps">
+    <!-- Static face: painted once -->
+    <svg id="face" viewBox="0 0 960 400" aria-hidden="true"></svg>
+    <!-- Dynamic arcs (own layer) -->
+    <svg class="arcs" viewBox="0 0 960 400" aria-hidden="true">
+      <defs>
+        <linearGradient id="gSpd" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+        <linearGradient id="gRpm" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+      </defs>
+      <path id="arcSpd" fill="none" stroke="url(#gSpd)" stroke-width="10" stroke-linecap="round" pathLength="1000" stroke-dasharray="0 1000"/>
+      <path id="arcRpm" fill="none" stroke="url(#gRpm)" stroke-width="10" stroke-linecap="round" pathLength="1000" stroke-dasharray="0 1000"/>
+    </svg>
+    <!-- Needles: separate layers, rotated via CSS transform only -->
+    <svg class="needle" id="spdNeedle" viewBox="0 0 960 400" aria-hidden="true">
+      <g><polygon points="250,196.5 382,199.3 384,200 382,200.7 250,203.5" fill="#fbbf24"/><polygon points="250,197 228,199 228,201 250,203" fill="#b45309"/></g>
+      <circle cx="250" cy="200" r="11" fill="#f59e0b"/><circle cx="250" cy="200" r="4.5" fill="#060c18"/>
+    </svg>
+    <svg class="needle" id="rpmNeedle" viewBox="0 0 960 400" aria-hidden="true">
+      <g><polygon points="710,196.5 842,199.3 844,200 842,200.7 710,203.5" fill="#fbbf24"/><polygon points="710,197 688,199 688,201 710,203" fill="#b45309"/></g>
+      <circle cx="710" cy="200" r="11" fill="#f59e0b"/><circle cx="710" cy="200" r="4.5" fill="#060c18"/>
+    </svg>
+
+    <div class="telltales" aria-hidden="true">
+      <div class="tt tt-green" id="ttL" title="Turn left"><svg viewBox="0 0 24 24"><path d="M2 12l8-7v4h12v6H10v4z" fill="currentColor"/></svg></div>
+      <div class="tt tt-green" id="ttBeam" title="Low beam"><svg viewBox="0 0 24 24"><path d="M10 5c-4 0-7 3-7 7s3 7 7 7h1V5z" fill="currentColor"/><path d="M14 7l8 2M14 11l8 2M14 15l8 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div class="tt tt-red" id="ttBelt" title="Seat belt"><svg viewBox="0 0 24 24"><circle cx="12" cy="4" r="2.6" fill="currentColor"/><path d="M7 22v-8c0-3 2-6 5-6s5 3 5 6v8z" fill="currentColor"/><path d="M8 9l9 11" stroke="#060c18" stroke-width="2"/></svg></div>
+      <div class="tt tt-amber" id="ttAbs" title="ABS"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3 6a12 12 0 0 0 0 12M21 6a12 12 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="2"/><text x="12" y="15" font-size="7" text-anchor="middle" fill="currentColor" font-family="monospace" font-weight="bold">ABS</text></svg></div>
+      <div class="tt tt-green" id="ttEco" title="Eco"><svg viewBox="0 0 24 24"><path d="M4 20C4 9 11 4 21 4c0 10-5 17-16 17z" fill="currentColor"/><path d="M4 20L14 10" stroke="#060c18" stroke-width="1.6"/></svg></div>
+      <div class="tt tt-green" id="ttR" title="Turn right"><svg viewBox="0 0 24 24"><path d="M22 12l-8-7v4H2v6h12v4z" fill="currentColor"/></svg></div>
+    </div>
+
+    <div class="ro ro-speed" aria-hidden="true"><b id="roSpeed">0</b><span>KM/H</span></div>
+    <div class="ro ro-rpm" aria-hidden="true"><b id="roRpm">0</b><span>RPM</span></div>
+    <div class="center" aria-hidden="true">
+      <div class="prnd"><i id="gP" class="on">P</i><i id="gR">R</i><i id="gN">N</i><i id="gD">D</i></div>
+      <div class="gear" id="gear">P</div>
+      <div class="mode" id="mode">READY</div>
+      <div class="odo"><span id="odo">ODO 048213.0 km</span><br><span id="trip">TRIP 0.00 km</span><br>28°C · RANGE 412 km</div>
+    </div>
+  </div>
+
+  <!-- Accessible, low-frequency text alternative (updates at most every 5 s) -->
+  <p class="sr-only" id="srStatus" aria-live="off"></p>
+
+  <div class="can" aria-hidden="true">
+    <div class="hdr"><span>CAN 500 kbit/s · PT-CAN</span><span id="canRate">0 fps</span></div>
+    <pre id="canLog"></pre>
+  </div>
+
+  <div class="controls">
+    <button id="btnPause" type="button" aria-pressed="false">Pause</button>
+    <button id="btnSweep" type="button">Ignition sweep</button>
+    <button id="btnScroll" type="button">Scroll away (test off-screen pause)</button>
+  </div>
+  <div class="spacer" id="spacer"></div>
+</div>
+<div class="hud" id="hud" aria-hidden="true">init…</div>
+
+<script>
+(() => {
+  'use strict';
+  const params = new URLSearchParams(location.search);
+  const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const reduced = params.get('rm') === '1' || mqReduce.matches;
+  const frozenT = params.has('t') ? Number(params.get('t')) : null;
+  if (params.get('hud') === '0') document.getElementById('hud').hidden = true;
+
+  // ---------- Geometry ----------
+  const A0 = -215, A1 = 35, SWEEP = A1 - A0;        // same sweep as the current site (FR-HERO-009)
+  const SPD = { cx: 250, cy: 200, r: 150, max: 200 };
+  const RPM = { cx: 710, cy: 200, r: 150, max: 8000, red: 6500 };
+  const rad = d => d * Math.PI / 180;
+  const pt = (cx, cy, r, a) => [cx + r * Math.cos(rad(a)), cy + r * Math.sin(rad(a))];
+  const arc = (cx, cy, r, a, b) => {
+    const [x0, y0] = pt(cx, cy, r, a), [x1, y1] = pt(cx, cy, r, b);
+    return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${r} ${r} 0 ${b - a > 180 ? 1 : 0} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+  };
+  const NS = 'http://www.w3.org/2000/svg';
+  const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); parent && parent.appendChild(n); return n; };
+
+  // ---------- Static face (painted once) ----------
+  const face = document.getElementById('face');
+  function dial(d, majorEvery, labelFn, minors) {
+    el('circle', { cx: d.cx, cy: d.cy, r: d.r + 26, fill: '#0a1222', stroke: 'rgba(245,158,11,0.16)', 'stroke-width': 1.5 }, face);
+    el('circle', { cx: d.cx, cy: d.cy, r: d.r + 14, fill: 'none', stroke: 'rgba(255,255,255,0.04)' }, face);
+    el('path', { d: arc(d.cx, d.cy, d.r, A0, A1), fill: 'none', stroke: 'rgba(255,255,255,0.07)', 'stroke-width': 10, 'stroke-linecap': 'round' }, face);
+    for (let i = 0; i <= minors; i++) {
+      const a = A0 + SWEEP * i / minors, major = i % majorEvery === 0;
+      const [x0, y0] = pt(d.cx, d.cy, d.r - 10, a), [x1, y1] = pt(d.cx, d.cy, d.r - (major ? 30 : 20), a);
+      el('line', { x1: x0, y1: y0, x2: x1, y2: y1, stroke: major ? 'rgba(245,158,11,0.6)' : 'rgba(255,255,255,0.16)', 'stroke-width': major ? 2.5 : 1.2 }, face);
+      if (major) {
+        const [tx, ty] = pt(d.cx, d.cy, d.r - 46, a);
+        const t = el('text', { x: tx, y: ty + 4, 'text-anchor': 'middle', fill: 'rgba(226,232,240,0.7)', 'font-size': 13, 'font-family': 'ui-monospace, monospace' }, face);
+        t.textContent = labelFn(i / minors);
+      }
+    }
+  }
+  dial(SPD, 2, f => Math.round(f * SPD.max), 20);
+  dial(RPM, 2, f => Math.round(f * 8), 16);
+  // Red zone on tach
+  el('path', { d: arc(RPM.cx, RPM.cy, RPM.r - 15, A0 + SWEEP * RPM.red / RPM.max, A1), fill: 'none', stroke: 'rgba(239,68,68,0.55)', 'stroke-width': 6 }, face);
+  const lbl = (x, y, s, c) => { const t = el('text', { x, y, 'text-anchor': 'middle', fill: c, 'font-size': 10, 'letter-spacing': 2.5, 'font-family': 'ui-monospace, monospace' }, face); t.textContent = s; };
+  lbl(SPD.cx, SPD.cy - 52, 'HMI CLUSTER v2', 'rgba(34,211,238,0.6)');
+  lbl(RPM.cx, RPM.cy - 52, 'x1000 r/min', 'rgba(251,113,133,0.6)');
+  // Static (unanimated) glow under the arcs: a blur filter that is painted once, never per frame
+  const defs = el('defs', {}, face);
+  const f = el('filter', { id: 'halo', x: '-20%', y: '-20%', width: '140%', height: '140%' }, defs);
+  el('feGaussianBlur', { stdDeviation: 14 }, f);
+  el('path', { d: arc(SPD.cx, SPD.cy, SPD.r, A0, A1), fill: 'none', stroke: 'rgba(34,211,238,0.10)', 'stroke-width': 18, filter: 'url(#halo)' }, face);
+  el('path', { d: arc(RPM.cx, RPM.cy, RPM.r, A0, A1), fill: 'none', stroke: 'rgba(245,158,11,0.10)', 'stroke-width': 18, filter: 'url(#halo)' }, face);
+
+  const arcSpd = document.getElementById('arcSpd'), arcRpm = document.getElementById('arcRpm');
+  arcSpd.setAttribute('d', arc(SPD.cx, SPD.cy, SPD.r, A0, A1));
+  arcRpm.setAttribute('d', arc(RPM.cx, RPM.cy, RPM.r, A0, A1));
+
+  // ---------- Pure model: drive cycle + gearbox (deterministic, unit-testable) ----------
+  // Waypoints: [time s, target km/h, flags]; looped. Inspired by urban + extra-urban cycle phases.
+  const CYCLE = [
+    [0, 0, ''], [3, 0, ''], [9, 52, ''], [14, 52, 'eco'], [16, 52, 'turnR'], [19, 52, 'eco'],
+    [27, 112, ''], [34, 112, 'eco'], [36, 112, 'turnL'], [39, 112, 'eco'], [43, 74, ''], [50, 148, ''],
+    [54, 148, 'eco'], [60, 0, 'brake'], [64, 0, '']
+  ];
+  const CYCLE_LEN = CYCLE[CYCLE.length - 1][0];
+  const smooth = x => x * x * (3 - 2 * x);
+  function cycleAt(t) {
+    const tt = ((t % CYCLE_LEN) + CYCLE_LEN) % CYCLE_LEN;
+    for (let i = 0; i < CYCLE.length - 1; i++) {
+      const [ta, va] = CYCLE[i], [tb, vb, flag] = CYCLE[i + 1];
+      if (tt >= ta && tt < tb) {
+        const u = smooth((tt - ta) / (tb - ta));
+        const target = va + (vb - va) * u;
+        const accel = (vb - va) / (tb - ta); // km/h per s, sign = throttle/brake
+        return { target, accel, flag, phase: tt };
+      }
+    }
+    return { target: 0, accel: 0, flag: '', phase: tt };
+  }
+  const UP = [0, 18, 34, 54, 78, 104];           // upshift speed per gear (index = current gear)
+  const DOWN_HYST = 6;
+  const K = [0, 165, 98, 70, 54, 44, 37];        // rpm per km/h per gear
+  function gearFor(speed, cur) {
+    let g = Math.max(1, cur);
+    while (g < 6 && speed > UP[g]) g++;
+    while (g > 1 && speed < UP[g - 1] - DOWN_HYST) g--;
+    return g;
+  }
+  function rpmFor(speed, gear, accel) {
+    if (speed < 1) return 780 + (accel > 0 ? 300 : 0);
+    const load = Math.max(0, accel) * 55;          // throttle adds revs under acceleration
+    return Math.min(7600, Math.max(900, speed * K[gear] + load));
+  }
+
+  // ---------- Damped needle (2nd-order spring-damper) ----------
+  // x'' = w^2 (target - x) - 2 z w x'   ; semi-implicit Euler at fixed 240 Hz sub-steps.
+  function Needle(omega, zeta) { return { x: 0, v: 0, omega, zeta }; }
+  const STEP = 1 / 240;
+  function stepNeedle(n, target, dt) {
+    let acc = dt;
+    while (acc > 1e-6) {
+      const h = Math.min(STEP, acc);
+      const a = n.omega * n.omega * (target - n.x) - 2 * n.zeta * n.omega * n.v;
+      n.v += a * h; n.x += n.v * h; acc -= h;
+    }
+  }
+  const spdN = Needle(9.0, 0.72);   // ~4% overshoot, settles ~0.6 s: a calm, damped pointer
+  const rpmN = Needle(14.0, 0.55);  // livelier tach, ~12% overshoot on shifts (as real stepper pointers)
+
+  // ---------- State ----------
+  const S = { t: 0, speed: 0, gear: 0, rpm: 0, odo: 48213.0, trip: 0, sweep: null, lastGear: -1, readyAt: 0 };
+  const dom = {
+    spdNeedle: document.getElementById('spdNeedle'), rpmNeedle: document.getElementById('rpmNeedle'),
+    roSpeed: document.getElementById('roSpeed'), roRpm: document.getElementById('roRpm'),
+    gear: document.getElementById('gear'), mode: document.getElementById('mode'),
+    odo: document.getElementById('odo'), trip: document.getElementById('trip'),
+    P: document.getElementById('gP'), N: document.getElementById('gN'), D: document.getElementById('gD'),
+    tt: Object.fromEntries([['L','ttL'],['R','ttR'],['beam','ttBeam'],['belt','ttBelt'],['abs','ttAbs'],['eco','ttEco']].map(([k, id]) => [k, document.getElementById(id)])),
+    can: document.getElementById('canLog'), canRate: document.getElementById('canRate'),
+    sr: document.getElementById('srStatus'), hud: document.getElementById('hud')
+  };
+
+  // Write cache: only touch the DOM when a value actually changes.
+  const last = new Map();
+  const setText = (node, key, v) => { if (last.get(key) !== v) { last.set(key, v); node.textContent = v; } };
+  const setClass = (node, key, cls, on) => { const k = key + cls; if (last.get(k) !== on) { last.set(k, on); node.classList.toggle(cls, on); } };
+  const setTransform = (node, key, deg) => { const v = deg.toFixed(2); if (last.get(key) !== v) { last.set(key, v); node.style.transform = `rotate(${v}deg)`; } };
+  const setDash = (node, key, f) => { const v = (Math.max(0, Math.min(1, f)) * 1000).toFixed(1); if (last.get(key) !== v) { last.set(key, v); node.setAttribute('stroke-dasharray', `${v} 1000`); } };
+
+  // ---------- Simulation step (pure-ish: only mutates S, spdN, rpmN) ----------
+  function simulate(dt) {
+    S.t += dt;
+    let tgtSpd, tgtRpm, flag = '', accel = 0;
+    if (S.sweep !== null) {
+      // Ignition self-test: needles to full scale and back (classic cluster "needle sweep").
+      S.sweep += dt;
+      const up = S.sweep < 0.45;
+      tgtSpd = up ? SPD.max : 0; tgtRpm = up ? RPM.max : 0;
+      if (S.sweep > 1.1) { S.sweep = null; S.t = 0; }
+      S.gear = 0;
+    } else {
+      const c = cycleAt(S.t); flag = c.flag; accel = c.accel;
+      // Vehicle speed follows target with a first-order lag (inertia), tau = 0.35 s
+      S.speed += (c.target - S.speed) * (1 - Math.exp(-dt / 0.35));
+      if (S.speed < 0.3 && c.target < 0.5) S.speed = 0;
+      S.gear = S.speed < 0.5 && c.target < 0.5 ? (c.phase < 3 ? 0 : 1) : gearFor(S.speed, S.gear);
+      S.rpm = S.gear === 0 ? 800 : rpmFor(S.speed, S.gear, accel);
+      tgtSpd = S.speed; tgtRpm = S.rpm;
+      const km = S.speed * dt / 3600; S.odo += km; S.trip += km;
+    }
+    stepNeedle(spdN, tgtSpd, dt);
+    stepNeedle(rpmN, tgtRpm, dt);
+    return { flag, accel };
+  }
+
+  // ---------- Render (DOM writes only, no reads => no layout thrash) ----------
+  let digitalAcc = 0, srAcc = 0;
+  function render(info, dt, force) {
+    const sF = spdN.x / SPD.max, rF = rpmN.x / RPM.max;
+    setTransform(dom.spdNeedle, 'sn', A0 + SWEEP * Math.max(-0.01, Math.min(1.02, sF)));
+    setTransform(dom.rpmNeedle, 'rn', A0 + SWEEP * Math.max(-0.01, Math.min(1.02, rF)));
+    setDash(arcSpd, 'as', sF); setDash(arcRpm, 'ar', rF);
+
+    // Digital values: 5 Hz with hysteresis, like production clusters (readable, not flickering)
+    digitalAcc += dt;
+    if (force || digitalAcc >= 0.2) {
+      digitalAcc = 0;
+      const shownSpd = S.sweep !== null ? 0 : Math.round(S.speed);
+      setText(dom.roSpeed, 'spd', String(shownSpd));
+      setText(dom.roRpm, 'rpm', String(Math.round(rpmN.x / 50) * 50));
+      setText(dom.odo, 'odo', 'ODO ' + S.odo.toFixed(1).padStart(8, '0') + ' km');
+      setText(dom.trip, 'trip', 'TRIP ' + S.trip.toFixed(2) + ' km');
+    }
+    const g = S.sweep !== null ? 'P' : S.gear === 0 ? 'P' : (S.speed < 0.5 ? 'N' : String(S.gear));
+    if (g !== S.lastGear) {
+      S.lastGear = g;
+      dom.gear.textContent = g;
+      // Web Animations API: composited (opacity + transform), no class juggling, no forced reflow
+      if (!reduced && !force) dom.gear.animate(
+        [{ opacity: 0.35, transform: 'translateY(6%) scale(0.92)' }, { opacity: 1, transform: 'none' }],
+        { duration: 220, easing: 'cubic-bezier(0.05, 0.7, 0.1, 1)' });
+    }
+    setClass(dom.P, 'P', 'on', g === 'P'); setClass(dom.N, 'N', 'on', g === 'N'); setClass(dom.D, 'D', 'on', /\d/.test(g));
+    setText(dom.mode, 'mode', S.sweep !== null ? 'SELF-TEST' : info.flag === 'eco' ? 'ECO · CRUISE' : info.accel > 2 ? 'SPORT' : info.flag === 'brake' ? 'REGEN' : 'READY');
+
+    // Telltales: turn signals 1.5 Hz, 50 % duty (UN R48 range 90 ± 30 flashes/min); bulb check during sweep
+    const blink = (S.t % (1 / 1.5)) < (0.5 / 1.5);
+    const sw = S.sweep !== null;
+    setClass(dom.tt.L, 'L', 'on', sw || (info.flag === 'turnL' && blink));
+    setClass(dom.tt.R, 'R', 'on', sw || (info.flag === 'turnR' && blink));
+    setClass(dom.tt.beam, 'beam', 'on', true);
+    setClass(dom.tt.belt, 'belt', 'on', sw || (S.t < 3 && S.gear === 0));
+    setClass(dom.tt.abs, 'abs', 'on', sw || (info.flag === 'brake' && S.speed > 20 && S.speed < 90));
+    setClass(dom.tt.eco, 'eco', 'on', sw || info.flag === 'eco');
+
+    srAcc += dt;
+    if (force || srAcc > 5) { srAcc = 0; dom.sr.textContent = `Demo cluster: ${Math.round(S.speed)} km/h, gear ${g}, ${Math.round(S.rpm)} rpm.`; }
+  }
+
+  // ---------- CAN ticker (10 Hz, single text write into a contained box) ----------
+  const canLines = []; let canAcc = 0, canCount = 0, canWindow = 0, canRateAcc = 0;
+  const hex = (n, w) => n.toString(16).toUpperCase().padStart(w, '0');
+  const byteStr = v => { const b = []; for (let i = 0; i < 8; i++) b.push(hex(i < 4 ? (v >>> (i * 8)) & 0xff : 0, 2)); return b.join(' '); };
+  function canTick(dt, force) {
+    canAcc += dt; canRateAcc += dt;
+    if (!force && canAcc < 0.1) return; canAcc = 0;
+    const frames = [
+      ['0C4', Math.round(rpmN.x * 4), `ENG_RPM   ${String(Math.round(rpmN.x)).padStart(4)} rpm`],
+      ['1A0', Math.round(S.speed * 100), `VEH_SPD   ${S.speed.toFixed(1).padStart(5)} km/h`],
+      ['3B2', S.gear, `GEAR_POS  ${S.lastGear}`],
+      ['2F1', dom.tt.L.classList.contains('on') ? 1 : dom.tt.R.classList.contains('on') ? 2 : 0, 'TURN_IND  ' + (dom.tt.L.classList.contains('on') ? 'L' : dom.tt.R.classList.contains('on') ? 'R' : '-')]
+    ];
+    const fr = frames[canCount % frames.length]; canCount++; canWindow++;
+    canLines.unshift(`${(S.t).toFixed(3).padStart(8)}  0x${fr[0]}  <span class="raw">[8]  ${byteStr(fr[1] | 0)}</span>  <span class="sig">${fr[2]}</span>`);
+    if (canLines.length > 6) canLines.length = 6;
+    dom.can.innerHTML = canLines.join('\n');
+    if (canRateAcc >= 1) { setText(dom.canRate, 'canr', `${canWindow} fps`); canWindow = 0; canRateAcc = 0; }
+  }
+
+  // ---------- Loop with visibility gating ----------
+  const stats = { frames: 0, totalMs: 0, maxMs: 0, samples: [], running: false, pausedReason: 'init', reduced };
+  window.__motion = { stats, state: S, needles: { spdN, rpmN }, cycleAt, gearFor, rpmFor, stepNeedle };
+  let raf = 0, prev = 0, inView = true, docVisible = !document.hidden, userPaused = false;
+
+  function frame(now) {
+    raf = 0;
+    const t0 = performance.now();
+    const dt = Math.min(0.05, (now - prev) / 1000 || 0); prev = now; // clamp: never "catch up" after a stall
+    const info = simulate(dt);
+    render(info, dt, false);
+    canTick(dt, false);
+    const cost = performance.now() - t0;
+    stats.frames++; stats.totalMs += cost; stats.maxMs = Math.max(stats.maxMs, cost);
+    stats.samples.push(cost); if (stats.samples.length > 240) stats.samples.shift();
+    if (stats.frames % 15 === 0) updateHud();
+    raf = requestAnimationFrame(frame);
+  }
+  function p95() { const a = stats.samples.slice().sort((x, y) => x - y); return a.length ? a[Math.floor(a.length * 0.95) - 1] || a[a.length - 1] : 0; }
+  stats.p95 = p95;
+  function updateHud() {
+    const avg = stats.frames ? stats.totalMs / stats.frames : 0, p = p95();
+    dom.hud.textContent = `${stats.running ? 'RUN' : 'PAUSED (' + stats.pausedReason + ')'} · avg ${avg.toFixed(2)} ms · p95 ${p.toFixed(2)} ms · budget 4 ms`;
+    dom.hud.classList.toggle('warn', p > 4);
+    window.__motion.avgMs = avg; window.__motion.p95Ms = p;
+  }
+  function evaluate() {
+    const should = !reduced && frozenT === null && inView && docVisible && !userPaused;
+    if (should && !raf) { prev = performance.now(); raf = requestAnimationFrame(frame); stats.running = true; }
+    if (!should && raf) { cancelAnimationFrame(raf); raf = 0; stats.running = false; }
+    if (!should) stats.pausedReason = reduced ? 'reduced-motion' : frozenT !== null ? 'frozen' : !docVisible ? 'tab hidden' : !inView ? 'off-screen' : 'user';
+    updateHud();
+  }
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => { inView = es[es.length - 1].isIntersecting; evaluate(); }, { threshold: 0 }).observe(document.getElementById('cluster'));
+  }
+  document.addEventListener('visibilitychange', () => { docVisible = !document.hidden; evaluate(); });
+  mqReduce.addEventListener?.('change', () => location.reload());
+
+  // ---------- Static frame (reduced motion / frozen) ----------
+  function staticFrame(t) {
+    // Fast-forward the deterministic model to time t at 60 Hz, then snap needles to rest.
+    S.sweep = null; S.t = 0; S.gear = 0;
+    let info = { flag: '', accel: 0 };
+    const n = Math.round(t * 60);
+    for (let i = 0; i < n; i++) info = simulate(1 / 60);
+    spdN.x = S.speed; spdN.v = 0; rpmN.x = S.rpm; rpmN.v = 0;
+    render(info, 0, true); for (let i = 0; i < 6; i++) canTick(0, true);
+  }
+
+  document.getElementById('btnPause').addEventListener('click', e => {
+    userPaused = !userPaused; e.currentTarget.setAttribute('aria-pressed', String(userPaused));
+    e.currentTarget.textContent = userPaused ? 'Resume' : 'Pause'; evaluate();
+  });
+  document.getElementById('btnSweep').addEventListener('click', () => { if (!reduced) { S.sweep = 0; S.speed = 0; } });
+  document.getElementById('btnScroll').addEventListener('click', () => {
+    document.getElementById('spacer').classList.add('tall');
+    window.scrollTo({ top: document.body.scrollHeight, behavior: reduced ? 'auto' : 'smooth' });
+  });
+
+  if (reduced || frozenT !== null) {
+    staticFrame(frozenT !== null ? frozenT : 30.5);
+    evaluate();
+  } else {
+    S.sweep = 0; // start with the ignition self-test
+    evaluate();
+  }
+})();
+</script>
+</body>
+</html>
