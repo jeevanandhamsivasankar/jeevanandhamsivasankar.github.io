@@ -1,7 +1,7 @@
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { test as base, expect } from './fixtures.js'
+import { test as base, expect, SKIP_INTRO } from './fixtures.js'
 import { NIGHT } from './expected.js'
 
 export { expect }
@@ -53,6 +53,7 @@ export async function freshPage(browser, testInfo, extra = {}) {
   })
   await context.route(/^https?:\/\/(fonts\.googleapis\.com|fonts\.gstatic\.com)\//, (r) => r.abort())
   await routeSimpleIcons(context)
+  await context.addInitScript(SKIP_INTRO)
   const page = await context.newPage()
   return { context, page }
 }

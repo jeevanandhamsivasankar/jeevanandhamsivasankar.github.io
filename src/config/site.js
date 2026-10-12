@@ -22,7 +22,7 @@ export const FOOTER_TEXT = "© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — 
 export const THEME_GEO = Object.freeze({ lat: 13.08, lon: 80.27, tzOffsetHours: 5.5 });
 
 /**
- * Feature flags (US-208). `intro`: optional ignition intro (FR-MOTION-005). Ships OFF until the
- * Product Owner decides (Q-S2-2); `?intro=1` previews it for QA. Once per session, <= 1200 ms.
+ * Feature flags (US-208). `intro`: ignition intro (FR-MOTION-005), enabled by the owner on 2026-10-12 (Q-S2-2).
+ * Plays once per session for <= 1200 ms, skippable, never under reduced motion.
  */
-export const SITE = Object.freeze({ intro: false });
+export const SITE = Object.freeze({ intro: true });

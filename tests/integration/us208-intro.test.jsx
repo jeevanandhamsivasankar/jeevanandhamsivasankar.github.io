@@ -13,11 +13,13 @@ describe('IT-056 App mounts the ignition intro lazily behind the flag', () => {
     expect(src).not.toMatch(/^import IgnitionIntro/m)
     expect(readFileSync('src/App.jsx', 'utf8')).toMatch(/Overlays introEnabled=\{SITE\.intro\}/)
   })
-  it('IT-056 intro absent when the flag is off, present with ?intro=1, skippable and marks session', async () => {
+  // Flag enabled by the owner (2026-10-12): the intro plays on the first load of a session only.
+  it('IT-056 intro absent once played this session, present on a fresh session, skippable and marks session', async () => {
+    sessionStorage.setItem('jsv-intro-played', '1')
     const { unmount } = render(<App sections={[]} />)
     expect(screen.queryByTestId('ignition-intro')).toBeNull()
     unmount()
-    window.history.replaceState({}, '', '/?intro=1')
+    sessionStorage.removeItem('jsv-intro-played')
     render(<App sections={[]} />)
     const root = await screen.findByTestId('ignition-intro')
     expect(sessionStorage.getItem('jsv-intro-played')).toBe('1')
