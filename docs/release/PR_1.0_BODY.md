@@ -18,12 +18,14 @@ Re-architects the portfolio into layered modules and adds a V-model documentatio
 
 | Check | Result |
 |---|---|
-| Lint | TBD |
-| UT | TBD |
-| IT | TBD |
-| QT | TBD |
-| Coverage | TBD |
-| Build | TBD |
+| Lint | clean |
+| UT | 655 / 655 pass |
+| IT | 45 / 45 pass (Vitest total 700 / 700) |
+| QT | 188 pass, 0 fail, 73 viewport-specific skips (desktop + mobile Chromium) |
+| Coverage | thresholds met (≥90% models/lib/hooks, ≥80% overall) |
+| Build | OK; initial JS 74 KB gzip (was 85 KB) |
+
+Visual baselines re-captured for DEF-020 with owner approval (see `docs/TEST_REPORT.md`).
 
 ## Known limitations
 
