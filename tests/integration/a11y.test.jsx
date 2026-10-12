@@ -1,7 +1,7 @@
 import { screen, within } from '@testing-library/react'
 import App from '../../src/App.jsx'
 import { EMAIL } from '../../src/config/site.js'
-import { renderAndSettle, useFakeTime } from '../utils/appHelpers.jsx'
+import { renderAndSettle, installFakeTime } from '../utils/appHelpers.jsx'
 
 afterEach(() => vi.useRealTimers())
 
@@ -10,7 +10,7 @@ const hasLigature = (name) => name.split(/\s+/).some((w) => LIGATURES.includes(w
 
 describe('accessibility integration (ARC-010, ARC-011, ARC-014, ARC-016)', () => {
   it('IT-029 all Material Symbols spans in the app are aria-hidden', async () => {
-    useFakeTime('2026-06-21T06:30:00Z') // day: theme button reads "Night"
+    installFakeTime('2026-06-21T06:30:00Z') // day: theme button reads "Night"
     await renderAndSettle(<App />)
 
     const icons = [...document.querySelectorAll('span')].filter((s) => /Material Symbols/.test(s.getAttribute('style') ?? ''))

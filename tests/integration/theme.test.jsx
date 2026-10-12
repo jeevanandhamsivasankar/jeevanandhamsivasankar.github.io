@@ -4,7 +4,7 @@ import App from '../../src/App.jsx'
 import Nav from '../../src/components/layout/Nav.jsx'
 import { NAV_ITEMS } from '../../src/config/sections.js'
 import { ThemeProvider, useThemeContext } from '../../src/context/ThemeContext.jsx'
-import { renderAndSettle, useFakeTime } from '../utils/appHelpers.jsx'
+import { renderAndSettle, installFakeTime } from '../utils/appHelpers.jsx'
 
 process.env.TZ = 'Asia/Kolkata'
 
@@ -30,7 +30,7 @@ afterEach(() => {
 
 describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
   it('IT-002 ThemeProvider + Nav toggle -> html[data-theme] -> localStorage', async () => {
-    useFakeTime(NIGHT_ISO)
+    installFakeTime(NIGHT_ISO)
     await renderAndSettle(<App />)
     expect(themeAttr()).toBe('night')
 
@@ -50,7 +50,7 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
   })
 
   it('IT-003 theme-before-paint: attribute set in the provider layout phase, no night frame for day visitors', () => {
-    useFakeTime(NOON_ISO)
+    installFakeTime(NOON_ISO)
     const seenInPassive = []
     function Probe() {
       useEffect(() => {
@@ -78,7 +78,7 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
   })
 
   it('IT-004 override persistence across remount (simulated reload)', () => {
-    useFakeTime(NOON_ISO)
+    installFakeTime(NOON_ISO)
     const setIntervalSpy = vi.spyOn(globalThis, 'setInterval')
     const tree = (
       <ThemeProvider>
@@ -113,7 +113,8 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
     expect(badge()).toMatch(/NIGHT · 12:13\spm/i)
   })
 
-  describe('IT-005 storage failure modes fall back to the automatic theme without errors', () => {
+  it('IT-005 storage failure modes fall back to the automatic theme without errors', async () => {
+    const KEY_ = KEY
     const variants = {
       'getItem throws': () => {
         vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
@@ -126,7 +127,7 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
         })
       },
       'stored value is "foo"': () => {
-        localStorage.setItem(KEY, 'foo')
+        localStorage.setItem(KEY_, 'foo')
       },
       'window.localStorage getter throws': () => {
         Object.defineProperty(window, 'localStorage', {
@@ -137,32 +138,34 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
         })
       },
     }
-    let descriptor
-    beforeEach(() => {
-      descriptor = Object.getOwnPropertyDescriptor(window, 'localStorage')
-    })
-    afterEach(() => {
-      if (descriptor) Object.defineProperty(window, 'localStorage', descriptor)
-    })
-
-    for (const [name, arrange] of Object.entries(variants)) {
-      it(`IT-005 ${name}`, async () => {
-        useFakeTime(NOON_ISO)
-        const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const descriptor = Object.getOwnPropertyDescriptor(window, 'localStorage')
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    try {
+      for (const [name, arrange] of Object.entries(variants)) {
+        localStorage.clear()
+        document.documentElement.removeAttribute('data-theme')
+        installFakeTime(NOON_ISO)
         arrange()
-        await renderAndSettle(<App />)
-        expect(themeAttr()).toBe('day')
+        const view = await renderAndSettle(<App />)
+        expect(themeAttr(), name).toBe('day')
         fireEvent.click(navToggle())
-        expect(themeAttr()).toBe('night')
+        expect(themeAttr(), name).toBe('night')
         tick(2 * 60 * 1000)
-        expect(themeAttr()).toBe('night') // stays for the page lifetime
-        expect(errorSpy).not.toHaveBeenCalled()
-      })
+        expect(themeAttr(), name).toBe('night') // stays for the page lifetime
+        view.unmount()
+        vi.useRealTimers()
+        vi.mocked(Storage.prototype.getItem).mockRestore?.()
+        vi.mocked(Storage.prototype.setItem).mockRestore?.()
+        if (descriptor) Object.defineProperty(window, 'localStorage', descriptor)
+      }
+      expect(errorSpy).not.toHaveBeenCalled()
+    } finally {
+      if (descriptor) Object.defineProperty(window, 'localStorage', descriptor)
     }
   })
 
   it('IT-006 auto switch across sunset and manual toggle stopping it', async () => {
-    useFakeTime('2026-06-21T13:01:30Z') // 18:31:30 IST
+    installFakeTime('2026-06-21T13:01:30Z') // 18:31:30 IST
     const first = await renderAndSettle(<App />)
     expect(themeAttr()).toBe('day')
     tick(60000) // 18:32:30 IST: after sunset 18:32:03
@@ -183,7 +186,7 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
   })
 
   it('IT-007 badge clock refreshes every 60 s with and without override', async () => {
-    useFakeTime(NIGHT_ISO)
+    installFakeTime(NIGHT_ISO)
     await renderAndSettle(<App />)
     expect(badge()).toMatch(/NIGHT · 11:00\spm/i)
     tick(60000)
@@ -194,14 +197,17 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
   })
 
   it('IT-008 context contract and use outside the provider', () => {
-    let received
-    function Consumer() {
-      received = useThemeContext()
+    const received = {}
+    function Consumer({ sink }) {
+      const ctx = useThemeContext()
+      useEffect(() => {
+        Object.assign(sink, ctx)
+      })
       return null
     }
     render(
       <ThemeProvider>
-        <Consumer />
+        <Consumer sink={received} />
       </ThemeProvider>,
     )
     expect(['day', 'night']).toContain(received.theme)
@@ -210,7 +216,7 @@ describe('theme integration (ARC-008, ARC-009, ARC-014, ARC-007)', () => {
     expect(typeof received.toggle).toBe('function')
 
     vi.spyOn(console, 'error').mockImplementation(() => {})
-    expect(() => render(<Consumer />)).toThrow(new Error('useThemeContext must be used within ThemeProvider'))
+    expect(() => render(<Consumer sink={{}} />)).toThrow(new Error('useThemeContext must be used within ThemeProvider'))
   })
 })
 

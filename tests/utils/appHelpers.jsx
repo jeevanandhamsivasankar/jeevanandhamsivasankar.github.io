@@ -36,7 +36,7 @@ export async function renderAndSettle(element, options) {
 }
 
 /** Fake only the timer APIs the app uses; rAF is driven by installManualRaf(). */
-export function useFakeTime(iso) {
+export function installFakeTime(iso) {
   vi.useFakeTimers({
     now: new Date(iso),
     toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval', 'Date'],

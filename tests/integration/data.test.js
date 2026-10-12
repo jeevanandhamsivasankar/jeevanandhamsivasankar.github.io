@@ -51,45 +51,39 @@ describe('content data modules (ARC-006, ARC-005, ARC-003)', () => {
     expect(unfrozen).toEqual([])
   })
 
-  describe('invalid content', () => {
-    afterEach(() => {
-      vi.doUnmock('../../src/config/site.js')
-      vi.resetModules()
-    })
+  afterEach(() => {
+    vi.doUnmock('../../src/config/site.js')
+    vi.resetModules()
+  })
 
-    it('IT-018 invalid content fails fast at module load naming entity and field (unsafe URL)', async () => {
-      const real = await vi.importActual('../../src/config/site.js')
-      vi.doMock('../../src/config/site.js', () => ({
-        ...real,
-        URLS: Object.freeze({ ...real.URLS, github: 'javascript:alert(1)' }),
-      }))
-      vi.resetModules()
-      const err = await import('../../src/data/contact.js').then(
-        () => null,
-        (e) => e,
-      )
-      expect(err).not.toBeNull()
-      expect(err.name).toBe('ModelValidationError')
-      expect(err.model).toBe('ContactLink')
-      expect(err.field).toBe('href')
-      expect(err.message).toContain('ContactLink')
-      expect(err.message).toContain('href')
-    })
+  it('IT-018 invalid content fails fast at module load naming entity and field', async () => {
+    const real = await vi.importActual('../../src/config/site.js')
+    const load = () => import('../../src/data/contact.js').then(() => null, (e) => e)
 
-    it('IT-018 invalid content fails fast at module load naming entity and field (empty EMAIL)', async () => {
-      const real = await vi.importActual('../../src/config/site.js')
-      vi.doMock('../../src/config/site.js', () => ({ ...real, EMAIL: '' }))
-      vi.resetModules()
-      const err = await import('../../src/data/contact.js').then(
-        () => null,
-        (e) => e,
-      )
-      expect(err).not.toBeNull()
-      expect(err.name).toBe('ModelValidationError')
-      expect(err.model).toBe('ContactLink')
-      expect(['label', 'href']).toContain(err.field)
-      expect(err.message).toContain('ContactLink')
-      expect(err.message).toContain(err.field)
-    })
+    // variant 1: unsafe URL
+    vi.doMock('../../src/config/site.js', () => ({
+      ...real,
+      URLS: Object.freeze({ ...real.URLS, github: 'javascript:alert(1)' }),
+    }))
+    vi.resetModules()
+    let err = await load()
+    expect(err).not.toBeNull()
+    expect(err.name).toBe('ModelValidationError')
+    expect(err.model).toBe('ContactLink')
+    expect(err.field).toBe('href')
+    expect(err.message).toContain('ContactLink')
+    expect(err.message).toContain('href')
+
+    // variant 2: empty e-mail address
+    vi.doUnmock('../../src/config/site.js')
+    vi.doMock('../../src/config/site.js', () => ({ ...real, EMAIL: '' }))
+    vi.resetModules()
+    err = await load()
+    expect(err).not.toBeNull()
+    expect(err.name).toBe('ModelValidationError')
+    expect(err.model).toBe('ContactLink')
+    expect(['label', 'href']).toContain(err.field)
+    expect(err.message).toContain('ContactLink')
+    expect(err.message).toContain(err.field)
   })
 })

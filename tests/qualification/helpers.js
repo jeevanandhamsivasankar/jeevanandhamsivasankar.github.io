@@ -223,3 +223,18 @@ export const distAssets = () => {
 }
 export const fileSize = (p) => statSync(p).size
 export const readSrc = (rel) => readFileSync(join(ROOT, rel), 'utf8')
+
+/** Resolve a CSS custom property that holds a colour to an rgb() string. */
+export async function resolvedColor(page, varName) {
+  return page.evaluate((n) => {
+    const d = document.createElement('div')
+    d.style.color = `var(${n})`
+    document.body.appendChild(d)
+    const c = getComputedStyle(d).color
+    d.remove()
+    return c
+  }, varName)
+}
+export async function rootVar(page, varName) {
+  return page.evaluate((n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim(), varName)
+}

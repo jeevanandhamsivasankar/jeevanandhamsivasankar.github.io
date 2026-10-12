@@ -3,7 +3,7 @@ import App from '../../src/App.jsx'
 import { HERO_ROLES } from '../../src/data/profile.js'
 import { gaugeFrame } from '../../src/lib/gauge.js'
 import { setMatchMedia, triggerIntersection } from '../utils/browserMocks.js'
-import { installManualRaf, settle, useFakeTime } from '../utils/appHelpers.jsx'
+import { installManualRaf, settle, installFakeTime } from '../utils/appHelpers.jsx'
 
 const REDUCE = '(prefers-reduced-motion: reduce)'
 const speedText = () => document.querySelector('.gauge-widget svg text').textContent
@@ -23,7 +23,7 @@ afterEach(() => {
 describe('reduced motion (ARC-009, ARC-013, ARC-012, ARC-016)', () => {
   it('IT-021 reduced motion disables speedometer, typewriter, parallax and cursor glow', async () => {
     setMatchMedia({ [REDUCE]: true })
-    useFakeTime('2026-06-21T06:30:00Z')
+    installFakeTime('2026-06-21T06:30:00Z')
     const raf = installManualRaf()
     const addSpy = vi.spyOn(window, 'addEventListener')
 
@@ -44,7 +44,7 @@ describe('reduced motion (ARC-009, ARC-013, ARC-012, ARC-016)', () => {
   })
 
   it('IT-022 switching to reduced motion at runtime stops running motion', async () => {
-    useFakeTime('2026-06-21T06:30:00Z')
+    installFakeTime('2026-06-21T06:30:00Z')
     const raf = installManualRaf()
     await renderApp()
     const gaugeSvg = document.querySelector('.gauge-widget svg')
