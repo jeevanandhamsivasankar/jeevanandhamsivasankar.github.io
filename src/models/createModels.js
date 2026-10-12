@@ -56,6 +56,7 @@ function modelArray(value, model, field, factory) {
 /**
  * Model "RichText". Accepts strings as shorthand for unmarked segments.
  * Throws `Invalid RichText: [i].text|[i].mark ...`.
+ * @param {string|object|ReadonlyArray<string|object>} raw segments or shorthand text
  * @returns {ReadonlyArray<{text:string, mark?:"strong"|"hl"}>}
  */
 export function createRichText(raw) {
@@ -78,7 +79,11 @@ export function createRichText(raw) {
   return deepFreeze(out);
 }
 
-/** Model "Photo". @throws ModelValidationError `Invalid Photo: <field> <reason>` */
+/**
+ * Model "Photo". @throws ModelValidationError `Invalid Photo: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Photo>} frozen model
+ */
 export function createPhoto(raw) {
   const M = "Photo";
   begin(raw, M, ["src", "alt", "width", "height"]);
@@ -90,7 +95,12 @@ export function createPhoto(raw) {
   return deepFreeze({ src: raw.src, alt: raw.alt, width: raw.width, height: raw.height });
 }
 
-/** Model "Stat". @throws `Invalid Stat: <field> <reason>` */
+/**
+ * Model "Stat". @throws `Invalid Stat: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @param {{requireIcon?: boolean}} [opts]
+ * @returns {Readonly<import("./types.js").Stat>} frozen model
+ */
 export function createStat(raw, { requireIcon = false } = {}) {
   const M = "Stat";
   begin(raw, M, ["label", "num", "color", "icon"]);
@@ -118,7 +128,11 @@ function onlyMarks(richText, allowed, model, field) {
   });
 }
 
-/** Model "Profile". @throws `Invalid Profile: <field> <reason>` */
+/**
+ * Model "Profile". @throws `Invalid Profile: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Profile>} frozen model
+ */
 export function createProfile(raw) {
   const M = "Profile";
   begin(raw, M, PROFILE_KEYS);
@@ -168,7 +182,11 @@ export function createProfile(raw) {
   });
 }
 
-/** Model "ResumeSkill". @throws `Invalid ResumeSkill: <field> <reason>` */
+/**
+ * Model "ResumeSkill". @throws `Invalid ResumeSkill: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").ResumeSkill>} frozen model
+ */
 export function createResumeSkill(raw) {
   const M = "ResumeSkill";
   begin(raw, M, ["label", "w", "g"]);
@@ -181,7 +199,11 @@ export function createResumeSkill(raw) {
   return deepFreeze({ label: raw.label, w: raw.w, g: raw.g });
 }
 
-/** Model "ResumePreview". @throws `Invalid ResumePreview: <field> <reason>` */
+/**
+ * Model "ResumePreview". @throws `Invalid ResumePreview: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").ResumePreview>} frozen model
+ */
 export function createResumePreview(raw) {
   const M = "ResumePreview";
   begin(raw, M, [
@@ -215,6 +237,8 @@ const SECTION_KEYS = [
  * Model "Section". SHALLOW freeze only: `component` may be a React.lazy object
  * whose `_payload` React mutates while resolving.
  * @throws `Invalid Section: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").SectionEntry>} frozen model
  */
 export function createSection(raw) {
   const M = "Section";
@@ -259,7 +283,11 @@ export function createSection(raw) {
   });
 }
 
-/** Model "Experience". @throws `Invalid Experience: <field> <reason>` */
+/**
+ * Model "Experience". @throws `Invalid Experience: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Experience>} frozen model
+ */
 export function createExperience(raw) {
   const M = "Experience";
   begin(raw, M, ["role", "company", "period", "location", "icon", "desc"]);
@@ -278,7 +306,11 @@ export function createExperience(raw) {
   });
 }
 
-/** Model "Skill". @throws `Invalid Skill: <field> <reason>` */
+/**
+ * Model "Skill". @throws `Invalid Skill: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Skill>} frozen model
+ */
 export function createSkill(raw) {
   const M = "Skill";
   begin(raw, M, ["name", "icon", "color"]);
@@ -292,7 +324,11 @@ export function createSkill(raw) {
   return deepFreeze(out);
 }
 
-/** Model "SkillCategory". @throws `Invalid SkillCategory: <field> <reason>` */
+/**
+ * Model "SkillCategory". @throws `Invalid SkillCategory: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").SkillCategory>} frozen model
+ */
 export function createSkillCategory(raw) {
   const M = "SkillCategory";
   begin(raw, M, ["label", "headerColor", "headerBg", "skills"]);
@@ -311,7 +347,11 @@ export function createSkillCategory(raw) {
   });
 }
 
-/** Model "Highlight". @throws `Invalid Highlight: <field> <reason>` */
+/**
+ * Model "Highlight". @throws `Invalid Highlight: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Highlight>} frozen model
+ */
 export function createHighlight(raw) {
   const M = "Highlight";
   begin(raw, M, ["title", "icon", "titleIcon", "desc", "chips"]);
@@ -325,7 +365,11 @@ export function createHighlight(raw) {
   });
 }
 
-/** Model "Project". @throws `Invalid Project: <field> <reason>` (createProject({}) -> title is required) */
+/**
+ * Model "Project". @throws `Invalid Project: <field> <reason>` (createProject({}) -> title is required)
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Project>} frozen model
+ */
 export function createProject(raw) {
   const M = "Project";
   begin(raw, M, [
@@ -351,7 +395,11 @@ export function createProject(raw) {
   });
 }
 
-/** Model "DesignCard". @throws `Invalid DesignCard: <field> <reason>` */
+/**
+ * Model "DesignCard". @throws `Invalid DesignCard: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").DesignCard>} frozen model
+ */
 export function createDesignCard(raw) {
   const M = "DesignCard";
   begin(raw, M, ["title", "tag", "icon", "color", "desc", "wide", "artKey", "href"]);
@@ -370,7 +418,11 @@ export function createDesignCard(raw) {
   });
 }
 
-/** Model "Education". @throws `Invalid Education: <field> <reason>` */
+/**
+ * Model "Education". @throws `Invalid Education: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Education>} frozen model
+ */
 export function createEducation(raw) {
   const M = "Education";
   begin(raw, M, ["title", "subtitle", "icon", "iconColor", "tags", "tagVariant"]);
@@ -386,7 +438,11 @@ export function createEducation(raw) {
   });
 }
 
-/** Model "Certification". @throws `Invalid Certification: <field> <reason>` */
+/**
+ * Model "Certification". @throws `Invalid Certification: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").Certification>} frozen model
+ */
 export function createCertification(raw) {
   const M = "Certification";
   begin(raw, M, ["name", "org", "icon"]);
@@ -396,7 +452,11 @@ export function createCertification(raw) {
   return deepFreeze({ name: raw.name, org: raw.org, icon: raw.icon });
 }
 
-/** Model "ContactLink". @throws `Invalid ContactLink: <field> <reason>` */
+/**
+ * Model "ContactLink". @throws `Invalid ContactLink: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").ContactLink>} frozen model
+ */
 export function createContactLink(raw) {
   const M = "ContactLink";
   begin(raw, M, ["kind", "label", "href", "icon", "external", "group"]);

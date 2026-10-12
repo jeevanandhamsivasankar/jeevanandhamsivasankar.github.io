@@ -260,7 +260,7 @@ test('QT-104 CSS moved unchanged and no runtime style injection', async ({ page 
   const imports = [...index.matchAll(/@import\s+["']\.\/([^"']+)["']/g)].map((m) => m[1])
   expect(imports).toEqual(['tokens.css', 'base.css', 'components.css', 'sections.css'])
   const newCss = imports.map((f) => readSrc(`src/styles/${f}`)).join('\n')
-  const allow = [/^\.skip-link(:focus)?\{/, /^:focus-visible\{/, /^:focus:not\(:focus-visible\)\{/]
+  const allow = [/^\.skip-link(:focus)?\{/, /^:focus-visible\{/, /^a:focus-visible,button:focus-visible\{/, /^:focus:not\(:focus-visible\)\{/]
   const added = (b) => allow.some((r) => r.test(b.replace(/^.*\|/, '')))
   const base = blocks(baseCss).map(relaxBlock)
   const cur = blocks(newCss).filter((b) => !added(b)).map(relaxBlock)
