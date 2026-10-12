@@ -99,6 +99,9 @@ export function compare(actualBuf, baselineName, threshold = 0.2) {
 
 export async function compareHeroToBaseline(browser, baseURL, vpName, theme) {
   const { context, page } = await preparePage(browser, baseURL, vpName, theme)
+  // Same sequence as QT-109/110 (visualRun), which captured this baseline: full-page render first, then the section.
+  await scrollTop(page)
+  await page.screenshot({ fullPage: true })
   await scrollTop(page)
   await page.addStyleTag({ content: HIDE_NAV_CSS })
   const loc = page.locator('#hero').first()
