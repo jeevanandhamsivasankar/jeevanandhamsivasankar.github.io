@@ -59,3 +59,9 @@ Committed locally on `sprint2-integration`, not pushed.
 - **DEF-204 (timing flakes under 2 workers):** CI runs Playwright with its default worker count; monitored.
 - **DEF-205 (dead button CSS in sections.css):** deferred to the next sprint (no functional impact).
 - **US-208 ignition intro:** ships disabled (`SITE.intro = false`) pending Product Owner decision; preview with `?intro=1`.
+
+## Release 2.0 baselines (2026-10-12)
+
+- PNG baselines captured on the CI runner (`348c7de`, Capture visual baselines run 38235047875); sanity-checked (non-blank sections, expected sizes).
+- DOM baselines (QT-111) re-captured through the QT-111 path (`d7d5053`), which settles lazy skill-chip images first.
+- Remaining flake: QT-158 reveal timing (DEF-204), passes on retry.
