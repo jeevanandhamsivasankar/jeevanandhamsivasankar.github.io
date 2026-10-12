@@ -4,6 +4,7 @@ name: Capture visual baselines
 # Trigger: push a change to .github/visual-baselines.request on any branch.
 on:
   push:
+    branches-ignore: [main]
     paths:
       - .github/visual-baselines.request
 
