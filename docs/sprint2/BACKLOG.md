@@ -131,7 +131,7 @@ As a **peer engineer**, I want reveal, hover and focus behaviour to be consisten
 
 ### US-211 - Project cards as case studies  |  Must  |  5 pts  |  Dev-4
 As a **hiring manager**, I want each project to read as problem, role, solution, impact, so that I understand what the engineer did and why it mattered.
-- **AC1** Given `src/data/projects.js`, when validated, then each project has an optional `caseStudy` object `{problem, role, solution, impact}` whose strings are drawn from that project's existing `desc`/`domain`/`tags`/`period` (reviewed by PO against source; IT check that every `caseStudy` field is a substring or a PO-approved reformatting recorded in `docs/sprint2/CASE_STUDY_SOURCES.md` is NOT required - fields not supported by existing text must be absent) (IT).
+- **AC1** Given `src/data/projects.js`, when validated, then each project has an optional `caseStudy` `{problem, role, solution, impact}` whose every statement is traceable to that project's existing `desc`, `domain`, `tags` or `period`; fields without such support are absent, and IT-059 fails on any number or proper noun not present in the existing project text (IT).
 - **AC2** Given a project with no supported "impact" fact, when rendered, then the Impact row is omitted (no "TBD", no invented metric) (UT + QT).
 - **AC3** Given a card, when rendered, then the four labelled rows appear in order Problem, Role, Solution, Impact with domain, period, tags and the colour token retained from v1.1 (QT).
 - **AC4** Given each card, when rendered, then one media slot (US-212) shows the existing SVG/icon art in production and the labelled placeholder only in preview (QT).
