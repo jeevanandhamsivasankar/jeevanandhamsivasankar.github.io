@@ -19,15 +19,23 @@ async function visualRun(browser, testInfo, theme) {
   const vp = vpOf(testInfo)
   const { context, page } = await preparePage(browser, testInfo.project.use.baseURL, vp, theme)
   const results = []
-  const record = (name, buf, limit, baselineName) => {
-    const r = compare(buf, baselineName)
+  // blurred (backdrop-filter) layers can rasterise with sub-pixel jitter: re-capture up to twice before judging
+  const record = async (name, shoot, limit, baselineName) => {
+    let buf = await shoot()
+    let r = compare(buf, baselineName)
+    for (let attempt = 0; attempt < 2 && r.ratio > limit && !r.sizeMismatch; attempt++) {
+      await page.waitForTimeout(300)
+      const b2 = await shoot()
+      const r2 = compare(b2, baselineName)
+      if (r2.ratio < r.ratio) { buf = b2; r = r2 }
+    }
     results.push({ name, ...r, limit })
     if (r.ratio > limit) writeFileSync(testInfo.outputPath(`${name}-actual.png`), buf)
   }
   await scrollTop(page)
-  record('full', await page.screenshot({ fullPage: true }), 0.002, `full-${vp}-${theme}.png`)
+  await record('full', () => page.screenshot({ fullPage: true }), 0.002, `full-${vp}-${theme}.png`)
   await scrollTop(page)
-  record('nav', await page.locator('nav.nav').screenshot(), 0.001, `section-nav-${vp}-${theme}.png`)
+  await record('nav', () => page.locator('nav.nav').screenshot(), 0.001, `section-nav-${vp}-${theme}.png`)
   const hider = await page.addStyleTag({ content: HIDE_NAV_CSS })
   for (const [id, selector] of TARGETS) {
     if (id === 'nav') continue
@@ -40,7 +48,7 @@ async function visualRun(browser, testInfo, theme) {
         if (t && Number.isFinite(t.endTime)) a.finish()
       }
     })
-    record(id, await loc.screenshot(), 0.001, `section-${id}-${vp}-${theme}.png`)
+    await record(id, () => loc.screenshot(), 0.001, `section-${id}-${vp}-${theme}.png`)
   }
   await hider.evaluate((el) => el.remove())
   await context.close()

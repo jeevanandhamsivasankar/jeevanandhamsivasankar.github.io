@@ -64,7 +64,7 @@ test('QT-060 Automatic theme from Chennai sunrise/sunset (clock-controlled)', as
   ]
   for (const [iso, expected] of cases) {
     const { context, page } = await loadAt(browser, testInfo, iso)
-    expect(await theme(page), iso).toBe(expected)
+    expect.soft(await theme(page), iso).toBe(expected)
     await context.close()
   }
 })

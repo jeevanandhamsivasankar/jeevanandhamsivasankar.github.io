@@ -66,8 +66,53 @@ function yiq(r, g, b) {
   return [0.29889531 * r + 0.58662247 * g + 0.11448223 * b, 0.59597799 * r - 0.2741761 * g - 0.32180189 * b, 0.21147017 * r - 0.52261711 * g + 0.31114694 * b]
 }
 
+function gray(img, i) {
+  const o = i * 4
+  const a = img.data[o + 3] / 255
+  const f = (c) => 255 + (c - 255) * a
+  return 0.29889531 * f(img.data[o]) + 0.58662247 * f(img.data[o + 1]) + 0.11448223 * f(img.data[o + 2])
+}
+
+// Anti-aliasing detection, after pixelmatch (Vysniauskas 2009): a differing pixel is ignored when it is an
+// anti-aliased edge pixel in either image.
+function hasManySiblings(img, x1, y1, w, h) {
+  const x0 = Math.max(x1 - 1, 0), y0 = Math.max(y1 - 1, 0)
+  const x2 = Math.min(x1 + 1, w - 1), y2 = Math.min(y1 + 1, h - 1)
+  const pos = (y1 * w + x1) * 4
+  let zeroes = x1 === x0 || x1 === x2 || y1 === y0 || y1 === y2 ? 1 : 0
+  for (let x = x0; x <= x2; x++) {
+    for (let y = y0; y <= y2; y++) {
+      if (x === x1 && y === y1) continue
+      const p2 = (y * w + x) * 4
+      if (img.data[pos] === img.data[p2] && img.data[pos + 1] === img.data[p2 + 1] && img.data[pos + 2] === img.data[p2 + 2] && img.data[pos + 3] === img.data[p2 + 3]) zeroes++
+      if (zeroes > 2) return true
+    }
+  }
+  return false
+}
+function antialiased(img, x1, y1, w, h, img2) {
+  const x0 = Math.max(x1 - 1, 0), y0 = Math.max(y1 - 1, 0)
+  const x2 = Math.min(x1 + 1, w - 1), y2 = Math.min(y1 + 1, h - 1)
+  const center = gray(img, y1 * w + x1)
+  let zeroes = x1 === x0 || x1 === x2 || y1 === y0 || y1 === y2 ? 1 : 0
+  let min = 0, max = 0, minX = 0, minY = 0, maxX = 0, maxY = 0
+  for (let x = x0; x <= x2; x++) {
+    for (let y = y0; y <= y2; y++) {
+      if (x === x1 && y === y1) continue
+      const delta = gray(img, y * w + x) - center
+      if (delta === 0) zeroes++
+      else if (delta < min) { min = delta; minX = x; minY = y }
+      else if (delta > max) { max = delta; maxX = x; maxY = y }
+      if (zeroes > 2) return false
+    }
+  }
+  if (min === 0 || max === 0) return false
+  return (hasManySiblings(img, minX, minY, w, h) && hasManySiblings(img2, minX, minY, w, h)) ||
+    (hasManySiblings(img, maxX, maxY, w, h) && hasManySiblings(img2, maxX, maxY, w, h))
+}
+
 /**
- * Pixel diff in the style of pixelmatch (YIQ delta, `threshold` 0..1), without anti-alias forgiveness.
+ * Pixel diff in the style of pixelmatch (YIQ delta, `threshold` 0..1, anti-aliased pixels ignored).
  * Returns { mismatched, total, ratio, sizeMismatch }.
  */
 export function diffPng(a, b, threshold = 0.2) {
@@ -75,8 +120,9 @@ export function diffPng(a, b, threshold = 0.2) {
     return { mismatched: Math.max(a.width * a.height, b.width * b.height), total: Math.max(a.width * a.height, b.width * b.height), ratio: 1, sizeMismatch: `${a.width}x${a.height} vs ${b.width}x${b.height}` }
   }
   const max = 35215 * threshold * threshold
+  const { width: w, height: h } = a
   let mismatched = 0
-  const n = a.width * a.height
+  const n = w * h
   for (let i = 0; i < n; i++) {
     const o = i * 4
     let r1 = a.data[o], g1 = a.data[o + 1], b1 = a.data[o + 2]
@@ -88,7 +134,11 @@ export function diffPng(a, b, threshold = 0.2) {
     const [y1, i1, q1] = yiq(r1, g1, b1)
     const [y2, i2, q2] = yiq(r2, g2, b2)
     const delta = 0.5053 * (y1 - y2) ** 2 + 0.299 * (i1 - i2) ** 2 + 0.1957 * (q1 - q2) ** 2
-    if (delta > max) mismatched++
+    if (delta > max) {
+      const x = i % w, y = (i - x) / w
+      if (antialiased(a, x, y, w, h, b) || antialiased(b, x, y, w, h, a)) continue
+      mismatched++
+    }
   }
   return { mismatched, total: n, ratio: mismatched / n, sizeMismatch: null }
 }

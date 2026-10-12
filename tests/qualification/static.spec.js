@@ -9,6 +9,13 @@ import { tmpdir } from 'node:os'
 import { gzipSync } from 'node:zlib'
 import { test, expect, only, ROOT, readSrc } from './helpers.js'
 
+/** Static (S) test: runs once, in the desktop project; the body receives testInfo. */
+const staticTest = (title, fn) =>
+  test(title, async ({ baseURL }, testInfo) => {
+    only(testInfo, 'S')
+    await fn(testInfo, baseURL)
+  })
+
 const SRC = join(ROOT, 'src')
 function walk(dir, out = []) {
   for (const f of readdirSync(dir)) {
@@ -22,8 +29,7 @@ const srcFiles = () => walk(SRC)
 const jsFiles = () => srcFiles().filter((f) => /\.(js|jsx)$/.test(f))
 const rel = (p) => relative(SRC, p).replace(/\\/g, '/')
 
-test('QT-048 Education content is data-driven (static inspection)', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-048 Education content is data-driven (static inspection)', async () => {
   const src = readSrc('src/sections/Education.jsx')
   for (const lit of ['Adhiparasakthi', 'Electronics & Communication', 'CGPA', 'Key Domain Expertise', '2015 – 2020', 'ADAS / 3D Viz']) {
     expect(src, `literal "${lit}"`).not.toContain(lit)
@@ -31,8 +37,7 @@ test('QT-048 Education content is data-driven (static inspection)', async (_fixt
   expect(src).toMatch(/from\s+["'][^"']*data\/education\.js["']/)
 })
 
-test('QT-065 Theme supplied through React Context (static inspection)', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-065 Theme supplied through React Context (static inspection)', async () => {
   const ctx = readSrc('src/context/ThemeContext.jsx')
   expect(ctx).toMatch(/export function ThemeProvider/)
   expect(ctx).toMatch(/export function useThemeContext/)
@@ -46,8 +51,7 @@ test('QT-065 Theme supplied through React Context (static inspection)', async (_
   expect(app).not.toMatch(/<Nav[^>]*\b(theme|onToggle)\s*=/)
 })
 
-test('QT-073 Registry is the single definition of sections (static inspection)', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-073 Registry is the single definition of sections (static inspection)', async () => {
   const skip = (f) => /^(config\/sections\.js|sections\/|data\/)/.test(rel(f))
   const offenders = []
   for (const f of jsFiles().filter((x) => !skip(x))) {
@@ -64,8 +68,7 @@ test('QT-073 Registry is the single definition of sections (static inspection)',
   expect(nav).not.toMatch(/["'](About|Experience|Skills|Projects|Design|Education|Resume|Contact)["']/)
 })
 
-test('QT-082 Entry chunk gzip size does not exceed the baseline', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-082 Entry chunk gzip size does not exceed the baseline', async (testInfo) => {
   const html = readFileSync(join(ROOT, 'dist/index.html'), 'utf8')
   const m = /<script[^>]*type="module"[^>]*src="([^"]+)"/.exec(html)
   expect(m, 'entry script in dist/index.html').not.toBeNull()
@@ -76,8 +79,7 @@ test('QT-082 Entry chunk gzip size does not exceed the baseline', async (_fixtur
   expect(actual).toBeLessThanOrEqual(baseline)
 })
 
-test('QT-101 npm audit of runtime dependencies', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-101 npm audit of runtime dependencies', async (testInfo) => {
   test.setTimeout(120_000)
   const r = spawnSync('npm', ['audit', '--omit=dev', '--audit-level=high', '--json'], { cwd: ROOT, encoding: 'utf8', timeout: 90_000 })
   let report = null
@@ -94,8 +96,7 @@ test('QT-101 npm audit of runtime dependencies', async (_fixtures, testInfo) => 
   testInfo.annotations.push({ type: 'npm-audit', description: JSON.stringify(v) })
 })
 
-test('QT-102 Module layout and thin composition root', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-102 Module layout and thin composition root', async () => {
   const must = [
     'main.jsx', 'App.jsx', 'config/site.js', 'config/sections.js',
     'models/index.js', 'models/types.js', 'models/createModels.js', 'models/validate.js',
@@ -159,8 +160,7 @@ const MAY = {
   main: ['app', 'errorboundary', 'styles'],
 }
 
-test('QT-103 One-way dependencies, React-free models and lib', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-103 One-way dependencies, React-free models and lib', async () => {
   const edges = new Map()
   const violations = []
   for (const f of jsFiles()) {
@@ -185,7 +185,7 @@ test('QT-103 One-way dependencies, React-free models and lib', async (_fixtures,
       }
       const to = catOf(target)
       deps.push(target)
-      if (['App.jsx', 'main.jsx'].includes(rel(target))) violations.push(`${rel(f)} imports ${rel(target)} (upward)`)
+      if ((rel(target) === 'App.jsx' && from !== 'main') || rel(target) === 'main.jsx') violations.push(`${rel(f)} imports ${rel(target)} (upward)`)
       if (to !== from && !(MAY[from] || []).includes(to)) violations.push(`${rel(f)} [${from}] -> ${rel(target)} [${to}] not allowed by SADS 4.3.2`)
     }
     edges.set(f, deps)
@@ -283,8 +283,7 @@ test('QT-104 CSS moved unchanged and no runtime style injection', async ({ page 
   expect(styleTags).toBe(0)
 })
 
-test('QT-105 Lint passes', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-105 Lint passes', async (testInfo) => {
   test.setTimeout(180_000)
   const r = spawnSync('npm', ['run', 'lint'], { cwd: ROOT, encoding: 'utf8', timeout: 170_000 })
   const out = `${r.stdout}\n${r.stderr}`
@@ -293,8 +292,7 @@ test('QT-105 Lint passes', async (_fixtures, testInfo) => {
   expect(r.status, out.slice(-1500)).toBe(0)
 })
 
-test('QT-106 Coverage thresholds enforced and met', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-106 Coverage thresholds enforced and met', async () => {
   const cfg = readFileSync(join(ROOT, 'vitest.config.js'), 'utf8')
   expect(cfg, 'coverage.thresholds configured').toMatch(/thresholds/)
   expect(cfg).toMatch(/lines:\s*80/)
@@ -313,8 +311,7 @@ test('QT-106 Coverage thresholds enforced and met', async (_fixtures, testInfo) 
   for (const d of ['models', 'lib', 'hooks']) expect(group(d), `${d} line coverage`).toBeGreaterThanOrEqual(90)
 })
 
-test('QT-107 JSDoc typedefs and factory signatures', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-107 JSDoc typedefs and factory signatures', async () => {
   const types = readSrc('src/models/types.js')
   const defined = new Set([...types.matchAll(/@typedef\s+(?:\{[^}]*(?:\{[^}]*\}[^}]*)*\}\s+)?(\w+)/g)].map((m) => m[1]))
   const need = ['Profile', 'Photo', 'Stat', 'GaugeStat', 'Section', 'Experience', 'SkillCategory', 'Skill', 'Project', 'DesignCard', 'Education', 'Certification', 'ContactLink', 'ResumeInfo', 'ResumeSkill', 'Highlight']
@@ -329,14 +326,12 @@ test('QT-107 JSDoc typedefs and factory signatures', async (_fixtures, testInfo)
   expect(missing, 'factories without @param/@returns').toEqual([])
 })
 
-test('QT-108 Only react and react-dom as runtime dependencies', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-108 Only react and react-dom as runtime dependencies', async () => {
   const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
   expect(Object.keys(pkg.dependencies).sort()).toEqual(['react', 'react-dom'])
 })
 
-test('QT-112 Cross-browser support (Chromium automated, others demonstrated)', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-112 Cross-browser support (Chromium automated, others demonstrated)', async (testInfo) => {
   const missing = []
   for (const f of readdirSync(join(SRC, 'styles')).filter((n) => n.endsWith('.css'))) {
     const css = readSrc(`src/styles/${f}`).replace(/\/\*[\s\S]*?\*\//g, '')
@@ -352,8 +347,7 @@ test('QT-112 Cross-browser support (Chromium automated, others demonstrated)', a
   testInfo.annotations.push({ type: 'manual', description: 'Firefox/Safari/Edge/iOS/Android demonstration checklist is recorded in TEST_REPORT' })
 })
 
-test('QT-121 StrictMode correctness (analysis of IT evidence)', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-121 StrictMode correctness (analysis of IT evidence)', async () => {
   test.setTimeout(180_000)
   const main = readSrc('src/main.jsx')
   expect(main).toMatch(/<StrictMode>[\s\S]*<\/StrictMode>/)
@@ -368,8 +362,7 @@ test('QT-121 StrictMode correctness (analysis of IT evidence)', async (_fixtures
   for (const t of strict) expect(t.status, t.fullName).toBe('passed')
 })
 
-test('QT-126 Static build output with root base', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-126 Static build output with root base', async () => {
   const vite = readFileSync(join(ROOT, 'vite.config.js'), 'utf8')
   expect(vite.match(/base:\s*['"]([^'"]*)['"]/)?.[1] ?? '/').toBe('/')
   for (const f of ['index.html', 'Jeevanandham_Resume.pdf', 'profile.webp', 'profile-og.jpg', 'favicon.svg']) {
@@ -381,15 +374,13 @@ test('QT-126 Static build output with root base', async (_fixtures, testInfo) =>
   for (const u of urls) expect(u.startsWith('/assets/'), u).toBe(true)
 })
 
-test('QT-127 Deploy script unchanged', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-127 Deploy script unchanged', async () => {
   const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'))
   expect(pkg.scripts.deploy).toBe('gh-pages -d dist')
   expect(Object.keys(pkg.devDependencies)).toContain('gh-pages')
 })
 
-test('QT-128 CI workflow gates lint, test and build', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-128 CI workflow gates lint, test and build', async () => {
   const ci = readFileSync(join(ROOT, '.github/workflows/ci.yml'), 'utf8')
   expect(ci).toMatch(/push:\s*\n\s*branches:\s*\[main\]/)
   expect(ci).toMatch(/\n\s*pull_request:/)
@@ -401,8 +392,7 @@ test('QT-128 CI workflow gates lint, test and build', async (_fixtures, testInfo
   expect([...idx].sort((a, b) => a - b)).toEqual(idx)
 })
 
-test('QT-129 Qualification tests run in CI against vite preview', async (_fixtures, testInfo) => {
-  only(testInfo, 'S')
+staticTest('QT-129 Qualification tests run in CI against vite preview', async () => {
   const ci = readFileSync(join(ROOT, '.github/workflows/ci.yml'), 'utf8')
   expect(ci).toMatch(/playwright install[^\n]*chromium/)
   expect(ci).toMatch(/npm run test:qualification/)
