@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ignition Intro – Motion Prototype</title>
+<!--
+  MOTION PROTOTYPE P-2 · Hero "ignition" intro (Release 2.0 candidate)
+  See docs/design/MOTION_SPEC.md §4.1 / §5.2 and FR-MOTION-001..006.
+  Self-contained: no external dependencies, no network.
+
+  Timeline (total 1200 ms, Web Animations API on the document timeline):
+    0–400    ACC ON       gauge bezel ring draws (stroke-dashoffset), one-shot power-on scan line
+    120–700  BULB CHECK   all telltales light (80 ms LED rise) then extinguish, 30 ms stagger
+    200–900  NEEDLE SWEEP needle 0 -> full scale (300 ms) -> 0 with damped settle (350 ms)
+    150–810  CONTENT      hero text cascades (fade + 24 px rise, 360 ms decelerate, 60 ms stagger)
+    900–1200 READY        digital readout + gauge stats fade in, status dot lights, live loop takes over
+  Rules
+    - plays once per browser session (sessionStorage "jsv-intro-played"); later loads use a 200 ms fade
+    - skippable: any key, pointer down, wheel or touch finishes every animation immediately
+    - never blocks reading: no full-screen overlay; content is in the DOM and focusable from the start
+    - prefers-reduced-motion: no intro at all, final state on first paint
+    - progressive enhancement: if JS fails, nothing is hidden (the hiding class is set by the script itself)
+  Test hooks: window.__intro = { state, played, totalMs, seek(ms|null), skip() }
+-->
+<script>
+  // Runs before first paint: decide whether the intro will play and hide intro targets only then.
+  (function () {
+    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var played = false; try { played = sessionStorage.getItem('jsv-intro-played') === '1'; } catch (e) {}
+    var mode = reduce ? 'none' : played ? 'short' : 'full';
+    document.documentElement.dataset.intro = mode;
+    if (mode !== 'none') document.documentElement.classList.add('intro-pending');
+    // Safety net: never leave content hidden if the main script fails.
+    setTimeout(function () { document.documentElement.classList.remove('intro-pending'); }, 2000);
+  })();
+</script>
+<style>
+:root {
+  --dur-instant: 80ms; --dur-fast: 140ms; --dur-base: 220ms; --dur-slow: 360ms; --dur-deliberate: 600ms; --dur-intro-max: 1200ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-emphasized: cubic-bezier(0.83, 0, 0.17, 1);
+  --stagger-base: 60ms; --dist-lg: 24px;
+
+  --bg: #060c18; --surf: #0d1626; --bdr: rgba(255,255,255,0.07);
+  --amber: #f59e0b; --cyan: #22d3ee; --green: #34d399; --rose: #fb7185; --violet: #a78bfa;
+  --text: #e2e8f0; --text2: #94a3b8; --muted: #475569;
+  --glass-bg: rgba(13,22,38,0.55); --glass-bdr: rgba(255,255,255,0.10);
+  --mono: 'Share Tech Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --disp: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; font-weight: 300; }
+body { min-height: 100vh; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(245,158,11,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.022) 1px, transparent 1px);
+  background-size: 56px 56px; }
+
+/* Intro targets hidden only while an intro is pending (set by the head script) */
+.intro-pending [data-intro] { opacity: 0; }
+
+.nav { position: fixed; inset: 0 0 auto 0; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 28px;
+       background: var(--glass-bg); border-bottom: 1px solid var(--glass-bdr); backdrop-filter: blur(20px); z-index: 10; }
+.logo { font-family: var(--mono); font-size: 11px; letter-spacing: .15em; color: var(--amber); }
+.nav-r { display: flex; gap: 8px; }
+.chip { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--text2); border: 1px solid var(--glass-bdr); border-radius: 20px; padding: 6px 12px; background: transparent; cursor: pointer; }
+.chip:hover { color: var(--amber); border-color: var(--amber); }
+.chip:focus-visible, .btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: center; padding: 100px 44px 80px; max-width: 1240px; margin: 0 auto; }
+.tag { font-family: var(--mono); font-size: 10.5px; color: var(--amber); letter-spacing: .24em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.tag::before { content: ''; width: 24px; height: 1px; background: var(--amber); }
+h1 { font-family: var(--disp); font-weight: 800; font-size: clamp(44px, 7vw, 92px); line-height: 1; text-transform: uppercase; letter-spacing: -.01em; }
+h1 em { color: var(--amber); font-style: normal; }
+.role { margin-top: 20px; font-family: var(--mono); font-size: 13px; color: var(--cyan); letter-spacing: .06em; min-height: 22px; }
+.bio { margin-top: 18px; max-width: 56ch; color: var(--text2); line-height: 1.8; font-size: 15px; }
+.bio strong { color: var(--text); font-weight: 500; }
+.badges { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 7px; }
+.badge { font-family: var(--mono); font-size: 10px; color: var(--text2); border: 1px solid var(--glass-bdr); border-radius: 4px; padding: 4px 9px; }
+.cta { margin-top: 30px; display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { font-family: var(--mono); font-size: 11.5px; letter-spacing: .08em; border-radius: 8px; padding: 12px 22px; text-decoration: none; display: inline-flex;
+       transition: transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard); }
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(.98); transition-duration: var(--dur-instant); }
+.btn-amber { background: linear-gradient(135deg, var(--amber), #fbbf24); color: #06080f; font-weight: 700; }
+.btn-outline { color: var(--text); border: 1px solid var(--glass-bdr); }
+
+/* Gauge widget */
+.gauge { position: relative; border: 1px solid rgba(245,158,11,0.22); border-radius: 20px; padding: 18px 20px 16px; background: var(--glass-bg);
+         box-shadow: 0 0 60px rgba(245,158,11,0.08), 0 24px 48px rgba(0,0,0,0.25); overflow: hidden; }
+.g-label { font-family: var(--mono); font-size: 9px; letter-spacing: .28em; color: rgba(34,211,238,.65); text-align: center; text-transform: uppercase; }
+.dial { position: relative; width: 100%; aspect-ratio: 1; margin-top: 6px; }
+.dial > svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.dial .needle { will-change: transform; transform-origin: 50% 50%; transform: rotate(-215deg); }
+.readout { position: absolute; left: 50%; top: 66%; transform: translate(-50%, -50%); text-align: center; font-family: var(--mono); }
+.readout b { display: block; font-family: var(--disp); font-size: 44px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+.readout span { font-size: 10px; letter-spacing: .2em; color: rgba(245,158,11,.75); }
+.tts { display: flex; justify-content: center; gap: 12px; margin-top: 4px; }
+.tt { width: 18px; height: 18px; opacity: .08; color: var(--muted); }
+.tt svg { width: 100%; height: 100%; display: block; }
+.stats { display: flex; gap: 8px; margin-top: 10px; }
+.stat { flex: 1; text-align: center; border: 1px solid var(--bdr); border-radius: 10px; padding: 8px 4px; }
+.stat b { display: block; font-family: var(--disp); font-size: 17px; font-weight: 800; }
+.stat span { font-family: var(--mono); font-size: 7.5px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+.status { margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 7px; font-family: var(--mono); font-size: 10px; color: var(--green); letter-spacing: .12em; }
+.dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(52,211,153,.7); }
+.skip { position: absolute; top: 10px; right: 10px; font-size: 9px; padding: 4px 9px; }
+html:not(.intro-running) .skip { visibility: hidden; }
+
+/* One-shot power-on scan line (transform only) */
+.scanline { position: fixed; left: 0; right: 0; top: 0; height: 2px; pointer-events: none; z-index: 5; opacity: 0;
+            background: linear-gradient(90deg, transparent, rgba(245,158,11,.55), rgba(34,211,238,.45), transparent); }
+
+/* Debug timeline (prototype only) */
+.timeline { position: fixed; left: 16px; right: 16px; bottom: 14px; font-family: var(--mono); font-size: 10px; color: var(--text2); z-index: 20; }
+.timeline .bar { position: relative; height: 4px; background: rgba(255,255,255,.08); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.timeline .fill { position: absolute; inset: 0; background: linear-gradient(90deg, var(--amber), var(--cyan)); transform-origin: left; transform: scaleX(0); }
+.timeline .row { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.timeline .phases span { margin-right: 12px; }
+.timeline .phases b { color: var(--amber); font-weight: 400; }
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 88px 16px 90px; gap: 28px; }
+  .gauge { max-width: 380px; width: 100%; margin: 0 auto; }
+  .timeline .phases { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; animation-delay: 0s !important; }
+}
+</style>
+</head>
+<body>
+<div class="scanline" id="scan" aria-hidden="true"></div>
+<header class="nav" data-intro="nav">
+  <div class="logo">▣ JEEVANANDHAM</div>
+  <div class="nav-r">
+    <button class="chip" id="replay" type="button">Replay intro</button>
+  </div>
+</header>
+<main class="hero" id="main">
+  <div>
+    <div class="tag" data-intro="content">Senior HMI Engineer · Chennai, India</div>
+    <h1 data-intro="content">S. <em>Jeevanandham</em><br>B.ECE</h1>
+    <div class="role" data-intro="content">Instrument Cluster Dev<span style="color:var(--amber)">|</span></div>
+    <p class="bio" data-intro="content">Senior Software Engineer with <strong>4.9+ years</strong> in Automotive HMI, Infotainment Systems, Instrument Clusters and Medical Device HMI.</p>
+    <div class="badges" data-intro="content"><span class="badge">Qt / QML</span><span class="badge">Embedded C++</span><span class="badge">LVGL</span><span class="badge">CAN Bus</span><span class="badge">A-SPICE</span></div>
+    <div class="cta" data-intro="content"><a class="btn btn-amber" href="#main">View Projects</a><a class="btn btn-outline" href="#main">Get In Touch</a></div>
+  </div>
+
+  <div class="gauge" data-intro="gauge" aria-label="HMI cluster demo" role="group">
+    <button class="chip skip" id="skip" type="button">Skip intro</button>
+    <div class="g-label">⚡ Live HMI Cluster Demo</div>
+    <div class="dial">
+      <svg viewBox="0 0 260 260" aria-hidden="true" id="face">
+        <circle cx="130" cy="130" r="122" fill="#0a1222"/>
+        <circle id="bezel" cx="130" cy="130" r="122" fill="none" stroke="rgba(245,158,11,0.45)" stroke-width="1.5" pathLength="1" stroke-dasharray="1 1" transform="rotate(-90 130 130)"/>
+        <path id="track" d="" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="9" stroke-linecap="round"/>
+        <g id="ticks"></g>
+        <text x="130" y="100" text-anchor="middle" fill="rgba(34,211,238,0.6)" font-family="ui-monospace,monospace" font-size="8.5" letter-spacing="2">HMI CLUSTER DEMO</text>
+      </svg>
+      <svg viewBox="0 0 260 260" aria-hidden="true" class="needle" id="needle">
+        <polygon points="130,127.5 214,129.6 216,130 214,130.4 130,132.5" fill="#fbbf24"/>
+        <circle cx="130" cy="130" r="8" fill="#f59e0b"/><circle cx="130" cy="130" r="3.5" fill="#060c18"/>
+      </svg>
+      <div class="readout" data-intro="ready"><b id="spd">0</b><span>KM/H</span></div>
+    </div>
+    <div class="tts" aria-hidden="true">
+      <div class="tt" data-tt style="--on:#22c55e"><svg viewBox="0 0 24 24"><path d="M2 12l8-7v4h12v6H10v4z" fill="currentColor"/></svg></div>
+      <div class="tt" data-tt style="--on:#3b82f6"><svg viewBox="0 0 24 24"><path d="M10 5c-4 0-7 3-7 7s3 7 7 7h1V5z" fill="currentColor"/><path d="M14 7l8 2M14 11l8 2M14 15l8 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+      <div class="tt" data-tt style="--on:#ef4444"><svg viewBox="0 0 24 24"><circle cx="12" cy="4" r="2.6" fill="currentColor"/><path d="M7 22v-8c0-3 2-6 5-6s5 3 5 6v8z" fill="currentColor"/></svg></div>
+      <div class="tt" data-tt style="--on:#f59e0b"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><text x="12" y="15" font-size="7" text-anchor="middle" fill="currentColor" font-family="monospace" font-weight="bold">ABS</text></svg></div>
+      <div class="tt" data-tt style="--on:#ef4444"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M7 5v2M17 5v2M7 13h3M15.5 11.5v3M14 13h3" stroke="currentColor" stroke-width="2"/></svg></div>
+      <div class="tt" data-tt style="--on:#22c55e"><svg viewBox="0 0 24 24"><path d="M22 12l-8-7v4H2v6h12v4z" fill="currentColor"/></svg></div>
+    </div>
+    <div class="stats" data-intro="ready">
+      <div class="stat"><b style="color:#f59e0b">4.9+</b><span>Yrs Exp</span></div>
+      <div class="stat"><b style="color:#22d3ee">8+</b><span>Projects</span></div>
+      <div class="stat"><b style="color:#34d399">2</b><span>Domains</span></div>
+    </div>
+    <div class="status" data-intro="ready"><span class="dot" id="dot"></span>READY · OPEN TO OPPORTUNITIES</div>
+  </div>
+</main>
+
+<div class="timeline" aria-hidden="true">
+  <div class="row"><span id="tlState">state: –</span><span class="phases"><span><b>0–400</b> ACC ON</span><span><b>120–700</b> BULB CHECK</span><span><b>200–900</b> NEEDLE SWEEP</span><span><b>150–810</b> CONTENT</span><span><b>900–1200</b> READY</span></span></div>
+  <div class="bar"><div class="fill" id="tlFill"></div></div>
+</div>
+
+<script>
+(() => {
+  'use strict';
+  const root = document.documentElement;
+  const mode = root.dataset.intro;            // 'full' | 'short' | 'none'
+  const A0 = -215, A1 = 35;                   // dial sweep (same as current site)
+  const TOTAL = 1200;
+  const EASE = {
+    standard: 'cubic-bezier(0.2, 0, 0, 1)', decel: 'cubic-bezier(0.05, 0.7, 0.1, 1)',
+    accel: 'cubic-bezier(0.3, 0, 0.8, 0.15)', emph: 'cubic-bezier(0.83, 0, 0.17, 1)',
+    // Damped spring (zeta 0.7, ~4.5 % overshoot) expressed with CSS linear(); falls back to decel.
+    spring: CSS.supports('animation-timing-function', 'linear(0, 1)')
+      ? 'linear(0, 0.084, 0.267, 0.475, 0.665, 0.815, 0.923, 0.991, 1.029, 1.044, 1.045, 1.039, 1.03, 1.021, 1.013, 1.006, 1.002, 1, 0.998, 0.998, 1)'
+      : 'cubic-bezier(0.05, 0.7, 0.1, 1)'
+  };
+
+  // ---- Build static dial (once) ----
+  const NS = 'http://www.w3.org/2000/svg', rad = d => d * Math.PI / 180;
+  const p = (r, a) => [130 + r * Math.cos(rad(a)), 130 + r * Math.sin(rad(a))];
+  const [sx, sy] = p(100, A0), [ex, ey] = p(100, A1);
+  document.getElementById('track').setAttribute('d', `M${sx} ${sy} A100 100 0 1 1 ${ex} ${ey}`);
+  const ticks = document.getElementById('ticks');
+  for (let i = 0; i <= 18; i++) {
+    const a = A0 + (A1 - A0) * i / 18, major = i % 3 === 0;
+    const [x1, y1] = p(100, a), [x2, y2] = p(100 - (major ? 18 : 10), a);
+    const l = document.createElementNS(NS, 'line');
+    Object.entries({ x1, y1, x2, y2, stroke: major ? 'rgba(245,158,11,0.55)' : 'rgba(255,255,255,0.14)', 'stroke-width': major ? 2 : 1 }).forEach(([k, v]) => l.setAttribute(k, v));
+    ticks.appendChild(l);
+  }
+
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const needle = $('#needle'), spd = $('#spd'), bezel = $('#bezel'), scan = $('#scan');
+  const tts = $$('[data-tt]');
+  const anims = [];
+  const api = window.__intro = { state: 'idle', played: false, mode, totalMs: 0, seek, skip };
+  const tlState = $('#tlState');
+  const setState = s => { api.state = s; tlState.textContent = `state: ${s} · mode: ${mode}`; };
+
+  function add(elm, keyframes, opts) {
+    const a = elm.animate(keyframes, { fill: 'both', ...opts });
+    anims.push(a); return a;
+  }
+
+  function finalState() {
+    root.classList.remove('intro-pending', 'intro-running');
+    needle.style.transform = `rotate(${A0}deg)`;
+    bezel.setAttribute('stroke-dasharray', '1 1');
+    spd.textContent = '0';
+    setState('done');
+    startLive();
+  }
+
+  // ---- Live loop placeholder (P-1 cluster takes over in production) ----
+  let live = 0, lastTxt = 0;
+  function startLive() {
+    if (mode === 'none' || live) return;
+    const t0 = performance.now();
+    const tick = now => {
+      // Gentle idle -> cruise demo so the hand-off from the intro is visible; visibility gating as in P-1.
+      const t = (now - t0) / 1000, v = 60 * (1 - Math.exp(-t / 2.5)) + 6 * Math.sin(t * 0.8);
+      needle.style.transform = `rotate(${(A0 + (A1 - A0) * Math.max(0, v) / 180).toFixed(2)}deg)`;
+      if (now - lastTxt >= 200) { lastTxt = now; spd.textContent = String(Math.round(Math.max(0, v))); } // 5 Hz digital
+      live = document.hidden ? 0 : requestAnimationFrame(tick);
+    };
+    live = requestAnimationFrame(tick);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && !live) live = requestAnimationFrame(tick); });
+  }
+
+  function playFull() {
+    root.classList.add('intro-running');
+    setState('running');
+    // Phase A: ACC ON — bezel draws, one-shot scan line
+    add(bezel, [{ strokeDasharray: '0 1' }, { strokeDasharray: '1 1' }], { duration: 400, easing: EASE.decel });
+    add(scan, [{ transform: 'translateY(0)', opacity: 0 }, { opacity: 1, offset: 0.15 }, { transform: `translateY(${innerHeight}px)`, opacity: 0 }], { duration: 600, easing: EASE.standard });
+    add($('[data-intro="nav"]'), [{ opacity: 0 }, { opacity: 1 }], { duration: 220, easing: EASE.standard });
+    add($('[data-intro="gauge"]'), [{ opacity: 0, transform: 'scale(0.98)' }, { opacity: 1, transform: 'none' }], { duration: 360, easing: EASE.decel });
+    // Phase B: BULB CHECK — all lamps on (80 ms rise), off with 30 ms stagger from 640 ms
+    tts.forEach((t, i) => {
+      const on = getComputedStyle(t).getPropertyValue('--on').trim();
+      const D = 580 + i * 30;                 // each lamp goes off 30 ms after the previous one
+      add(t, [
+        { opacity: 0.08, color: '#475569', offset: 0 },
+        { opacity: 1, color: on, offset: 80 / D },
+        { opacity: 1, color: on, offset: (D - 60) / D },
+        { opacity: 0.08, color: '#475569', offset: 1 }
+      ], { delay: 120, duration: D, easing: 'linear' });
+    });
+    // Phase C: NEEDLE SWEEP — up with emphasized easing, back down with a damped settle
+    add(needle, [{ transform: `rotate(${A0}deg)` }, { transform: `rotate(${A1}deg)` }], { delay: 200, duration: 300, easing: EASE.emph, fill: 'both' });
+    add(needle, [{ transform: `rotate(${A1}deg)` }, { transform: `rotate(${A0}deg)` }], { delay: 550, duration: 350, easing: EASE.spring, fill: 'forwards' });
+    // Phase D: CONTENT cascade
+    $$('[data-intro="content"]').forEach((n, i) => {
+      add(n, [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'none' }], { delay: 150 + i * 60, duration: 360, easing: EASE.decel });
+    });
+    // Phase E: READY
+    $$('[data-intro="ready"]').forEach((n, i) => add(n, [{ opacity: 0 }, { opacity: 1 }], { delay: 900 + i * 40, duration: 220, easing: EASE.standard }));
+    add($('#dot'), [{ transform: 'scale(0.4)', opacity: 0 }, { transform: 'scale(1.25)', opacity: 1, offset: 0.6 }, { transform: 'none', opacity: 1 }], { delay: 1000, duration: 200, easing: EASE.decel });
+    add($('#tlFill'), [{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], { duration: TOTAL, easing: 'linear' });
+
+    api.played = true;
+    try { sessionStorage.setItem('jsv-intro-played', '1'); } catch (e) {}
+    root.classList.remove('intro-pending');   // WAAPI fill:'both' now owns the start state
+    const t0 = performance.now();
+    Promise.all(anims.map(a => a.finished.catch(() => {}))).then(() => {
+      api.totalMs = Math.round(performance.now() - t0);
+      anims.forEach(a => { try { a.commitStyles?.(); } catch (e) {} a.cancel(); });
+      anims.length = 0;
+      finalState();
+    });
+  }
+
+  function playShort() {
+    setState('running');
+    $$('[data-intro]').forEach(n => add(n, [{ opacity: 0 }, { opacity: 1 }], { duration: 200, easing: EASE.standard }));
+    root.classList.remove('intro-pending');
+    Promise.all(anims.map(a => a.finished)).then(() => { anims.forEach(a => a.cancel()); anims.length = 0; finalState(); });
+  }
+
+  // ---- Skip & seek (test hooks) ----
+  function skip() {
+    if (api.state !== 'running') return;
+    anims.forEach(a => a.finish());           // jumps each animation to its end state, promises resolve
+  }
+  function seek(ms) {
+    if (ms === null) { anims.forEach(a => a.play()); return; }
+    anims.forEach(a => { a.pause(); a.currentTime = ms; });
+  }
+  const skipEvents = ['keydown', 'pointerdown', 'wheel', 'touchstart'];
+  const onSkip = e => { if (e.target && e.target.id === 'replay') return; skip(); };
+  skipEvents.forEach(ev => addEventListener(ev, onSkip, { passive: true, capture: true }));
+  $('#skip').addEventListener('click', skip);
+  $('#replay').addEventListener('click', () => { try { sessionStorage.removeItem('jsv-intro-played'); } catch (e) {} location.reload(); });
+
+  if (mode === 'full') playFull();
+  else if (mode === 'short') playShort();
+  else { setState('done'); root.classList.remove('intro-pending'); }
+})();
+</script>
+</body>
+</html>

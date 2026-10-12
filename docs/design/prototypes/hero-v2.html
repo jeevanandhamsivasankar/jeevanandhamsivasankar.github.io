@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hero v2 prototype</title>
+<!--
+  Release 2.0 hero prototype — docs/design/UX_DESIGN_SPEC.md §4.1.
+  Self-contained: no external fonts, scripts or images. Brand fonts (Barlow,
+  Barlow Condensed, Share Tech Mono) are named first in the stacks and fall back
+  to system fonts here. Static frame only: motion is specified in MOTION_SPEC.md.
+  Photo slot uses a generated placeholder; the real site uses /profile.webp.
+  Theme: ?theme=day or ?theme=night, or the toggle button.
+-->
+<style>
+:root {
+  --color-bg:#060c18; --color-bg-raised:#090f1e; --color-surface:#0d1626; --color-surface-2:#111d30;
+  --color-glass:rgba(13,22,38,.55); --color-glass-strong:rgba(13,22,38,.78);
+  --color-glass-edge:rgba(255,255,255,.10); --color-glass-shine:rgba(255,255,255,.06);
+  --color-text:#e2e8f0; --color-text-2:#94a3b8; --color-text-3:#8291a7;
+  --color-accent:#f59e0b; --color-accent-hi:#fbbf24; --color-accent-text:#f59e0b; --color-accent-display:#f59e0b;
+  --color-on-accent:#06080f; --color-accent-tint:rgba(245,158,11,.12); --color-accent-edge:rgba(245,158,11,.35);
+  --sig-amber:#f59e0b; --sig-cyan:#22d3ee; --sig-green:#34d399; --sig-violet:#a78bfa;
+  --color-border:rgba(255,255,255,.07); --color-border-control:#56698a;
+  --color-focus:#f59e0b; --color-focus-halo:rgba(245,158,11,.28); --color-success:#34d399;
+  --font-mono:'Share Tech Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  --font-sans:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --font-disp:'Barlow Condensed','Arial Narrow','Roboto Condensed',system-ui,sans-serif;
+  --fs-display:clamp(2.5rem,1.6rem + 4.2vw,4.5rem); --fs-lead:clamp(1.0625rem,1rem + .3vw,1.1875rem);
+  --fs-body:1rem; --fs-ui:.8125rem; --fs-meta:.75rem;
+  --tracking-label:.18em; --tracking-ui:.06em;
+  --gutter:clamp(16px,4vw,44px); --radius-xs:4px; --radius-sm:8px; --radius-md:14px; --radius-lg:20px;
+  --elev-2:0 4px 24px rgba(0,0,0,.16),inset 0 1px 0 var(--color-glass-shine);
+  --elev-glow:0 0 60px rgba(245,158,11,.08);
+  --z-nav:300; --z-skip:400; --nav-h:64px; --target-min:44px;
+}
+[data-theme="day"] {
+  --color-bg:#fef9f0; --color-bg-raised:#fdf3e2; --color-surface:rgba(255,255,255,.62); --color-surface-2:rgba(255,255,255,.48);
+  --color-glass:rgba(255,255,255,.52); --color-glass-strong:rgba(255,252,246,.86);
+  --color-glass-edge:rgba(255,255,255,.8); --color-glass-shine:rgba(255,255,255,.95);
+  --color-text:#1e293b; --color-text-2:#475569; --color-text-3:#5b6b82;
+  --color-accent-text:#a14a06; --color-accent-display:#b45309; --color-accent-tint:rgba(180,83,9,.10); --color-accent-edge:#b45309;
+  --sig-amber:#a14a06; --sig-cyan:#0369a1; --sig-green:#047857; --sig-violet:#6d28d9;
+  --color-border:rgba(0,0,0,.07); --color-border-control:#8f7b5c;
+  --color-focus:#a14a06; --color-focus-halo:rgba(180,83,9,.25); --color-success:#047857;
+  --elev-2:0 4px 20px rgba(60,40,10,.08),inset 0 1px 0 var(--color-glass-shine);
+  --elev-glow:0 0 40px rgba(180,83,9,.10);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--color-bg);color:var(--color-text);font-family:var(--font-sans);font-size:var(--fs-body);line-height:1.65;overflow-x:hidden;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(245,158,11,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.03) 1px,transparent 1px);background-size:56px 56px}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 70% 60% at 75% 35%,rgba(245,158,11,.07),transparent 65%),radial-gradient(ellipse 50% 50% at 10% 90%,rgba(34,211,238,.06),transparent 70%)}
+[data-theme="day"] body::after{background:radial-gradient(ellipse 80% 60% at 25% 15%,rgba(250,204,21,.18),transparent 60%),radial-gradient(ellipse 50% 50% at 90% 70%,rgba(56,189,248,.14),transparent 70%)}
+a{color:inherit}
+svg.i{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--color-focus);outline-offset:3px;box-shadow:0 0 0 6px var(--color-focus-halo);border-radius:var(--radius-sm)}
+
+.skip{position:absolute;left:12px;top:-60px;z-index:var(--z-skip);background:var(--color-glass-strong);color:var(--color-text);padding:10px 14px;border-radius:var(--radius-sm);font:var(--fs-ui)/1 var(--font-mono)}
+.skip:focus{top:12px}
+
+/* ---- NAV v2: 6 items + persistent résumé CTA ---- */
+.nav{position:fixed;inset:0 0 auto 0;height:var(--nav-h);z-index:var(--z-nav);display:flex;align-items:center;gap:16px;padding:0 var(--gutter);
+  background:var(--color-glass-strong);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border-bottom:1px solid var(--color-glass-edge)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:var(--fs-ui)/1 var(--font-mono);letter-spacing:.14em;color:var(--color-accent-text);white-space:nowrap}
+.brand small{display:block;color:var(--color-text-3);letter-spacing:.1em;font-size:11px;margin-top:3px}
+.nav ul{display:flex;gap:2px;list-style:none;margin-left:auto}
+.nav ul a{display:flex;align-items:center;min-height:40px;padding:0 12px;border-radius:var(--radius-sm);text-decoration:none;font:var(--fs-ui)/1 var(--font-mono);letter-spacing:var(--tracking-ui);text-transform:uppercase;color:var(--color-text-2)}
+.nav ul a:hover{color:var(--color-accent-text);background:var(--color-accent-tint)}
+.nav ul a[aria-current="true"]{color:var(--color-accent-text);background:var(--color-accent-tint);box-shadow:inset 0 -2px 0 var(--color-accent)}
+.nav-tools{display:flex;align-items:center;gap:8px}
+.icon-btn{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:var(--radius-sm);border:1px solid var(--color-border-control);background:transparent;color:var(--color-text-2);cursor:pointer;font-size:18px}
+.icon-btn:hover{color:var(--color-accent-text);border-color:var(--color-accent-edge)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:var(--target-min);padding:0 20px;border-radius:var(--radius-sm);
+  font:600 var(--fs-ui)/1 var(--font-mono);letter-spacing:var(--tracking-ui);text-decoration:none;white-space:nowrap;cursor:pointer;border:1px solid transparent}
+.btn .i{font-size:17px}
+.btn-primary{background:linear-gradient(135deg,var(--color-accent),var(--color-accent-hi));color:var(--color-on-accent);box-shadow:0 4px 20px rgba(245,158,11,.28)}
+[data-theme="day"] .btn-primary{border-color:var(--color-accent-edge)}
+.btn-primary:hover{filter:brightness(1.06);box-shadow:0 10px 32px rgba(245,158,11,.38)}
+.btn-primary:active{filter:brightness(.95);box-shadow:0 2px 10px rgba(245,158,11,.25)}
+.btn-secondary{background:var(--color-glass);color:var(--color-text);border-color:var(--color-border-control)}
+.btn-secondary:hover{border-color:var(--color-accent-text);color:var(--color-accent-text);background:var(--color-accent-tint)}
+.btn-ghost{background:transparent;color:var(--color-text-2);padding:0 8px;text-decoration:underline;text-decoration-color:var(--color-border-control);text-underline-offset:4px}
+.btn-ghost:hover{color:var(--color-accent-text);text-decoration-color:currentColor}
+.btn-sm{min-height:40px;padding:0 14px}
+.btn small{font-weight:400;opacity:.8;letter-spacing:0}
+.menu-btn{display:none}
+
+/* ---- HERO v2 ---- */
+main{position:relative;z-index:1}
+.hero{min-height:100svh;max-width:1280px;margin:0 auto;padding:calc(var(--nav-h) + clamp(32px,6vh,72px)) var(--gutter) 56px;
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,72px);align-items:center}
+.eyebrow{display:flex;align-items:center;gap:12px;font:var(--fs-meta)/1.4 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--color-accent-text)}
+.eyebrow::before{content:'';width:24px;height:1px;background:currentColor}
+.status{display:inline-flex;align-items:center;gap:8px;margin-left:auto;padding:5px 10px;border-radius:999px;border:1px solid color-mix(in srgb,var(--color-success) 40%,transparent);color:var(--color-success);font:var(--fs-meta)/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px color-mix(in srgb,currentColor 25%,transparent)}
+.id-row{display:flex;align-items:center;gap:16px;margin-top:22px}
+.avatar{display:none}
+h1{font-family:var(--font-disp);font-weight:800;font-size:var(--fs-display);line-height:1.02;letter-spacing:-.01em;text-transform:uppercase}
+h1 em{font-style:normal;color:var(--color-accent-display)}
+.role{margin-top:14px;font:600 clamp(1.125rem,1rem + .6vw,1.5rem)/1.3 var(--font-disp);letter-spacing:.04em;text-transform:uppercase;color:var(--color-text)}
+.role span{color:var(--sig-cyan)}
+.lead{margin-top:14px;max-width:58ch;font-size:var(--fs-lead);line-height:1.6;color:var(--color-text-2)}
+.lead strong{color:var(--color-text);font-weight:600}
+
+/* proof strip: real facts only (from data/profile.js + experience.js) */
+.proof{margin-top:26px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--color-glass-edge);border-radius:var(--radius-md);background:var(--color-glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:var(--elev-2);overflow:hidden}
+.proof div{padding:14px 16px;border-left:1px solid var(--color-border)}
+.proof div:first-child{border-left:0}
+.proof b{display:block;font:800 clamp(1.5rem,1.2rem + 1vw,2rem)/1 var(--font-disp);color:var(--k,var(--color-text))}
+.proof span{display:block;margin-top:6px;font:var(--fs-meta)/1.35 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-3)}
+.cta{margin-top:28px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.trust{margin-top:22px;display:flex;flex-wrap:wrap;gap:6px 16px;font:var(--fs-meta)/1.5 var(--font-mono);letter-spacing:.06em;color:var(--color-text-3)}
+.trust b{color:var(--color-text-2);font-weight:400}
+
+/* ---- Instrument panel (gauge + driver card) ---- */
+.panel{position:relative;border-radius:var(--radius-lg);padding:20px;background:var(--color-glass);border:1px solid var(--color-accent-edge);
+  backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);box-shadow:var(--elev-glow),0 24px 48px rgba(0,0,0,.22),inset 0 1px 0 var(--color-glass-shine)}
+[data-theme="day"] .panel{border-color:rgba(180,83,9,.3);box-shadow:var(--elev-glow),0 20px 40px rgba(60,40,10,.10),inset 0 1px 0 var(--color-glass-shine)}
+.panel-head{display:flex;justify-content:space-between;align-items:center;font:var(--fs-meta)/1 var(--font-mono);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--sig-cyan)}
+.panel-head .rec{color:var(--color-text-3)}
+.panel-body{display:grid;grid-template-columns:1fr 150px;gap:18px;align-items:center;margin-top:14px}
+.gauge{width:100%;max-width:300px;aspect-ratio:1;justify-self:center}
+.driver{display:flex;flex-direction:column;gap:10px}
+.photo{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;border:1px solid var(--color-accent-edge);
+  background:radial-gradient(circle at 50% 38%,#2a3a55 0 18%,transparent 18.5%),radial-gradient(ellipse 34% 26% at 50% 92%,#2a3a55 0 99%,transparent 100%),linear-gradient(160deg,#111d30,#060c18)}
+.photo::after{content:'PHOTO SLOT · 4:5';position:absolute;inset:auto 0 8px 0;text-align:center;font:10px/1 var(--font-mono);letter-spacing:.14em;color:#8291a7}
+.photo i{position:absolute;width:14px;height:14px;border:2px solid var(--color-accent)}
+.photo i:nth-child(1){top:5px;left:5px;border-right:0;border-bottom:0}.photo i:nth-child(2){top:5px;right:5px;border-left:0;border-bottom:0}
+.photo i:nth-child(3){bottom:5px;left:5px;border-right:0;border-top:0}.photo i:nth-child(4){bottom:5px;right:5px;border-left:0;border-top:0}
+.driver dl{font:var(--fs-meta)/1.35 var(--font-mono);letter-spacing:.06em}
+.driver dt{color:var(--color-text-3);text-transform:uppercase}
+.driver dd{color:var(--color-text);margin-bottom:6px}
+.readouts{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.readouts div{border:1px solid var(--color-border);border-radius:var(--radius-sm);padding:8px 10px;background:var(--color-surface-2)}
+.readouts span{display:block;font:11px/1.2 var(--font-mono);letter-spacing:.1em;color:var(--color-text-3);text-transform:uppercase}
+.readouts b{display:block;margin-top:4px;font:600 13px/1.2 var(--font-mono);color:var(--color-text)}
+.panel-foot{margin-top:12px;font:11px/1.4 var(--font-mono);letter-spacing:.06em;color:var(--color-text-3)}
+.panel-foot a{color:var(--color-accent-text)}
+
+.proto-note{position:fixed;right:12px;bottom:12px;z-index:5;max-width:280px;padding:10px 12px;border-radius:var(--radius-sm);border:1px dashed var(--color-border-control);background:var(--color-glass-strong);font:11px/1.45 var(--font-mono);color:var(--color-text-2)}
+
+/* ---- Responsive ---- */
+@media (max-width:1180px){ .nav ul a{padding:0 9px} .brand small{display:none} }
+@media (max-width:1040px){
+  .nav ul{display:none} .menu-btn{display:inline-grid} .nav-tools{margin-left:auto}
+  .hero{grid-template-columns:1fr;min-height:auto}
+  .panel{max-width:560px}
+}
+@media (max-width:640px){
+  .nav .btn-resume small,.nav .btn-resume .lbl{display:none}
+  .nav .btn-resume{padding:0;width:40px}
+  .avatar{display:block;flex:none;width:64px;height:80px;border-radius:10px;border:1px solid var(--color-accent-edge);
+    background:radial-gradient(circle at 50% 38%,#2a3a55 0 18%,transparent 18.5%),radial-gradient(ellipse 34% 26% at 50% 92%,#2a3a55 0 99%,transparent 100%),linear-gradient(160deg,#111d30,#060c18)}
+  .status{margin-left:0}
+  .eyebrow{flex-wrap:wrap}
+  .proof{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .proof div:nth-child(3){border-left:0}
+  .proof div:nth-child(n+3){border-top:1px solid var(--color-border)}
+  .cta .btn-primary{flex:1 1 100%}
+  .cta .btn-secondary{flex:1 1 auto}
+  .panel-body{grid-template-columns:1fr}
+  .driver{display:none}
+  .proto-note{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-board" viewBox="0 0 24 24"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a1 1 0 0 1 1-1h9"/></symbol>
+</svg>
+
+<header class="nav">
+  <a class="brand" href="#main" aria-label="S. Jeevanandham — home">
+    <svg class="i" style="font-size:18px"><use href="#i-board"/></svg>
+    <span>JEEVANANDHAM<small>SENIOR HMI ENGINEER</small></span>
+  </a>
+  <nav aria-label="Primary">
+    <ul>
+      <li><a href="#work" aria-current="true">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#design">Design</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-tools">
+    <button class="icon-btn" id="theme" type="button" aria-label="Switch to day theme" title="Theme follows Chennai daylight — click to override">
+      <svg class="i"><use href="#i-sun"/></svg>
+    </button>
+    <a class="btn btn-secondary btn-sm btn-resume" href="#resume" aria-label="Download résumé (PDF)">
+      <svg class="i"><use href="#i-download"/></svg><span class="lbl">Résumé</span>
+    </a>
+    <button class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg class="i"><use href="#i-menu"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+  <section class="hero" aria-labelledby="hero-name">
+    <div>
+      <div class="eyebrow">Chennai, India · IST <span class="status">Open to senior HMI roles</span></div>
+      <div class="id-row">
+        <div class="avatar" role="img" aria-label="Photo placeholder of S. Jeevanandham"></div>
+        <h1 id="hero-name">S. <em>Jeevanandham</em></h1>
+      </div>
+      <p class="role">Senior HMI Engineer <span>· Qt/QML · Embedded C++</span></p>
+      <p class="lead">I build <strong>instrument clusters, infotainment and medical-device HMIs</strong> — from UX design through Qt/QML and embedded C++ on the target board — for production OEM programmes.</p>
+
+      <div class="proof" role="list" aria-label="Key facts">
+        <div role="listitem" style="--k:var(--sig-amber)"><b>4.9+</b><span>Years in HMI</span></div>
+        <div role="listitem" style="--k:var(--sig-cyan)"><b>8+</b><span>Projects shipped</span></div>
+        <div role="listitem" style="--k:var(--sig-green)"><b>2</b><span>Domains · auto &amp; medical</span></div>
+        <div role="listitem" style="--k:var(--sig-violet)"><b>4</b><span>SoC families</span></div>
+      </div>
+
+      <div class="cta">
+        <a class="btn btn-primary" href="#work">View case studies <svg class="i"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-secondary" href="#resume" download><svg class="i"><use href="#i-download"/></svg>Résumé <small>PDF · 3 pp</small></a>
+        <a class="btn btn-ghost" href="#contact"><svg class="i"><use href="#i-mail"/></svg>Email me</a>
+      </div>
+
+      <p class="trust"><span>Platforms <b>STM32 · i.MX6 · i.MX8M · MIMXRT1170</b></span><span>Process <b>A-SPICE · ISO 26262 awareness</b></span></p>
+    </div>
+
+    <aside class="panel" aria-label="HMI cluster demo">
+      <div class="panel-head"><span>HMI cluster · demo</span><span class="rec">SIM · NOT LIVE DATA</span></div>
+      <div class="panel-body">
+        <svg class="gauge" viewBox="0 0 260 260" role="img" aria-label="Speedometer demo reading 135 km/h">
+          <defs>
+            <radialGradient id="gbg"><stop offset="0" stop-color="#111d30"/><stop offset="1" stop-color="#060c18"/></radialGradient>
+            <linearGradient id="arc" x1="0" x2="1"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#22d3ee"/></linearGradient>
+            <linearGradient id="rpm" x1="0" x2="1"><stop offset="0" stop-color="#f59e0b"/><stop offset="1" stop-color="#fb7185"/></linearGradient>
+          </defs>
+          <circle cx="130" cy="130" r="124" fill="url(#gbg)" stroke="rgba(245,158,11,.18)"/>
+          <path d="M 48.1 187.4 A 100 100 0 1 1 211.9 187.4" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 48.1 187.4 A 100 100 0 1 1 205.3 64.0" fill="none" stroke="url(#arc)" stroke-width="10" stroke-linecap="round"/>
+          <path d="M 38.3 194.2 A 112 112 0 0 1 98.8 22.4" fill="none" stroke="url(#rpm)" stroke-width="4" stroke-linecap="round"/>
+          <g stroke="rgba(245,158,11,.6)" stroke-width="2">
+            <line x1="48.1" y1="187.4" x2="62.8" y2="177.1"/><line x1="30.6" y1="112.6" x2="48.3" y2="115.7"/><line x1="73.6" y1="47.8" x2="83.9" y2="62.6"/>
+            <line x1="130" y1="30" x2="130" y2="48"/><line x1="186.4" y1="47.8" x2="176.1" y2="62.6"/><line x1="229.4" y1="112.6" x2="211.7" y2="115.7"/><line x1="211.9" y1="187.4" x2="197.2" y2="177.1"/>
+          </g>
+          <line x1="130" y1="130" x2="196" y2="82" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="130" cy="130" r="8" fill="#060c18" stroke="#f59e0b" stroke-width="3"/>
+          <text x="130" y="176" text-anchor="middle" fill="#e2e8f0" font-family="Barlow Condensed,Arial Narrow,sans-serif" font-weight="800" font-size="40">135</text>
+          <text x="130" y="194" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="11" letter-spacing="2">km/h</text>
+          <text x="130" y="214" text-anchor="middle" fill="#fb7185" font-family="monospace" font-size="10">4085 RPM</text>
+        </svg>
+        <div class="driver">
+          <div class="photo" role="img" aria-label="Photo slot: portrait of S. Jeevanandham (owner to supply)"><i></i><i></i><i></i><i></i></div>
+          <dl>
+            <dt>Profile</dt><dd>S. Jeevanandham</dd>
+            <dt>Edu</dt><dd>B.E. ECE</dd>
+          </dl>
+        </div>
+      </div>
+      <div class="readouts" aria-label="Core stack">
+        <div><span>UI</span><b>Qt/QML · LVGL</b></div>
+        <div><span>Core</span><b>C++17 · C</b></div>
+        <div><span>Bus</span><b>CAN · UART</b></div>
+      </div>
+      <p class="panel-foot">Rendered in SVG on this page. <a href="#demo">Watch a real cluster demo →</a></p>
+    </aside>
+  </section>
+</main>
+
+<div class="proto-note"><b>Prototype · hero v2</b><br>Static frame; motion per MOTION_SPEC.md. Photo is a placeholder slot. All figures are existing site facts. <button id="theme2" type="button" style="font:inherit;color:inherit;background:none;border:0;text-decoration:underline;cursor:pointer">Toggle theme</button></div>
+
+<script>
+(function(){
+  var root=document.documentElement,q=new URLSearchParams(location.search).get('theme');
+  if(q==='day'||q==='night')root.dataset.theme=q;
+  function sync(){var d=root.dataset.theme==='day';var b=document.getElementById('theme');
+    b.setAttribute('aria-label','Switch to '+(d?'night':'day')+' theme');
+    b.querySelector('use').setAttribute('href',d?'#i-moon':'#i-sun');}
+  function t(){root.dataset.theme=root.dataset.theme==='day'?'night':'day';sync();}
+  document.getElementById('theme').addEventListener('click',t);
+  document.getElementById('theme2').addEventListener('click',t);
+  sync();
+})();
+</script>
+</body>
+</html>
