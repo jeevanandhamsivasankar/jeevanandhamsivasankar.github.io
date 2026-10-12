@@ -27,6 +27,8 @@ const si = ({ value, color, size, failed, onError }) => {
     width: size,
     height: size,
     style: { display: "block", objectFit: "contain", borderRadius: 2 },
+    loading: "lazy",
+    decoding: "async",
     onError,
     alt: value,
   });

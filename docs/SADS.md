@@ -311,21 +311,21 @@ flowchart LR
 | From | May import | Must NOT import | Rationale |
 |---|---|---|---|
 | `models/` | `models/` (siblings, e.g. `validate.js`) | React, `data/`, `config/`, `hooks/`, `components/`, `sections/`, `lib/` | Domain core must stay pure and framework-free. It is testable in plain Node. |
-| `lib/` | nothing (siblings only) | React, everything else | Pure functions (ADR-011, ADR-007). `storage.js` is the one guarded I/O adapter, with storage injectable (ADR-018). |
+| `lib/` | `lib/` (siblings); `lib/storage.js` additionally `config/site.js` (constants only, e.g. the storage key) | React, everything else | Pure functions (ADR-011, ADR-007). `storage.js` is the one guarded I/O adapter, with storage injectable (ADR-018). Amendment R1 (DEF-014): the constants-only import of `config/site.js` is allowed. |
 | `config/site.js` | nothing | everything | Leaf constants |
 | `data/` | `models/`, `config/site.js` | React, `hooks/`, `components/`, `sections/`, `context/` | Content is plain data validated by the factories (ADR-009) |
-| `config/sections.js` | React (`lazy` only), `sections/` | `data/`, `components/`, `hooks/` | Registry declares *what* renders. It holds no content. |
+| `config/sections.js` | React (`lazy` only), `sections/`, `models/` | `data/`, `components/`, `hooks/` | Registry declares *what* renders. It holds no content. Amendment R1 (DEF-014): `models/` (`createModels.js`, `validate.js`) is allowed so registry entries are built and validated by the factories. |
 | `hooks/` | React, `lib/`, `hooks/` | `components/`, `sections/`, `data/`, `context/` | Reusable side-effect encapsulation with no content knowledge |
 | `context/` | React, `hooks/` | `components/`, `sections/`, `data/` | Application services |
 | `components/ui/` | React, `hooks/`, `components/ui/` | **`data/`**, `config/`, `sections/`, `tech/`, `widgets/`, `effects/`, `layout/` | Primitives are content-agnostic and reusable |
 | `components/tech/` | React, `components/ui/` | `data/`, `sections/`, `hooks/` (not needed) | Resolves icon references passed in as props |
 | `components/effects/` | React, `hooks/`, `lib/` | `data/`, `sections/`, `ui/` | Decorative only |
 | `components/widgets/` | React, `hooks/`, `lib/` | `data/`, `sections/` | Self-contained animated widgets |
-| `components/layout/` | React, `components/ui/`, `context/`, `hooks/`, `config/` | `data/` (except through `config/site.js`), `sections/` | Chrome around the content |
+| `components/layout/` | React, `components/ui/`, `components/ErrorBoundary`, `context/`, `hooks/`, `config/` | `data/` (except through `config/site.js`), `sections/` | Chrome around the content. Amendment R1 (DEF-014): `SectionSlot` wraps each section in `ErrorBoundary`. |
 | `components/ErrorBoundary.jsx` | React, `components/ui/` | everything else | Must not depend on anything that might itself fail |
 | `sections/` | React, `data/`, `config/site.js`, `components/ui`, `components/tech`, `components/widgets`, `components/effects`, `hooks/`, `context/` | other `sections/`, `config/sections.js`, `App.jsx`, `components/layout` | Containers. Sections are independent so they can be split into chunks. |
-| `App.jsx` | React, `context/`, `components/layout`, `components/effects`, `components/ErrorBoundary`, `components/ui`, `config/sections.js`, `config/site.js` | `data/` directly, `models/` | Composition only |
-| `main.jsx` | React DOM, `App.jsx`, `components/ErrorBoundary`, `styles/index.css` | everything else | Bootstrap |
+| `App.jsx` | React, `context/`, `hooks/`, `components/layout`, `components/effects`, `components/ErrorBoundary`, `components/ui`, `config/sections.js`, `config/site.js` | `data/` directly, `models/` | Composition only. Amendment R1 (DEF-014): `hooks/` allowed (`useActiveSection`). |
+| `main.jsx` | React DOM, `App.jsx`, `components/ErrorBoundary`, `config/site.js`, `styles/index.css` | everything else | Bootstrap. Amendment R1 (DEF-014): `config/site.js` allowed (fallback contact data). |
 | `styles/*.css` | other `styles/*.css` via `@import` (only `index.css`) | JS | Imported exactly once, from `main.jsx` |
 
 General rules:

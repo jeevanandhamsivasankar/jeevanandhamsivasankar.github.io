@@ -4,9 +4,11 @@ import Section from "../components/ui/Section.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import Button from "../components/ui/Button.jsx";
 
-export default function Resume() {
+const DEFAULT_META = { id: "resume", icon: "description", labelText: "08 — Resume", title: null };
+
+export default function Resume({ meta = DEFAULT_META }) {
   return (
-    <Section as="div" id="resume" className="full-band" inner label={{ icon: "description", text: "08 — Resume" }}>
+    <Section as="div" id={meta.id} className="full-band" inner label={{ icon: meta.icon, text: meta.labelText }}>
       <div className="resume-inner">
         <div className="resume-info reveal">
           <h3>{RESUME_PREVIEW.heading}</h3>

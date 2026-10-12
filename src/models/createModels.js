@@ -13,6 +13,7 @@ import {
   assertMsIcon,
   assertNonEmptyString,
   assertNonNegativeNumber,
+  assertPositiveNumber,
   assertOneOf,
   assertPlainObject,
   assertRequired,
@@ -84,8 +85,8 @@ export function createPhoto(raw) {
   assertNonEmptyString(raw.src, M, "src");
   assertUrl(raw.src, M, "src");
   assertNonEmptyString(raw.alt, M, "alt");
-  assertNonNegativeNumber(raw.width, M, "width");
-  assertNonNegativeNumber(raw.height, M, "height");
+  assertPositiveNumber(raw.width, M, "width");
+  assertPositiveNumber(raw.height, M, "height");
   return deepFreeze({ src: raw.src, alt: raw.alt, width: raw.width, height: raw.height });
 }
 

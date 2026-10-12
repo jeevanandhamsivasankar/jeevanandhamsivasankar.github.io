@@ -48,7 +48,13 @@ export function sunriseSunsetHours(doy, latDeg = DEFAULT_GEO.lat) {
 export function dayWindow(doy, geo = DEFAULT_GEO) {
   const { sunrise, sunset } = sunriseSunsetHours(doy, geo.lat);
   const correction = geo.tzOffsetHours - geo.lon / 15;
-  return { start: sunrise + correction, end: sunset + correction };
+  // Polar day (sun never sets) must cover the whole IST day regardless of the correction;
+  // otherwise shift by the correction and clamp AFTER it so the window stays inside [0, 24].
+  if (sunset - sunrise >= 24) return { start: 0, end: 24 };
+  return {
+    start: Math.max(0, sunrise + correction),
+    end: Math.min(24, sunset + correction),
+  };
 }
 
 /**
@@ -59,7 +65,9 @@ export function getSunPhase(date, geo = DEFAULT_GEO) {
   const t = new Date(+date).getTime();
   if (Number.isNaN(t)) return "night";
   const { hours, minutes } = toIst(t, geo.tzOffsetHours);
-  const hourIST = hours + minutes / 60;
+  // Second/millisecond resolution: sub-minute remainder of the IST wall clock.
+  const subMinuteMs = (((t + geo.tzOffsetHours * HOUR_MS) % 60_000) + 60_000) % 60_000;
+  const hourIST = hours + minutes / 60 + subMinuteMs / HOUR_MS;
   const { start, end } = dayWindow(dayOfYear(t, geo.tzOffsetHours), geo);
   return start <= hourIST && hourIST < end ? "day" : "night";
 }

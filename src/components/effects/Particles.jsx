@@ -10,6 +10,7 @@ export default function Particles() {
         <div
           key={p.id}
           className="particle"
+          aria-hidden="true"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,

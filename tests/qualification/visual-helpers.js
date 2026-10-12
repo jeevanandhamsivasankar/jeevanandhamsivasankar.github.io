@@ -8,6 +8,10 @@ import { BASELINE_DIR } from './helpers.js'
 import { decodePng, diffPng } from './png.js'
 
 export { HIDDEN_SELECTORS, CLOCKS, VIEWPORTS, SECTION_IDS, EXTRA_TARGETS, CONTEXT_OPTIONS }
+// Allowed visual differences vs baseline (NFR-MAINT-008): DEF-021 darker/lighter text token on the location lines for
+// 4.5:1 contrast (NFR-A11Y-006). DEF-012 (-webkit-backdrop-filter pairs) renders identically in Chromium.
+// Candidate-only: restore the baseline colour so the pixel diff keeps checking everything else.
+export const ALLOWED_DIFF_CSS = '.exp-company-loc, .contact-loc { color: var(--text2) !important; }'
 export const HIDE_NAV_CSS = 'nav.nav { visibility: hidden !important; }'
 export const TARGETS = [...SECTION_IDS.map((id) => [id, `#${id}`]), ...Object.entries(EXTRA_TARGETS)]
 export const baseUrlFor = (testInfo) => testInfo.project.use.baseURL
@@ -50,6 +54,7 @@ export async function preparePage(browser, baseURL, vpName, theme) {
   }
   await page.addStyleTag({ content: FREEZE_CSS })
   await page.addStyleTag({ content: HIDE_CSS })
+  await page.addStyleTag({ content: ALLOWED_DIFF_CSS })
   await page.evaluate(() => document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible')))
   await page.waitForTimeout(400)
   await finishAnimations(page)

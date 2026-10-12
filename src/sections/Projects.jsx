@@ -2,9 +2,11 @@ import { PROJECTS } from "../data/projects.js";
 import Section from "../components/ui/Section.jsx";
 import Icon from "../components/ui/Icon.jsx";
 
-export default function Projects() {
+const DEFAULT_META = { id: "projects", icon: "rocket_launch", labelText: "04 — Engineering Projects", title: "Selected Work" };
+
+export default function Projects({ meta = DEFAULT_META }) {
   return (
-    <Section id="projects" className="section-wrap" style={{ background: "var(--bg2)" }} label={{ icon: "rocket_launch", text: "04 — Engineering Projects" }} title="Selected Work">
+    <Section id={meta.id} className="section-wrap" style={{ background: "var(--bg2)" }} label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <div className="projects-grid">
         {PROJECTS.map((p, i) => (
           <div key={p.num} className={`project-card reveal${p.wide ? " wide" : ""} d${i % 2}`}

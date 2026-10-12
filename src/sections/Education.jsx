@@ -4,9 +4,11 @@ import Icon from "../components/ui/Icon.jsx";
 
 const DOMAIN_TAG_STYLE = { fontFamily:"'Share Tech Mono',monospace", fontSize:9.5, color:"var(--amber)", background:"rgba(245,158,11,0.08)", border:"1px solid rgba(245,158,11,0.18)", borderRadius:3, padding:"3px 8px" };
 
-export default function Education() {
+const DEFAULT_META = { id: "education", icon: "school", labelText: "06 — Education", title: "Academic Background" };
+
+export default function Education({ meta = DEFAULT_META }) {
   return (
-    <Section id="education" className="section-wrap" label={{ icon: "school", text: "06 — Education" }} title="Academic Background">
+    <Section id={meta.id} className="section-wrap" label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <div className="edu-grid">
         {EDUCATION.map((edu, i) => (
           <div key={edu.title} className={i === 0 ? "edu-card reveal" : `edu-card reveal d${i}`}>

@@ -3,9 +3,11 @@ import Section from "../components/ui/Section.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import SkillChip from "../components/tech/SkillChip.jsx";
 
-export default function Skills() {
+const DEFAULT_META = { id: "skills", icon: "build", labelText: "03 — Skills", title: "Toolbox" };
+
+export default function Skills({ meta = DEFAULT_META }) {
   return (
-    <Section id="skills" className="section-wrap" label={{ icon: "build", text: "03 — Skills" }} title="Toolbox">
+    <Section id={meta.id} className="section-wrap" label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <div className="skills-categories">
         {SKILL_CATEGORIES.map((cat, ci) => (
           <div key={cat.label} className={`skill-cat reveal d${ci % 3}`}>

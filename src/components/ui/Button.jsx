@@ -1,6 +1,6 @@
 import Icon from "./Icon.jsx";
 
-export default function Button({ variant, href, icon, download, external = false, children }) {
+export default function Button({ variant = "amber", href, icon, download, external = false, children }) {
   return (
     <a
       href={href}

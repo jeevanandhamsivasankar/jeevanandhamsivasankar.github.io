@@ -60,6 +60,9 @@
  * @property {string|null} [labelText]
  * @property {number} [minHeight]
  */
+/** @typedef {Stat} GaugeStat      Hero gauge stat (icon omitted) */
+/** @typedef {SectionEntry} Section  Alias of SectionEntry (SRS name) */
+/** @typedef {ResumePreview} ResumeInfo  Alias of ResumePreview (SRS name) */
 /** @typedef {{ id: string, label: string, icon: MsIcon }} NavItem */
 /** @typedef {{ role: string, company: string, period: string, location: string, icon: MsIcon, desc: string }} Experience */
 /** @typedef {{ name: string, icon: IconRef, color?: HexColor }} Skill */

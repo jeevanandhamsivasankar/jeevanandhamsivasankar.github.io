@@ -2,9 +2,11 @@ import { EXPERIENCE } from "../data/experience.js";
 import Section from "../components/ui/Section.jsx";
 import Icon from "../components/ui/Icon.jsx";
 
-export default function Experience() {
+const DEFAULT_META = { id: "experience", icon: "work", labelText: "02 — Experience", title: "Career" };
+
+export default function Experience({ meta = DEFAULT_META }) {
   return (
-    <Section as="div" id="experience" className="exp-band full-band" inner label={{ icon: "work", text: "02 — Experience" }} title="Career">
+    <Section as="div" id={meta.id} className="exp-band full-band" inner label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <div className="exp-timeline">
         {EXPERIENCE.map((exp, i) => (
           <div key={i} className={`exp-item reveal d${Math.min(i, 3)}`}>

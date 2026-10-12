@@ -125,7 +125,7 @@ describe('UNIT-USE_ACTIVE_SECTION', () => {
     expect(remove).toHaveBeenCalledWith('scroll', handler)
   })
 
-  it('UT-USE_ACTIVE_SECTION-010 unmount cancels a pending rAF', () => {
+  it('UT-USE_ACTIVE_SECTION-016 unmount cancels a pending rAF', () => {
     mountSections(SPEC)
     const cancel = vi.spyOn(window, 'cancelAnimationFrame')
     const { unmount } = renderHook(() => useActiveSection())
@@ -210,7 +210,7 @@ describe('UNIT-USE_ACTIVE_SECTION', () => {
       expect(spy).not.toHaveBeenCalled()
     })
 
-    it('UT-USE_ACTIVE_SECTION-015 hash scroll: non-existent id -> no throw, never scrolls; unmount disconnects the observer', async () => {
+    it('UT-USE_ACTIVE_SECTION-017 hash scroll: non-existent id -> no throw, never scrolls; unmount disconnects the observer', async () => {
       vi.useFakeTimers()
       const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
       const disconnect = vi.spyOn(MutationObserver.prototype, 'disconnect')
@@ -233,7 +233,7 @@ describe('UNIT-USE_ACTIVE_SECTION', () => {
       expect(vi.getTimerCount()).toBe(0)
     })
 
-    it('UT-USE_ACTIVE_SECTION-015 hash scroll: a keydown disarms the one-shot scroll', async () => {
+    it('UT-USE_ACTIVE_SECTION-018 hash scroll: a keydown disarms the one-shot scroll', async () => {
       const spy = vi.spyOn(Element.prototype, 'scrollIntoView')
       const root = setup({ hash: '#resume', children: '<div id="resume" data-section-placeholder></div>' })
       renderHook(() => useHashScroll({ current: root }))

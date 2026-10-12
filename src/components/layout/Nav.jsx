@@ -5,7 +5,8 @@ import { useScrolled } from "../../hooks/useScrolled.js";
 import Icon from "../ui/Icon.jsx";
 import { BRAND_TEXT } from "../../config/site.js";
 
-export default function Nav({ items }) {
+export default function Nav({ items: allItems }) {
+  const items = allItems.filter((i) => i.showInNav !== false);
   const { isDay, toggle, now } = useThemeContext();
   const active = useActiveSection();
   const scrolled = useScrolled();
@@ -67,7 +68,7 @@ export default function Nav({ items }) {
       </nav>
       <div id="mobile-menu" className={`mobile-menu${open ? " open" : ""}`}>
         {items.map(({ id, icon, label }) => (
-          <a key={id} href={`#${id}`} className="nav-link" onClick={() => setOpen(false)}>
+          <a key={id} href={`#${id}`} className={`nav-link${active === id ? " active" : ""}`} onClick={() => setOpen(false)}>
             <Icon name={icon} size={15} />
             {label}
           </a>

@@ -170,7 +170,7 @@ describe('UNIT-RANDOM', () => {
     expect(() => createParticles(1.5, mulberry32(1))).toThrow(RangeError)
   })
 
-  it('UT-RANDOM-004 palette constant matches the documented colours', () => {
+  it('UT-RANDOM-015 palette constant matches the documented colours', () => {
     expect([...PARTICLE_COLORS]).toEqual(COLORS)
   })
 })

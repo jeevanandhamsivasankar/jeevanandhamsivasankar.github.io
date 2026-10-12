@@ -3,9 +3,11 @@ import Section from "../components/ui/Section.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import RichText from "../components/ui/RichText.jsx";
 
-export default function About() {
+const DEFAULT_META = { id: "about", icon: "person", labelText: "01 — About", title: "Who I Am" };
+
+export default function About({ meta = DEFAULT_META }) {
   return (
-    <Section id="about" className="section-wrap" label={{ icon: "person", text: "01 — About" }} title="Who I Am">
+    <Section id={meta.id} className="section-wrap" label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <div className="about-grid">
         <div className="about-text reveal">
           {ABOUT_PARAGRAPHS.map((segments, i) => (

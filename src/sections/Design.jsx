@@ -3,9 +3,11 @@ import Section from "../components/ui/Section.jsx";
 import Icon from "../components/ui/Icon.jsx";
 import DesignArt from "../components/widgets/DesignArt.jsx";
 
-export default function Design() {
+const DEFAULT_META = { id: "design", icon: "brush", labelText: "05 — Design Portfolio", title: "Creative Work" };
+
+export default function Design({ meta = DEFAULT_META }) {
   return (
-    <Section as="div" id="design" className="full-band" style={{ background: "var(--bg2)", borderTop: "1px solid var(--bdr)" }} inner label={{ icon: "brush", text: "05 — Design Portfolio" }} title="Creative Work">
+    <Section as="div" id={meta.id} className="full-band" style={{ background: "var(--bg2)", borderTop: "1px solid var(--bdr)" }} inner label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <div className="behance-grid">
         {DESIGN_CARDS.map((card, i) => (
           <a key={card.title} href={card.href} target="_blank" rel="noopener noreferrer"

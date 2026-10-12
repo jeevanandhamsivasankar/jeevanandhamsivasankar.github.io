@@ -7,14 +7,26 @@ export default function CursorGlow() {
 
   useEffect(() => {
     if (reduced) return;
-    const onMove = (e) => {
+    let frame = 0;
+    let x = 0;
+    let y = 0;
+    const paint = () => {
+      frame = 0;
       const el = ref.current;
       if (!el) return;
-      el.style.left = `${e.clientX}px`;
-      el.style.top = `${e.clientY}px`;
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+    };
+    const onMove = (e) => {
+      x = e.clientX;
+      y = e.clientY;
+      if (!frame) frame = window.requestAnimationFrame(paint);
     };
     window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, [reduced]);
 
   if (reduced) return null;

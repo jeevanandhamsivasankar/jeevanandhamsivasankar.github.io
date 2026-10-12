@@ -57,6 +57,13 @@ export function assertNonNegativeNumber(value, model, field) {
   }
 }
 
+export function assertPositiveNumber(value, model, field) {
+  assertRequired(value, model, field);
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0) {
+    fail(model, field, "must be a positive number");
+  }
+}
+
 export function assertArray(value, model, field, { minLength = 0 } = {}) {
   assertRequired(value, model, field);
   if (!Array.isArray(value)) fail(model, field, "must be an array");

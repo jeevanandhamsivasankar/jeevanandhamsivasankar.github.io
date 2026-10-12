@@ -56,6 +56,7 @@ describe('HTML shell and build config (ARC-018, ARC-020)', () => {
     const plugins = inspectViteConfig(html)
     const csp = plugins.find((p) => p.apply === 'build' && p.hasTransform)
     expect(csp, 'plugin with apply: "build" and transformIndexHtml').toBeDefined()
-    expect(csp.html).toMatch(/http-equiv=\\?["']Content-Security-Policy/i)
+    // Vite accepts either an HTML string or tag descriptors ({ tag: 'meta', attrs: { 'http-equiv': ... } })
+    expect(csp.html).toMatch(/http-equiv["']?(?:=\\?["']|\s*:\s*"?)\s*Content-Security-Policy/i)
   })
 })

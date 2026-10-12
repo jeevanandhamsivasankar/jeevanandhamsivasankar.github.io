@@ -19,7 +19,7 @@ export default function Hero() {
   return (
     <section id="hero" data-section="hero" className="hero">
       <Particles />
-      <div className="hero-rings">
+      <div className="hero-rings" aria-hidden="true">
         <div className="hring hring-1" /><div className="hring hring-2" />
         <div className="hring hring-3" /><div className="hring hring-4" />
       </div>

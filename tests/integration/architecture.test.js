@@ -22,21 +22,21 @@ function layerOf(rel) {
 
 const ALLOWED = {
   models: ['models'],
-  lib: ['lib'],
+  lib: ['lib', 'config-site'], // config-site: lib/storage.js constants only (SADS 4.3.2, Amendment R1)
   'config-site': [],
   data: ['models', 'config-site'],
-  'config-sections': ['sections'],
+  'config-sections': ['sections', 'models'],
   hooks: ['lib', 'hooks'],
   context: ['hooks', 'context'],
   ui: ['hooks', 'ui'],
   tech: ['ui', 'tech'],
   effects: ['hooks', 'lib', 'effects'],
   widgets: ['hooks', 'lib', 'widgets'],
-  layout: ['ui', 'context', 'hooks', 'config-site', 'layout'],
+  layout: ['ui', 'context', 'hooks', 'config-site', 'error-boundary', 'layout'],
   'error-boundary': ['ui'],
   sections: ['data', 'config-site', 'ui', 'tech', 'widgets', 'effects', 'hooks', 'context'],
-  app: ['context', 'layout', 'effects', 'error-boundary', 'ui', 'config-sections', 'config-site'],
-  main: ['app', 'error-boundary', 'styles'],
+  app: ['context', 'hooks', 'layout', 'effects', 'error-boundary', 'ui', 'config-sections', 'config-site'],
+  main: ['app', 'error-boundary', 'config-site', 'styles'],
 }
 const FORBIDS_REACT = new Set(['models', 'lib', 'config-site', 'data']) // pure layers: no React, no packages
 

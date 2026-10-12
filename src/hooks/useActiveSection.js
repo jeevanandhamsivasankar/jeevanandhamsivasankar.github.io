@@ -9,15 +9,38 @@ export function pickActiveSection(nodes, scrollY, offset = ACTIVE_OFFSET_PX, def
   return cur;
 }
 
+/** True when the page is scrollable and scrolled to (within 2 px of) its end. */
+function atPageBottom() {
+  const root = document.documentElement;
+  return root.scrollHeight > window.innerHeight && window.innerHeight + window.scrollY >= root.scrollHeight - 2;
+}
+
 export function useActiveSection(defaultId = "hero", offset = ACTIVE_OFFSET_PX) {
   const [active, setActive] = useState(defaultId);
   useEffect(() => {
-    const onScroll = () =>
-      setActive(
-        pickActiveSection(document.querySelectorAll("[data-section]"), window.scrollY, offset, defaultId),
-      );
+    // The section node list is queried at most once per animation frame (rAF coalescing);
+    // the active id is still recomputed on every scroll event from the live scroll position.
+    let nodes = null;
+    let frame = 0;
+    const clear = () => {
+      frame = 0;
+      nodes = null;
+    };
+    const onScroll = () => {
+      if (!nodes) {
+        nodes = document.querySelectorAll("[data-section]");
+        frame = window.requestAnimationFrame(clear);
+      }
+      let id = pickActiveSection(nodes, window.scrollY, offset, defaultId);
+      // At the very bottom the last section may be too short to reach its own threshold.
+      if (nodes.length > 0 && atPageBottom()) id = nodes[nodes.length - 1].dataset.section;
+      setActive(id);
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, [defaultId, offset]);
   return active;
 }

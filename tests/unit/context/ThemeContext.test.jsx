@@ -73,7 +73,7 @@ describe('UNIT-THEME_CONTEXT', () => {
     expect(screen.getByTestId('b-isday')).toHaveTextContent('false')
   })
 
-  it('UT-THEME_CONTEXT-003b context toggle is the hook toggle (called once per click)', () => {
+  it('UT-THEME_CONTEXT-007 context toggle is the hook toggle (called once per click)', () => {
     render(
       <ThemeProvider>
         <Consumer />

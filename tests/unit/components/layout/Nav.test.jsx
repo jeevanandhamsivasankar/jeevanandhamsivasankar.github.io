@@ -83,8 +83,10 @@ describe('UNIT-NAV', () => {
     const active = desktopLinks(container).filter((a) => a.classList.contains('active'))
     expect(active).toHaveLength(1)
     expect(active[0]).toHaveAttribute('href', '#skills')
-    // mobile links never get active
-    expect(mobile(container).querySelectorAll('.active')).toHaveLength(0)
+    // DEF-013: the mobile menu marks the active link too
+    const mActive = [...mobile(container).querySelectorAll('.active')]
+    expect(mActive).toHaveLength(1)
+    expect(mActive[0]).toHaveAttribute('href', '#skills')
   })
 
   it('UT-NAV-005 never renders a link for an entry with showInNav: false', () => {

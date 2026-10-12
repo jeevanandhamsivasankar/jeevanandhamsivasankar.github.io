@@ -23,13 +23,16 @@ function walk(dir, out = []) {
 }
 
 /** Static title scan: it/test (optionally .only/.skip/.each/.runIf(...)/.skipIf(...)) with a string literal title. */
-const TITLE_RE = /(?<![\w.])(?:it|test)(?:\.(?:only|skip|todo|concurrent))?\s*\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g
+const TITLE_RE = /(?<![\w.])(?:it|test|staticTest)(?:\.(?:only|skip|todo|concurrent))?\s*\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g
 const GUARDED_RE = /(?<![\w.])(?:it|test)\.(?:runIf|skipIf)\([^)]*\)\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g
+
+/** Parametrised titles (each-tables followed by a literal title). */
+const EACH_RE = /(?<![\w.])(?:it|test)\.each\([\s\S]*?\)\(\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1/g
 
 function titlesOf(file) {
   const src = fs.readFileSync(file, 'utf8')
   const out = []
-  for (const re of [TITLE_RE, GUARDED_RE]) for (const m of src.matchAll(re)) out.push(m[2])
+  for (const re of [TITLE_RE, GUARDED_RE, EACH_RE]) for (const m of src.matchAll(re)) out.push(m[2])
   return out
 }
 

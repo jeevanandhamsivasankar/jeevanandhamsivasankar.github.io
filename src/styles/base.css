@@ -85,7 +85,7 @@ body::after {
   position: absolute;
   left: 8px;
   top: -64px;
-  z-index: 10000;
+  z-index: 301;
   padding: 10px 16px;
   background: var(--amber);
   color: #000;
@@ -97,4 +97,12 @@ body::after {
 :focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 2px;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
 }

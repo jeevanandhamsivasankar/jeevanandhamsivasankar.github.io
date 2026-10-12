@@ -10,6 +10,9 @@
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-11 | Initial unit design. Covers every file of the target layout plus 6 additional units (section 1.3). Incorporates SRS v1.1 (PO review) and SADS v1.1 (ADR-011 rewritten, ADR-017..021). |
+| 1.1 (Amendment R1) | 2026-10-12 | DEF-006: `si:` icon `<img>` gets `loading="lazy"` and `decoding="async"` (6.9). |
+| 1.1 (Amendment R1) | 2026-10-12 | DEF-007: `CursorGlow` and `useActiveSection` coalesce work with `requestAnimationFrame` and cancel it on unmount (6.6, 6.10; supersedes 8.1 D-01/D-02 for these units). |
+| 1.1 (Amendment R1) | 2026-10-12 | DEF-022: sections read the registry `meta` prop (number, label icon/text, heading/title) instead of hard-coded literals (6.14). |
 
 ---
 
@@ -1002,7 +1005,7 @@ Common: all hooks live in `.js` files, import only `react`, `lib/` and sibling h
   ```
 - **Behaviour:**
   - `pickActiveSection`: `let cur = defaultId; for (const s of nodes) if (scrollY >= s.offsetTop - offset) cur = s.dataset.section; return cur;` ("last match wins", baseline lines 981-985).
-  - `useActiveSection`: `const [active, setActive] = useState(defaultId)`; effect `[defaultId, offset]` registers a **passive** `scroll` listener on `window` whose handler calls `setActive(pickActiveSection(document.querySelectorAll("[data-section]"), window.scrollY, offset, defaultId))` on **every** scroll event (FR-NAV-006; no rAF, see 8.1 D-01). Cleanup removes it. Initial value is `defaultId` (no measurement at mount, baseline parity).
+  - `useActiveSection`: `const [active, setActive] = useState(defaultId)`; effect `[defaultId, offset]` registers a **passive** `scroll` listener on `window` whose handler calls `setActive(pickActiveSection(document.querySelectorAll("[data-section]"), window.scrollY, offset, defaultId))` once per animation frame: the scroll listener only schedules a `requestAnimationFrame` if none is pending, and the rAF callback runs the measurement (FR-NAV-006; Amendment R1 / DEF-007, replaces the earlier every-event rule of 8.1 D-01). Cleanup removes the listener and calls `cancelAnimationFrame` on any pending frame. Initial value is `defaultId` (no measurement at mount, baseline parity).
   - `useHashScroll(rootRef)` (effect `[rootRef, timeoutMs]`):
     - `arm()`: `id = decodeURIComponent(window.location.hash.slice(1))`; return if empty or if `rootRef.current` contains no `[data-section-placeholder]` (native scrolling already landed correctly).
     - Ready test `isReady()`: `t = document.getElementById(id)`; false if `!t` or `t.hasAttribute("data-section-placeholder")` or any `[data-section-placeholder]` element in the root precedes `t` (`p.compareDocumentPosition(t) & Node.DOCUMENT_POSITION_FOLLOWING`).
@@ -1224,6 +1227,7 @@ Common: all hooks live in `.js` files, import only `react`, `lib/` and sibling h
 - **File:** `src/components/tech/TechIcon.jsx`  |  **ARC:** ARC-011
 - **Interface:** `export default function TechIcon({ icon, color, size = 22 })` (`icon: IconRef` required, `color: CssColor` required).
 - **Behaviour:** `const [failed, setFailed] = useState(false); const { kind, value } = parseIconRef(icon); const strategy = (kind && ICON_STRATEGIES[kind]) || fallbackIcon; return strategy({ value, color, size, failed, onError: () => setFailed(true) });`.
+- **Amendment R1 (DEF-006):** the `si:` strategy renders `<img loading="lazy" decoding="async" ...>` (harmless performance gain; the other attributes are unchanged).
 - **Traces:** FR-SKILL-003, FR-SKILL-004, NFR-RELI-003. ADR-014.
 - **Unit tests (UT-TECH_ICON):** `si:cplusplus` renders `img[src$="/cplusplus"][alt="cplusplus"]`; `fireEvent.error(img)` replaces it with the `code` span in the given colour; `svg:lvgl` renders an svg; `ms:code` renders the span; `svg:unknown` and `foo:bar` render `code`.
 
@@ -1250,7 +1254,7 @@ Common: all hooks live in `.js` files, import only `react`, `lib/` and sibling h
 - **Behaviour:**
   - `reduced = usePrefersReducedMotion()`; if `reduced` return `null` (not mounted under reduced motion; CSS hides it anyway, ADR-015).
   - Otherwise render `<div ref={ref} className="cursor-glow" style={{ left: -500, top: -500 }} aria-hidden="true" />` (initial position off-screen, baseline line 1690).
-  - Effect `[]`: passive `mousemove` on `window`: `ref.current.style.left = \`${e.clientX}px\`; ref.current.style.top = \`${e.clientY}px\`` (direct style write, no React re-render, no rAF; 8.1 D-02). Cleanup removes the listener. The 60 ms linear transition comes from CSS.
+  - Effect `[]`: passive `mousemove` on `window`: `ref.current.style.left = \`${e.clientX}px\`; ref.current.style.top = \`${e.clientY}px\`` (direct style write, no React re-render). Amendment R1 / DEF-007: the latest pointer position is stored and written once per animation frame (a pending `requestAnimationFrame` coalesces bursts of `mousemove`; supersedes 8.1 D-02). Cleanup removes the listener and cancels a pending frame. The 60 ms linear transition comes from CSS.
 - **Traces:** FR-FX-002, NFR-A11Y-001, NFR-A11Y-002, NFR-A11Y-004, NFR-PERF-004. ADR-015.
 - **Unit tests (UT-CURSOR_GLOW):** initial left/top `-500px`; mousemove (400, 300) -> `400px`/`300px`; reduced motion -> renders nothing and registers no listener; passive flag; cleanup.
 
@@ -1390,6 +1394,7 @@ Common contract for every section unit below:
 - **Markup:** port the JSX of the corresponding function in the baseline `src/App.jsx` (commit `dd9a86d`) **verbatim**: same element tree, same `className`s, same `id` / `data-section` attributes, same text. Only these substitutions are allowed: (a) literals replaced by imports from `data/*` and `config/site.js`; (b) `Ms` → `Icon`, `SL` → `SectionLabel`, `ST` → `SectionTitle`, and the other primitives in 6.8 *only where they render byte-identical markup*; (c) the changes required by SRS v1.1 (single resume download filename `RESUME.downloadName`; `aria-hidden` on icon ligatures via `Icon`; Education from `data/education.js`).
 - **Reveal:** elements keep their `reveal` / `d1..d4` classes; registration with the reveal observer is done by `useReveal` (UNIT-USE_REVEAL), so lazy-loaded sections are revealed when they mount (ADR-012).
 - **Dependencies:** `data/*`, `config/site.js`, `components/ui/*`, `components/tech/*`, `components/widgets/*`, `hooks/*`. Never `context/` directly except via `useThemeContext` where the baseline used the theme.
+- **Registry `meta` (Amendment R1, DEF-022):** each section receives the registry entry's `meta` prop (`{ number, label: { icon, text }, title }` as built by `defineSections` in `config/sections.js`) and renders its `SectionLabel` (icon, `NN — text`) and heading/title from it instead of hard-coded literals. Rendered markup stays identical to the baseline. A section rendered without `meta` (unit tests) falls back to its baseline literals.
 - **Traces / tests:** FR-<AREA>-* of the section's area; UT cases render the section and assert the item counts, texts, link attributes and class names listed in the STP.
 
 | Unit | File | Baseline function | Data | Notes |

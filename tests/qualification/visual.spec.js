@@ -4,7 +4,8 @@
  * allowed ratio: 0.001 per element, 0.002 full page. Dynamic layers (particles, orbs, typewriter, gauge svg) are
  * hidden in both capture and baseline (HIDE_CSS).
  * Differences permitted by SRS NFR-MAINT-008 that do not render: skip link (off-screen until focused), aria
- * attributes, id="main"/tabindex, theme set before first paint, unified resume download filename.
+ * attributes, id="main"/tabindex, theme set before first paint, unified resume download filename, and (Amendment R1)
+ * DEF-012 -webkit-backdrop-filter pairs and DEF-021 text colour of .exp-company-loc/.contact-loc (restored via ALLOWED_DIFF_CSS).
  */
 import { writeFileSync } from 'node:fs'
 import { test, expect, baselineDom } from './helpers.js'

@@ -13,11 +13,13 @@ function ContactItem({ link }) {
   );
 }
 
-export default function Contact() {
+const DEFAULT_META = { id: "contact", icon: "mail", labelText: "09 — Contact", title: "Let's Work Together" };
+
+export default function Contact({ meta = DEFAULT_META }) {
   const primary = CONTACT_LINKS.filter(l => l.group === "primary");
   const social = CONTACT_LINKS.filter(l => l.group === "social");
   return (
-    <Section id="contact" className="section-wrap contact-wrap" label={{ icon: "mail", text: "09 — Contact" }} title="Let's Work Together">
+    <Section id={meta.id} className="section-wrap contact-wrap" label={{ icon: meta.icon, text: meta.labelText }} title={meta.title}>
       <p className="contact-sub">{CONTACT_INTRO}</p>
       <div className="contact-links reveal">
         {primary.map(l => <ContactItem key={l.kind} link={l} />)}

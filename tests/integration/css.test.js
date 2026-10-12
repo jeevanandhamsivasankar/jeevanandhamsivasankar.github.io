@@ -6,6 +6,16 @@ const BASELINE_COMMIT = 'dd9a86d'
 // ADR-020 additions (skip link and keyboard focus indicator) are the only allowed new rule groups.
 const ALLOWED_NEW = [/skip-link/, /:focus-visible/, /:focus:not\(/]
 
+// Release 1 amendments (allowed differences vs baseline): DEF-012 adds -webkit-backdrop-filter pairs (NFR-PORT-001);
+// DEF-021 changes the text colour of .exp-company-loc and .contact-loc to meet 4.5:1 (NFR-A11Y-006).
+const COLOUR_FIXED = new Set(['.exp-company-loc', '.contact-loc'])
+const relaxBody = (selector, body) => {
+  let b = body.replace(/(^|;)-webkit-backdrop-filter:[^;}]*/g, '$1')
+  if (COLOUR_FIXED.has(selector)) b = b.replace(/(^|;)color:[^;}]*/g, '$1')
+  return b.replace(/;{2,}/g, ';').replace(/^;/, '').replace(/;$/, '')
+}
+const relax = (r) => ({ ...r, body: relaxBody(r.selector, r.body) })
+
 const norm = (s) => s.replace(/\s+/g, ' ').replace(/\s*([{}:;,>+~])\s*/g, '$1').replace(/;}/g, '}').trim()
 
 function stripComments(css) {
@@ -70,8 +80,8 @@ const full = (r) => `${key(r)}{${r.body}}`
 
 describe('CSS equivalence with the baseline (ARC-017, ARC-001)', () => {
   it('IT-039 CSS equivalence with the baseline CSS string', () => {
-    const base = parseRules(baselineCss())
-    const cand = parseRules(candidateCss())
+    const base = parseRules(baselineCss()).map(relax)
+    const cand = parseRules(candidateCss()).map(relax)
     expect(base.length).toBeGreaterThan(300)
 
     const isAllowed = (r) => ALLOWED_NEW.some((re) => re.test(r.selector))

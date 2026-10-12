@@ -19,6 +19,12 @@ export default mergeConfig(
         reportsDirectory: 'coverage',
         include: ['src/**'],
         exclude: ['src/main.jsx'],
+        thresholds: {
+          lines: 80,
+          'src/models/**': { lines: 90 },
+          'src/lib/**': { lines: 90 },
+          'src/hooks/**': { lines: 90 },
+        },
       },
     },
   }),

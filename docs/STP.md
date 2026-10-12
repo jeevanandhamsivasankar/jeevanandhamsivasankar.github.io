@@ -3,6 +3,7 @@
 | Version | Date | Author | Status |
 |---|---|---|---|
 | 1.0 | 2026-10-12 | QA Lead | Baselined |
+| 1.1 (Amendment R1) | 2026-10-12 | QA Lead | Test report R1 triage: statements aligned with baseline markup (QT-021, 036, 037, 040, 062, 064, 071, 076, 079, 092, 096, 097); UT catalogue extended (DEF-017); allowed differences extended with DEF-012 and DEF-021 |
 
 References: `docs/SRS.md` v1.1, `docs/SADS.md` v1.1, `docs/SUDS.md` v1.0, `docs/ARCHITECTURE_BRIEF.md` (test strategy, V-model, ID conventions).
 
@@ -198,7 +199,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 - **File:** `tests/qualification/hero.spec.js` · **Viewports:** D · **Method:** T · **Requirements:** FR-HERO-009
 - **Preconditions:** P0; clock paused before navigation so no animation frame has run.
 - **Step:** Read the svg `viewBox`, computed max-width, tick lines, needle line, texts.
-- **Expected:** viewBox "0 0 260 260", max-width 320px; 19 tick `line`s, 7 with `stroke-width="2"`; texts "km/h", "HMI CLUSTER DEMO", /\d+ RPM/; needle endpoint at speed 0 = (130+84·cos(-215°), 130+84·sin(-215°)) ≈ (61.19, 178.18) ±0.5 when the initial frame is speed 0 (otherwise the angle formula is checked in UT-SPEEDOMETER and recorded). Gradient stops #34d399→#22d3ee and #f59e0b→#fb7185.
+- **Expected:** viewBox "0 0 260 260", max-width 320px; 19 tick `line`s, 7 with `stroke-width="2"`; texts "km/h", "HMI CLUSTER DEMO", /\d+ RPM/; the initial frame is t = 0 (speed 88, rpm ≈ 4310, not speed 0); needle endpoint = (130+84·cos(a), 130+84·sin(a)) with `a` from the angle formula for the displayed speed (±0.5). Gradient stops #34d399→#22d3ee and #f59e0b→#fb7185.
 
 ### QT-022 Speedometer animates, and is static under reduced motion
 
@@ -287,12 +288,12 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 
 - **File:** `tests/qualification/content.spec.js` · **Viewports:** D · **Method:** T · **Requirements:** FR-SKILL-004
 - **Preconditions:** P0 but `cdn.simpleicons.org` aborted (`route.abort('failed')`).
-- **Expected:** No `.skill-chip img` remains with `complete && naturalWidth === 0`; each former `si:` chip (19 slugs) shows a Material Symbols span "code"; 58 chips visible. Unknown-key/unknown-prefix branches: UT-TECH_ICON evidence.
+- **Expected:** No `.skill-chip img` remains with `complete && naturalWidth === 0`; each former `si:` chip (24 chips, 19 distinct slugs) shows a Material Symbols span "code"; 58 chips visible. Unknown-key/unknown-prefix branches: UT-TECH_ICON evidence.
 
 ### QT-037 ISO 26262 awareness strip
 
 - **File:** `tests/qualification/content.spec.js` · **Viewports:** D,M · **Method:** T · **Requirements:** FR-SKILL-005
-- **Expected:** `.iso-strip` title "ISO 26262 Awareness" with verified_user icon, baseline description, 5 `.iso-chip`: Safety-Aware UI, Deterministic Performance, Structured Validation, FMEA Awareness, Fail-Safe Patterns.
+- **Expected:** `.iso-strip` title "ISO 26262 Awareness" with `shield` title icon and `verified_user` block icon (as in baseline), baseline description, 5 `.iso-chip`: Safety-Aware UI, Deterministic Performance, Structured Validation, FMEA Awareness, Fail-Safe Patterns.
 
 ### QT-038 Chip image filters per theme
 
@@ -308,7 +309,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 ### QT-040 Six project cards with wide spans and tags
 
 - **File:** `tests/qualification/content.spec.js` · **Viewports:** D,M · **Method:** T · **Requirements:** FR-PROJ-002
-- **Expected:** 6 `.project-card` in data order; exactly 2 `.wide` (PROJECT_03 SUV Infotainment, R&D ADAS Demonstrator) spanning both columns on desktop; card 1 title "Physiotherapy Laser Therapy HMI" with 5 tags; card 3 has 8 tags; every card shows period, icon tile, number, domain, title, desc.
+- **Expected:** 6 `.project-card` in data order; exactly 2 `.wide` (titles "SUV In-Vehicle Infotainment System" and "ADAS 3D Demonstrator & R&D Projects", matched by regex) spanning both columns on desktop; card 1 title "Physiotherapy Laser Therapy HMI" with 5 tags; card 3 has 8 tags; every card shows period, icon tile, number, domain, title, desc.
 
 ### QT-041 Projects grid single column at ≤ 900 px
 
@@ -437,7 +438,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 - **Step:** Read `.theme-btn` title, icon, label; click; read again and `data-theme`.
 - **Step:** `runFor` across the next sunrise (clock at 2026-06-21T00:10:00Z variant).
 - **Expected:** Night: label "Day" with light_mode; `title="Toggle day/night theme"`. After click: `data-theme="day"`, label "Night" with dark_mode. After the clock passes sunrise/sunset the theme stays as chosen.
-  auto: Mobile project uses the menu button (FR-NAV-010) and checks the desktop button is hidden.
+  auto: Mobile project uses the menu button (FR-NAV-010); the baseline CSS has no rule hiding the desktop `.theme-btn` at 390 px, so hiding is not asserted.
 
 ### QT-063 Theme badge text, ticking clock and mobile hiding
 
@@ -452,7 +453,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 
 - **File:** `tests/qualification/theme.spec.js` · **Viewports:** D · **Method:** T,I · **Requirements:** FR-THEME-006
 - **Step:** Read computed `transition-property`/`transition-duration` on `html`, `body`, a `.glass` card, `.theme-btn`; toggle and assert no navigation/reload (same `performance.timeOrigin`).
-- **Expected:** html/body background 1.2s and colour 0.6s; cards/controls background 0.8s, border 0.5s, colour 0.4s, shadow 0.5s (as in baseline CSS, cross-checked by UT-STYLE_BASE / UT-STYLE_COMPONENTS); no reload on toggle.
+- **Expected:** html/body background 1.2s and colour 0.6s; cards/controls background 0.8s, border 0.5s, colour 0.4s, shadow 0.5s (verified on `.gauge-widget`, `.profile-info-panel`, `footer`: no element carries `.glass`, and `.theme-btn` has `all 0.3s` from a later baseline rule; as in baseline CSS, cross-checked by UT-STYLE_BASE / UT-STYLE_COMPONENTS); no reload on toggle.
 
 ### QT-065 Theme supplied through React Context (static inspection)
 
@@ -497,7 +498,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 
 - **File:** `tests/qualification/effects.spec.js` · **Viewports:** D,M · **Method:** T · **Requirements:** FR-FX-005
 - **Step:** On load, read opacity of a below-the-fold `.reveal` (e.g. first `.cert-card`).
-- **Step:** Scroll to each section in turn; wait 500 ms.
+- **Step:** Scroll through the page in half-viewport steps (jumping to each section top does not intersect elements in the middle of tall sections); wait 500 ms.
 - **Expected:** Before: opacity 0 / translateY(30px), no `visible`. After: every `.reveal` in every section has `visible`. Stagger classes: stat cards d0–d3; exp items d0,d1,d2,d3; skill categories d<i mod 3>; project and design cards d<i mod 2>; cert cards d0–d2 (class names match baseline snapshot).
 
 ### QT-072 Section order, ids and dividers
@@ -527,7 +528,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 - **Step:** Analysis: list `dist/assets/*.js`; map to section names via `dist/.vite/manifest.json` if present, else by file-name prefix.
 - **Step:** Fresh load; immediately click "Contact" (desktop) / menu "Contact" (mobile).
 - **Step:** Fresh load of `/#resume`.
-- **Expected:** Separate chunks exist for About, Experience, Skills, Projects, Design, Education, Certifications, Resume, Contact; none for Hero/Nav. Click lands with `#contact` rendered (label visible) at the top. Deep link: `#resume` section label in viewport after load settles.
+- **Expected:** Separate chunks exist for About, Experience, Skills, Projects, Design, Education, Certifications, Resume, Contact; none for Hero/Nav. Click lands with `#contact` rendered and its label visible below the 54 px nav (Contact is the last section; the page bottom prevents its top reaching the nav). Deep link: `#resume` section label in viewport after load settles.
 
 ### QT-077 Validated, frozen content ships without load-time errors
 
@@ -546,7 +547,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 ### QT-079 Responsive grid column counts at both breakpoints
 
 - **File:** `tests/qualification/general.spec.js` · **Viewports:** D,M,R · **Method:** T · **Requirements:** FR-GEN-008
-- **Step:** For widths 1366, 901, 900, 541, 540, 390, 320 read resolved `grid-template-columns` track counts of `.hero` (desktop grid), `.about-grid`, `.projects-grid`, `.behance-grid`, `.edu-grid`, `.resume-grid`, `.skills-grid`, `.cert-grid`, and section horizontal padding.
+- **Step:** For widths 1366, 901, 900, 541, 540, 390, 320 read resolved `grid-template-columns` track counts of `.hero` (desktop grid), `.about-grid`, `.projects-grid`, `.behance-grid`, `.edu-grid`, `.resume-grid`, `.certs-grid` (markup has `.resume-inner` and no `.skills-grid` element, also in baseline, so the skills rule is not observable), and section horizontal padding.
 - **Expected:** > 900: baseline desktop counts. ≤ 900: hero/about/projects/design/education/resume 1; skills and certifications 2; padding-left/right 24px. ≤ 540: skills and certifications 1; buttons full width. Visual equality: {QT:visual-night}, {QT:visual-day}.
 
 ### QT-080 noscript message without JavaScript
@@ -661,12 +662,12 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 - **Step:** Tab to "View Projects"; read `outline-style`, `outline-color`, `outline-offset`, compare with computed `--amber`.
 - **Step:** Toggle to day and repeat.
 - **Step:** Mouse-click "View Projects" (prevent navigation via a route-less hash; restore scroll) and read the outline.
-- **Expected:** Keyboard: `solid`, colour = `--amber` (rgb(245,158,11) night; rgb(180,83,9) day), 2px, offset 2px. Mouse: outline `none`.
+- **Expected:** (outline-width is read after 350–400 ms because `transition: all` animates it.) Keyboard: `solid`, colour = `--amber` (rgb(245,158,11) night; rgb(180,83,9) day), 2px, offset 2px. Mouse: outline `none`.
 
 ### QT-097 All new-tab links carry rel noopener noreferrer
 
 - **File:** `tests/qualification/security.spec.js` · **Viewports:** D,M · **Method:** T · **Requirements:** NFR-SEC-001
-- **Expected:** For every `a[target=_blank]` after full load: `rel` contains both `noopener` and `noreferrer`; count ≥ 13 (5 design, 3 social, View Online, preview View, …).
+- **Expected:** For every `a[target=_blank]` after full load: `rel` contains both `noopener` and `noreferrer`; count ≥ 10 (5 design, 3 social, View Online, preview View; the baseline markup has 10).
 
 ### QT-098 No third-party scripts; origin allowlist; no CSP violations
 
@@ -712,7 +713,7 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
 - **File:** `tests/qualification/static.spec.js` · **Viewports:** S · **Method:** A · **Requirements:** NFR-MAINT-003
 - **Step:** Extract the CSS template string from `git show dd9a86d:src/App.jsx`; concatenate `styles/tokens.css, base.css, components.css, sections.css` per `index.css` order; normalise (strip comments, collapse whitespace, split into rule blocks).
 - **Step:** Runtime: count `<style>` elements in the rendered page.
-- **Expected:** Multiset of rules equal except the allow-listed additions (`.skip-link`, `.skip-link:focus`, `:focus-visible`, `:focus:not(:focus-visible)`); relative order of rules sharing a selector preserved; `index.css` imports exactly the four files; no `<style>` element created by the app.
+- **Expected:** Multiset of rules equal except the allow-listed additions (`.skip-link`, `.skip-link:focus`, `:focus-visible`, `:focus:not(:focus-visible)`) and the Amendment R1 allowed differences (DEF-012: added `-webkit-backdrop-filter` declarations; DEF-021: `color` of `.exp-company-loc` and `.contact-loc`); relative order of rules sharing a selector preserved; `index.css` imports exactly the four files; no `<style>` element created by the app.
 
 ### QT-105 Lint passes
 
@@ -758,6 +759,8 @@ QT columns: viewport D/M/S (S = static/node analysis), method T (test), I (inspe
   key: text-parity
 - **Step:** After full load, serialise `main`, nav, mobile menu and footer to a list of `{tag, className, ownText}` in DOM order (ignoring text inside masked dynamic nodes and the allow-listed additions: skip link, aria attributes, `id="main"`, `download` value changes).
 - **Expected:** Identical to the baseline JSON captured from dd9a86d.
+
+**Allowed differences vs baseline (NFR-MAINT-008; applies to QT-104, QT-109..111, IT-039, UT-STYLE_INDEX-002):** skip link and its CSS, aria attributes, `id="main"`/`tabindex`, theme set before first paint, unified resume download name, and, from Amendment R1: **DEF-012** `-webkit-backdrop-filter` declarations paired with every `backdrop-filter` (renders identically in Chromium); **DEF-021** `color` of `.exp-company-loc` and `.contact-loc` changed to a token meeting 4.5:1 in both themes (the visual tests restore the baseline colour on these two selectors in the candidate capture).
 
 ### QT-112 Cross-browser support (Chromium automated, others demonstrated)
 
@@ -1200,6 +1203,7 @@ Requirements: FR-FX-003
 | UT-RANDOM-012 | rng call order and count follow the baseline formula order (x, y, size, dur, delay, dx, colour, opacity): 8 calls per particle, 144 for 18. |
 | UT-RANDOM-013 | `createParticles(0, rng)` → []; `Math.random` never called (spy). |
 | UT-RANDOM-014 | Error case: non-function rng or negative count → per SUDS (expected `TypeError` / empty array). |
+| UT-RANDOM-015 | Palette constant matches the documented colours (#f59e0b, #22d3ee, #34d399, #a78bfa, #fb7185). |
 
 ### UNIT-STORAGE — `src/lib/storage.js` (ARC-007) → `tests/unit/lib/storage.test.js`
 
@@ -1242,6 +1246,9 @@ Requirements: FR-GEN-006
 | UT-VALIDATE-013 | `assertOneOf` accepts listed values; rejects others and case variants. |
 | UT-VALIDATE-014 | `ModelValidationError` is `instanceof Error`, `name === 'ModelValidationError'`, exposes `model` and `field`, message contains both. |
 | UT-VALIDATE-015 | Validators return the validated value (or undefined per SUDS) and have no side effects. |
+| UT-VALIDATE-016 | `assertUnique` reports the first duplicate; `assertKnownKeys` names the unknown key. |
+| UT-VALIDATE-017 | `deepFreeze` freezes nested arrays/objects, leaves functions and class instances untouched, returns the value. |
+| UT-VALIDATE-018 | Required check comes first: undefined/null give the required-field error. |
 
 ### UNIT-CREATE_MODELS — `src/models/createModels.js` (ARC-005) → `tests/unit/models/createModels.test.js`
 
@@ -1326,6 +1333,7 @@ Requirements: FR-GEN-001, FR-GEN-002, FR-NAV-003, FR-NAV-004, FR-GEN-005
 | UT-CONFIG_SECTIONS-007 | `minHeight` is a positive number for each lazy entry (placeholder sizing). |
 | UT-CONFIG_SECTIONS-008 | Each lazy entry's dynamic import resolves to a module whose default export is a function component. |
 | UT-CONFIG_SECTIONS-009 | Array and entries frozen. |
+| UT-CONFIG_SECTIONS-010 | `defineSections` rejects duplicate ids and numbers the first headed entry. |
 
 ### UNIT-DATA_PROFILE — `src/data/profile.js` (ARC-006) → `tests/unit/data/profile.test.js`
 
@@ -1432,6 +1440,7 @@ Requirements: FR-THEME-007
 | UT-THEME_CONTEXT-004 | `useThemeContext` outside the provider throws "useThemeContext must be used within ThemeProvider". |
 | UT-THEME_CONTEXT-005 | Provider calls `useTheme` exactly once per render. |
 | UT-THEME_CONTEXT-006 | Context value referentially stable when the provider re-renders without state change (per SUDS memoisation). |
+| UT-THEME_CONTEXT-007 | Context toggle is the hook toggle (called once per click). |
 
 ### UNIT-USE_THEME — `src/hooks/useTheme.js` (ARC-009) → `tests/unit/hooks/useTheme.test.js`
 
@@ -1496,6 +1505,9 @@ Requirements: FR-NAV-006
 | UT-USE_ACTIVE_SECTION-013 | `pickActiveSection(offsets, scrollY)` pure helper: table of normal/boundary cases (if exported per SUDS). |
 | UT-USE_ACTIVE_SECTION-014 | [FR-GEN-005] Hash scroll: `location.hash = '#resume'`, target appears later → `scrollIntoView` called once on it. |
 | UT-USE_ACTIVE_SECTION-015 | [FR-GEN-005] Hash scroll: no hash → never called; hash to a non-existent id → no throw and observation stops per SUDS; cleanup on unmount. |
+| UT-USE_ACTIVE_SECTION-016 | [NFR-PERF-004, DEF-007] Unmount cancels a pending rAF (`cancelAnimationFrame` with the scheduled id). |
+| UT-USE_ACTIVE_SECTION-017 | [FR-GEN-005] Hash scroll: non-existent id → no throw, never scrolls; unmount disconnects the observer. |
+| UT-USE_ACTIVE_SECTION-018 | [FR-GEN-005] Hash scroll: a keydown disarms the one-shot scroll. |
 
 ### UNIT-USE_SCROLLED — `src/hooks/useScrolled.js` (ARC-009) → `tests/unit/hooks/useScrolled.test.jsx`
 
@@ -2014,6 +2026,65 @@ Requirements: NFR-MAINT-003
 | ID | Case |
 |---|---|
 | UT-STYLE_INDEX-001 | Contains exactly four `@import`s in order tokens, base, components, sections and no rules. |
+| UT-STYLE_INDEX-002 | (SUDS 6.15) Concatenated files keep every baseline rule in order; only skip-link/focus rules are added. |
+
+### UNIT-GAUGE — `src/lib/gauge.js` → `tests/unit/lib/gauge.test.js`
+
+Added in Amendment R1 (DEF-017): unit exists in code, was missing from the catalogue.
+
+| ID | Case |
+|---|---|
+| UT-GAUGE-001 | `GAUGE` constants are frozen with the SUDS values. |
+| UT-GAUGE-002 | `speedAt(0) === 88` and `rpmAt(0)` ≈ 4309.765. |
+| UT-GAUGE-003 | Baseline formulas at t = 1. |
+| UT-GAUGE-004 | `gaugeFrame` returns `{ speed, rpm }`. |
+| UT-GAUGE-005 | `speedAngle`: 0 → -215, 180 → 35, 500 clamps to 35. |
+| UT-GAUGE-006 | `rpmAngle`: 0 → -215, 8000 → 35, 20000 clamps to 35. |
+| UT-GAUGE-007 | `needlePoint(-215)` equals centre + 84 × (cos, sin). |
+| UT-GAUGE-008 | `arcPath` format and large-arc flag. |
+| UT-GAUGE-009 | `arcPath` large-arc boundary: sweep of exactly 180 → 0, 181 → 1. |
+| UT-GAUGE-010 | `gaugeTicks`: 19 frozen ticks, 7 majors at 0, 3, …, 18. |
+| UT-GAUGE-011 | Tick radii: outer 100, major inner 82, minor inner 90. |
+| UT-GAUGE-012 | First/last tick angles span -215..35 degrees. |
+
+### UNIT-MODELS_INDEX — `src/models/index.js` → `tests/unit/models/index.test.js`
+
+Added in Amendment R1 (DEF-017): unit exists in code, was missing from the catalogue.
+
+| ID | Case |
+|---|---|
+| UT-MODELS_INDEX-001 | Every factory name, `ModelValidationError` and `deepFreeze` are exported functions. |
+
+### UNIT-RICH_TEXT — `src/components/ui/RichText.jsx` → `tests/unit/components/ui/RichText.test.jsx`
+
+Added in Amendment R1 (DEF-017): unit exists in code, was missing from the catalogue.
+
+| ID | Case |
+|---|---|
+| UT-RICH_TEXT-001 | Mixed segments produce the exact innerHTML. |
+| UT-RICH_TEXT-002 | Markup-like text is rendered as text, not markup; no wrapper element. |
+
+### UNIT-DESIGN_ART — `src/components/widgets/DesignArt.jsx` → `tests/unit/components/widgets/DesignArt.test.jsx`
+
+Added in Amendment R1 (DEF-017): unit exists in code, was missing from the catalogue.
+
+| ID | Case |
+|---|---|
+| UT-DESIGN_ART-001 | Each known art key renders an `svg` with its documented viewBox (parametrised). |
+| UT-DESIGN_ART-002 | Unknown key renders nothing (also inherited keys). |
+| UT-DESIGN_ART-003 | Cluster art has 12 tick lines; medical contains "Rajesh Kumar". |
+
+### UNIT-SECTION_SLOT — `src/components/layout/SectionSlot.jsx` → `tests/unit/components/layout/SectionSlot.test.jsx`
+
+Added in Amendment R1 (DEF-017): unit exists in code, was missing from the catalogue.
+
+| ID | Case |
+|---|---|
+| UT-SECTION_SLOT-001 | Eager entry renders the component with `meta`. |
+| UT-SECTION_SLOT-002 | Lazy pending shows the placeholder (id, data-section, marker, min-height). |
+| UT-SECTION_SLOT-003 | Resolving lazy shows the section. |
+| UT-SECTION_SLOT-004 | Rejected lazy import shows the fallback with id and a working Reload button. |
+| UT-SECTION_SLOT-005 | A throwing component shows the fallback while a sibling slot still renders. |
 
 ## 5. Traceability matrix (Requirement → test cases)
 

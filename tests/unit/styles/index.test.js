@@ -12,6 +12,17 @@ function signature(root) {
   return out
 }
 
+// Release 1 amendments (allowed differences vs baseline): DEF-012 -webkit-backdrop-filter pairs; DEF-021 colour of
+// .exp-company-loc / .contact-loc.
+function relax(sig) {
+  const [at, sel, decls] = sig.split('|')
+  const keep = decls
+    .split(';')
+    .filter((d) => !d.startsWith('-webkit-backdrop-filter:'))
+    .filter((d) => !(/^(\.exp-company-loc|\.contact-loc)$/.test(sel) && d.startsWith('color:')))
+  return `${at}|${sel}|${keep.join(';')}`
+}
+
 describe('UNIT-STYLE_INDEX', () => {
   it('UT-STYLE_INDEX-001 exactly four @imports in order tokens, base, components, sections and no rules', () => {
     const r = parseStyle('index')
@@ -29,8 +40,8 @@ describe('UNIT-STYLE_INDEX', () => {
   })
 
   it('UT-STYLE_INDEX-002 (SUDS 6.15) concatenated files keep every baseline rule in order; only skip-link/focus rules are added', () => {
-    const mine = signature(parse(cascadeCss()))
-    const base = signature(parse(readFixture('baseline-css.txt')))
+    const mine = signature(parse(cascadeCss())).map(relax)
+    const base = signature(parse(readFixture('baseline-css.txt'))).map(relax)
     const missing = base.filter((sig) => !mine.includes(sig))
     expect(missing).toEqual([])
     const extra = mine.filter((sig) => !base.includes(sig))
