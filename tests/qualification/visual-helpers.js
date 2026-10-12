@@ -1,0 +1,93 @@
+// Reproduces the capture conditions of baseline/capture-baseline.mjs (same constants, same steps) against the build under test.
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import {
+  BLOCKED_HOSTS, HIDDEN_SELECTORS, HIDE_CSS, FREEZE_CSS, CLOCKS, VIEWPORTS, CONTEXT_OPTIONS, SECTION_IDS, EXTRA_TARGETS,
+} from './baseline/capture-baseline.mjs'
+import { BASELINE_DIR } from './helpers.js'
+import { decodePng, diffPng } from './png.js'
+
+export { HIDDEN_SELECTORS, CLOCKS, VIEWPORTS, SECTION_IDS, EXTRA_TARGETS, CONTEXT_OPTIONS }
+export const HIDE_NAV_CSS = 'nav.nav { visibility: hidden !important; }'
+export const TARGETS = [...SECTION_IDS.map((id) => [id, `#${id}`]), ...Object.entries(EXTRA_TARGETS)]
+export const baseUrlFor = (testInfo) => testInfo.project.use.baseURL
+
+async function finishAnimations(page) {
+  await page.evaluate(() => {
+    for (const a of document.getAnimations()) {
+      const t = a.effect && a.effect.getComputedTiming()
+      if (t && Number.isFinite(t.endTime)) a.finish()
+    }
+  })
+}
+
+export async function scrollTop(page) {
+  await page.evaluate(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' })
+    window.dispatchEvent(new Event('scroll'))
+  })
+  await page.waitForTimeout(150)
+  await finishAnimations(page)
+}
+
+/** Open the page under the baseline's conditions, with all lazy sections loaded and revealed. */
+export async function preparePage(browser, baseURL, vpName, theme) {
+  const context = await browser.newContext({ ...VIEWPORTS[vpName], ...CONTEXT_OPTIONS, baseURL })
+  await context.route(BLOCKED_HOSTS, (route) => route.abort())
+  // the baseline was captured with the Simple Icons CDN unreachable (fallback "code" icons), so abort it here too
+  await context.route(/^https:\/\/cdn\.simpleicons\.org\//, (route) => route.abort('failed'))
+  const page = await context.newPage()
+  const instant = new Date(CLOCKS[theme])
+  await page.clock.install({ time: instant })
+  await page.clock.pauseAt(instant)
+  await page.goto('/', { waitUntil: 'load' })
+  await page.waitForSelector('#hero')
+  // lazy sections: React throttles revealing Suspense content with a 300 ms timer, which the paused clock holds back
+  for (let i = 0; i < 60; i++) {
+    if ((await page.locator('[data-section-placeholder]').count()) === 0 && (await page.locator('[data-section]').count()) === 10) break
+    await page.clock.runFor(100)
+    await page.waitForTimeout(40)
+  }
+  await page.addStyleTag({ content: FREEZE_CSS })
+  await page.addStyleTag({ content: HIDE_CSS })
+  await page.evaluate(() => document.querySelectorAll('.reveal').forEach((el) => el.classList.add('visible')))
+  await page.waitForTimeout(400)
+  await finishAnimations(page)
+  await page.evaluate(() => document.fonts && document.fonts.ready)
+  const actual = await page.evaluate(() => document.documentElement.getAttribute('data-theme'))
+  if (actual !== theme) throw new Error(`Expected data-theme="${theme}" at ${CLOCKS[theme]}, got "${actual}"`)
+  return { context, page }
+}
+
+export const baselinePng = (name) => decodePng(readFileSync(join(BASELINE_DIR, name)))
+
+export function compare(actualBuf, baselineName, threshold = 0.2) {
+  return diffPng(decodePng(actualBuf), baselinePng(baselineName), threshold)
+}
+
+export async function compareHeroToBaseline(browser, baseURL, vpName, theme) {
+  const { context, page } = await preparePage(browser, baseURL, vpName, theme)
+  await scrollTop(page)
+  await page.addStyleTag({ content: HIDE_NAV_CSS })
+  const loc = page.locator('#hero').first()
+  await loc.scrollIntoViewIfNeeded()
+  await page.waitForTimeout(100)
+  await finishAnimations(page)
+  const buf = await loc.screenshot()
+  await context.close()
+  return compare(buf, `section-hero-${vpName}-${theme}.png`)
+}
+
+/** Same extraction as the baseline's collectDom (elements only). */
+export function collectDom({ selector, hidden }) {
+  const root = document.querySelector(selector)
+  if (!root) return null
+  const hiddenSel = hidden.join(', ')
+  const isHidden = (el) => el.matches(hiddenSel) || !!el.parentElement?.closest(hiddenSel)
+  const norm = (s) => (s || '').replace(/\s+/g, ' ').trim()
+  const ownText = (el) => norm(Array.from(el.childNodes).filter((n) => n.nodeType === 3).map((n) => n.textContent).join(' '))
+  const describe = (el) => ({ tag: el.tagName.toLowerCase(), className: el.getAttribute('class') || '', text: ownText(el) })
+  const descendants = Array.from(root.querySelectorAll('*')).filter((el) => !isHidden(el))
+  return { root: { ...describe(root), fullText: norm(root.textContent) }, elementCount: descendants.length, elements: descendants.map(describe) }
+}
+

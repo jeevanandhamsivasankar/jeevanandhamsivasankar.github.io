@@ -1,6 +1,5 @@
-/* global document, window, Storage, MutationObserver, requestAnimationFrame, performance */
 import {
-  test, expect, only, gotoHome, freshPage, press, css, style, rootVar, collectErrors, setClock,
+  test, expect, only, gotoHome, freshPage, press, style, rootVar, collectErrors, setClock,
 } from './helpers.js'
 import { DAY, NIGHT, THEME_KEY } from './expected.js'
 

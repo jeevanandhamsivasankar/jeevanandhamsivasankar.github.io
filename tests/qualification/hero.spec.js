@@ -1,4 +1,3 @@
-/* global document, window, getComputedStyle */
 import { test, expect, only, gotoHome, freshPage, css, resolvedColor, collectErrors, baselineFullText } from './helpers.js'
 import { ROLES, RESUME_DOWNLOAD } from './expected.js'
 

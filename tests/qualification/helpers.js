@@ -1,4 +1,3 @@
-/* global document, window, getComputedStyle*/
 import { readFileSync, existsSync, readdirSync, statSync } from 'node:fs'
 import { resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -140,16 +139,22 @@ export async function press(locator) {
 }
 export const tapOrClick = press
 
-/** Scroll through every section so reveal-on-scroll fires, then back to top. */
+/** Scroll through the whole page in half-viewport steps so every reveal-on-scroll element intersects, then back to top. */
 export async function revealAll(page) {
-  const ids = await page.evaluate(() => Array.from(document.querySelectorAll('[data-section]')).map((e) => e.id))
-  for (const id of ids) {
-    await scrollToSection(page, id)
-    await page.waitForTimeout(120)
+  const { height, vh } = await page.evaluate(() => ({ height: document.documentElement.scrollHeight, vh: window.innerHeight }))
+  for (let y = 0; y <= height; y += Math.floor(vh / 2)) {
+    await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y)
+    await page.waitForTimeout(40)
   }
   await scrollBottom(page)
   await page.waitForTimeout(300)
   await scrollToY(page, 0)
+}
+
+/** Scroll an element to the viewport centre instantly (the page uses scroll-behavior: smooth). */
+export async function centre(locator) {
+  await locator.evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }))
+  await locator.page().waitForTimeout(900) // let the 0.7 s reveal transition finish
 }
 
 /** loadAllSections: all lazy chunks resolved, every section scrolled through. */
@@ -241,4 +246,13 @@ export async function resolvedColor(page, varName) {
 }
 export async function rootVar(page, varName) {
   return page.evaluate((n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim(), varName)
+}
+
+/** Centre the element, then move the pointer onto it in several steps so :hover and React mouse events settle. */
+export async function hoverAt(locator) {
+  await centre(locator)
+  const box = await locator.boundingBox()
+  const page = locator.page()
+  await page.mouse.move(box.x + box.width / 2 - 8, box.y + box.height / 2, { steps: 3 })
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 3 })
 }

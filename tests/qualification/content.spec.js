@@ -1,4 +1,3 @@
-/* global document, window, getComputedStyle */
 import {
   test, expect, only, gotoHome, freshPage, press, css, style, trackCount, resolvedColor, ownTexts,
   baselineTexts, baselineDom,
@@ -8,7 +7,7 @@ import { statSync } from 'node:fs'
 
 test.use({ timezoneId: 'Asia/Kolkata', locale: 'en-IN' })
 
-const norm = (s) => (s || '').replace(/[\s ]+/g, ' ').trim()
+const norm = (s) => (s || '').replace(/[\s\u00a0]+/g, ' ').trim()
 
 async function identity(page, id, { icon, label, title, cls }) {
   const sec = page.locator(`#${id}`)

@@ -1,4 +1,3 @@
-/* global document, window, getComputedStyle */
 import { test, expect, only, gotoHome, scrollToY, scrollToSection, scrollBottom, settleScroll, tapOrClick, css, collectErrors } from './helpers.js'
 import { NAV } from './expected.js'
 
