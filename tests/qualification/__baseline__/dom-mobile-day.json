@@ -5,11 +5,7 @@
       "tag": "section",
       "className": "hero",
       "text": "",
-      "fullText": "developer_boardSenior HMI Engineer · Chennai, IndiaS. JeevanandhamB.ECEQt / QML Developer|Senior Software Engineer with 4.9+ years in Automotive HMI, Infotainment Systems, Instrument Clusters, and Medical Device HMI. Specialising in Qt/QML, Embedded C++, and real-time UI engineering across production-grade OEM programs.rocket_launchView ProjectsmailGet In TouchdownloadResumeOPEN TO OPPORTUNITIESQt / QMLEmbedded C++LVGLCAN BusA-SPICELinux HMISQLite3FreeRTOS⚡ Live HMI Cluster Demo020406080100120140160180200012345678HMI CLUSTER DEMOx1000 r/min112KM/H4150RPMPND6ECO CRUISETRIP 0.47 kmCAN FRAMESSIMULATED 30.50 0x1A0 rc6 VEH_SPD 112.0 30.50 0x0C4 rc8 ENG_RPM 4144 30.50 0x2F1 rcB TURN_IND - 30.50 0x3B2 rcF GEAR_POS 6 30.50 0x1A0 rc0 VEH_SPD 112.0 30.50 0x0C4 rc0 ENG_RPM 41444.9+Yrs Exp8+Projects2DomainsQt/QMLLVGLC++CANUARTS. JEEVANANDHAMSENIOR HMI ENGINEERAutomotive HMIMedical HMIQt/QMLUX Design",
-      "box": {
-        "width": 390,
-        "height": 1209
-      }
+      "fullText": "developer_boardSenior HMI Engineer · Chennai, IndiaS. JeevanandhamB.ECEQt / QML Developer|Senior Software Engineer with 4.9+ years in Automotive HMI, Infotainment Systems, Instrument Clusters, and Medical Device HMI. Specialising in Qt/QML, Embedded C++, and real-time UI engineering across production-grade OEM programs.rocket_launchView ProjectsmailGet In TouchdownloadResumeOPEN TO OPPORTUNITIESQt / QMLEmbedded C++LVGLCAN BusA-SPICELinux HMISQLite3FreeRTOS⚡ Live HMI Cluster Demo020406080100120140160180200012345678HMI CLUSTER DEMOx1000 r/min112KM/H4150RPMPND6ECO CRUISETRIP 0.47 kmCAN FRAMESSIMULATED 30.50 0x1A0 rc6 VEH_SPD 112.0 30.50 0x0C4 rc8 ENG_RPM 4144 30.50 0x2F1 rcB TURN_IND - 30.50 0x3B2 rcF GEAR_POS 6 30.50 0x1A0 rc0 VEH_SPD 112.0 30.50 0x0C4 rc0 ENG_RPM 41444.9+Yrs Exp8+Projects2DomainsQt/QMLLVGLC++CANUARTS. JEEVANANDHAMSENIOR HMI ENGINEERAutomotive HMIMedical HMIQt/QMLUX Design"
     },
     "elementCount": 79,
     "elements": [
@@ -1234,11 +1230,7 @@
       "tag": "section",
       "className": "section-wrap",
       "text": "",
-      "fullText": "person01 — AboutWho I AmI'm a Senior Software Engineer with deep expertise in Human Machine Interface development for the automotive and medical device industries. Over 4.9 years, I've shipped production-grade HMIs for instrument clusters, infotainment systems, and medical therapy devices.My stack centres on Qt/QML and Embedded C++, complemented by LVGL, Candera CGI Studio, and TouchGFX. I've worked across STM32, i.MX6, i.MX8M, and MIMXRT1170 platforms, building everything from low-level driver integrations to polished, safety-aware UI layers.I bring an unusual combination of engineering rigour and UX design sensibility — holding a Google UX Design Professional Certificate and contributing to visual design work across all my projects using Figma and Adobe tooling.Experienced in A-SPICE aligned development, Agile execution, CI/CD pipelines, documentation discipline, UART communication frameworks (structured byte framing + CRC), SQLite3 database integration, and Linux-based system development.schedule4.9+Years Experiencerocket_launch8+Projects Shippeddevices2Domains — Auto & MedcodeC++Primary Language",
-      "box": {
-        "width": 390,
-        "height": 1411
-      }
+      "fullText": "person01 — AboutWho I AmI'm a Senior Software Engineer with deep expertise in Human Machine Interface development for the automotive and medical device industries. Over 4.9 years, I've shipped production-grade HMIs for instrument clusters, infotainment systems, and medical therapy devices.My stack centres on Qt/QML and Embedded C++, complemented by LVGL, Candera CGI Studio, and TouchGFX. I've worked across STM32, i.MX6, i.MX8M, and MIMXRT1170 platforms, building everything from low-level driver integrations to polished, safety-aware UI layers.I bring an unusual combination of engineering rigour and UX design sensibility — holding a Google UX Design Professional Certificate and contributing to visual design work across all my projects using Figma and Adobe tooling.Experienced in A-SPICE aligned development, Agile execution, CI/CD pipelines, documentation discipline, UART communication frameworks (structured byte framing + CRC), SQLite3 database integration, and Linux-based system development.schedule4.9+Years Experiencerocket_launch8+Projects Shippeddevices2Domains — Auto & MedcodeC++Primary Language"
     },
     "elementCount": 31,
     "elements": [
@@ -1919,11 +1911,7 @@
       "tag": "div",
       "className": "exp-band full-band",
       "text": "",
-      "fullText": "work02 — ExperienceCareermedical_servicesSenior Software EngineerPixelExpert Technology & Services Pvt. Ltd.SEP 2024 — JAN 2026Chennai, Tamil NaduLed HMI design & development for a medical physiotherapy laser therapy device — full ownership from UX design through Qt/QML implementation, embedded C++ backend, custom UART framework with CRC validation, and SQLite3 patient database. Safety-aware screen interactions, structured validation, and Linux-based device control integration.directions_carEmbedded Software EngineerPixelExpert Technology & Services Pvt. Ltd.APR 2022 — AUG 2024Chennai, Tamil NaduDeveloped automotive Instrument Cluster and Infotainment HMI across multiple OEM programs using Qt/QML, LVGL, Candera CGI Studio, and Embedded C. Worked as HCL external engineer on a SUV infotainment platform delivering Calls, Media, Settings, and Vehicle Stats modules in A-SPICE aligned Jenkins CI/CD environment.schoolGraduate Engineer TraineePixelExpert Technology & Services Pvt. Ltd.SEP 2021 — MAR 2022Chennai, Tamil NaduHands-on embedded development training on STM32 — UART, SPI, I²C, GPIO protocols. Built TouchGFX-based Instrument Cluster prototype with speedometer, odometer, alerts, trip metres, and fuel gauge. Foundational training in structured UI graphics and embedded integration.paletteGraphics Designer TraineeLapiz Digital Services Pvt. Ltd.MAY 2019 — SEP 2019Chennai, Tamil NaduInternship focused on visual design fundamentals, digital graphics production, and creative tooling across Adobe Creative Suite.",
-      "box": {
-        "width": 390,
-        "height": 2214
-      }
+      "fullText": "work02 — ExperienceCareermedical_servicesSenior Software EngineerPixelExpert Technology & Services Pvt. Ltd.SEP 2024 — JAN 2026Chennai, Tamil NaduLed HMI design & development for a medical physiotherapy laser therapy device — full ownership from UX design through Qt/QML implementation, embedded C++ backend, custom UART framework with CRC validation, and SQLite3 patient database. Safety-aware screen interactions, structured validation, and Linux-based device control integration.directions_carEmbedded Software EngineerPixelExpert Technology & Services Pvt. Ltd.APR 2022 — AUG 2024Chennai, Tamil NaduDeveloped automotive Instrument Cluster and Infotainment HMI across multiple OEM programs using Qt/QML, LVGL, Candera CGI Studio, and Embedded C. Worked as HCL external engineer on a SUV infotainment platform delivering Calls, Media, Settings, and Vehicle Stats modules in A-SPICE aligned Jenkins CI/CD environment.schoolGraduate Engineer TraineePixelExpert Technology & Services Pvt. Ltd.SEP 2021 — MAR 2022Chennai, Tamil NaduHands-on embedded development training on STM32 — UART, SPI, I²C, GPIO protocols. Built TouchGFX-based Instrument Cluster prototype with speedometer, odometer, alerts, trip metres, and fuel gauge. Foundational training in structured UI graphics and embedded integration.paletteGraphics Designer TraineeLapiz Digital Services Pvt. Ltd.MAY 2019 — SEP 2019Chennai, Tamil NaduInternship focused on visual design fundamentals, digital graphics production, and creative tooling across Adobe Creative Suite."
     },
     "elementCount": 57,
     "elements": [
@@ -3038,11 +3026,7 @@
       "tag": "section",
       "className": "section-wrap",
       "text": "",
-      "fullText": "build03 — SkillsToolboxPrimary LanguageC++ (C++11–C++17)codeEmbedded CQMLLuaOOPSTLSmart PointersBit ManipulationStructuresHMI FrameworksQt / QMLQt WidgetsLVGLTouchGFXGUI GuiderCrank StoryboardCandera CGI StudioVG LiteQt 3D StudioQt Design StudioEmbedded & OSFreeRTOSEmbedded LinuxYocto ProjectUbuntuSTM32i.MX6 / i.MX8MMIMXRT1170Communication InterfacesUART / CRCSPII²CCAN BusGPIOTools & DevOpsGitPlastic SCMJiraCMakeJenkinsSTM32CubeIDEMCUXpressoTK LoggerEnterprise ArchitectPolarionTesting & DebuggingGDBDLT ViewerHIL TestingECU Verificationfact_checkManual TestingDatabaseSQLite3Design & UXFigmaAdobe IllustratorAdobe XDPhotoshopGIMPFontForgeAffinityMiroMethodologiesAgile / ScrumA-SPICEUMLverified_usershieldISO 26262 AwarenessSafety-oriented HMI behavior with focus on system reliability, deterministic performance, and user-safety considerations. Practical application across automotive HMI projects — safety-aware UI interaction design, structured validation flows, and Functional Safety methodology awareness.Safety-Aware UIDeterministic PerformanceStructured ValidationFMEA AwarenessFail-Safe Patterns",
-      "box": {
-        "width": 390,
-        "height": 2676
-      }
+      "fullText": "build03 — SkillsToolboxPrimary LanguagecodeC++ (C++11–C++17)codeEmbedded CcodeQMLcodeLuaOOPSTLSmart PointersBit ManipulationStructuresHMI FrameworkscodeQt / QMLcodeQt WidgetsLVGLTouchGFXGUI GuiderCrank StoryboardCandera CGI StudioVG LitecodeQt 3D StudiocodeQt Design StudioEmbedded & OSFreeRTOScodeEmbedded LinuxcodeYocto ProjectcodeUbuntucodeSTM32i.MX6 / i.MX8MMIMXRT1170Communication InterfacesUART / CRCSPII²CCAN BusGPIOTools & DevOpscodeGitPlastic SCMcodeJiracodeCMakecodeJenkinscodeSTM32CubeIDEMCUXpressoTK LoggerEnterprise ArchitectPolarionTesting & DebuggingGDBDLT ViewerHIL TestingECU Verificationfact_checkManual TestingDatabasecodeSQLite3Design & UXcodeFigmacodeAdobe IllustratorcodeAdobe XDcodePhotoshopcodeGIMPFontForgecodeAffinitycodeMiroMethodologiesAgile / ScrumA-SPICEUMLverified_usershieldISO 26262 AwarenessSafety-oriented HMI behavior with focus on system reliability, deterministic performance, and user-safety considerations. Practical application across automotive HMI projects — safety-aware UI interaction design, structured validation flows, and Functional Safety methodology awareness.Safety-Aware UIDeterministic PerformanceStructured ValidationFMEA AwarenessFail-Safe Patterns"
     },
     "elementCount": 509,
     "elements": [
@@ -3102,9 +3086,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3142,9 +3126,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3162,9 +3146,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3447,9 +3431,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3467,9 +3451,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3782,9 +3766,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3802,9 +3786,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3887,9 +3871,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3907,9 +3891,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3927,9 +3911,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -3947,9 +3931,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -4432,9 +4416,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -4502,9 +4486,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -4522,9 +4506,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -4542,9 +4526,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -4562,9 +4546,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5122,9 +5106,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5167,9 +5151,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5187,9 +5171,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5207,9 +5191,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5227,9 +5211,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5247,9 +5231,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5307,9 +5291,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -5327,9 +5311,9 @@
         "text": ""
       },
       {
-        "tag": "img",
+        "tag": "span",
         "className": "",
-        "text": ""
+        "text": "code"
       },
       {
         "tag": "span",
@@ -6417,11 +6401,7 @@
       "tag": "section",
       "className": "section-wrap",
       "text": "",
-      "fullText": "rocket_launch04 — Engineering ProjectsSelected WorkOCT 2024 — JAN 2026medical_servicesPROJECT_01Medical DevicePhysiotherapy Laser Therapy HMImedical_servicesProblemA medical laser therapy device with treatment workflows and safety-aware UI logic.RoleFull-ownership HMI.SolutionSQLite3 patient records and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration.Qt/QMLC++SQLite3UART/CRCLinuxNOV 2023 — SEP 2024speedPROJECT_02AutomotiveLVGL Cluster — MIMXRT1170speedProblemA next-gen instrument cluster needing smooth real-time gauge rendering.SolutionEmbedded C, LVGL and VG Lite on MIMXRT1170 EVKB, with ADAS-style visualisation widgets and low-level GPU rendering optimisations.ImpactSmooth real-time gauge rendering.LVGLVG LiteEmbedded CMIMXRT1170ADASMAR 2023 — SEP 2023radioPROJECT_03Automotive · Infotainment · OEMSUV In-Vehicle Infotainment SystemradioProblemA production SUV infotainment platform.RoleHMI developer (HCL external assignment).SolutionCalls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules, delivered in full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD.ImpactValidation via TK Logger for latency control and reliability assurance.Qt/QMLC++JenkinsPlastic SCMA-SPICEFigma EnterprisePolarionLinuxNOV 2022 — MAR 2023two_wheelerPROJECT_04AutomotiveSports Bike Cluster — i.MX6two_wheelerProblemAn advanced cluster on i.MX6.SolutionQt/QML and Linux: 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations.Qt/QMLC++i.MX6LinuxSQLite3JAN 2022 — SEP 2022two_wheelerPROJECT_05Automotive · OEM (NDA)Two-Wheeler OEM Cluster — CGI Studiotwo_wheelerProblemA production Instrument Cluster for a leading two-wheeler OEM.SolutionState machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards.Candera CGI StudioLuaSCMLCMakePhotoshopR&D / INTERNALsensorsR&DInternal · Capability WorkADAS 3D Demonstrator & R&D ProjectssensorsProblemCollision visualisation and parking assist UI demonstrator.SolutionQt 3D Studio and Blender on i.MX8M, plus a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge.ImpactStructured UI graphics and embedded integration for capability development.Qt 3D StudioBlenderi.MX8MTouchGFXSTM32F469GADAS",
-      "box": {
-        "width": 390,
-        "height": 3849
-      }
+      "fullText": "rocket_launch04 — Engineering ProjectsSelected WorkOCT 2024 — JAN 2026medical_servicesPROJECT_01Medical DevicePhysiotherapy Laser Therapy HMImedical_servicesProblemA medical laser therapy device with treatment workflows and safety-aware UI logic.RoleFull-ownership HMI.SolutionSQLite3 patient records and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration.Qt/QMLC++SQLite3UART/CRCLinuxNOV 2023 — SEP 2024speedPROJECT_02AutomotiveLVGL Cluster — MIMXRT1170speedProblemA next-gen instrument cluster needing smooth real-time gauge rendering.SolutionEmbedded C, LVGL and VG Lite on MIMXRT1170 EVKB, with ADAS-style visualisation widgets and low-level GPU rendering optimisations.ImpactSmooth real-time gauge rendering.LVGLVG LiteEmbedded CMIMXRT1170ADASMAR 2023 — SEP 2023radioPROJECT_03Automotive · Infotainment · OEMSUV In-Vehicle Infotainment SystemradioProblemA production SUV infotainment platform.RoleHMI developer (HCL external assignment).SolutionCalls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules, delivered in full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD.ImpactValidation via TK Logger for latency control and reliability assurance.Qt/QMLC++JenkinsPlastic SCMA-SPICEFigma EnterprisePolarionLinuxNOV 2022 — MAR 2023two_wheelerPROJECT_04AutomotiveSports Bike Cluster — i.MX6two_wheelerProblemAn advanced cluster on i.MX6.SolutionQt/QML and Linux: 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations.Qt/QMLC++i.MX6LinuxSQLite3JAN 2022 — SEP 2022two_wheelerPROJECT_05Automotive · OEM (NDA)Two-Wheeler OEM Cluster — CGI Studiotwo_wheelerProblemA production Instrument Cluster for a leading two-wheeler OEM.SolutionState machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards.Candera CGI StudioLuaSCMLCMakePhotoshopR&D / INTERNALsensorsR&DInternal · Capability WorkADAS 3D Demonstrator & R&D ProjectssensorsProblemCollision visualisation and parking assist UI demonstrator.SolutionQt 3D Studio and Blender on i.MX8M, plus a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge.ImpactStructured UI graphics and embedded integration for capability development.Qt 3D StudioBlenderi.MX8MTouchGFXSTM32F469GADAS"
     },
     "elementCount": 179,
     "elements": [
@@ -8146,11 +8126,7 @@
       "tag": "div",
       "className": "full-band",
       "text": "",
-      "fullText": "brush05 — Design PortfolioCreative Workkm/hFUELRPM3200directions_carAUTOMOTIVEAutomotive Instrument ClustersHMI design work for two-wheeler and four-wheeler instrument clusters — from low-fidelity wireframes to final pixel-perfect UI assets for embedded deployment.open_in_newView on BehancePATIENTName:SampleAge:45Session:#12Duration:20 minLASER POWER70%STARTSTOPmedical_servicesMEDICAL HMIMedical Device HMI DesignUX/UI design for physiotherapy laser therapy control systems — treatment workflows, patient record interfaces, and safety-oriented screen interaction patterns.open_in_newView on BehanceCALLSMEDIASETTINGSVEHICLENAVradioINFOTAINMENT · OEMInfotainment UI ModulesDesign assets and interaction models for SUV infotainment — Calls, Media, Settings, and Vehicle Statistics screens designed in Figma Enterprise for production deployment.open_in_newView on BehanceDESKTOPMOBILETABLETdevicesMULTI-PLATFORMMulti-Platform UI/UX DesignsAdaptive UI/UX design systems spanning desktop, mobile, and embedded display platforms — consistent design language across different form factors and interaction models.open_in_newView on BehanceHMIENGINEERQt/QMLEmbeddedA-SPICEFigma/UXpersonDESIGNER PROFILEJeevanandham S — Full Design Portfolio4.9+ years engineering & designing HMI systems across automotive, medical, and embedded platforms. View all projects, case studies, and visual design work on Behance.open_in_newView on Behance",
-      "box": {
-        "width": 390,
-        "height": 1674
-      }
+      "fullText": "brush05 — Design PortfolioCreative Workkm/hFUELRPM3200directions_carAUTOMOTIVEAutomotive Instrument ClustersHMI design work for two-wheeler and four-wheeler instrument clusters — from low-fidelity wireframes to final pixel-perfect UI assets for embedded deployment.open_in_newView on BehancePATIENTName:SampleAge:45Session:#12Duration:20 minLASER POWER70%STARTSTOPmedical_servicesMEDICAL HMIMedical Device HMI DesignUX/UI design for physiotherapy laser therapy control systems — treatment workflows, patient record interfaces, and safety-oriented screen interaction patterns.open_in_newView on BehanceCALLSMEDIASETTINGSVEHICLENAVradioINFOTAINMENT · OEMInfotainment UI ModulesDesign assets and interaction models for SUV infotainment — Calls, Media, Settings, and Vehicle Statistics screens designed in Figma Enterprise for production deployment.open_in_newView on BehanceDESKTOPMOBILETABLETdevicesMULTI-PLATFORMMulti-Platform UI/UX DesignsAdaptive UI/UX design systems spanning desktop, mobile, and embedded display platforms — consistent design language across different form factors and interaction models.open_in_newView on BehanceHMIENGINEERQt/QMLEmbeddedA-SPICEFigma/UXpersonDESIGNER PROFILEJeevanandham S — Full Design Portfolio4.9+ years engineering & designing HMI systems across automotive, medical, and embedded platforms. View all projects, case studies, and visual design work on Behance.open_in_newView on Behance"
     },
     "elementCount": 159,
     "elements": [
@@ -9775,11 +9751,7 @@
       "tag": "section",
       "className": "section-wrap",
       "text": "",
-      "fullText": "school06 — EducationAcademic BackgroundschoolB.E. — Electronics & Communication EngineeringAdhiparasakthi College of Engineering (Anna University), Tamil Nadu2015 – 2020CGPA: 6.34 / 10ECEmilitary_techKey Domain Expertise4.9+ years of production-grade specialisation in HMI engineering across Automotive and Medical device industriesAutomotive HMIMedical Device HMIInstrument ClustersInfotainmentADAS / 3D Viz",
-      "box": {
-        "width": 390,
-        "height": 968
-      }
+      "fullText": "school06 — EducationAcademic BackgroundschoolB.E. — Electronics & Communication EngineeringAdhiparasakthi College of Engineering (Anna University), Tamil Nadu2015 – 2020CGPA: 6.34 / 10ECEmilitary_techKey Domain Expertise4.9+ years of production-grade specialisation in HMI engineering across Automotive and Medical device industriesAutomotive HMIMedical Device HMIInstrument ClustersInfotainmentADAS / 3D Viz"
     },
     "elementCount": 24,
     "elements": [
@@ -10313,11 +10285,7 @@
       "tag": "div",
       "className": "full-band",
       "text": "",
-      "fullText": "verified07 — CertificationsCredentialsschoolQt 6 Core — Beginner, Intermediate & AdvancedUDEMYschoolQML for BeginnersUDEMYverified_userGoogle UX Design Professional CertificateCOURSERA — CREDLY VERIFIED",
-      "box": {
-        "width": 390,
-        "height": 852
-      }
+      "fullText": "verified07 — CertificationsCredentialsschoolQt 6 Core — Beginner, Intermediate & AdvancedUDEMYschoolQML for BeginnersUDEMYverified_userGoogle UX Design Professional CertificateCOURSERA — CREDLY VERIFIED"
     },
     "elementCount": 20,
     "elements": [
@@ -10767,11 +10735,7 @@
       "tag": "div",
       "className": "full-band",
       "text": "",
-      "fullText": "description08 — ResumeDownload My ResumeFull details on experience, projects, skills, certifications, and education — available as a PDF for your review or ATS systems.downloadDownload PDFopen_in_newView Onlinepicture_as_pdfJEEVANANDHAM_RESUME.PDF · 3 PAGESS. JEEVANANDHAMSENIOR SOFTWARE ENGINEER – AUTOMOTIVE & MEDICAL HMI | UI/UX | QT/QML | EMBEDDED C++location_onChennai, Tamil Nadu, Indiamailjeevanandhamsivashankaran@gmail.comphone+91 8111010315KEY SKILLSQt / QMLEmbedded C++LVGL / HMIUX / FigmadownloadDownloadopen_in_newView",
-      "box": {
-        "width": 390,
-        "height": 1033
-      }
+      "fullText": "description08 — ResumeDownload My ResumeFull details on experience, projects, skills, certifications, and education — available as a PDF for your review or ATS systems.downloadDownload PDFopen_in_newView Onlinepicture_as_pdfJEEVANANDHAM_RESUME.PDF · 3 PAGESS. JEEVANANDHAMSENIOR SOFTWARE ENGINEER – AUTOMOTIVE & MEDICAL HMI | UI/UX | QT/QML | EMBEDDED C++location_onChennai, Tamil Nadu, Indiamailjeevanandhamsivashankaran@gmail.comphone+91 8111010315KEY SKILLSQt / QMLEmbedded C++LVGL / HMIUX / FigmadownloadDownloadopen_in_newView"
     },
     "elementCount": 48,
     "elements": [
@@ -11809,11 +11773,7 @@
       "tag": "section",
       "className": "section-wrap contact-wrap",
       "text": "",
-      "fullText": "mail09 — ContactLet's Work TogetherOpen to senior HMI engineering roles, embedded UI consulting, and collaborative automotive or medical device projects. Based in Chennai, India.mailjeevanandhamsivashankaran@gmail.comphone+91 8111010315open_in_newLinkedInbrushBehance PortfolioterminalGitHublocation_onChennai, Tamil Nadu, India",
-      "box": {
-        "width": 390,
-        "height": 712
-      }
+      "fullText": "mail09 — ContactLet's Work TogetherOpen to senior HMI engineering roles, embedded UI consulting, and collaborative automotive or medical device projects. Based in Chennai, India.mailjeevanandhamsivashankaran@gmail.comphone+91 8111010315open_in_newLinkedInbrushBehance PortfolioterminalGitHublocation_onChennai, Tamil Nadu, India"
     },
     "elementCount": 18,
     "elements": [
@@ -12221,11 +12181,7 @@
       "tag": "nav",
       "className": "nav",
       "text": "",
-      "fullText": "developer_boardJEEVANANDHAMpersonAboutworkExperiencebuildSkillsrocket_launchProjectsbrushDesignschoolEducationverifiedCertsdescriptionResumemailContactwb_sunnyDAY · 12:00 pmdark_modeNight",
-      "box": {
-        "width": 390,
-        "height": 64
-      }
+      "fullText": "developer_boardJEEVANANDHAMpersonAboutworkExperiencebuildSkillsrocket_launchProjectsbrushDesignschoolEducationverifiedCertsdescriptionResumemailContactwb_sunnyDAY · 12:00 pmdark_modeNight"
     },
     "elementCount": 39,
     "elements": [
@@ -13074,11 +13030,7 @@
       "tag": "footer",
       "className": "",
       "text": "© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — BUILT WITH PRECISION",
-      "fullText": "developer_board© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — BUILT WITH PRECISIONdeveloper_board",
-      "box": {
-        "width": 390,
-        "height": 91
-      }
+      "fullText": "developer_board© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — BUILT WITH PRECISIONdeveloper_board"
     },
     "elementCount": 2,
     "elements": [

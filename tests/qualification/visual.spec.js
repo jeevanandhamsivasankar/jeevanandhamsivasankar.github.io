@@ -8,9 +8,10 @@
  * DEF-012 -webkit-backdrop-filter pairs and DEF-021 text colour of .exp-company-loc/.contact-loc (restored via ALLOWED_DIFF_CSS).
  */
 import { writeFileSync } from 'node:fs'
-import { test, expect, baselineDom } from './helpers.js'
+import { join } from 'node:path'
+import { test, expect, baselineDom, BASELINE_DIR } from './helpers.js'
 import {
-  preparePage, scrollTop, settleLazyImages, compare, collectDom, TARGETS, HIDDEN_SELECTORS, HIDE_NAV_CSS,
+  preparePage, scrollTop, settleLazyImages, compare, collectDom, TARGETS, HIDDEN_SELECTORS, HIDE_NAV_CSS, UPDATING_BASELINES,
 } from './visual-helpers.js'
 
 const vpOf = (testInfo) => (testInfo.project.name === 'mobile-chromium' ? 'mobile' : 'desktop')
@@ -78,6 +79,10 @@ test('QT-111 Text-content and class-name parity snapshot', async ({ browser }, t
     await settleLazyImages(page)
     for (const [id, selector] of TARGETS) {
       const live = await page.evaluate(collectDom, { selector, hidden: HIDDEN_SELECTORS })
+      if (UPDATING_BASELINES) {
+        base[id] = { ...base[id], root: live.root, elementCount: live.elementCount, elements: live.elements }
+        continue
+      }
       const exp = base[id]
       expect.soft({ tag: live.root.tag, className: live.root.className, text: live.root.text }, `${theme} ${id} root`).toEqual({
         tag: exp.root.tag, className: exp.root.className, text: exp.root.text,
@@ -88,6 +93,7 @@ test('QT-111 Text-content and class-name parity snapshot', async ({ browser }, t
       expect.soft(live.elementCount, `${theme} ${id} element count`).toBe(exp.elementCount)
       expect.soft(live.elements, `${theme} ${id} elements`).toEqual(exp.elements)
     }
+    if (UPDATING_BASELINES) writeFileSync(join(BASELINE_DIR, `dom-${vp}-${theme}.json`), JSON.stringify(base, null, 2))
     await context.close()
   }
 })
