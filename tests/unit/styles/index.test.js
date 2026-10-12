@@ -45,7 +45,8 @@ describe('UNIT-STYLE_INDEX', () => {
     const missing = base.filter((sig) => !mine.includes(sig))
     expect(missing).toEqual([])
     const extra = mine.filter((sig) => !base.includes(sig))
-    extra.forEach((sig) => expect(sig).toMatch(/skip-link|focus/))
+    // DEF-020 adds two overflow guards in @media (max-width: 540px)
+    extra.forEach((sig) => expect(sig).toMatch(/skip-link|focus|540px\)\|\.(exp-header|contact-item)\|/))
     // relative order of baseline rules is preserved
     const idx = base.map((sig) => mine.indexOf(sig))
     expect([...idx].sort((a, b) => a - b)).toEqual(idx)

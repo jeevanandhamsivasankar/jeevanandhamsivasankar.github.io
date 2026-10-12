@@ -84,7 +84,10 @@ describe('CSS equivalence with the baseline (ARC-017, ARC-001)', () => {
     const cand = parseRules(candidateCss()).map(relax)
     expect(base.length).toBeGreaterThan(300)
 
-    const isAllowed = (r) => ALLOWED_NEW.some((re) => re.test(r.selector))
+    // DEF-020: two overflow guards added inside @media (max-width:540px)
+    const isAllowed = (r) =>
+      ALLOWED_NEW.some((re) => re.test(r.selector)) ||
+      (/540px/.test(r.ctx) && /^\.(exp-header|contact-item)$/.test(r.selector) && /wrap|overflow-wrap/.test(r.body) && !/gap|display/.test(r.body))
     const candCore = cand.filter((r) => !isAllowed(r))
 
     // multiset of complete rules (selector + declarations)

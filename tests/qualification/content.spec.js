@@ -161,6 +161,13 @@ test('QT-036 Tech icon fallback when the CDN fails', async ({ page, browser }, t
   await bp.route(/^https:\/\/cdn\.simpleicons\.org\//, (r) => r.abort('failed'))
   await gotoHome(bp)
   await expect(bp.locator('.skill-chip')).toHaveCount(58)
+  // DEF-006: icons are loading="lazy"; bring every chip into view so each request fires (and fails)
+  await bp.locator('.skill-chip').evaluateAll(async (els) => {
+    for (const e of els) {
+      e.scrollIntoView({ block: 'center' })
+      await new Promise((r) => setTimeout(r, 30))
+    }
+  })
   await expect
     .poll(() => bp.locator('.skill-chip img').count(), { timeout: 15_000 })
     .toBe(0)
