@@ -60,3 +60,5 @@ All DEF-001..022 verified fixed. Coverage thresholds met (≥90% lines models/li
 **Known flake:** QT-109 `about` section (desktop) occasionally differs by ~0.10% (limit 0.10%) from backdrop-filter rasterisation jitter; the test re-captures twice before judging and passed on re-run.
 
 **Exit criteria (STP §1): met.**
+
+**CI baselines (2026-10-12, owner-approved option 1):** visual parity baselines are environment-specific (font anti-aliasing and blur rasterisation differ between machines by ~0.1–0.2%). They are now captured on the CI runner by `.github/workflows/visual-baselines.yml` (commit `34b1987`, 29 PNGs) and compared on the same runner image with the original 0.1% tolerance. Reviewed: layout identical to the approved Release 1.0 capture. Local visual runs in other environments are informative only.
