@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './fixtures.js'
 
 const html = (page) => page.locator('html')
 const THEME_KEY = 'jsv-theme-override'

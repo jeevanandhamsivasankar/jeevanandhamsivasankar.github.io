@@ -1,9 +1,11 @@
-import { test, expect } from '@playwright/test'
+import { test, expect } from './fixtures.js'
 
 test('QT-158 reveal uses --dur-slow with a <= 60 ms stagger and runs once', async ({ page }) => {
   await page.goto('/')
-  await page.locator('#about').scrollIntoViewIfNeeded()
+  // the section slot is swapped when its lazy chunk loads; scroll by script and let the card appear (race fix, as QT-159)
+  await page.evaluate(() => document.getElementById('about')?.scrollIntoView())
   const card = page.locator('#about .stat-card').nth(2)
+  await expect(card).toBeAttached()
   await card.scrollIntoViewIfNeeded()
   await expect(card).toHaveClass(/visible/)
   const t = await card.evaluate((el) => {

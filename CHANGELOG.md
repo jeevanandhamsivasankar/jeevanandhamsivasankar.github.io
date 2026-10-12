@@ -2,6 +2,16 @@
 
 All notable changes are documented here. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [Semantic Versioning](https://semver.org/).
 
+## [2.0.1] - 2026-10-12
+
+### Changed
+- Ignition intro (US-208) enabled for visitors: plays once per browser session for at most 1.2 s, skippable (button, key, click), never under reduced motion.
+
+## [2.0.0] - 2026-10-12
+
+### Added
+- Sprint 2 design upgrade (US-201..213): tokens v2, motion tokens, Hero v2, instrument cluster v2, day/night illumination, micro-interactions, case-study project cards, MediaSlot, responsive images, OG card, icons and manifest, media budget CI.
+
 ## [1.0.0] - 2026-10-12
 
 ### Added
