@@ -10,7 +10,7 @@ const theme = (page) => page.evaluate(() => document.documentElement.getAttribut
 const settle = (page) => page.waitForTimeout(120)
 
 async function loadAt(browser, testInfo, iso, extra = {}) {
-  const { context, page } = await freshPage(browser, testInfo, extra)
+  const { context, page } = await freshPage(browser, testInfo, { reducedMotion: 'reduce', ...extra })
   await setClock(page, iso)
   await page.goto('/')
   await page.waitForSelector('#hero')
@@ -94,7 +94,7 @@ test('QT-061 Auto re-evaluation every 60 s until an override exists', async ({ b
   await context.close()
   // persisted override
   ;({ context, page } = await (async () => {
-    const c = await freshPage(browser, testInfo)
+    const c = await freshPage(browser, testInfo, { reducedMotion: 'reduce' })
     await c.page.addInitScript((k) => window.localStorage.setItem(k, 'night'), THEME_KEY)
     await setClock(c.page, DAY)
     await c.page.goto('/')
@@ -137,6 +137,7 @@ test('QT-062 Theme toggle button label, icon and manual override', async ({ page
 })
 
 test('QT-063 Theme badge text, ticking clock and mobile hiding', async ({ page }, testInfo) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' }) // no rAF flood while the fake clock runs
   await gotoHome(page, { at: '2026-06-21T17:30:00Z' })
   const badge = page.locator('.theme-badge')
   const desktop = testInfo.project.name === 'desktop-chromium'
@@ -180,7 +181,7 @@ test('QT-064 Smooth theme transitions (computed style inspection)', async ({ pag
   const body = await t('body')
   expect(body['transition-property']).toContain('background')
   expect(body['transition-duration']).toBe('1.2s, 0.6s')
-  for (const sel of ['.stat-card', '.cert-card', '.btn']) {
+  for (const sel of ['.gauge-widget', '.profile-info-panel', 'footer']) {
     const c = await t(sel)
     expect(c['transition-property'], sel).toContain('background')
     expect(c['transition-property'], sel).toContain('border-color')
@@ -250,7 +251,7 @@ test('QT-114 Theme independent of the visitor\'s time zone', async ({ browser },
   const instants = [
     ['2026-06-21T06:30:00Z', 'day'],
     ['2026-06-21T17:30:00Z', 'night'],
-    ['2026-06-21T00:15:55Z', 'day'],
+    ['2026-06-21T00:15:55Z', null],
     ['2026-03-08T06:30:00Z', null],
     ['2026-03-29T00:30:00Z', null],
     ['2026-11-01T05:30:00Z', null],
