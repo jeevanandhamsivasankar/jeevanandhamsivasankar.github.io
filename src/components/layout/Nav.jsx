@@ -20,7 +20,17 @@ export default function Nav({ items: allItems }) {
       if (e.key === "Escape") {
         setOpen(false);
         hamburgerRef.current?.focus();
+        return;
       }
+      if (e.key !== "Tab") return;
+      // Focus trap: Tab cycles through hamburger + menu items only.
+      const menu = document.getElementById("mobile-menu");
+      if (!menu || !hamburgerRef.current) return;
+      const ring = [hamburgerRef.current, ...menu.querySelectorAll("a[href], button")];
+      const idx = ring.indexOf(document.activeElement);
+      const next = idx === -1 ? 0 : (idx + (e.shiftKey ? -1 : 1) + ring.length) % ring.length;
+      e.preventDefault();
+      ring[next].focus();
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);

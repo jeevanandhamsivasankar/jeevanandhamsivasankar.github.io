@@ -12,43 +12,35 @@ function signature(root) {
   return out
 }
 
-// Release 1 amendments (allowed differences vs baseline): DEF-012 -webkit-backdrop-filter pairs; DEF-021 colour of
-// .exp-company-loc / .contact-loc.
-function relax(sig) {
-  const [at, sel, decls] = sig.split('|')
-  const keep = decls
-    .split(';')
-    .filter((d) => !d.startsWith('-webkit-backdrop-filter:'))
-    .filter((d) => !(/^(\.exp-company-loc|\.contact-loc)$/.test(sel) && d.startsWith('color:')))
-  return `${at}|${sel}|${keep.join(';')}`
-}
-
 describe('UNIT-STYLE_INDEX', () => {
-  it('UT-STYLE_INDEX-001 exactly four @imports in order tokens, base, components, sections and no rules', () => {
+  it('UT-STYLE_INDEX-001 exactly eleven @imports in cascade order (Sprint 2) and no rules', () => {
     const r = parseStyle('index')
     const nodes = r.nodes.filter((n) => n.type !== 'comment')
     expect(nodes.every((n) => n.type === 'atrule' && n.name === 'import')).toBe(true)
     expect(nodes.map((n) => n.params.replace(/["']/g, ''))).toEqual([
       './tokens.css',
+      './motion.css',
       './base.css',
       './components.css',
       './sections.css',
+      './hero.css',
+      './cluster.css',
+      './intro.css',
+      './theme-transition.css',
+      './projects.css',
+      './media.css',
     ])
     let rules = 0
     r.walkRules(() => (rules += 1))
     expect(rules).toBe(0)
   })
 
-  it('UT-STYLE_INDEX-002 (SUDS 6.15) concatenated files keep every baseline rule in order; only skip-link/focus rules are added', () => {
-    const mine = signature(parse(cascadeCss())).map(relax)
-    const base = signature(parse(readFixture('baseline-css.txt'))).map(relax)
-    const missing = base.filter((sig) => !mine.includes(sig))
-    expect(missing).toEqual([])
-    const extra = mine.filter((sig) => !base.includes(sig))
-    // DEF-020 adds two overflow guards in @media (max-width: 540px)
-    extra.forEach((sig) => expect(sig).toMatch(/skip-link|focus|540px\)\|\.(exp-header|contact-item)\|/))
-    // relative order of baseline rules is preserved
-    const idx = base.map((sig) => mine.indexOf(sig))
-    expect([...idx].sort((a, b) => a - b)).toEqual(idx)
+  it('UT-STYLE_INDEX-002 (SUDS 6.15) concatenated files equal the Sprint 2 approved baseline rules, in order (NFR-MAINT-009)', () => {
+    const mine = signature(parse(cascadeCss()))
+    const base = signature(parse(readFixture('baseline-css-s2.txt')))
+    expect(base.length).toBeGreaterThan(300)
+    expect(mine.filter((sig) => !base.includes(sig))).toEqual([])
+    expect(base.filter((sig) => !mine.includes(sig))).toEqual([])
+    expect(mine).toEqual(base)
   })
 })

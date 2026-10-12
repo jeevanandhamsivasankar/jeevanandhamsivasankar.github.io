@@ -51,7 +51,7 @@ describe('UNIT-DATA_PROFILE', () => {
   })
 
   it('UT-DATA_PROFILE-007 photo is {src, alt, width, height}', () => {
-    expect(PROFILE.photo).toEqual({ src: 'profile.webp', alt: 'S. Jeevanandham', width: 600, height: 900 })
+    expect(PROFILE.photo).toEqual({ src: '/img/profile-600.webp', alt: 'S. Jeevanandham', width: 600, height: 900 })
   })
 
   it('UT-DATA_PROFILE-008 hero bio: two emphasised segments and byte-identical plain text', () => {

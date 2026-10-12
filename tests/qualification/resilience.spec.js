@@ -88,8 +88,8 @@ test('QT-122 Content visible when IntersectionObserver is missing', async ({ pag
     .poll(() => page.evaluate(() => Array.from(document.querySelectorAll('.reveal')).filter((e) => !e.classList.contains('visible')).length))
     .toBe(0)
   expect(errors.pageErrors).toEqual([])
-  const speed = () => page.locator('.gauge-widget svg text').first().textContent()
-  const a = await speed()
+  const frames = () => page.locator('.gauge-widget .cluster-can pre').textContent() // CAN ticker advances from the first frame
+  const a = await frames()
   await page.waitForTimeout(1500)
-  expect(await speed()).not.toBe(a)
+  expect(await frames()).not.toBe(a)
 })

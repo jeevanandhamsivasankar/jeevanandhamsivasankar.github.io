@@ -1,23 +1,25 @@
-import { compact, declsFor, parseStyle } from '../../utils/css.js'
+import { cascadeCss, compact, declsFor, parse, parseStyle } from '../../utils/css.js'
 
 const sec = () => parseStyle('sections')
+const all = () => parse(cascadeCss()) // Sprint 2: hero/cluster/projects rules live in their own stylesheets
 const M900 = '(max-width: 900px)'
 const M540 = '(max-width: 540px)'
 
 describe('UNIT-STYLE_SECTIONS', () => {
   it('UT-STYLE_SECTIONS-001 .hero grid-template-columns "1fr 360px 260px", min-height 100vh', () => {
-    const d = declsFor(sec(), '.hero')
+    // FR-HERO-001 (changed): the grid is no longer mandated, hero v2 keeps it; rule lives in hero.css (DEF-201 fix)
+    const d = declsFor(all(), '.hero')
     expect(compact(d['grid-template-columns'])).toBe('1fr 360px 260px')
     expect(d['min-height']).toBe('100vh')
   })
 
   it('UT-STYLE_SECTIONS-002 max-width 900px block', () => {
-    const r = sec()
+    const r = all()
     const at = (s) => declsFor(r, s, { media: M900 })
     const hero = at('.hero')
     expect(compact(hero['grid-template-columns'])).toMatch(/^1fr( !important)?$/)
-    expect(compact(hero.padding)).toBe('80px 24px 60px !important')
-    expect(at('.hero-center').display).toBe('none')
+    expect(compact(hero.padding)).toBe('76px 24px 40px !important') // hero v2 (US-206) tightens 80/60 to 76/40
+    expect(at('.hero .hero-center').display).toBe('flex') // FR-UX-004: compact cluster shown (profile card stays hidden)
     expect(at('.hero-right').display).toBe('none')
     expect(compact(at('.about-grid')['grid-template-columns'])).toMatch(/^1fr/)
     expect(compact(at('.projects-grid')['grid-template-columns'])).toMatch(/^1fr/)
@@ -33,13 +35,13 @@ describe('UNIT-STYLE_SECTIONS', () => {
   })
 
   it('UT-STYLE_SECTIONS-003 max-width 540px block', () => {
-    const r = sec()
+    const r = all()
     const at = (s) => declsFor(r, s, { media: M540 })
     expect(compact(at('.skills-grid')['grid-template-columns'])).toMatch(/^1fr/)
     expect(compact(at('.certs-grid')['grid-template-columns'])).toMatch(/^1fr/)
     expect(at('.skills-grid')['grid-template-columns']).not.toMatch(/1fr 1fr/)
-    expect(at('.hero-cta')['flex-direction']).toBe('column')
-    expect(at('.btn').width).toBe('100%')
+    expect(at('.hero .hero-cta')['flex-direction']).toBe('column')
+    expect(at('.hero .hero-cta .btn').width).toBe('100%') // CTAs stack full width (US-206 AC3)
   })
 
   it('UT-STYLE_SECTIONS-004 about grid gap 40px at <= 900px', () => {
@@ -47,7 +49,7 @@ describe('UNIT-STYLE_SECTIONS', () => {
   })
 
   it('UT-STYLE_SECTIONS-005 wide project cards span column 1 only at <= 900px', () => {
-    const r = sec()
+    const r = all()
     expect(declsFor(r, '.project-card.wide', { media: M900 })['grid-column']).toMatch(/^1/)
     expect(declsFor(r, '.project-card.wide')['grid-column']).toMatch(/^(1 \/ -1|span 2)$/)
   })

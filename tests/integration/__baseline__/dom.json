@@ -521,6 +521,51 @@
  },
  {
   "tag": "div",
+  "className": "hero-cta",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-primary",
+  "text": "View Projects"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "rocket_launch"
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-secondary",
+  "text": "Get In Touch"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-ghost",
+  "text": "Resume"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "download"
+ },
+ {
+  "tag": "div",
+  "className": "hero-status",
+  "text": "OPEN TO OPPORTUNITIES"
+ },
+ {
+  "tag": "span",
+  "className": "status-dot",
+  "text": ""
+ },
+ {
+  "tag": "div",
   "className": "hero-badges",
   "text": ""
  },
@@ -566,41 +611,6 @@
  },
  {
   "tag": "div",
-  "className": "hero-cta",
-  "text": ""
- },
- {
-  "tag": "a",
-  "className": "btn btn-amber",
-  "text": "View Projects"
- },
- {
-  "tag": "span",
-  "className": "",
-  "text": "rocket_launch"
- },
- {
-  "tag": "a",
-  "className": "btn btn-outline",
-  "text": "Get In Touch"
- },
- {
-  "tag": "span",
-  "className": "",
-  "text": "mail"
- },
- {
-  "tag": "a",
-  "className": "btn btn-green",
-  "text": "Resume"
- },
- {
-  "tag": "span",
-  "className": "",
-  "text": "download"
- },
- {
-  "tag": "div",
   "className": "hero-center",
   "text": ""
  },
@@ -615,8 +625,13 @@
   "text": "⚡ Live HMI Cluster Demo"
  },
  {
+  "tag": "div",
+  "className": "cluster",
+  "text": ""
+ },
+ {
   "tag": "svg",
-  "className": "",
+  "className": "cluster-svg",
   "text": ""
  },
  {
@@ -625,36 +640,6 @@
   "text": ""
  },
  {
-  "tag": "radialgradient",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "stop",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "stop",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "lineargradient",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "stop",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "stop",
-  "className": "",
-  "text": ""
- },
- {
   "tag": "lineargradient",
   "className": "",
   "text": ""
@@ -695,42 +680,577 @@
   "text": ""
  },
  {
-  "tag": "femerge",
+  "tag": "rect",
+  "className": "cl-bg",
+  "text": ""
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "femergenode",
+  "tag": "circle",
+  "className": "cl-bezel",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "cl-bezel2",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "cl-track",
+  "text": ""
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "femergenode",
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "filter",
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "fegaussianblur",
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "femerge",
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "femergenode",
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "femergenode",
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "cl-bezel",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "cl-bezel2",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "cl-track",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "cl-tick-major",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-num",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "path",
+  "className": "cl-red",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-label cl-label-cyan",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "cl-label cl-label-rose",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "path",
+  "className": "cl-halo cl-halo-cyan",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "cl-halo cl-halo-amber",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "cl-arc",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "cl-arc",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "polygon",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "polygon",
   "className": "",
   "text": ""
  },
@@ -745,122 +1265,17 @@
   "text": ""
  },
  {
-  "tag": "path",
+  "tag": "g",
   "className": "",
   "text": ""
  },
  {
-  "tag": "path",
+  "tag": "polygon",
   "className": "",
   "text": ""
  },
  {
-  "tag": "path",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "path",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
-  "className": "",
-  "text": ""
- },
- {
-  "tag": "line",
+  "tag": "polygon",
   "className": "",
   "text": ""
  },
@@ -872,6 +1287,111 @@
  {
   "tag": "circle",
   "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "cl-lamp cl-lamp-green",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "cl-lamp cl-lamp-green",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "cl-lamp cl-lamp-red",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "cl-lamp cl-lamp-amber",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "cl-lamp cl-lamp-green",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "cl-lamp cl-lamp-green",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "cl-speed",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "cl-unit",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "cl-rpm",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "cl-unit",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "g",
+  "className": "cl-prnd",
   "text": ""
  },
  {
@@ -891,8 +1411,43 @@
  },
  {
   "tag": "text",
-  "className": "",
+  "className": "cl-gear",
   "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "cl-mode",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "cl-trip",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "div",
+  "className": "cluster-can",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cluster-can-hdr",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "CAN FRAMES"
+ },
+ {
+  "tag": "span",
+  "className": "cluster-sim",
+  "text": "SIMULATED"
+ },
+ {
+  "tag": "pre",
+  "className": "",
+  "text": "0.00 0x0C4 rc0 ENG_RPM 0"
  },
  {
   "tag": "div",
@@ -1025,6 +1580,21 @@
   "text": ""
  },
  {
+  "tag": "picture",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "source",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "source",
+  "className": "",
+  "text": ""
+ },
+ {
   "tag": "img",
   "className": "profile-photo",
   "text": ""
@@ -1043,16 +1613,6 @@
   "tag": "div",
   "className": "prole",
   "text": "SENIOR HMI ENGINEER"
- },
- {
-  "tag": "div",
-  "className": "status-row",
-  "text": "OPEN TO OPPORTUNITIES"
- },
- {
-  "tag": "span",
-  "className": "status-dot",
-  "text": ""
  },
  {
   "tag": "div",
@@ -4175,9 +4735,69 @@
   "text": "Physiotherapy Laser Therapy HMI"
  },
  {
-  "tag": "p",
-  "className": "project-desc",
-  "text": "Full-ownership HMI for a medical laser therapy device — treatment workflows, safety-aware UI logic, SQLite3 patient records, and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration."
+  "tag": "div",
+  "className": "media-slot project-media",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "media-slot__placeholder",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "media-slot__label",
+  "text": "PLACEHOLDER - OWNER MEDIA"
+ },
+ {
+  "tag": "dl",
+  "className": "cs-rows",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-problem",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Problem"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "A medical laser therapy device with treatment workflows and safety-aware UI logic."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-role",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Role"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Full-ownership HMI."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-solution",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Solution"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "SQLite3 patient records and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration."
  },
  {
   "tag": "div",
@@ -4260,9 +4880,69 @@
   "text": "LVGL Cluster — MIMXRT1170"
  },
  {
-  "tag": "p",
-  "className": "project-desc",
-  "text": "High-performance next-gen instrument cluster using Embedded C, LVGL, and VG Lite on MIMXRT1170 EVKB. ADAS-style visualisation widgets and low-level GPU rendering optimisations for smooth real-time gauge rendering."
+  "tag": "div",
+  "className": "media-slot project-media",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "media-slot__placeholder",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "media-slot__label",
+  "text": "PLACEHOLDER - OWNER MEDIA"
+ },
+ {
+  "tag": "dl",
+  "className": "cs-rows",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-problem",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Problem"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "A next-gen instrument cluster needing smooth real-time gauge rendering."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-solution",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Solution"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Embedded C, LVGL and VG Lite on MIMXRT1170 EVKB, with ADAS-style visualisation widgets and low-level GPU rendering optimisations."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-impact",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Impact"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Smooth real-time gauge rendering."
  },
  {
   "tag": "div",
@@ -4345,9 +5025,84 @@
   "text": "SUV In-Vehicle Infotainment System"
  },
  {
-  "tag": "p",
-  "className": "project-desc",
-  "text": "HMI developer on a production SUV infotainment platform (HCL external assignment). Delivered Calls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules. Full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD. Validation via TK Logger for latency control and reliability assurance."
+  "tag": "div",
+  "className": "media-slot project-media",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "media-slot__placeholder",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "media-slot__label",
+  "text": "PLACEHOLDER - OWNER MEDIA"
+ },
+ {
+  "tag": "dl",
+  "className": "cs-rows",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-problem",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Problem"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "A production SUV infotainment platform."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-role",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Role"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "HMI developer (HCL external assignment)."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-solution",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Solution"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Calls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules, delivered in full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-impact",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Impact"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Validation via TK Logger for latency control and reliability assurance."
  },
  {
   "tag": "div",
@@ -4445,9 +5200,54 @@
   "text": "Sports Bike Cluster — i.MX6"
  },
  {
-  "tag": "p",
-  "className": "project-desc",
-  "text": "Advanced cluster on i.MX6 with Qt/QML and Linux. 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations."
+  "tag": "div",
+  "className": "media-slot project-media",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "media-slot__placeholder",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "media-slot__label",
+  "text": "PLACEHOLDER - OWNER MEDIA"
+ },
+ {
+  "tag": "dl",
+  "className": "cs-rows",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-problem",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Problem"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "An advanced cluster on i.MX6."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-solution",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Solution"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Qt/QML and Linux: 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations."
  },
  {
   "tag": "div",
@@ -4530,9 +5330,54 @@
   "text": "Two-Wheeler OEM Cluster — CGI Studio"
  },
  {
-  "tag": "p",
-  "className": "project-desc",
-  "text": "Production Instrument Cluster for a leading two-wheeler OEM. State machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards."
+  "tag": "div",
+  "className": "media-slot project-media",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-art",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "two_wheeler"
+ },
+ {
+  "tag": "dl",
+  "className": "cs-rows",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-problem",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Problem"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "A production Instrument Cluster for a leading two-wheeler OEM."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-solution",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Solution"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "State machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards."
  },
  {
   "tag": "div",
@@ -4615,9 +5460,69 @@
   "text": "ADAS 3D Demonstrator & R&D Projects"
  },
  {
-  "tag": "p",
-  "className": "project-desc",
-  "text": "Collision visualisation and parking assist UI demonstrator built with Qt 3D Studio and Blender on i.MX8M. Includes a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge — structured UI graphics and embedded integration for capability development."
+  "tag": "div",
+  "className": "media-slot project-media",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "media-slot__placeholder",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "media-slot__label",
+  "text": "PLACEHOLDER - OWNER MEDIA"
+ },
+ {
+  "tag": "dl",
+  "className": "cs-rows",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-problem",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Problem"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Collision visualisation and parking assist UI demonstrator."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-solution",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Solution"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Qt 3D Studio and Blender on i.MX8M, plus a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge."
+ },
+ {
+  "tag": "div",
+  "className": "cs-row cs-impact",
+  "text": ""
+ },
+ {
+  "tag": "dt",
+  "className": "",
+  "text": "Impact"
+ },
+ {
+  "tag": "dd",
+  "className": "",
+  "text": "Structured UI graphics and embedded integration for capability development."
  },
  {
   "tag": "div",
@@ -4917,7 +5822,7 @@
  {
   "tag": "text",
   "className": "",
-  "text": "Rajesh Kumar"
+  "text": "Sample"
  },
  {
   "tag": "g",

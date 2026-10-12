@@ -9,10 +9,10 @@ describe('UNIT-STYLE_COMPONENTS', () => {
     expect(d).toMatchObject({ position: 'fixed', top: '0', height: '64px', 'z-index': '300' })
   })
 
-  it('UT-STYLE_COMPONENTS-002 .nav.scrolled height 54px; transition 0.3s', () => {
+  it('UT-STYLE_COMPONENTS-002 .nav.scrolled height 54px; height transition on --dur-base', () => {
     const r = comp()
     expect(declsFor(r, '.nav.scrolled').height).toBe('54px')
-    expect(declsFor(r, '.nav').transition).toMatch(/0\.3s/)
+    expect(declsFor(r, '.nav').transition).toMatch(/height var\(--dur-base\)/)
   })
 
   it('UT-STYLE_COMPONENTS-003 .mobile-menu fixed, top 64px; .open shows it', () => {
@@ -48,14 +48,14 @@ describe('UNIT-STYLE_COMPONENTS', () => {
     }
   })
 
-  it('UT-STYLE_COMPONENTS-006 .cursor-glow 380px, transition 60ms linear', () => {
+  it('UT-STYLE_COMPONENTS-006 .cursor-glow 380px, transition --dur-instant (80ms) linear', () => {
     const d = declsFor(comp(), '.cursor-glow')
     expect(d.width).toBe('380px')
     expect(d.height).toBe('380px')
-    expect(compact(d.transition)).toBe('left 0.06s linear,top 0.06s linear')
+    expect(compact(d.transition)).toBe('left var(--dur-instant) linear,top var(--dur-instant) linear')
   })
 
-  it('UT-STYLE_COMPONENTS-007 .skip-link off-screen (not display:none); :focus on-screen with z-index 301 using theme tokens; appended after baseline rules', () => {
+  it('UT-STYLE_COMPONENTS-007 .skip-link off-screen (not display:none); :focus on-screen with z-index above the nav using theme tokens; appended after baseline rules', () => {
     // STP places the skip link in components.css; SUDS 6.15 appends it to base.css. The cascade is checked.
     const r = all()
     const d = declsFor(r, '.skip-link')
@@ -63,8 +63,9 @@ describe('UNIT-STYLE_COMPONENTS', () => {
     const offscreen = [d.top, d.left].some((v) => v && /^-\d/.test(v))
     expect(offscreen).toBe(true)
     const f = declsFor(r, '.skip-link:focus')
-    expect(f.top ?? f.left).toMatch(/^\d/)
-    expect(f['z-index'] ?? d['z-index']).toBe('301')
+    expect(f.top ?? f.left).toMatch(/^(\d|var\(--space-)/) // Sprint 2: spacing token
+    expect(f['z-index'] ?? d['z-index']).toBe('var(--z-skip)') // token, above the nav layer (v1.1: 301; Sprint 2: 400)
+    expect(Number(declsFor(all(), ':root')['--z-skip'])).toBeGreaterThan(300)
     const all2 = { ...d, ...f }
     expect(JSON.stringify(all2)).toContain('var(--')
   })
@@ -87,7 +88,7 @@ describe('UNIT-STYLE_COMPONENTS', () => {
     expect(offenders).toEqual([])
   })
 
-  it('UT-STYLE_COMPONENTS-009 cards/controls transitions: background 0.8s, border 0.5s, colour 0.4s, shadow 0.5s', () => {
+  it('UT-STYLE_COMPONENTS-009 cards/controls theme transitions: background, border, colour and shadow on --dur-theme', () => {
     // the grouped baseline rule (nav, cards, badges, buttons, footer) lives in base.css (SMOOTH THEME TRANSITIONS)
     const r = all()
     let t = null
@@ -99,10 +100,8 @@ describe('UNIT-STYLE_COMPONENTS', () => {
       }
     })
     expect(t).not.toBeNull()
-    expect(t).toContain('background 0.8s ease')
-    expect(t).toContain('background-color 0.8s ease')
-    expect(t).toContain('border-color 0.5s ease')
-    expect(t).toContain('color 0.4s ease')
-    expect(t).toContain('box-shadow 0.5s ease')
+    for (const p of ['background', 'background-color', 'border-color', 'color', 'box-shadow']) {
+      expect(t).toContain(`${p} var(--dur-theme) var(--ease-standard)`)
+    }
   })
 })

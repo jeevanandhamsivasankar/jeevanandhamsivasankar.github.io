@@ -1,0 +1,54 @@
+/* Instrument cluster v2 (US-207). Static face is painted once; only attributes of needles/arcs/text change per frame. */
+
+.cluster { width: 100%; max-width: 100%; display: flex; flex-direction: column; gap: 8px; }
+.cluster-svg { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid rgba(245, 158, 11, 0.18); overflow: hidden; }
+
+.cl-bg { fill: #070d1a; }
+.cl-bezel { fill: #0a1222; stroke: rgba(245, 158, 11, 0.16); stroke-width: 1.5; }
+.cl-bezel2 { fill: none; stroke: rgba(255, 255, 255, 0.04); }
+.cl-track { fill: none; stroke: rgba(255, 255, 255, 0.07); stroke-width: 10; stroke-linecap: round; }
+.cl-tick { stroke: rgba(255, 255, 255, 0.16); stroke-width: 1.2; }
+.cl-tick-major { stroke: rgba(245, 158, 11, 0.6); stroke-width: 2.5; }
+.cl-num { fill: rgba(226, 232, 240, 0.7); font-size: 13px; text-anchor: middle; font-family: var(--mono); }
+.cl-red { fill: none; stroke: rgba(239, 68, 68, 0.55); stroke-width: 6; }
+.cl-label { font-size: 10px; letter-spacing: 2.5px; text-anchor: middle; font-family: var(--mono); }
+.cl-label-cyan { fill: rgba(34, 211, 238, 0.75); }
+.cl-label-rose { fill: rgba(251, 113, 133, 0.75); }
+.cl-halo { fill: none; stroke-width: 18; }
+.cl-halo-cyan { stroke: rgba(34, 211, 238, 0.1); }
+.cl-halo-amber { stroke: rgba(245, 158, 11, 0.1); }
+.cl-arc { fill: none; stroke-width: 10; stroke-linecap: round; }
+
+.cl-speed, .cl-rpm, .cl-gear { text-anchor: middle; font-family: var(--disp); font-weight: 700; font-variant-numeric: tabular-nums; }
+.cl-speed { font-size: 62px; fill: #e2e8f0; }
+.cl-rpm { font-size: 44px; fill: #e2e8f0; }
+.cl-gear { font-size: 78px; fill: #22d3ee; }
+.cl-unit { text-anchor: middle; font-size: 13px; letter-spacing: 3px; fill: rgba(245, 158, 11, 0.8); font-family: var(--mono); }
+.cl-mode { text-anchor: middle; font-size: 12px; letter-spacing: 3px; fill: #34d399; font-family: var(--mono); }
+.cl-trip { text-anchor: middle; font-size: 12px; letter-spacing: 1px; fill: #94a3b8; font-family: var(--mono); }
+.cl-prnd text { text-anchor: middle; font-size: 16px; fill: #64748b; font-family: var(--mono); }
+.cl-prnd text[data-on="1"] { fill: #e2e8f0; }
+
+.cl-lamp { opacity: 0.08; color: #64748b; }
+.cl-lamp[data-on="1"] { opacity: 1; }
+.cl-lamp-green[data-on="1"] { color: #22c55e; }
+.cl-lamp-red[data-on="1"] { color: #ef4444; }
+.cl-lamp-amber[data-on="1"] { color: #f59e0b; }
+
+.cluster-can {
+  border: 1px solid var(--bdr); border-radius: 10px; background: rgba(13, 22, 38, 0.7);
+  padding: 8px 12px; font-family: var(--mono); font-size: 10.5px; color: var(--text2);
+  height: calc(6 * 1.5em + 2.2em + 16px); overflow: hidden; contain: strict; line-height: 1.5;
+}
+.cluster-can-hdr { display: flex; justify-content: space-between; color: var(--cyan); letter-spacing: 0.18em; font-size: 9.5px; margin-bottom: 4px; }
+.cluster-sim { color: var(--amber); }
+.cluster-can pre { font: inherit; margin: 0; white-space: pre; overflow: hidden; }
+
+/* Compact cluster below the hero text on narrow screens (FR-UX-004). */
+@media (max-width: 900px) {
+  .hero .hero-center { display: flex; width: 100%; }
+  .hero .gauge-widget { padding: 12px; }
+}
+@media (max-width: 540px) {
+  .cluster-can { font-size: 9.5px; padding: 6px 8px; }
+}

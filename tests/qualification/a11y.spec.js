@@ -151,6 +151,8 @@ test('QT-093 Text contrast in both themes', async ({ browser }, testInfo) => {
     const res = await page.evaluate(() => {
       const DECORATIVE = [/^HMI CLUSTER DEMO$/]
       const parse = (c) => {
+        const cs = c.match(/color\(srgb ([\d.e-]+) ([\d.e-]+) ([\d.e-]+)(?: \/ ([\d.e-]+))?\)/) // Sprint 2: color-mix() computes to color(srgb ...)
+        if (cs) return { r: cs[1] * 255, g: cs[2] * 255, b: cs[3] * 255, a: cs[4] === undefined ? 1 : Number(cs[4]) }
         const m = c.match(/rgba?\(([^)]+)\)/)
         if (!m) return null
         const p = m[1].split(/[,/ ]+/).filter(Boolean).map(Number)
@@ -296,7 +298,7 @@ test('QT-096 Keyboard-only focus-visible outline in both themes', async ({ page 
   let o = await outline()
   expect(o['outline-style']).toBe('solid')
   expect(o['outline-width']).toBe('2px')
-  expect(o['outline-offset']).toBe('2px')
+  expect(o['outline-offset']).toBe('3px') // Sprint 2: hero CTA focus ring offset (hero.css, FR-UX-006)
   expect(o['outline-color']).toBe(await resolvedColor(page, '--amber'))
   expect(o['outline-color']).toBe('rgb(245, 158, 11)')
   // day theme, toggled with the keyboard to stay in keyboard modality
@@ -312,7 +314,7 @@ test('QT-096 Keyboard-only focus-visible outline in both themes', async ({ page 
   o = await outline()
   expect(o['outline-style']).toBe('solid')
   expect(o['outline-color']).toBe(await resolvedColor(page, '--amber'))
-  expect(o['outline-color']).toBe('rgb(180, 83, 9)')
+  expect(o['outline-color']).toBe('rgb(161, 74, 6)') // Sprint 2 day --color-focus (#a14a06, 5.72:1)
   // mouse click: no outline
   await page.evaluate(() => document.activeElement.blur())
   await cta.click()

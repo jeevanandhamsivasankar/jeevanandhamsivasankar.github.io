@@ -23,7 +23,7 @@ const ART = {
     <rect width="580" height="280" fill="#060c18"/>
     <rect x="40" y="40" width="200" height="200" rx="16" fill="rgba(52,211,153,0.05)" stroke="rgba(52,211,153,0.2)" strokeWidth="1"/>
     <text x="140" y="90" textAnchor="middle" fill="rgba(52,211,153,0.5)" fontFamily="monospace" fontSize="9" letterSpacing="2">PATIENT</text>
-    {[["Name","Rajesh Kumar"],["Age","45"],["Session","#12"],["Duration","20 min"]].map(([l,v],i)=>(
+    {[["Name","Sample"],["Age","45"],["Session","#12"],["Duration","20 min"]].map(([l,v],i)=>(
       <g key={l}>
         <text x="60" y={120+i*28} fill="rgba(52,211,153,0.4)" fontFamily="monospace" fontSize="9">{l}:</text>
         <text x="130" y={120+i*28} fill="rgba(52,211,153,0.8)" fontFamily="monospace" fontSize="9">{v}</text>

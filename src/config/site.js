@@ -20,3 +20,9 @@ export const RESUME = Object.freeze({
 export const THEME_STORAGE_KEY = "jsv-theme-override";
 export const FOOTER_TEXT = "© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — BUILT WITH PRECISION";
 export const THEME_GEO = Object.freeze({ lat: 13.08, lon: 80.27, tzOffsetHours: 5.5 });
+
+/**
+ * Feature flags (US-208). `intro`: optional ignition intro (FR-MOTION-005). Ships OFF until the
+ * Product Owner decides (Q-S2-2); `?intro=1` previews it for QA. Once per session, <= 1200 ms.
+ */
+export const SITE = Object.freeze({ intro: false });

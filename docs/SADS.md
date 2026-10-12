@@ -306,6 +306,8 @@ flowchart LR
 
 #### 4.3.2 Allowed dependency rules
 
+> **Amendment (Release 2.0, DEF-203):** `components/effects/*` may import `react-dom` (`createPortal`) to render full-viewport overlays (theme illumination wash, ignition intro) into `document.body`. All other layers keep the rules below.
+
 "May import" lists every allowed target. Any import not listed is forbidden. React imports are noted explicitly.
 
 | From | May import | Must NOT import | Rationale |

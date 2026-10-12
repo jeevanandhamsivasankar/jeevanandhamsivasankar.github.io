@@ -1,6 +1,14 @@
 /**
- * IT-040 DOM class/text parity against the pre-refactor monolith (commit dd9a86d).
+ * IT-040 DOM class/text parity.
  *
+ * Sprint 2 (NFR-MAINT-009 replaces NFR-MAINT-008): the structural snapshot is compared with the
+ * Sprint 2 baseline dom.json (generated from the integrated build, pending PO sign-off):
+ *   UPDATE_S2_DOM_BASELINE=1 npx vitest run tests/integration/parity.test.jsx
+ * In addition every v1.1 text node (dom.v1.1.json, from the pre-refactor monolith dd9a86d) must
+ * still exist, except the nodes listed in the PO-approved diff (project descriptions replaced by
+ * case-study rows, US-211; sample patient name, US-213).
+ *
+ * v1.1 baseline generation (historic):
  * The baseline snapshot tests/integration/__baseline__/dom.json is generated once from the
  * baseline App rendered in jsdom (fixed clock, Math.random stubbed, all IO callbacks fired):
  *
@@ -16,6 +24,7 @@ import { triggerAllIntersections } from '../utils/browserMocks.js'
 import { installManualRaf, settle, installFakeTime } from '../utils/appHelpers.jsx'
 
 const BASELINE_FILE = path.resolve('tests/integration/__baseline__/dom.json')
+const V11_FILE = path.resolve('tests/integration/__baseline__/dom.v1.1.json')
 const baselineApps = import.meta.glob('./__baseline__/BaselineApp.jsx')
 
 /** Nodes whose text is time/animation dependent (typewriter, gauge numbers). */
@@ -32,6 +41,8 @@ function serialise(root) {
     const tag = el.tagName.toLowerCase()
     if (['style', 'script', 'noscript'].includes(tag)) continue
     if (el.closest('style')) continue
+    // dev-only placeholder <img> is attached after an async dynamic import (race); the label is what is asserted
+    if (tag === 'img' && el.closest('.media-slot__placeholder')) continue
     const own = [...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join('').replace(/\s+/g, ' ').trim()
     out.push({
       tag,
@@ -64,10 +75,9 @@ describe('DOM parity (ARC-002, ARC-016, ARC-014)', () => {
         baselineView = render(<Baseline />)
       })
       act(() => triggerAllIntersections(true))
-      fs.writeFileSync(BASELINE_FILE, JSON.stringify(serialise(baselineView.container), null, 1))
+      fs.writeFileSync(V11_FILE, JSON.stringify(serialise(baselineView.container), null, 1))
       return
     }
-    const baseline = JSON.parse(fs.readFileSync(BASELINE_FILE, 'utf8'))
     await prepare()
     let view
     await act(async () => {
@@ -81,6 +91,19 @@ describe('DOM parity (ARC-002, ARC-016, ARC-014)', () => {
     const skipIdx = candidateNodes.findIndex((n) => n.tag === 'a' && n.className === 'skip-link')
     expect(skipIdx).toBeGreaterThanOrEqual(0)
     const candidate = candidateNodes.filter((_, i) => i !== skipIdx)
+
+    if (process.env.UPDATE_S2_DOM_BASELINE) {
+      fs.writeFileSync(BASELINE_FILE, JSON.stringify(candidate, null, 1))
+      return
+    }
+    const baseline = JSON.parse(fs.readFileSync(BASELINE_FILE, 'utf8'))
+
+    // v1.1 text parity (NFR-MAINT-009): only the PO-approved removals may be missing
+    const v11 = JSON.parse(fs.readFileSync(V11_FILE, 'utf8'))
+    const texts = new Set(candidate.map((n) => n.text))
+    const missing = v11.filter((n) => n.text && !texts.has(n.text) && n.className !== 'project-desc' && n.text !== 'Rajesh Kumar')
+    expect(missing, 'v1.1 text nodes missing from Sprint 2 DOM').toEqual([])
+    expect(v11.filter((n) => n.className === 'project-desc')).toHaveLength(6)
 
     const firstDiff = baseline.findIndex((b, i) => JSON.stringify(b) !== JSON.stringify(candidate[i]))
     const context = firstDiff === -1 ? null : {

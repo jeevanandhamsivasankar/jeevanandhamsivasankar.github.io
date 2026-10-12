@@ -1,0 +1,40 @@
+/* projects.css - case-study cards (US-211). Loaded after sections.css, so it overrides it.
+   --pc is the per-project hue (inline). Text uses --pc-ink: the hue itself on dark, a darkened
+   mix on the day theme so small text stays >= 4.5:1 (axe color-contrast). */
+/* DEF-201 fix: base project grid/card rules were removed from sections.css by US-210; restored from Release 1.0 (tokenised). */
+.projects-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; }
+.project-card { background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid var(--glass-bdr); border-radius: 14px; padding: 28px 26px; position: relative; overflow: hidden; transition: transform var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard), background-color var(--dur-theme) var(--ease-standard); box-shadow: 0 4px 24px rgba(0,0,0,0.12), inset 0 1px 0 var(--glass-shine); }
+.project-card.wide { grid-column: 1 / -1; }
+.project-card-line { position: absolute; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(0); transform-origin: left; transition: transform var(--dur-slow) var(--ease-standard); }
+@media (hover: hover) {
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 20px 56px rgba(0,0,0,0.2), inset 0 1px 0 var(--glass-shine); }
+  .project-card:hover .project-card-line { transform: scaleX(1); }
+}
+.project-period { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-bottom: 14px; }
+.project-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.pico { width: 50px; height: 50px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.project-num { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; margin-bottom: 3px; }
+.project-domain { font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
+.project-title { font-family: var(--disp); font-size: 20px; font-weight: 700; text-transform: uppercase; margin-bottom: 9px; line-height: 1.1; }
+.project-desc { font-size: 13px; color: var(--text2); line-height: 1.85; }
+.project-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.ptag2 { font-family: var(--mono); font-size: 9.5px; border-radius: 3px; padding: 3px 8px; border: 1px solid; transition: color var(--dur-base) var(--ease-standard), background-color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+@media (max-width: 900px) {
+  .projects-grid, .behance-grid, .edu-grid { grid-template-columns: 1fr !important; }
+  .project-card.wide, .behance-card.wide { grid-column: 1 !important; }
+}
+
+.project-card { --pc-ink: var(--pc); }
+[data-theme="day"] .project-card { --pc-ink: color-mix(in srgb, var(--pc) 40%, #000); }
+.project-num, .ptag2 { color: var(--pc-ink); }
+.project-period, .project-domain { color: var(--color-text-3); }
+.project-desc, .cs-row dd { color: var(--color-text-2); }
+.project-art { display: grid; place-items: center; height: 84px; border: 1px solid; border-radius: 10px; }
+.project-media { margin: 0 0 14px; }
+.cs-rows { margin: 0; display: grid; gap: 10px; }
+.cs-row { display: grid; grid-template-columns: 78px 1fr; gap: 12px; align-items: baseline; }
+.cs-row dt { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pc-ink); }
+.cs-row dd { margin: 0; font-size: 13px; line-height: 1.7; }
+@media (max-width: 600px) {
+  .cs-row { grid-template-columns: 1fr; gap: 2px; }
+}

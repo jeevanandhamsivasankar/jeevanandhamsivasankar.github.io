@@ -2,14 +2,16 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import postcss from 'postcss'
 
-export const STYLE_FILES = ['tokens', 'base', 'components', 'sections']
+/** Cascade order of src/styles/index.css (Sprint 2: 11 files; v1.1 had tokens, base, components, sections). */
+export const STYLE_FILES = ['tokens', 'motion', 'base', 'components', 'sections', 'hero', 'cluster', 'intro', 'theme-transition', 'projects', 'media']
+export const V11_STYLE_FILES = ['tokens', 'base', 'components', 'sections']
 
 export const readStyle = (name) => readFileSync(resolve(process.cwd(), `src/styles/${name}.css`), 'utf8')
 export const readFixture = (name) => readFileSync(resolve(process.cwd(), `tests/fixtures/${name}`), 'utf8')
 export const parse = (css) => postcss.parse(css)
 export const parseStyle = (name) => parse(readStyle(name))
 
-/** All four files concatenated in cascade (index.css) order. */
+/** All style files concatenated in cascade (index.css) order. */
 export const cascadeCss = () => STYLE_FILES.map(readStyle).join('\n')
 
 const selectorsOf = (rule) => rule.selectors.map((s) => s.replace(/\s+/g, ' ').trim())

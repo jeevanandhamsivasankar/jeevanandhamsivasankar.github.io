@@ -95,6 +95,12 @@ async function preparePage(browser, vpName, theme) {
   await page.clock.pauseAt(instant)
   await page.goto(BASE_URL, { waitUntil: 'load' })
   await page.waitForSelector('#hero')
+  // lazy sections: React throttles revealing Suspense content with a 300 ms timer, which the paused clock holds back
+  for (let i = 0; i < 60; i++) {
+    if ((await page.locator('[data-section-placeholder]').count()) === 0 && (await page.locator('[data-section]').count()) === 10) break
+    await page.clock.runFor(100)
+    await page.waitForTimeout(40)
+  }
   await page.addStyleTag({ content: FREEZE_CSS })
   await page.addStyleTag({ content: HIDE_CSS })
   await page.evaluate(() => {

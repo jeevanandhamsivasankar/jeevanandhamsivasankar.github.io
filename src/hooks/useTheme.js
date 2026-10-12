@@ -1,5 +1,6 @@
 import { useState, useEffect, useLayoutEffect, useCallback } from "react";
 import { getSunPhase, DEFAULT_GEO } from "../lib/solar.js";
+import { beginThemeTransition } from "../lib/illumination.js";
 import { readThemeOverride, writeThemeOverride } from "../lib/storage.js";
 
 export const THEME_RECHECK_MS = 60000;
@@ -37,6 +38,10 @@ export function useTheme({ geo = DEFAULT_GEO, storage } = {}) {
   }, []);
 
   const toggle = useCallback(() => {
+    if (typeof document !== "undefined") {
+      const reduced = typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      beginThemeTransition(document.documentElement, { reduced });
+    }
     setManual(true);
     setTheme((t) => (t === "day" ? "night" : "day"));
   }, []);

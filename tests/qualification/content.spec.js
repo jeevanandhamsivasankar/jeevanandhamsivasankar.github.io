@@ -228,7 +228,7 @@ test('QT-040 Six project cards with wide spans and tags', async ({ page }, testI
   await expect(cards.nth(2).locator('.ptag2')).toHaveCount(8)
   for (let i = 0; i < 6; i++) {
     const c = cards.nth(i)
-    for (const sel of ['.project-period', '.pico span', '.project-num', '.project-domain', '.project-title', '.project-desc']) {
+    for (const sel of ['.project-period', '.pico span', '.project-num', '.project-domain', '.project-title', '.cs-rows dd']) { // Sprint 2 (FR-UX-005): case-study rows replace .project-desc
       expect((await c.locator(sel).first().textContent()).trim().length, `${sel} of card ${i}`).toBeGreaterThan(0)
     }
   }

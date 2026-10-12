@@ -105,9 +105,9 @@ test('QT-019 Hero call-to-action links and resume download filename', async ({ p
   const ctas = page.locator('.hero-cta a')
   await expect(ctas).toHaveCount(3)
   const rows = [
-    ['btn-amber', '#projects', 'rocket_launch', 'View Projects'],
-    ['btn-outline', '#contact', 'mail', 'Get In Touch'],
-    ['btn-green', null, 'download', 'Resume'],
+    ['btn-primary', '#projects', 'rocket_launch', 'View Projects'],
+    ['btn-secondary', '#contact', 'mail', 'Get In Touch'],
+    ['btn-ghost', null, 'download', 'Resume'],
   ]
   for (let i = 0; i < 3; i++) {
     const a = ctas.nth(i)
@@ -144,50 +144,31 @@ test('QT-020 Gauge widget content', async ({ page }, testInfo) => {
   await expect(g.locator('.gauge-stack-tag')).toHaveText(['Qt/QML', 'LVGL', 'C++', 'CAN', 'UART'])
 })
 
-test('QT-021 Speedometer SVG geometry and labels', async ({ page }, testInfo) => {
+test('QT-021 Instrument cluster SVG geometry and labels (Sprint 2: replaces the speedometer)', async ({ page }, testInfo) => {
   only(testInfo, 'D')
   await gotoHome(page, { pause: true, sections: false })
-  const svg = page.locator('.gauge-widget svg')
-  await expect(svg).toHaveAttribute('viewBox', '0 0 260 260')
-  expect(await css(svg, 'max-width')).toBe('320px')
-  const info = await svg.evaluate((el) => {
-    const lines = Array.from(el.querySelectorAll('line'))
-    const ticks = lines.filter((l) => !(l.getAttribute('stroke') || '').startsWith('url('))
-    const needle = lines.find((l) => (l.getAttribute('stroke') || '').startsWith('url('))
-    return {
-      ticks: ticks.length,
-      major: ticks.filter((l) => l.getAttribute('stroke-width') === '2').length,
-      needle: { x: +needle.getAttribute('x2'), y: +needle.getAttribute('y2') },
-      texts: Array.from(el.querySelectorAll('text')).map((t) => t.textContent),
-      stops: Array.from(el.querySelectorAll('linearGradient')).map((g) =>
-        Array.from(g.querySelectorAll('stop')).map((s) => s.getAttribute('stop-color').toLowerCase()),
-      ),
-    }
-  })
-  expect(info.ticks).toBe(19)
-  expect(info.major).toBe(7)
-  expect(info.texts).toContain('km/h')
-  expect(info.texts).toContain('HMI CLUSTER DEMO')
-  expect(info.texts.some((t) => /^\d+ RPM$/.test(t))).toBe(true)
-  expect(info.stops).toContainEqual(['#34d399', '#22d3ee'])
-  expect(info.stops).toContainEqual(['#f59e0b', '#fb7185'])
-  // needle endpoint from the displayed initial speed (formula: UT-SPEEDOMETER)
-  const speed = Number(info.texts[0])
-  const ang = ((-215 + (Math.min(speed, 180) / 180) * 250) * Math.PI) / 180
-  expect(info.needle.x).toBeCloseTo(130 + 84 * Math.cos(ang), 0)
-  expect(info.needle.y).toBeCloseTo(130 + 84 * Math.sin(ang), 0)
-  testInfo.annotations.push({ type: 'note', description: `initial frame speed ${speed}` })
+  const root = page.locator('.gauge-widget .cluster')
+  await expect(root).toHaveAttribute('role', 'img')
+  expect(await root.getAttribute('aria-label')).toMatch(/simulated/i)
+  const svg = root.locator('svg.cluster-svg')
+  await expect(svg).toHaveAttribute('viewBox', '0 0 960 400')
+  const texts = await svg.evaluate((el) => Array.from(el.querySelectorAll('text')).map((t) => t.textContent))
+  expect(texts).toContain('HMI CLUSTER DEMO')
+  expect(texts).toContain('KM/H')
+  expect(texts).toContain('RPM')
+  await expect(root.locator('.cluster-sim')).toHaveText('SIMULATED')
+  expect(await svg.locator('.cl-tick-major').count()).toBeGreaterThan(10)
 })
 
-test('QT-022 Speedometer animates, and is static under reduced motion', async ({ page, browser }, testInfo) => {
+test('QT-022 Instrument cluster animates, and is static under reduced motion', async ({ page, browser }, testInfo) => {
   only(testInfo, 'D')
-  const read = async (p) => p.locator('.gauge-widget svg text').allTextContents()
+  const read = async (p) => [await p.locator('.gauge-widget .cl-speed').textContent(), await p.locator('.gauge-widget .cluster-can pre').textContent()]
   await gotoHome(page)
   const before = await read(page)
-  await page.clock.runFor(2000)
+  await page.clock.runFor(5000) // the drive cycle starts moving after ~3 s of simulated time
   await page.waitForTimeout(100)
   const after = await read(page)
-  expect(after[0]).not.toBe(before[0])
+  expect(after).not.toEqual(before)
   const { page: rp, context } = await freshPage(browser, testInfo, { reducedMotion: 'reduce' })
   await gotoHome(rp)
   const b2 = await read(rp)
@@ -211,8 +192,9 @@ test('QT-023 Profile card image and info panel', async ({ page }, testInfo) => {
   await expect(page.locator('.profile-card .corner')).toHaveCount(4)
   await expect(page.locator('.pname')).toHaveText('S. JEEVANANDHAM')
   await expect(page.locator('.prole')).toHaveText('SENIOR HMI ENGINEER')
-  await expect(page.locator('.status-row')).toHaveText('OPEN TO OPPORTUNITIES')
-  const dot = page.locator('.status-dot')
+  await expect(page.locator('.status-row')).toHaveCount(0) // Sprint 2 (US-206): status moved to .hero-status
+  await expect(page.locator('.hero-status')).toHaveText('OPEN TO OPPORTUNITIES')
+  const dot = page.locator('.hero-status .status-dot')
   expect(await css(dot, 'background-color')).toBe('rgb(52, 211, 153)')
   expect(await css(dot, 'animation-name')).not.toBe('none')
   await expect(page.locator('.profile-tags-row .ptag')).toHaveText(['Automotive HMI', 'Medical HMI', 'Qt/QML', 'UX Design'])
@@ -221,7 +203,7 @@ test('QT-023 Profile card image and info panel', async ({ page }, testInfo) => {
 test('QT-024 Profile image failure hides the image only', async ({ page }, testInfo) => {
   only(testInfo, 'D')
   const errors = collectErrors(page)
-  await page.route('**/profile.webp', (r) => r.fulfill({ status: 404, body: 'nope' }))
+  await page.route('**/img/profile-*', (r) => r.fulfill({ status: 404, body: 'nope' }))
   await gotoHome(page)
   await expect.poll(() => css(page.locator('img.profile-photo'), 'display')).toBe('none')
   await expect(page.locator('.profile-info-panel')).toBeVisible()
@@ -273,9 +255,9 @@ test('QT-026 Hero collapses at <= 900 px and CTAs stack at <= 540 px', async ({ 
     dir: await css(cta, 'flex-direction'),
   })
   let s = await state()
-  expect(s.center).toBe('none')
   expect(s.right).toBe('none')
-  expect(s.pad).toBe('80px 24px 60px')
+  expect(s.center).toBe('flex') // Sprint 2 (FR-UX-004): compact cluster shown on narrow screens
+  expect(s.pad).toBe('76px 24px 40px')
   expect(s.dir).toBe('column')
   const widths = await page.evaluate(() => {
     const c = document.querySelector('.hero-cta')
@@ -292,9 +274,9 @@ test('QT-026 Hero collapses at <= 900 px and CTAs stack at <= 540 px', async ({ 
   expect(s.dir).toBe('row')
   await page.setViewportSize({ width: 900, height: 800 })
   s = await state()
-  expect([s.center, s.right, s.cols]).toEqual(['none', 'none', 1])
+  expect([s.center, s.right, s.cols]).toEqual(['flex', 'none', 1])
   await page.setViewportSize({ width: 901, height: 800 })
   s = await state()
   expect(s.cols).toBe(3)
-  expect(s.center).not.toBe('none')
+  expect(s.center).toBe('flex')
 })

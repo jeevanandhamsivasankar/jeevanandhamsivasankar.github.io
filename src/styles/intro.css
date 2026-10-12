@@ -1,0 +1,30 @@
+/* intro.css - US-208 ignition intro. Composited properties only (transform, opacity). */
+.intro-root {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  pointer-events: none;
+}
+.intro-art { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.intro-dial { position: relative; width: 200px; height: 200px; }
+.intro-ring, .intro-needle { position: absolute; inset: 0; }
+.intro-ring { border-radius: 50%; border: 1.5px solid var(--amber); box-shadow: 0 0 40px rgba(245, 158, 11, 0.2); }
+.intro-needle { transform: rotate(-215deg); }
+.intro-needle::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 42%; height: 3px;
+  background: var(--amber); border-radius: 2px;
+}
+.intro-lamps { display: flex; gap: 12px; }
+.intro-lamp { width: 12px; height: 12px; border-radius: 50%; background: var(--green); opacity: 0.1; }
+.intro-scan {
+  position: fixed; left: 0; right: 0; top: 0; height: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--amber), var(--cyan), transparent);
+}
+.intro-skip {
+  position: absolute; top: 16px; right: 16px; pointer-events: auto;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--text2);
+  background: var(--glass-bg); border: 1px solid var(--glass-bdr); border-radius: 20px;
+  padding: 8px 14px; min-height: 44px; cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard);
+}
+.intro-skip:hover { color: var(--amber); border-color: var(--amber); }

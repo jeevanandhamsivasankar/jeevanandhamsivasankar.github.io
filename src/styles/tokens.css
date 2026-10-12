@@ -1,46 +1,171 @@
+/* ==========================================================================
+   Design tokens v2 (Release 2.0, US-201). Source: docs/design/tokens-v2.css.
+   - Night is the default (:root). Day overrides live under [data-theme="day"].
+   - v1 names (--bg, --text2, --amber, ...) remain as aliases at the bottom.
+   - Every text/background pair meets WCAG 2.1 AA (verified by IT-045).
+   - Brand accents (night): amber #f59e0b, cyan #22d3ee, green #34d399,
+     rose #fb7185, violet #a78bfa are unchanged from v1.1.
+   - Motion tokens live in motion.css.
+   ========================================================================== */
 
-/* ── NIGHT (default) THEME ── */
 :root {
-  --bg:     #060c18;
-  --bg2:    #090f1e;
-  --surf:   #0d1626;
-  --surf2:  #111d30;
-  --bdr:    rgba(255,255,255,0.07);
-  --bdr2:   rgba(255,255,255,0.13);
-  --amber:  #f59e0b;
-  --cyan:   #22d3ee;
-  --green:  #34d399;
-  --rose:   #fb7185;
-  --violet: #a78bfa;
-  --text:   #e2e8f0;
-  --text2:  #94a3b8;
-  --muted:  #475569;
-  --mono:   'Share Tech Mono', monospace;
-  --sans:   'Barlow', sans-serif;
-  --disp:   'Barlow Condensed', sans-serif;
-  --glass-bg:   rgba(13,22,38,0.55);
-  --glass-bdr:  rgba(255,255,255,0.10);
-  --glass-shine:rgba(255,255,255,0.06);
+  /* ---------- Color: surfaces (night) ---------- */
+  --color-bg:            #060c18;   /* page */
+  --color-bg-raised:     #090f1e;   /* alternate band (was --bg2) */
+  --color-surface:       #0d1626;   /* solid card / band (was --surf) */
+  --color-surface-2:     #111d30;   /* nested surface (was --surf2) */
+  --color-glass:         rgba(13, 22, 38, 0.55);
+  --color-glass-strong:  rgba(13, 22, 38, 0.78);  /* nav, menus: text must stay legible over orbs */
+  --color-glass-edge:    rgba(255, 255, 255, 0.10);
+  --color-glass-shine:   rgba(255, 255, 255, 0.06);
+
+  /* ---------- Color: text (night) ---------- */
+  --color-text:          #e2e8f0;   /* 15.87:1 on bg */
+  --color-text-2:        #94a3b8;   /*  7.63:1 on bg */
+  --color-text-3:        #8291a7;   /*  6.11:1 on bg, 5.28:1 on surface-2 — replaces #475569 for meta text */
+  --color-text-disabled: #475569;   /*  2.58:1 — disabled state ONLY (WCAG exempt) */
+
+  /* ---------- Color: brand accent (night) ---------- */
+  --color-accent:        #f59e0b;   /* amber — 9.11:1 on bg */
+  --color-accent-hi:     #fbbf24;
+  --color-accent-text:   #f59e0b;   /* accent used as small text */
+  --color-on-accent:     #06080f;   /* 9.32:1 on #f59e0b, 11.99:1 on #fbbf24 */
+  --color-accent-tint:   rgba(245, 158, 11, 0.12);
+  --color-accent-edge:   rgba(245, 158, 11, 0.35);
+
+  /* ---------- Color: telemetry signals (night) ----------
+     Used for per-project / per-category colouring. Always reference these
+     tokens, never hard-coded hex, so the day theme can darken them. */
+  --sig-amber:  #f59e0b;  /* 6.50:1 on its own 12% tint over surface-2 */
+  --sig-cyan:   #22d3ee;  /* 7.30:1 */
+  --sig-green:  #34d399;  /* 6.95:1 */
+  --sig-violet: #a78bfa;  /* 5.16:1 */
+  --sig-rose:   #fb7185;  /* 5.33:1 */
+  --sig-sky:    #38bdf8;  /* 6.32:1 */
+  --sig-tint-alpha: 0.12;
+
+  /* ---------- Color: lines & focus (night) ---------- */
+  --color-border:        rgba(255, 255, 255, 0.07);  /* decorative dividers */
+  --color-border-2:      rgba(255, 255, 255, 0.13);
+  --color-border-control:#56698a;   /* 3.52:1 on bg — outline buttons, chips that are controls (WCAG 1.4.11) */
+  --color-focus:         #f59e0b;   /* 9.11:1 on bg */
+  --color-focus-halo:    rgba(245, 158, 11, 0.28);
+  --color-success:       #34d399;   /* "open to opportunities" status */
+
+  /* ---------- Typography ---------- */
+  --font-mono: 'Share Tech Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-sans: 'Barlow', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-disp: 'Barlow Condensed', 'Arial Narrow', 'Roboto Condensed', system-ui, sans-serif;
+
+  /* Type scale (fluid, 360 → 1440 px). Floor for any readable text: 12px. */
+  --fs-display: clamp(2.5rem, 1.6rem + 4.2vw, 4.5rem);    /* 40 → 72  hero name */
+  --fs-h2:      clamp(2rem, 1.5rem + 2.2vw, 3.25rem);     /* 32 → 52  section title */
+  --fs-h3:      clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);   /* 20 → 24  card title */
+  --fs-h4:      1.125rem;                                 /* 18       sub-title */
+  --fs-lead:    clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);/* 17 → 19  hero value line */
+  --fs-body:    1rem;                                     /* 16       paragraphs (was 13–15) */
+  --fs-body-sm: 0.9375rem;                                /* 15       card body */
+  --fs-ui:      0.8125rem;                                /* 13       buttons, nav, chips (mono) */
+  --fs-meta:    0.75rem;                                  /* 12       labels, periods, tags (mono) — minimum */
+  --lh-tight: 1.05;  --lh-snug: 1.3;  --lh-body: 1.65;
+  --tracking-label: 0.18em;   /* mono uppercase labels (was up to 0.3em) */
+  --tracking-ui:    0.06em;
+  --measure: 68ch;            /* max line length for body copy */
+
+  /* ---------- Spacing (4 px base) ---------- */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+  --gutter: clamp(16px, 4vw, 44px);           /* page side padding */
+  --section-y: clamp(64px, 8vw, 96px);        /* section vertical padding */
+  --container: 1160px;
+
+  /* ---------- Radii ---------- */
+  --radius-xs: 4px;    /* tags, chips (was 2–3px) */
+  --radius-sm: 8px;    /* buttons, skill chips, contact items */
+  --radius-md: 14px;   /* cards */
+  --radius-lg: 20px;   /* gauge / instrument panel */
+  --radius-pill: 999px;
+
+  /* ---------- Elevation / glass ---------- */
+  --blur-glass: 24px;
+  --blur-glass-strong: 28px;
+  --elev-0: none;
+  --elev-1: 0 2px 12px rgba(0, 0, 0, 0.12), inset 0 1px 0 var(--color-glass-shine);
+  --elev-2: 0 4px 24px rgba(0, 0, 0, 0.16), inset 0 1px 0 var(--color-glass-shine);
+  --elev-3: 0 16px 48px rgba(0, 0, 0, 0.22), inset 0 1px 0 var(--color-glass-shine);
+  --elev-glow: 0 0 60px rgba(245, 158, 11, 0.08);
+
+  /* ---------- Z-index scale ---------- */
+  --z-backdrop: 0;     /* grid, orbs, particles */
+  --z-content: 1;
+  --z-raised: 2;       /* hero columns, card internals */
+  --z-sticky: 200;     /* in-section sticky bars (skills filter) */
+  --z-menu: 299;       /* mobile menu sheet */
+  --z-nav: 300;
+  --z-skip: 400;       /* skip link (above nav) */
+  --z-toast: 500;      /* "email copied" toast */
+  --z-cursor: 9998;    /* decorative cursor glow, pointer-events:none */
+
+  /* ---------- Sizing ---------- */
+  --nav-h: 64px;
+  --nav-h-compact: 54px;
+  --target-min: 44px;  /* touch target for primary controls */
 }
 
-/* ── DAY THEME ── */
 [data-theme="day"] {
-  --bg:     #fef9f0;
-  --bg2:    #fdf3e2;
-  --surf:   rgba(255,255,255,0.62);
-  --surf2:  rgba(255,255,255,0.48);
-  --bdr:    rgba(0,0,0,0.07);
-  --bdr2:   rgba(0,0,0,0.13);
-  --amber:  #b45309;
-  --cyan:   #0369a1;
-  --green:  #15803d;
-  --rose:   #be123c;
-  --violet: #6d28d9;
-  --text:   #1e293b;
-  --text2:  #475569;
-  --muted:  #94a3b8;
-  --glass-bg:   rgba(255,255,255,0.52);
-  --glass-bdr:  rgba(255,255,255,0.80);
-  --glass-shine:rgba(255,255,255,0.95);
+  --color-bg:            #fef9f0;
+  --color-bg-raised:     #fdf3e2;
+  --color-surface:       rgba(255, 255, 255, 0.62);
+  --color-surface-2:     rgba(255, 255, 255, 0.48);
+  --color-glass:         rgba(255, 255, 255, 0.52);
+  --color-glass-strong:  rgba(255, 252, 246, 0.86);
+  --color-glass-edge:    rgba(255, 255, 255, 0.80);
+  --color-glass-shine:   rgba(255, 255, 255, 0.95);
+
+  --color-text:          #1e293b;   /* 13.95:1 */
+  --color-text-2:        #475569;   /*  7.23:1 */
+  --color-text-3:        #5b6b82;   /*  5.17:1 on bg, 5.34:1 on surface — replaces #94a3b8 */
+  --color-text-disabled: #94a3b8;
+
+  --color-accent:        #f59e0b;   /* fill colour for the primary button stays the brand amber */
+  --color-accent-hi:     #fbbf24;
+  --color-accent-text:   #a14a06;   /* small amber text: 5.72:1 on bg, 4.98:1 on its tint (was #b45309 4.79 / 4.18) */
+  --color-accent-display:#b45309;   /* amber for display-size text (≥ 24px) — 4.79:1 */
+  --color-on-accent:     #06080f;
+  --color-accent-tint:   rgba(180, 83, 9, 0.10);
+  --color-accent-edge:   #b45309;   /* 1px edge on amber fills: 4.79:1 vs bg (fill alone is 2.05:1) */
+
+  --sig-amber:  #a14a06;  /* 4.98:1 on own 10% tint */
+  --sig-cyan:   #0369a1;  /* 4.91:1 */
+  --sig-green:  #047857;  /* 4.55:1 */
+  --sig-violet: #6d28d9;  /* 5.76:1 */
+  --sig-rose:   #be123c;  /* 5.07:1 */
+  --sig-sky:    #0b6fa4;  /* 4.55:1 */
+  --sig-tint-alpha: 0.10;
+
+  --color-border:        rgba(0, 0, 0, 0.07);
+  --color-border-2:      rgba(0, 0, 0, 0.13);
+  --color-border-control:#8f7b5c;   /* 3.88:1 on bg */
+  --color-focus:         #a14a06;   /* 5.72:1 on bg */
+  --color-focus-halo:    rgba(180, 83, 9, 0.25);
+  --color-success:       #047857;
+
+  --elev-1: 0 2px 10px rgba(60, 40, 10, 0.06), inset 0 1px 0 var(--color-glass-shine);
+  --elev-2: 0 4px 20px rgba(60, 40, 10, 0.08), inset 0 1px 0 var(--color-glass-shine);
+  --elev-3: 0 16px 40px rgba(60, 40, 10, 0.12), inset 0 1px 0 var(--color-glass-shine);
+  --elev-glow: 0 0 40px rgba(180, 83, 9, 0.10);
 }
 
+/* ---------- v1 aliases (keep until all rules are migrated) ---------- */
+:root, [data-theme="day"] {
+  --bg: var(--color-bg);           --bg2: var(--color-bg-raised);
+  --surf: var(--color-surface);    --surf2: var(--color-surface-2);
+  --bdr: var(--color-border);      --bdr2: var(--color-border-2);
+  --text: var(--color-text);       --text2: var(--color-text-2);
+  --muted: var(--color-text-3);    /* v2 intentionally lifts every --muted usage to AA */
+  --amber: var(--color-accent-text);
+  --cyan: var(--sig-cyan);  --green: var(--sig-green);  --rose: var(--sig-rose);  --violet: var(--sig-violet);
+  --mono: var(--font-mono); --sans: var(--font-sans);   --disp: var(--font-disp);
+  --glass-bg: var(--color-glass); --glass-bdr: var(--color-glass-edge); --glass-shine: var(--color-glass-shine);
+}

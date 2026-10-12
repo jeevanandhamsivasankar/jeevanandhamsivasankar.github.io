@@ -8,6 +8,8 @@ import Divider from "./components/layout/Divider.jsx";
 import SectionSlot from "./components/layout/SectionSlot.jsx";
 import { SECTIONS } from "./config/sections.js";
 import { useHashScroll } from "./hooks/useActiveSection.js";
+import Overlays from "./components/effects/Overlays.jsx";
+import { SITE } from "./config/site.js";
 
 export default function App({ sections = SECTIONS }) {
   const navItems = useMemo(() => sections.filter((s) => s.showInNav), [sections]);
@@ -19,6 +21,7 @@ export default function App({ sections = SECTIONS }) {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <Overlays introEnabled={SITE.intro} />
       <GradientOrbs />
       <CursorGlow />
       <Nav items={navItems} />
