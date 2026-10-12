@@ -24,7 +24,7 @@ Patterns used:
 - **Section registry**: `src/config/sections.js` drives both `App` and `Nav`; adding a section is one registry entry.
 - **Model factories**: `src/models/createModels.js` builds frozen, validated content objects; `src/data/*.js` use them.
 - **Theme provider**: `ThemeProvider` / `useThemeContext` (React Context) instead of prop drilling.
-- **Strategy icons**: `src/components/tech/iconStrategies.js` resolves tech icons (`si:`, custom SVG, ...).
+- **Strategy icons**: `src/components/tech/iconStrategies.js` resolves tech icons by prefix: `si:` (Simple Icons CDN), `svg:` (custom SVG registry) and `ms:` (Material Symbols), falling back to a generic icon.
 - **Lazy sections**: below-the-fold sections use `React.lazy` + `Suspense`; Hero and Nav are eager.
 - **Error boundary**: `ErrorBoundary` isolates a failing section from the rest of the page.
 - Custom hooks encapsulate side effects (IntersectionObserver, rAF, timers); logic lives in pure functions.
