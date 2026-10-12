@@ -1,0 +1,22 @@
+/* theme-transition.css - US-209. Only colour, opacity and transform animate; present only while
+   html.theme-switching is set (never on first paint). */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition-property: color, background-color, border-color, fill, stroke, outline-color, text-decoration-color;
+  transition-duration: var(--dur-theme);
+  transition-timing-function: var(--ease-standard);
+}
+
+.theme-illum {
+  position: fixed; inset: 0; z-index: 9990; pointer-events: none; opacity: 0;
+  background: radial-gradient(circle at 85% 0%, rgba(245, 158, 11, 0.35), transparent 60%);
+}
+html.theme-switching .theme-illum { animation: themeIllum var(--dur-theme) var(--ease-standard) both; }
+[data-theme="day"] .theme-illum { background: radial-gradient(circle at 85% 0%, rgba(251, 191, 36, 0.4), transparent 60%); }
+
+html.theme-switching .theme-btn .ms { animation: themeIcon var(--dur-base) var(--ease-decel) both; }
+
+@keyframes themeIllum { 0% { opacity: 0; } 35% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes themeIcon { from { transform: rotate(-90deg) scale(0.6); } to { transform: none; } }

@@ -4,6 +4,7 @@ name: Capture visual baselines
 # Trigger: push a change to .github/visual-baselines.request on any branch.
 on:
   push:
+    branches-ignore: [main]
     paths:
       - .github/visual-baselines.request
 
@@ -24,7 +25,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - name: Capture baselines (QT-109/110 capture path)
-        run: UPDATE_VISUAL_BASELINES=1 npx playwright test tests/qualification/visual.spec.js -g "QT-109|QT-110"
+        run: UPDATE_VISUAL_BASELINES=1 npx playwright test tests/qualification/visual.spec.js -g "QT-109|QT-110|QT-111"
       - name: Commit baselines
         run: |
           git config user.name "github-actions[bot]"

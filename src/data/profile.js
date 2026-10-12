@@ -38,7 +38,7 @@ export const PROFILE = createProfile({
   stackTags: ["Qt/QML", "LVGL", "C++", "CAN", "UART"],
   profileTags: ["Automotive HMI", "Medical HMI", "Qt/QML", "UX Design"],
   status: "OPEN TO OPPORTUNITIES",
-  photo: { src: "profile.webp", alt: "S. Jeevanandham", width: 600, height: 900 },
+  photo: { src: "/img/profile-600.webp", alt: "S. Jeevanandham", width: 600, height: 900 },
   stats: [
     { icon: "schedule", num: "4.9+", label: "Years Experience", color: "#f59e0b" },
     { icon: "rocket_launch", num: "8+", label: "Projects Shipped", color: "#22d3ee" },

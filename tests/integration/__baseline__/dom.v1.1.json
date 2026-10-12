@@ -1,0 +1,6067 @@
+[
+ {
+  "tag": "div",
+  "className": "orbs-wrap",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "orb orb-1",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "orb orb-2",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "orb orb-3",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "orb orb-4",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cursor-glow",
+  "text": ""
+ },
+ {
+  "tag": "nav",
+  "className": "nav",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "nav-logo",
+  "text": "JEEVANANDHAM"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "developer_board"
+ },
+ {
+  "tag": "ul",
+  "className": "nav-links",
+  "text": ""
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "About"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "person"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Experience"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "work"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Skills"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "build"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Projects"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "rocket_launch"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Design"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "brush"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Education"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Certs"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "verified"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Resume"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "description"
+ },
+ {
+  "tag": "li",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Contact"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "div",
+  "className": "nav-right",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "theme-badge",
+  "text": "DAY · 06:30 am"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "wb_sunny"
+ },
+ {
+  "tag": "button",
+  "className": "theme-btn",
+  "text": "Night"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "dark_mode"
+ },
+ {
+  "tag": "button",
+  "className": "hamburger",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "mobile-menu",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "About"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "person"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Experience"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "work"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Skills"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "build"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Projects"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "rocket_launch"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Design"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "brush"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Education"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Certs"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "verified"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Resume"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "description"
+ },
+ {
+  "tag": "a",
+  "className": "nav-link",
+  "text": "Contact"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "button",
+  "className": "theme-btn",
+  "text": "Switch to Night Mode"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "dark_mode"
+ },
+ {
+  "tag": "main",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "section",
+  "className": "hero",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "particle",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hero-rings",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hring hring-1",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hring hring-2",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hring hring-3",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hring hring-4",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hero-content",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hero-tag",
+  "text": "Senior HMI Engineer · Chennai, India"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "developer_board"
+ },
+ {
+  "tag": "h1",
+  "className": "hero-name",
+  "text": "S. B.ECE"
+ },
+ {
+  "tag": "em",
+  "className": "",
+  "text": "Jeevanandham"
+ },
+ {
+  "tag": "br",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "hero-typewriter",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "span",
+  "className": "cursor",
+  "text": "|"
+ },
+ {
+  "tag": "p",
+  "className": "hero-bio",
+  "text": "Senior Software Engineer with in Automotive HMI, Infotainment Systems, Instrument Clusters, and Medical Device HMI. Specialising in across production-grade OEM programs."
+ },
+ {
+  "tag": "strong",
+  "className": "",
+  "text": "4.9+ years"
+ },
+ {
+  "tag": "strong",
+  "className": "",
+  "text": "Qt/QML, Embedded C++, and real-time UI engineering"
+ },
+ {
+  "tag": "div",
+  "className": "hero-badges",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "Qt / QML"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "Embedded C++"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "LVGL"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "CAN Bus"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "A-SPICE"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "Linux HMI"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "SQLite3"
+ },
+ {
+  "tag": "span",
+  "className": "badge",
+  "text": "FreeRTOS"
+ },
+ {
+  "tag": "div",
+  "className": "hero-cta",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-amber",
+  "text": "View Projects"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "rocket_launch"
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-outline",
+  "text": "Get In Touch"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-green",
+  "text": "Resume"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "download"
+ },
+ {
+  "tag": "div",
+  "className": "hero-center",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "gauge-widget",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "gauge-label-top",
+  "text": "⚡ Live HMI Cluster Demo"
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "defs",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "radialgradient",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "lineargradient",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "lineargradient",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "lineargradient",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "stop",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "filter",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "fegaussianblur",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "femerge",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "femergenode",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "femergenode",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "filter",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "fegaussianblur",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "femerge",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "femergenode",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "femergenode",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "<dynamic>"
+ },
+ {
+  "tag": "div",
+  "className": "gauge-divider",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "gauge-stats-row",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "gauge-stat",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stat-val",
+  "text": "4.9+"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stat-lbl",
+  "text": "Yrs Exp"
+ },
+ {
+  "tag": "div",
+  "className": "gauge-stat",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stat-val",
+  "text": "8+"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stat-lbl",
+  "text": "Projects"
+ },
+ {
+  "tag": "div",
+  "className": "gauge-stat",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stat-val",
+  "text": "2"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stat-lbl",
+  "text": "Domains"
+ },
+ {
+  "tag": "div",
+  "className": "gauge-divider",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "gauge-stack-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stack-tag",
+  "text": "Qt/QML"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stack-tag",
+  "text": "LVGL"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stack-tag",
+  "text": "C++"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stack-tag",
+  "text": "CAN"
+ },
+ {
+  "tag": "span",
+  "className": "gauge-stack-tag",
+  "text": "UART"
+ },
+ {
+  "tag": "div",
+  "className": "hero-right",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "profile-card",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "profile-photo-frame",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "scan",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "corner corner-tl",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "corner corner-tr",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "corner corner-bl",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "corner corner-br",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "profile-photo",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "profile-info-panel",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pname",
+  "text": "S. JEEVANANDHAM"
+ },
+ {
+  "tag": "div",
+  "className": "prole",
+  "text": "SENIOR HMI ENGINEER"
+ },
+ {
+  "tag": "div",
+  "className": "status-row",
+  "text": "OPEN TO OPPORTUNITIES"
+ },
+ {
+  "tag": "span",
+  "className": "status-dot",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "profile-tags-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag",
+  "text": "Automotive HMI"
+ },
+ {
+  "tag": "span",
+  "className": "ptag",
+  "text": "Medical HMI"
+ },
+ {
+  "tag": "span",
+  "className": "ptag",
+  "text": "Qt/QML"
+ },
+ {
+  "tag": "span",
+  "className": "ptag",
+  "text": "UX Design"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "section",
+  "className": "section-wrap",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "01 — About"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "person"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Who I Am"
+ },
+ {
+  "tag": "div",
+  "className": "about-grid",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "about-text reveal visible",
+  "text": ""
+ },
+ {
+  "tag": "p",
+  "className": "",
+  "text": "I'm a with deep expertise in Human Machine Interface development for the . Over 4.9 years, I've shipped production-grade HMIs for instrument clusters, infotainment systems, and medical therapy devices."
+ },
+ {
+  "tag": "span",
+  "className": "hl",
+  "text": "Senior Software Engineer"
+ },
+ {
+  "tag": "span",
+  "className": "hl",
+  "text": "automotive and medical device industries"
+ },
+ {
+  "tag": "p",
+  "className": "",
+  "text": "My stack centres on , complemented by LVGL, Candera CGI Studio, and TouchGFX. I've worked across STM32, i.MX6, i.MX8M, and MIMXRT1170 platforms, building everything from low-level driver integrations to polished, safety-aware UI layers."
+ },
+ {
+  "tag": "span",
+  "className": "hl",
+  "text": "Qt/QML and Embedded C++"
+ },
+ {
+  "tag": "p",
+  "className": "",
+  "text": "I bring an unusual combination of — holding a Google UX Design Professional Certificate and contributing to visual design work across all my projects using Figma and Adobe tooling."
+ },
+ {
+  "tag": "span",
+  "className": "hl",
+  "text": "engineering rigour and UX design sensibility"
+ },
+ {
+  "tag": "p",
+  "className": "",
+  "text": "Experienced in , Agile execution, CI/CD pipelines, documentation discipline, UART communication frameworks (structured byte framing + CRC), SQLite3 database integration, and Linux-based system development."
+ },
+ {
+  "tag": "span",
+  "className": "hl",
+  "text": "A-SPICE aligned development"
+ },
+ {
+  "tag": "div",
+  "className": "stats",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "stat-card reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "schedule"
+ },
+ {
+  "tag": "div",
+  "className": "stat-num",
+  "text": "4.9+"
+ },
+ {
+  "tag": "div",
+  "className": "stat-label",
+  "text": "Years Experience"
+ },
+ {
+  "tag": "div",
+  "className": "stat-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "rocket_launch"
+ },
+ {
+  "tag": "div",
+  "className": "stat-num",
+  "text": "8+"
+ },
+ {
+  "tag": "div",
+  "className": "stat-label",
+  "text": "Projects Shipped"
+ },
+ {
+  "tag": "div",
+  "className": "stat-card reveal d2 visible",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "devices"
+ },
+ {
+  "tag": "div",
+  "className": "stat-num",
+  "text": "2"
+ },
+ {
+  "tag": "div",
+  "className": "stat-label",
+  "text": "Domains — Auto & Med"
+ },
+ {
+  "tag": "div",
+  "className": "stat-card reveal d3 visible",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "code"
+ },
+ {
+  "tag": "div",
+  "className": "stat-num",
+  "text": "C++"
+ },
+ {
+  "tag": "div",
+  "className": "stat-label",
+  "text": "Primary Language"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-band full-band",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "inner",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "02 — Experience"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "work"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Career"
+ },
+ {
+  "tag": "div",
+  "className": "exp-timeline",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-item reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-dot",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-header",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-left",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "medical_services"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-role",
+  "text": "Senior Software Engineer"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-name",
+  "text": "PixelExpert Technology & Services Pvt. Ltd."
+ },
+ {
+  "tag": "div",
+  "className": "exp-right",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-period",
+  "text": "SEP 2024 — JAN 2026"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-loc",
+  "text": "Chennai, Tamil Nadu"
+ },
+ {
+  "tag": "p",
+  "className": "exp-desc",
+  "text": "Led HMI design & development for a medical physiotherapy laser therapy device — full ownership from UX design through Qt/QML implementation, embedded C++ backend, custom UART framework with CRC validation, and SQLite3 patient database. Safety-aware screen interactions, structured validation, and Linux-based device control integration."
+ },
+ {
+  "tag": "div",
+  "className": "exp-item reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-dot",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-header",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-left",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "directions_car"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-role",
+  "text": "Embedded Software Engineer"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-name",
+  "text": "PixelExpert Technology & Services Pvt. Ltd."
+ },
+ {
+  "tag": "div",
+  "className": "exp-right",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-period",
+  "text": "APR 2022 — AUG 2024"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-loc",
+  "text": "Chennai, Tamil Nadu"
+ },
+ {
+  "tag": "p",
+  "className": "exp-desc",
+  "text": "Developed automotive Instrument Cluster and Infotainment HMI across multiple OEM programs using Qt/QML, LVGL, Candera CGI Studio, and Embedded C. Worked as HCL external engineer on a SUV infotainment platform delivering Calls, Media, Settings, and Vehicle Stats modules in A-SPICE aligned Jenkins CI/CD environment."
+ },
+ {
+  "tag": "div",
+  "className": "exp-item reveal d2 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-dot",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-header",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-left",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-role",
+  "text": "Graduate Engineer Trainee"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-name",
+  "text": "PixelExpert Technology & Services Pvt. Ltd."
+ },
+ {
+  "tag": "div",
+  "className": "exp-right",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-period",
+  "text": "SEP 2021 — MAR 2022"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-loc",
+  "text": "Chennai, Tamil Nadu"
+ },
+ {
+  "tag": "p",
+  "className": "exp-desc",
+  "text": "Hands-on embedded development training on STM32 — UART, SPI, I²C, GPIO protocols. Built TouchGFX-based Instrument Cluster prototype with speedometer, odometer, alerts, trip metres, and fuel gauge. Foundational training in structured UI graphics and embedded integration."
+ },
+ {
+  "tag": "div",
+  "className": "exp-item reveal d3 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-dot",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-header",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-left",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "palette"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-role",
+  "text": "Graphics Designer Trainee"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-name",
+  "text": "Lapiz Digital Services Pvt. Ltd."
+ },
+ {
+  "tag": "div",
+  "className": "exp-right",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "exp-period",
+  "text": "MAY 2019 — SEP 2019"
+ },
+ {
+  "tag": "div",
+  "className": "exp-company-loc",
+  "text": "Chennai, Tamil Nadu"
+ },
+ {
+  "tag": "p",
+  "className": "exp-desc",
+  "text": "Internship focused on visual design fundamentals, digital graphics production, and creative tooling across Adobe Creative Suite."
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "section",
+  "className": "section-wrap",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "03 — Skills"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "build"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Toolbox"
+ },
+ {
+  "tag": "div",
+  "className": "skills-categories",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Primary Language"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "C++ (C++11–C++17)"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "code"
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Embedded C"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "QML"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Lua"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "OOP"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "STL"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Smart Pointers"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Bit Manipulation"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Structures"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "HMI Frameworks"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Qt / QML"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Qt Widgets"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "LVGL"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "TouchGFX"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "GUI Guider"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Crank Storyboard"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Candera CGI Studio"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "VG Lite"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Qt 3D Studio"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Qt Design Studio"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d2 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Embedded & OS"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "FreeRTOS"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Embedded Linux"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Yocto Project"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Ubuntu"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "STM32"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "i.MX6 / i.MX8M"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "MIMXRT1170"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Communication Interfaces"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "UART / CRC"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "SPI"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "I²C"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "CAN Bus"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "GPIO"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Tools & DevOps"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Git"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Plastic SCM"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Jira"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "CMake"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Jenkins"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "STM32CubeIDE"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "MCUXpresso"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "TK Logger"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Enterprise Architect"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Polarion"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d2 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Testing & Debugging"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "GDB"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "DLT Viewer"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "HIL Testing"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "ECU Verification"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "fact_check"
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Manual Testing"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Database"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "SQLite3"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Design & UX"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Figma"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Adobe Illustrator"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Adobe XD"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Photoshop"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "GIMP"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "FontForge"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Affinity"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "img",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Miro"
+ },
+ {
+  "tag": "div",
+  "className": "skill-cat reveal d2 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cat-header",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "cat-badge",
+  "text": "Methodologies"
+ },
+ {
+  "tag": "div",
+  "className": "cat-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chips",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "Agile / Scrum"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "A-SPICE"
+ },
+ {
+  "tag": "div",
+  "className": "skill-chip",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "chip-icon-wrap",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "path",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "chip-label",
+  "text": "UML"
+ },
+ {
+  "tag": "div",
+  "className": "iso-strip reveal visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "iso-strip-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "verified_user"
+ },
+ {
+  "tag": "div",
+  "className": "iso-strip-body",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "iso-strip-title",
+  "text": "ISO 26262 Awareness"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "shield"
+ },
+ {
+  "tag": "p",
+  "className": "iso-strip-desc",
+  "text": "Safety-oriented HMI behavior with focus on system reliability, deterministic performance, and user-safety considerations. Practical application across automotive HMI projects — safety-aware UI interaction design, structured validation flows, and Functional Safety methodology awareness."
+ },
+ {
+  "tag": "div",
+  "className": "iso-chips",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "iso-chip",
+  "text": "Safety-Aware UI"
+ },
+ {
+  "tag": "span",
+  "className": "iso-chip",
+  "text": "Deterministic Performance"
+ },
+ {
+  "tag": "span",
+  "className": "iso-chip",
+  "text": "Structured Validation"
+ },
+ {
+  "tag": "span",
+  "className": "iso-chip",
+  "text": "FMEA Awareness"
+ },
+ {
+  "tag": "span",
+  "className": "iso-chip",
+  "text": "Fail-Safe Patterns"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "section",
+  "className": "section-wrap",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "04 — Engineering Projects"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "rocket_launch"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Selected Work"
+ },
+ {
+  "tag": "div",
+  "className": "projects-grid",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-period",
+  "text": "OCT 2024 — JAN 2026"
+ },
+ {
+  "tag": "div",
+  "className": "project-top",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "medical_services"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-num",
+  "text": "PROJECT_01"
+ },
+ {
+  "tag": "div",
+  "className": "project-domain",
+  "text": "Medical Device"
+ },
+ {
+  "tag": "div",
+  "className": "project-title",
+  "text": "Physiotherapy Laser Therapy HMI"
+ },
+ {
+  "tag": "p",
+  "className": "project-desc",
+  "text": "Full-ownership HMI for a medical laser therapy device — treatment workflows, safety-aware UI logic, SQLite3 patient records, and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration."
+ },
+ {
+  "tag": "div",
+  "className": "project-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Qt/QML"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "C++"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "SQLite3"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "UART/CRC"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Linux"
+ },
+ {
+  "tag": "div",
+  "className": "project-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-period",
+  "text": "NOV 2023 — SEP 2024"
+ },
+ {
+  "tag": "div",
+  "className": "project-top",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "speed"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-num",
+  "text": "PROJECT_02"
+ },
+ {
+  "tag": "div",
+  "className": "project-domain",
+  "text": "Automotive"
+ },
+ {
+  "tag": "div",
+  "className": "project-title",
+  "text": "LVGL Cluster — MIMXRT1170"
+ },
+ {
+  "tag": "p",
+  "className": "project-desc",
+  "text": "High-performance next-gen instrument cluster using Embedded C, LVGL, and VG Lite on MIMXRT1170 EVKB. ADAS-style visualisation widgets and low-level GPU rendering optimisations for smooth real-time gauge rendering."
+ },
+ {
+  "tag": "div",
+  "className": "project-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "LVGL"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "VG Lite"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Embedded C"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "MIMXRT1170"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "ADAS"
+ },
+ {
+  "tag": "div",
+  "className": "project-card reveal wide d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-period",
+  "text": "MAR 2023 — SEP 2023"
+ },
+ {
+  "tag": "div",
+  "className": "project-top",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "radio"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-num",
+  "text": "PROJECT_03"
+ },
+ {
+  "tag": "div",
+  "className": "project-domain",
+  "text": "Automotive · Infotainment · OEM"
+ },
+ {
+  "tag": "div",
+  "className": "project-title",
+  "text": "SUV In-Vehicle Infotainment System"
+ },
+ {
+  "tag": "p",
+  "className": "project-desc",
+  "text": "HMI developer on a production SUV infotainment platform (HCL external assignment). Delivered Calls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules. Full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD. Validation via TK Logger for latency control and reliability assurance."
+ },
+ {
+  "tag": "div",
+  "className": "project-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Qt/QML"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "C++"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Jenkins"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Plastic SCM"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "A-SPICE"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Figma Enterprise"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Polarion"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Linux"
+ },
+ {
+  "tag": "div",
+  "className": "project-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-period",
+  "text": "NOV 2022 — MAR 2023"
+ },
+ {
+  "tag": "div",
+  "className": "project-top",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "two_wheeler"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-num",
+  "text": "PROJECT_04"
+ },
+ {
+  "tag": "div",
+  "className": "project-domain",
+  "text": "Automotive"
+ },
+ {
+  "tag": "div",
+  "className": "project-title",
+  "text": "Sports Bike Cluster — i.MX6"
+ },
+ {
+  "tag": "p",
+  "className": "project-desc",
+  "text": "Advanced cluster on i.MX6 with Qt/QML and Linux. 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations."
+ },
+ {
+  "tag": "div",
+  "className": "project-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Qt/QML"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "C++"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "i.MX6"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Linux"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "SQLite3"
+ },
+ {
+  "tag": "div",
+  "className": "project-card reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-period",
+  "text": "JAN 2022 — SEP 2022"
+ },
+ {
+  "tag": "div",
+  "className": "project-top",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "two_wheeler"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-num",
+  "text": "PROJECT_05"
+ },
+ {
+  "tag": "div",
+  "className": "project-domain",
+  "text": "Automotive · OEM (NDA)"
+ },
+ {
+  "tag": "div",
+  "className": "project-title",
+  "text": "Two-Wheeler OEM Cluster — CGI Studio"
+ },
+ {
+  "tag": "p",
+  "className": "project-desc",
+  "text": "Production Instrument Cluster for a leading two-wheeler OEM. State machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards."
+ },
+ {
+  "tag": "div",
+  "className": "project-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Candera CGI Studio"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Lua"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "SCML"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "CMake"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Photoshop"
+ },
+ {
+  "tag": "div",
+  "className": "project-card reveal wide d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-card-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-period",
+  "text": "R&D / INTERNAL"
+ },
+ {
+  "tag": "div",
+  "className": "project-top",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "pico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "sensors"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "project-num",
+  "text": "R&D"
+ },
+ {
+  "tag": "div",
+  "className": "project-domain",
+  "text": "Internal · Capability Work"
+ },
+ {
+  "tag": "div",
+  "className": "project-title",
+  "text": "ADAS 3D Demonstrator & R&D Projects"
+ },
+ {
+  "tag": "p",
+  "className": "project-desc",
+  "text": "Collision visualisation and parking assist UI demonstrator built with Qt 3D Studio and Blender on i.MX8M. Includes a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge — structured UI graphics and embedded integration for capability development."
+ },
+ {
+  "tag": "div",
+  "className": "project-tags",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Qt 3D Studio"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "Blender"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "i.MX8M"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "TouchGFX"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "STM32F469G"
+ },
+ {
+  "tag": "span",
+  "className": "ptag2",
+  "text": "ADAS"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "full-band",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "inner",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "05 — Design Portfolio"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "brush"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Creative Work"
+ },
+ {
+  "tag": "div",
+  "className": "behance-grid",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "behance-card reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-bg",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "km/h"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "FUEL"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "RPM"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "3200"
+ },
+ {
+  "tag": "div",
+  "className": "behance-overlay",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-content",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "bc-tag",
+  "text": "AUTOMOTIVE"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "directions_car"
+ },
+ {
+  "tag": "div",
+  "className": "bc-title",
+  "text": "Automotive Instrument Clusters"
+ },
+ {
+  "tag": "div",
+  "className": "bc-desc",
+  "text": "HMI design work for two-wheeler and four-wheeler instrument clusters — from low-fidelity wireframes to final pixel-perfect UI assets for embedded deployment."
+ },
+ {
+  "tag": "div",
+  "className": "bc-cta",
+  "text": "View on Behance"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "a",
+  "className": "behance-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-bg",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "PATIENT"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Name:"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Rajesh Kumar"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Age:"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "45"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Session:"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "#12"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Duration:"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "20 min"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "LASER POWER"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "70%"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "START"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "STOP"
+ },
+ {
+  "tag": "div",
+  "className": "behance-overlay",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-content",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "bc-tag",
+  "text": "MEDICAL HMI"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "medical_services"
+ },
+ {
+  "tag": "div",
+  "className": "bc-title",
+  "text": "Medical Device HMI Design"
+ },
+ {
+  "tag": "div",
+  "className": "bc-desc",
+  "text": "UX/UI design for physiotherapy laser therapy control systems — treatment workflows, patient record interfaces, and safety-oriented screen interaction patterns."
+ },
+ {
+  "tag": "div",
+  "className": "bc-cta",
+  "text": "View on Behance"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "a",
+  "className": "behance-card reveal d0 wide visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-bg",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "CALLS"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "MEDIA"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "SETTINGS"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "VEHICLE"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "NAV"
+ },
+ {
+  "tag": "div",
+  "className": "behance-overlay",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-content",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "bc-tag",
+  "text": "INFOTAINMENT · OEM"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "radio"
+ },
+ {
+  "tag": "div",
+  "className": "bc-title",
+  "text": "Infotainment UI Modules"
+ },
+ {
+  "tag": "div",
+  "className": "bc-desc",
+  "text": "Design assets and interaction models for SUV infotainment — Calls, Media, Settings, and Vehicle Statistics screens designed in Figma Enterprise for production deployment."
+ },
+ {
+  "tag": "div",
+  "className": "bc-cta",
+  "text": "View on Behance"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "a",
+  "className": "behance-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-bg",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "DESKTOP"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "MOBILE"
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "TABLET"
+ },
+ {
+  "tag": "div",
+  "className": "behance-overlay",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-content",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "bc-tag",
+  "text": "MULTI-PLATFORM"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "devices"
+ },
+ {
+  "tag": "div",
+  "className": "bc-title",
+  "text": "Multi-Platform UI/UX Designs"
+ },
+ {
+  "tag": "div",
+  "className": "bc-desc",
+  "text": "Adaptive UI/UX design systems spanning desktop, mobile, and embedded display platforms — consistent design language across different form factors and interaction models."
+ },
+ {
+  "tag": "div",
+  "className": "bc-cta",
+  "text": "View on Behance"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "a",
+  "className": "behance-card reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-bg",
+  "text": ""
+ },
+ {
+  "tag": "svg",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "rect",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "HMI"
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "ENGINEER"
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Qt/QML"
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Embedded"
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "A-SPICE"
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "g",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "circle",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "text",
+  "className": "",
+  "text": "Figma/UX"
+ },
+ {
+  "tag": "line",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-overlay",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "behance-card-content",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "bc-tag",
+  "text": "DESIGNER PROFILE"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "person"
+ },
+ {
+  "tag": "div",
+  "className": "bc-title",
+  "text": "Jeevanandham S — Full Design Portfolio"
+ },
+ {
+  "tag": "div",
+  "className": "bc-desc",
+  "text": "4.9+ years engineering & designing HMI systems across automotive, medical, and embedded platforms. View all projects, case studies, and visual design work on Behance."
+ },
+ {
+  "tag": "div",
+  "className": "bc-cta",
+  "text": "View on Behance"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "section",
+  "className": "section-wrap",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "06 — Education"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Academic Background"
+ },
+ {
+  "tag": "div",
+  "className": "edu-grid",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "edu-card reveal visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "edu-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "div",
+  "className": "edu-degree",
+  "text": "B.E. — Electronics & Communication Engineering"
+ },
+ {
+  "tag": "div",
+  "className": "edu-school",
+  "text": "Adhiparasakthi College of Engineering (Anna University), Tamil Nadu"
+ },
+ {
+  "tag": "div",
+  "className": "edu-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "edu-tag",
+  "text": "2015 – 2020"
+ },
+ {
+  "tag": "span",
+  "className": "edu-tag",
+  "text": "CGPA: 6.34 / 10"
+ },
+ {
+  "tag": "span",
+  "className": "edu-tag",
+  "text": "ECE"
+ },
+ {
+  "tag": "div",
+  "className": "edu-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "edu-icon",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "military_tech"
+ },
+ {
+  "tag": "div",
+  "className": "edu-degree",
+  "text": "Key Domain Expertise"
+ },
+ {
+  "tag": "div",
+  "className": "edu-school",
+  "text": "4.9+ years of production-grade specialisation in HMI engineering across Automotive and Medical device industries"
+ },
+ {
+  "tag": "div",
+  "className": "edu-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "Automotive HMI"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "Medical Device HMI"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "Instrument Clusters"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "Infotainment"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "ADAS / 3D Viz"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "full-band",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "inner",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "07 — Certifications"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "verified"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Credentials"
+ },
+ {
+  "tag": "div",
+  "className": "certs-grid",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cert-card reveal d0 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cert-ico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "div",
+  "className": "cert-name",
+  "text": "Qt 6 Core — Beginner, Intermediate & Advanced"
+ },
+ {
+  "tag": "div",
+  "className": "cert-org",
+  "text": "UDEMY"
+ },
+ {
+  "tag": "div",
+  "className": "cert-card reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cert-ico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "school"
+ },
+ {
+  "tag": "div",
+  "className": "cert-name",
+  "text": "QML for Beginners"
+ },
+ {
+  "tag": "div",
+  "className": "cert-org",
+  "text": "UDEMY"
+ },
+ {
+  "tag": "div",
+  "className": "cert-card reveal d2 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "cert-ico",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "verified_user"
+ },
+ {
+  "tag": "div",
+  "className": "cert-name",
+  "text": "Google UX Design Professional Certificate"
+ },
+ {
+  "tag": "div",
+  "className": "cert-org",
+  "text": "COURSERA — CREDLY VERIFIED"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "full-band",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "inner",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "08 — Resume"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "description"
+ },
+ {
+  "tag": "div",
+  "className": "resume-inner",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "resume-info reveal visible",
+  "text": ""
+ },
+ {
+  "tag": "h3",
+  "className": "",
+  "text": "Download My Resume"
+ },
+ {
+  "tag": "p",
+  "className": "",
+  "text": "Full details on experience, projects, skills, certifications, and education — available as a PDF for your review or ATS systems."
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-green",
+  "text": "Download PDF"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "download"
+ },
+ {
+  "tag": "a",
+  "className": "btn btn-outline",
+  "text": "View Online"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "div",
+  "className": "resume-preview reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "resume-preview-header",
+  "text": "JEEVANANDHAM_RESUME.PDF · 3 PAGES"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "picture_as_pdf"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-name",
+  "text": "S. JEEVANANDHAM"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-role",
+  "text": "SENIOR SOFTWARE ENGINEER – AUTOMOTIVE & MEDICAL HMI | UI/UX | QT/QML | EMBEDDED C++"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": "Chennai, Tamil Nadu, India"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "location_on"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": "jeevanandhamsivashankaran@gmail.com"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": "+91 8111010315"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "phone"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": "KEY SKILLS"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-skill-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "rdp-label",
+  "text": "Qt / QML"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar-fill",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-skill-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "rdp-label",
+  "text": "Embedded C++"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar-fill",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-skill-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "rdp-label",
+  "text": "LVGL / HMI"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar-fill",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-skill-row",
+  "text": ""
+ },
+ {
+  "tag": "span",
+  "className": "rdp-label",
+  "text": "UX / Figma"
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-bar-fill",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "rdp-line",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "",
+  "text": "Download"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "download"
+ },
+ {
+  "tag": "a",
+  "className": "",
+  "text": "View"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "div",
+  "className": "divider",
+  "text": ""
+ },
+ {
+  "tag": "section",
+  "className": "section-wrap contact-wrap",
+  "text": ""
+ },
+ {
+  "tag": "div",
+  "className": "section-label",
+  "text": "09 — Contact"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "h2",
+  "className": "section-title",
+  "text": "Let's Work Together"
+ },
+ {
+  "tag": "p",
+  "className": "contact-sub",
+  "text": "Open to senior HMI engineering roles, embedded UI consulting, and collaborative automotive or medical device projects. Based in Chennai, India."
+ },
+ {
+  "tag": "div",
+  "className": "contact-links reveal visible",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "contact-item c-email",
+  "text": "jeevanandhamsivashankaran@gmail.com"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "mail"
+ },
+ {
+  "tag": "a",
+  "className": "contact-item c-phone",
+  "text": "+91 8111010315"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "phone"
+ },
+ {
+  "tag": "div",
+  "className": "contact-links reveal d1 visible",
+  "text": ""
+ },
+ {
+  "tag": "a",
+  "className": "contact-item c-li",
+  "text": "LinkedIn"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "open_in_new"
+ },
+ {
+  "tag": "a",
+  "className": "contact-item c-bh",
+  "text": "Behance Portfolio"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "brush"
+ },
+ {
+  "tag": "a",
+  "className": "contact-item c-gh",
+  "text": "GitHub"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "terminal"
+ },
+ {
+  "tag": "div",
+  "className": "contact-loc",
+  "text": "Chennai, Tamil Nadu, India"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "location_on"
+ },
+ {
+  "tag": "footer",
+  "className": "",
+  "text": "© 2026 S. JEEVANANDHAM — SENIOR HMI ENGINEER — BUILT WITH PRECISION"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "developer_board"
+ },
+ {
+  "tag": "span",
+  "className": "",
+  "text": "developer_board"
+ }
+]

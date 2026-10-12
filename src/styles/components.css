@@ -6,28 +6,28 @@
   background: radial-gradient(circle, rgba(167,139,250,0.22) 0%, rgba(167,139,250,0.08) 40%, transparent 70%);
   filter: blur(70px);
   animation: orbFloat1 20s ease-in-out infinite;
-  transition: background 1.4s ease;
+  transition: background var(--dur-theme) var(--ease-standard);
 }
 .orb-2 {
   width: 600px; height: 600px; bottom: 10%; left: -10%;
   background: radial-gradient(circle, rgba(34,211,238,0.18) 0%, rgba(34,211,238,0.05) 45%, transparent 70%);
   filter: blur(80px);
   animation: orbFloat2 25s ease-in-out infinite;
-  transition: background 1.4s ease;
+  transition: background var(--dur-theme) var(--ease-standard);
 }
 .orb-3 {
   width: 500px; height: 500px; top: 35%; right: 15%;
   background: radial-gradient(circle, rgba(245,158,11,0.16) 0%, rgba(245,158,11,0.04) 50%, transparent 70%);
   filter: blur(65px);
   animation: orbFloat3 18s ease-in-out infinite;
-  transition: background 1.4s ease;
+  transition: background var(--dur-theme) var(--ease-standard);
 }
 .orb-4 {
   width: 400px; height: 400px; bottom: 5%; right: 35%;
   background: radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%);
   filter: blur(60px);
   animation: orbFloat4 28s ease-in-out infinite;
-  transition: background 1.4s ease;
+  transition: background var(--dur-theme) var(--ease-standard);
 }
 
 /* Day mode orbs — warm, vibrant, sky-like */
@@ -57,7 +57,7 @@
   will-change: left, top;
   mix-blend-mode: screen;
   animation: cursorPulse 3s ease-in-out infinite;
-  transition: left 0.06s linear, top 0.06s linear;
+  transition: left var(--dur-instant) linear, top var(--dur-instant) linear;
 }
 [data-theme="day"] .cursor-glow {
   background: radial-gradient(circle, rgba(251,191,36,0.22) 0%, rgba(249,115,22,0.08) 45%, transparent 65%);
@@ -98,7 +98,7 @@
   top: 0; left: -100%; width: 60%; height: 100%;
   background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.07) 50%, transparent 60%);
   pointer-events: none; z-index: 0;
-  transition: left 0.6s ease;
+  transition: left var(--dur-deliberate) var(--ease-standard);
 }
 .glass-card:hover::after { left: 140%; }
 
@@ -109,11 +109,14 @@
   color: var(--text2); background: var(--glass-bg);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--glass-bdr); border-radius: 20px;
-  padding: 6px 13px; cursor: pointer; transition: all 0.3s;
+  padding: 6px 13px; cursor: pointer;
+  min-height: var(--target-min);
+  transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
   white-space: nowrap;
 }
 .theme-btn:hover { color: var(--amber); border-color: var(--amber); transform: scale(1.04); }
-.theme-btn .ms { font-size: 14px; transition: transform 0.4s ease; }
+.theme-btn:active { transform: scale(0.96); transition-duration: var(--dur-instant); }
+.theme-btn .ms { font-size: 14px; transition: transform var(--dur-base) var(--ease-standard); }
 .theme-btn:hover .ms { transform: rotate(30deg); }
 
 /* ── THEME BADGE ── */
@@ -123,7 +126,7 @@
   color: var(--amber); background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.22);
   border-radius: 20px; padding: 4px 10px;
-  animation: sunriseFade 0.5s ease both;
+  animation: sunriseFade var(--dur-slow) var(--ease-decel) both;
 }
 [data-theme="day"] .theme-badge {
   color: var(--amber);
@@ -141,7 +144,7 @@
   -webkit-backdrop-filter: blur(28px) saturate(200%);
   border-bottom: 1px solid var(--glass-bdr);
   box-shadow: 0 1px 0 var(--glass-shine), 0 4px 32px rgba(0,0,0,0.12);
-  transition: all 0.3s;
+  transition: height var(--dur-base) var(--ease-standard), background-color var(--dur-theme) var(--ease-standard);
 }
 .nav.scrolled { height: 54px; }
 [data-theme="day"] .nav { box-shadow: 0 1px 0 var(--glass-shine), 0 4px 24px rgba(0,0,0,0.06); }
@@ -150,21 +153,56 @@
 .nav-link {
   font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; color: var(--text2);
   text-transform: uppercase; padding: 7px 12px; border-radius: 5px;
-  display: flex; align-items: center; gap: 5px; transition: all 0.2s; cursor: pointer;
+  display: flex; align-items: center; gap: 5px; cursor: pointer;
+  min-height: var(--target-min);
+  transition: color var(--dur-fast) var(--ease-standard), background-color var(--dur-fast) var(--ease-standard);
 }
 .nav-link:hover, .nav-link.active { color: var(--amber); background: rgba(245,158,11,0.12); }
 .nav-link .ms { font-size: 13px; }
 .nav-right { display: flex; align-items: center; gap: 10px; }
-.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.hamburger span { display: block; width: 22px; height: 2px; background: var(--amber); border-radius: 2px; transition: all 0.3s; }
+.hamburger {
+  display: none; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+  min-width: var(--target-min); min-height: var(--target-min);
+}
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--amber); border-radius: 2px; transition: background-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard); }
 .mobile-menu {
   display: none; position: fixed; top: 64px; left: 0; right: 0;
-  background: var(--glass-bg);
+  background: var(--color-glass-strong);
   backdrop-filter: blur(28px) saturate(200%);
   -webkit-backdrop-filter: blur(28px) saturate(200%);
   border-bottom: 1px solid var(--glass-bdr);
-  z-index: 299; padding: 16px 24px; flex-direction: column; gap: 4px;
+  z-index: var(--z-menu); padding: 16px 24px; flex-direction: column; gap: 4px;
 }
 .mobile-menu.open { display: flex; }
 .mobile-menu .nav-link { font-size: 12px; padding: 11px 14px; }
+.mobile-menu .theme-btn { min-height: var(--target-min); }
 
+
+/* ── MICRO-INTERACTIONS (US-202): uniform feedback for buttons and chips ──
+   Specificity (element + class) lets these win over the legacy .btn/.badge
+   rules in sections.css without editing that file. */
+a.btn {
+  transition:
+    transform var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-fast) var(--ease-standard),
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+  min-height: var(--target-min);
+}
+a.btn::before { transition: left var(--dur-slow) var(--ease-standard); }
+a.btn:active { transform: scale(0.97); transition-duration: var(--dur-instant); }
+span.badge {
+  transition:
+    transform var(--dur-fast) var(--ease-standard),
+    box-shadow var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard),
+    background-color var(--dur-fast) var(--ease-standard);
+}
+
+/* Day-theme AA stopgap (US-203/NFR-A11Y-010): skill category badges take their text colour from
+   src/data (inline style, bright hues fail 4.5:1 on light surfaces). Remove once data uses --sig-* tokens. */
+[data-theme="day"] .cat-badge { color: var(--color-text) !important; }
+[data-theme="day"] .cert-ico > span, [data-theme="day"] .c-li, [data-theme="day"] .c-li > span { color: var(--color-text-2) !important; } /* same stopgap: inline hues from data */

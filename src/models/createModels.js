@@ -365,6 +365,30 @@ export function createHighlight(raw) {
   });
 }
 
+/** Keys of a case study, in display order (US-211). */
+export const CASE_STUDY_KEYS = Object.freeze(["problem", "role", "solution", "impact"]);
+
+/**
+ * Model "CaseStudy" (US-211). Every row is optional but at least one must be present;
+ * rows without a supporting fact in the project text are simply absent.
+ * @throws `Invalid CaseStudy: <field> <reason>`
+ * @param {object} raw unvalidated input
+ * @returns {Readonly<import("./types.js").CaseStudy>} frozen model
+ */
+export function createCaseStudy(raw) {
+  const M = "CaseStudy";
+  begin(raw, M, CASE_STUDY_KEYS);
+  const out = {};
+  for (const k of CASE_STUDY_KEYS) {
+    if (has(raw, k)) {
+      assertNonEmptyString(raw[k], M, k);
+      out[k] = raw[k];
+    }
+  }
+  if (Object.keys(out).length === 0) fail(M, "value", "must contain at least one row");
+  return deepFreeze(out);
+}
+
 /**
  * Model "Project". @throws `Invalid Project: <field> <reason>` (createProject({}) -> title is required)
  * @param {object} raw unvalidated input
@@ -374,7 +398,7 @@ export function createProject(raw) {
   const M = "Project";
   begin(raw, M, [
     "title", "num", "period", "domain", "icon", "color", "bg", "border", "wide", "desc", "tags",
-    "line",
+    "line", "caseStudy", "nda",
   ]);
   assertNonEmptyString(raw.title, M, "title");
   assertNonEmptyString(raw.num, M, "num");
@@ -388,11 +412,17 @@ export function createProject(raw) {
   assertNonEmptyString(raw.desc, M, "desc");
   const tags = stringArray(raw.tags, M, "tags", { unique: true });
   assertColor(raw.line, M, "line");
-  return deepFreeze({
+  const out = {
     title: raw.title, num: raw.num, period: raw.period, domain: raw.domain, icon: raw.icon,
     color: raw.color, bg: raw.bg, border: raw.border, wide: has(raw, "wide") ? raw.wide : false,
     desc: raw.desc, tags, line: raw.line,
-  });
+  };
+  if (has(raw, "caseStudy")) out.caseStudy = createCaseStudy(raw.caseStudy);
+  if (has(raw, "nda")) {
+    assertBoolean(raw.nda, M, "nda");
+    out.nda = raw.nda;
+  }
+  return deepFreeze(out);
 }
 
 /**

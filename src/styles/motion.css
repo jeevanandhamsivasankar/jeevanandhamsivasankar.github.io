@@ -1,0 +1,37 @@
+/* ==========================================================================
+   Motion tokens (US-202). Values from docs/design/motion-prototypes/*.
+   Under prefers-reduced-motion every duration resolves to 0.01ms
+   (FR-MOTION-007). Raw ms values are allowed only in this file and tokens.css.
+   ========================================================================== */
+:root {
+  --dur-instant: 80ms;
+  --dur-fast: 140ms;
+  --dur-base: 220ms;
+  --dur-slow: 360ms;
+  --dur-deliberate: 600ms;
+  --dur-theme: 360ms;
+  --dur-intro-max: 1200ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decel: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-accel: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --ease-decelerate: var(--ease-decel);
+  --ease-accelerate: var(--ease-accel);
+  --ease-emphasized: cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-telltale: cubic-bezier(0.4, 0, 1, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0.01ms;
+    --dur-fast: 0.01ms;
+    --dur-base: 0.01ms;
+    --dur-slow: 0.01ms;
+    --dur-deliberate: 0.01ms;
+    --dur-theme: 0.01ms;
+    --dur-intro-max: 0.01ms;
+  }
+}
+
+/* Documented reduced-motion exemptions: none. Running CSS animations are
+   forced to a single 0.01ms iteration by the rule in sections.css. */

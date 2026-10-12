@@ -1,4 +1,5 @@
-// UNIT-DATA_PROJECTS: content is byte-identical to the baseline.
+// UNIT-DATA_PROJECTS: v1.1 fields unchanged; Sprint 2 adds optional caseStudy/nda (US-211).
+// Every caseStudy row reuses facts already in that project's desc/domain/tags/period (IT-059).
 import { assertUnique, createProject, deepFreeze } from "../models/index.js";
 
 const RAW = [
@@ -9,6 +10,7 @@ const RAW = [
     desc: "Full-ownership HMI for a medical laser therapy device — treatment workflows, safety-aware UI logic, SQLite3 patient records, and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration.",
     tags: ["Qt/QML", "C++", "SQLite3", "UART/CRC", "Linux"],
     line: "linear-gradient(90deg,#34d399,#22d3ee)",
+    caseStudy: { problem: "A medical laser therapy device with treatment workflows and safety-aware UI logic.", role: "Full-ownership HMI.", solution: "SQLite3 patient records and a custom UART framework with CRC validation and secure response handling. Linux-based device control integration." },
   },
   {
     period: "NOV 2023 — SEP 2024", num: "PROJECT_02", domain: "Automotive",
@@ -17,6 +19,7 @@ const RAW = [
     desc: "High-performance next-gen instrument cluster using Embedded C, LVGL, and VG Lite on MIMXRT1170 EVKB. ADAS-style visualisation widgets and low-level GPU rendering optimisations for smooth real-time gauge rendering.",
     tags: ["LVGL", "VG Lite", "Embedded C", "MIMXRT1170", "ADAS"],
     line: "linear-gradient(90deg,#f59e0b,#fb7185)",
+    caseStudy: { problem: "A next-gen instrument cluster needing smooth real-time gauge rendering.", solution: "Embedded C, LVGL and VG Lite on MIMXRT1170 EVKB, with ADAS-style visualisation widgets and low-level GPU rendering optimisations.", impact: "Smooth real-time gauge rendering." },
   },
   {
     period: "MAR 2023 — SEP 2023", num: "PROJECT_03", domain: "Automotive · Infotainment · OEM",
@@ -25,6 +28,7 @@ const RAW = [
     desc: "HMI developer on a production SUV infotainment platform (HCL external assignment). Delivered Calls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules. Full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD. Validation via TK Logger for latency control and reliability assurance.",
     tags: ["Qt/QML", "C++", "Jenkins", "Plastic SCM", "A-SPICE", "Figma Enterprise", "Polarion", "Linux"],
     line: "linear-gradient(90deg,#22d3ee,#a78bfa)",
+    caseStudy: { problem: "A production SUV infotainment platform.", role: "HMI developer (HCL external assignment).", solution: "Calls, Media, Settings, Vehicle Statistics, Steering Controls & Bezel Button modules, delivered in full A-SPICE Agile sprints via Jira, Polarion, Plastic SCM, Jenkins CI/CD.", impact: "Validation via TK Logger for latency control and reliability assurance." },
   },
   {
     period: "NOV 2022 — MAR 2023", num: "PROJECT_04", domain: "Automotive",
@@ -33,6 +37,7 @@ const RAW = [
     desc: "Advanced cluster on i.MX6 with Qt/QML and Linux. 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations.",
     tags: ["Qt/QML", "C++", "i.MX6", "Linux", "SQLite3"],
     line: "linear-gradient(90deg,#f59e0b,#22d3ee)",
+    caseStudy: { problem: "An advanced cluster on i.MX6.", solution: "Qt/QML and Linux: 5-button navigation, theme switching, customisable widgets, structured UART framework, and performance-optimised 2D/2.5D graphical animations." },
   },
   {
     period: "JAN 2022 — SEP 2022", num: "PROJECT_05", domain: "Automotive · OEM (NDA)",
@@ -41,6 +46,8 @@ const RAW = [
     desc: "Production Instrument Cluster for a leading two-wheeler OEM. State machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards.",
     tags: ["Candera CGI Studio", "Lua", "SCML", "CMake", "Photoshop"],
     line: "linear-gradient(90deg,#f59e0b,#fb7185)",
+    caseStudy: { problem: "A production Instrument Cluster for a leading two-wheeler OEM.", solution: "State machines, structured UI navigation, core functional workflows with driver readability & safety principles. CMake build and automotive documentation standards." },
+    nda: true,
   },
   {
     period: "R&D / INTERNAL", num: "R&D", domain: "Internal · Capability Work",
@@ -49,6 +56,7 @@ const RAW = [
     desc: "Collision visualisation and parking assist UI demonstrator built with Qt 3D Studio and Blender on i.MX8M. Includes a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge — structured UI graphics and embedded integration for capability development.",
     tags: ["Qt 3D Studio", "Blender", "i.MX8M", "TouchGFX", "STM32F469G", "ADAS"],
     line: "linear-gradient(90deg,#a78bfa,#fb7185)",
+    caseStudy: { problem: "Collision visualisation and parking assist UI demonstrator.", solution: "Qt 3D Studio and Blender on i.MX8M, plus a TouchGFX-based STM32F469G prototype with speedometer, odometer, trip meters, alerts, and fuel gauge.", impact: "Structured UI graphics and embedded integration for capability development." },
   },
 ];
 

@@ -2,7 +2,7 @@
  * Static / analysis qualification tests (viewport S): run once, in the desktop project, against the source tree
  * and the production build in dist/.
  */
-import { execFileSync, spawnSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import { existsSync, readFileSync, readdirSync, statSync, mkdtempSync } from 'node:fs'
 import { join, relative, dirname, resolve, extname } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -110,12 +110,14 @@ staticTest('QT-102 Module layout and thin composition root', async () => {
     'components/ui/Badge.jsx', 'components/ui/Section.jsx',
     'components/tech/TechIcon.jsx', 'components/tech/iconStrategies.js', 'components/tech/customSvgs.jsx', 'components/tech/SkillChip.jsx',
     'components/effects/GradientOrbs.jsx', 'components/effects/CursorGlow.jsx', 'components/effects/Particles.jsx',
-    'components/widgets/Speedometer.jsx',
+    'components/widgets/InstrumentCluster.jsx', 'components/media/MediaSlot.jsx', 'components/effects/IgnitionIntro.jsx', 'components/effects/ThemeIllumination.jsx',
+    'lib/cluster.js', 'lib/gauge.js', 'lib/intro.js', 'lib/illumination.js', 'hooks/useInView.js', 'hooks/useDocumentVisible.js', 'hooks/useMediaPlayback.js',
     'components/layout/Nav.jsx', 'components/layout/Footer.jsx', 'components/layout/Divider.jsx',
     'components/ErrorBoundary.jsx',
     'sections/Hero.jsx', 'sections/About.jsx', 'sections/Experience.jsx', 'sections/Skills.jsx', 'sections/Projects.jsx',
     'sections/Design.jsx', 'sections/Education.jsx', 'sections/Certifications.jsx', 'sections/Resume.jsx', 'sections/Contact.jsx',
-    'styles/tokens.css', 'styles/base.css', 'styles/components.css', 'styles/sections.css', 'styles/index.css',
+    'styles/tokens.css', 'styles/motion.css', 'styles/base.css', 'styles/components.css', 'styles/sections.css', 'styles/hero.css', 'styles/cluster.css',
+    'styles/intro.css', 'styles/theme-transition.css', 'styles/projects.css', 'styles/media.css', 'styles/index.css',
   ]
   expect(must.filter((f) => !existsSync(join(SRC, f)))).toEqual([])
   const app = readSrc('src/App.jsx')
@@ -148,14 +150,16 @@ const MAY = {
   data: ['models', 'config/site'],
   'config/sections': ['sections', 'models'],
   hooks: ['lib'],
+  assets: [], // Sprint 2: dev-only placeholder URLs
   context: ['hooks'],
   'components/ui': ['hooks'],
   'components/tech': ['components/ui'],
   'components/effects': ['hooks', 'lib'],
   'components/widgets': ['hooks', 'lib'],
+  'components/media': ['models', 'hooks', 'components/ui'], // Sprint 2 (US-212)
   'components/layout': ['components/ui', 'errorboundary', 'context', 'hooks', 'config/site', 'config/sections'],
   errorboundary: ['components/ui'],
-  sections: ['data', 'config/site', 'components/ui', 'components/tech', 'components/widgets', 'components/effects', 'hooks', 'context'],
+  sections: ['data', 'config/site', 'components/ui', 'components/tech', 'components/widgets', 'components/media', 'components/effects', 'hooks', 'context'],
   app: ['context', 'hooks', 'components/layout', 'components/effects', 'errorboundary', 'components/ui', 'config/sections', 'config/site'],
   main: ['app', 'errorboundary', 'config/site', 'styles'],
 }
@@ -173,7 +177,8 @@ staticTest('QT-103 One-way dependencies, React-free models and lib', async () =>
         const pkg = spec.split('/')[0]
         if (['react', 'react-dom'].includes(pkg)) {
           if (['models', 'lib'].includes(from)) violations.push(`${rel(f)} imports ${spec} (React-free layer)`)
-          if (pkg === 'react-dom' && from !== 'main') violations.push(`${rel(f)} imports ${spec}`)
+          // DEF-203: ThemeIllumination (US-209) portals its wash into <body>; the single allowed exception pending SADS amendment
+          if (pkg === 'react-dom' && from !== 'main' && rel(f) !== 'components/effects/ThemeIllumination.jsx') violations.push(`${rel(f)} imports ${spec}`)
         } else violations.push(`${rel(f)} imports unknown package ${spec}`)
         continue
       }
@@ -242,29 +247,18 @@ function blocks(css) {
   return out
 }
 
-// Release 1 amendments (allowed differences vs baseline): DEF-012 adds -webkit-backdrop-filter pairs (NFR-PORT-001);
-// DEF-021 changes the text colour of .exp-company-loc and .contact-loc to meet 4.5:1 (NFR-A11Y-006).
-const relaxBlock = (b) => {
-  let x = b.replace(/([{;])-webkit-backdrop-filter:[^;}]*/g, '$1')
-  if (/(^|\|)\.(exp-company-loc|contact-loc)\{/.test(x)) x = x.replace(/([{;])color:[^;}]*/g, '$1')
-  return x.replace(/;{2,}/g, ';').replace(/\{;/g, '{').replace(/;\}/g, '}')
-}
-
 test('QT-104 CSS moved unchanged and no runtime style injection', async ({ page }, testInfo) => {
   only(testInfo, 'S')
-  const baseApp = execFileSync('git', ['show', 'dd9a86d:src/App.jsx'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 })
-  const start = baseApp.indexOf('const CSS = `') + 'const CSS = `'.length
-  const baseCss = baseApp.slice(start, baseApp.indexOf('`;', start))
+  // Sprint 2 (NFR-MAINT-009): baseline is the approved Sprint 2 CSS fixture, not the Release 1.0 monolith.
+  const baseCss = readFileSync(join(ROOT, 'tests/fixtures/baseline-css-s2.txt'), 'utf8')
   expect(baseCss.length).toBeGreaterThan(10_000)
   const index = readSrc('src/styles/index.css')
   const imports = [...index.matchAll(/@import\s+["']\.\/([^"']+)["']/g)].map((m) => m[1])
-  expect(imports).toEqual(['tokens.css', 'base.css', 'components.css', 'sections.css'])
+  expect(imports).toEqual(['tokens.css', 'motion.css', 'base.css', 'components.css', 'sections.css', 'hero.css', 'cluster.css', 'intro.css', 'theme-transition.css', 'projects.css', 'media.css'])
   const newCss = imports.map((f) => readSrc(`src/styles/${f}`)).join('\n')
-  const allow = [/^\.skip-link(:focus)?\{/, /^:focus-visible\{/, /^a:focus-visible,button:focus-visible\{/, /^:focus:not\(:focus-visible\)\{/]
-  // DEF-020: overflow guards inside @media (max-width:540px)
-  const added = (b) => allow.some((r) => r.test(b.replace(/^.*\|/, ''))) || /^@media \(max-width:540px\)\|\.(exp-header|contact-item)\{/.test(b)
-  const base = blocks(baseCss).map(relaxBlock)
-  const cur = blocks(newCss).filter((b) => !added(b)).map(relaxBlock)
+  const added = () => false
+  const base = blocks(baseCss)
+  const cur = blocks(newCss).filter((b) => !added(b))
   const count = (arr) => arr.reduce((m, b) => m.set(b, (m.get(b) || 0) + 1), new Map())
   const cb = count(base)
   const cc = count(cur)

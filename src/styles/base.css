@@ -1,15 +1,15 @@
 /* ── SMOOTH THEME TRANSITIONS ── */
-html { transition: background-color 1.2s ease, color 0.6s ease; }
-body { transition: background 1.2s ease, color 0.6s ease; }
+html { transition: background-color var(--dur-theme) var(--ease-standard), color var(--dur-theme) var(--ease-standard); }
+body { transition: background var(--dur-theme) var(--ease-standard), color var(--dur-theme) var(--ease-standard); }
 .nav, .gauge-widget, .stat-card, .project-card, .skill-group,
 .cert-card, .edu-card, .profile-info-panel, .resume-preview,
 .exp-item, .badge, .btn, footer {
   transition:
-    background 0.8s ease,
-    background-color 0.8s ease,
-    border-color 0.5s ease,
-    color 0.4s ease,
-    box-shadow 0.5s ease;
+    background var(--dur-theme) var(--ease-standard),
+    background-color var(--dur-theme) var(--ease-standard),
+    border-color var(--dur-theme) var(--ease-standard),
+    color var(--dur-theme) var(--ease-standard),
+    box-shadow var(--dur-theme) var(--ease-standard);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,7 +20,7 @@ body {
   overflow-x: hidden;
 }
 a { color: inherit; text-decoration: none; }
-::selection { background: rgba(245,158,11,0.3); color: #fff; }
+::selection { background: var(--color-accent-edge); color: var(--color-text); }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
@@ -34,7 +34,7 @@ body::before {
     linear-gradient(rgba(245,158,11,0.022) 1px, transparent 1px),
     linear-gradient(90deg, rgba(245,158,11,0.022) 1px, transparent 1px);
   background-size: 56px 56px;
-  transition: opacity 1.2s ease;
+  transition: opacity var(--dur-theme) var(--ease-standard);
 }
 [data-theme="day"] body::before {
   background-image:
@@ -44,7 +44,7 @@ body::before {
 body::after {
   content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background: radial-gradient(ellipse 80% 60% at 70% 40%, rgba(245,158,11,0.05) 0%, transparent 65%);
-  transition: background 1.2s ease;
+  transition: background var(--dur-theme) var(--ease-standard);
 }
 [data-theme="day"] body::after {
   background: radial-gradient(ellipse 90% 70% at 30% 20%, rgba(250,204,21,0.18) 0%, transparent 60%);
@@ -80,29 +80,32 @@ body::after {
 @keyframes ringPop { from { opacity:0; transform:translate(-50%,-50%) scale(0.8); } to { opacity:1; transform:translate(-50%,-50%) scale(1); } }
 
 
-/* ── ACCESSIBILITY: skip link + focus ring ── */
+/* ── ACCESSIBILITY: skip link + focus ring (US-203) ── */
 .skip-link {
   position: absolute;
-  left: 8px;
+  left: var(--space-2);
   top: -64px;
-  z-index: 301;
+  z-index: var(--z-skip);
   padding: 10px 16px;
-  background: var(--amber);
-  color: #000;
-  border-radius: 8px;
+  min-height: var(--target-min);
+  display: inline-flex;
+  align-items: center;
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  border-radius: var(--radius-sm);
   font-weight: 700;
   text-decoration: none;
 }
-.skip-link:focus { top: 8px; }
-:focus-visible {
-  outline: 2px solid var(--amber);
-  outline-offset: 2px;
-}
+.skip-link:focus { top: var(--space-2); }
+:focus-visible,
 a:focus-visible,
-button:focus-visible {
-  outline: 2px solid var(--amber);
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-focus);
   outline-offset: 2px;
+  box-shadow: 0 0 0 5px var(--color-focus-halo);
 }
+/* Mouse/touch focus gets no ring; keyboard focus is covered by :focus-visible above. */
 :focus:not(:focus-visible) {
   outline: none;
 }

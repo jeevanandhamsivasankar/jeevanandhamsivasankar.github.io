@@ -55,7 +55,7 @@ describe('StrictMode resource hygiene (ARC-001, ARC-002, ARC-008, ARC-009)', () 
     })
     await settle()
 
-    const gauge = document.querySelector('.gauge-widget svg')
+    const gauge = document.querySelector('.gauge-widget .cluster')
     act(() => triggerIntersection(gauge, true))
     raf.flush(3)
     expect(raf.pending()).toBe(1)

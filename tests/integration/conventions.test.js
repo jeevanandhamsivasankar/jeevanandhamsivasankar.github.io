@@ -56,10 +56,11 @@ describe('test conventions (ARC-019)', () => {
     expect(found.length).toBeGreaterThan(40)
     expect(badTitles, 'titles must start with an ID matching the folder level').toEqual([])
 
+    // Sprint 2: a story-level ID may label several cases inside ONE file; the same ID in two files is still a duplicate.
     const duplicates = []
     const seen = new Map()
     for (const { id, file } of found) {
-      if (seen.has(id)) duplicates.push(`${id} (${seen.get(id)} and ${file})`)
+      if (seen.has(id) && seen.get(id) !== file) duplicates.push(`${id} (${seen.get(id)} and ${file})`)
       else seen.set(id, file)
     }
     expect(duplicates, 'duplicate IDs').toEqual([])

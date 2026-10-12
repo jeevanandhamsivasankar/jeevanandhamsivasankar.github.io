@@ -102,7 +102,7 @@ test('QT-007 Nav compacts beyond the 30 px scroll threshold', async ({ page }) =
   await page.waitForTimeout(400)
   await expect(nav).toHaveClass(/scrolled/)
   expect(await css(nav, 'height')).toBe('54px')
-  expect(await css(nav, 'transition')).toContain('0.3s')
+  expect(await css(nav, 'transition')).toContain('0.22s') // Sprint 2: --dur-base
   await scrollToY(page, 0)
   await page.waitForTimeout(400)
   await expect(nav).not.toHaveClass(/scrolled/)

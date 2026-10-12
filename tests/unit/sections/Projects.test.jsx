@@ -25,14 +25,24 @@ describe('UNIT-PROJECTS', () => {
       expect(pico.style.border).toBe(norm('border', `1px solid ${p.border}`))
       expect(pico.querySelector('span').textContent).toBe(p.icon)
       expect(c.querySelector('.project-num').textContent).toBe(p.num)
-      expect(c.querySelector('.project-num').style.color).toBe(norm('color', p.color))
+      expect(c.style.getPropertyValue('--pc')).toBe(p.color) // US-211: colour via --pc token, not inline
       expect(c.querySelector('.project-domain').textContent).toBe(p.domain)
       expect(c.querySelector('.project-title').textContent).toBe(p.title)
-      expect(c.querySelector('.project-desc').textContent).toBe(p.desc)
+      if (p.caseStudy) {
+        // US-211 / FR-UX-005: case-study rows replace the plain description; omitted rows are absent
+        expect(c.querySelector('.project-desc')).toBeNull()
+        const rows = [...c.querySelectorAll('.cs-row')]
+        expect(rows.length).toBeGreaterThan(0)
+        rows.forEach((r) => {
+          const key = [...r.classList].find((k) => k.startsWith('cs-') && k !== 'cs-row').slice(3)
+          expect(r.querySelector('dd').textContent).toBe(p.caseStudy[key])
+        })
+      } else {
+        expect(c.querySelector('.project-desc').textContent).toBe(p.desc)
+      }
       const tags = [...c.querySelectorAll('.ptag2')]
       expect(tags.map((t) => t.textContent)).toEqual([...p.tags])
       tags.forEach((t) => {
-        expect(t.style.color).toBe(norm('color', p.color))
         expect(t.style.background).toBe(norm('background', p.bg))
         expect(t.style.borderColor).toBe(norm('borderColor', p.border))
       })

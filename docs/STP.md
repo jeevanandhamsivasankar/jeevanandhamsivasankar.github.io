@@ -1746,23 +1746,23 @@ Requirements: FR-HERO-009, FR-HERO-010, NFR-PERF-006
 
 | ID | Case |
 |---|---|
-| UT-SPEEDOMETER-001 | [FR-HERO-010] `speedAt(0) === 88`; `rpmAt(0)` ≈ 4309.7 (±0.1). |
-| UT-SPEEDOMETER-002 | [FR-HERO-010] `speedAt(0.006)` and `rpmAt(0.006)` match the formulas (golden values). |
-| UT-SPEEDOMETER-003 | [FR-HERO-009] `angleFor(0) === -215`, `angleFor(180) === 35`, `angleFor(90) === -90`; speed 200 clamps to +35°; rpm 9000 clamps to 8000. |
-| UT-SPEEDOMETER-004 | [FR-HERO-009] `arcPath` large-arc flag 1 for sweep > 180°, 0 for exactly 180° and below (boundary). |
-| UT-SPEEDOMETER-005 | [FR-HERO-009] `arcPath(130,130,100,-215,35)` start/end coordinates (golden string). |
-| UT-SPEEDOMETER-006 | [FR-HERO-009] 19 ticks; indices 0,3,…,18 major (7) with length 18 and stroke-width 2; others length 10. |
-| UT-SPEEDOMETER-007 | [FR-HERO-009] Needle length 84; endpoint at speed 0 ≈ (61.19, 178.18). |
-| UT-SPEEDOMETER-008 | [FR-HERO-009] Render: viewBox "0 0 260 260"; texts rounded speed, "km/h", "HMI CLUSTER DEMO", "<n> RPM"; gradient stops #34d399→#22d3ee and #f59e0b→#fb7185. |
-| UT-SPEEDOMETER-009 | [FR-HERO-009] SVG ids gbg, arcGrad, rpmGrad, needleGrad, glow, softGlow each present once. |
-| UT-SPEEDOMETER-010 | [FR-HERO-009, NFR-A11Y-004] svg has `role="img"` and `aria-label="HMI cluster demo gauge"`. |
-| UT-SPEEDOMETER-011 | [FR-HERO-010] In view: each frame advances t by 0.006 (speed after one frame = speedAt(0.006)). |
-| UT-SPEEDOMETER-012 | [FR-HERO-010, NFR-PERF-004] Unmount calls `cancelAnimationFrame` with the pending id. |
-| UT-SPEEDOMETER-013 | [FR-HERO-010, NFR-A11Y-002] Reduced motion: no rAF; static t = 0 frame (speed text "88"). |
-| UT-SPEEDOMETER-014 | [NFR-PERF-006] `useInView` false (mocked) at mount → no rAF scheduled, no re-render. |
-| UT-SPEEDOMETER-015 | [NFR-PERF-006] `useInView` false→true → exactly one rAF scheduled; true→false → `cancelAnimationFrame`, no further frames. |
-| UT-SPEEDOMETER-016 | [NFR-PERF-006] Resume after pause continues from tRef (speed ≠ speedAt(0.006) after resume). |
-| UT-SPEEDOMETER-017 | [NFR-RELI-004] StrictMode: one active loop. |
+| ~~UT-SPEEDOMETER-001~~ (retired S2) | [FR-HERO-010] `speedAt(0) === 88`; `rpmAt(0)` ≈ 4309.7 (±0.1). |
+| ~~UT-SPEEDOMETER-002~~ (retired S2) | [FR-HERO-010] `speedAt(0.006)` and `rpmAt(0.006)` match the formulas (golden values). |
+| ~~UT-SPEEDOMETER-003~~ (retired S2) | [FR-HERO-009] `angleFor(0) === -215`, `angleFor(180) === 35`, `angleFor(90) === -90`; speed 200 clamps to +35°; rpm 9000 clamps to 8000. |
+| ~~UT-SPEEDOMETER-004~~ (retired S2) | [FR-HERO-009] `arcPath` large-arc flag 1 for sweep > 180°, 0 for exactly 180° and below (boundary). |
+| ~~UT-SPEEDOMETER-005~~ (retired S2) | [FR-HERO-009] `arcPath(130,130,100,-215,35)` start/end coordinates (golden string). |
+| ~~UT-SPEEDOMETER-006~~ (retired S2) | [FR-HERO-009] 19 ticks; indices 0,3,…,18 major (7) with length 18 and stroke-width 2; others length 10. |
+| ~~UT-SPEEDOMETER-007~~ (retired S2) | [FR-HERO-009] Needle length 84; endpoint at speed 0 ≈ (61.19, 178.18). |
+| ~~UT-SPEEDOMETER-008~~ (retired S2) | [FR-HERO-009] Render: viewBox "0 0 260 260"; texts rounded speed, "km/h", "HMI CLUSTER DEMO", "<n> RPM"; gradient stops #34d399→#22d3ee and #f59e0b→#fb7185. |
+| ~~UT-SPEEDOMETER-009~~ (retired S2) | [FR-HERO-009] SVG ids gbg, arcGrad, rpmGrad, needleGrad, glow, softGlow each present once. |
+| ~~UT-SPEEDOMETER-010~~ (retired S2) | [FR-HERO-009, NFR-A11Y-004] svg has `role="img"` and `aria-label="HMI cluster demo gauge"`. |
+| ~~UT-SPEEDOMETER-011~~ (retired S2) | [FR-HERO-010] In view: each frame advances t by 0.006 (speed after one frame = speedAt(0.006)). |
+| ~~UT-SPEEDOMETER-012~~ (retired S2) | [FR-HERO-010, NFR-PERF-004] Unmount calls `cancelAnimationFrame` with the pending id. |
+| ~~UT-SPEEDOMETER-013~~ (retired S2) | [FR-HERO-010, NFR-A11Y-002] Reduced motion: no rAF; static t = 0 frame (speed text "88"). |
+| ~~UT-SPEEDOMETER-014~~ (retired S2) | [NFR-PERF-006] `useInView` false (mocked) at mount → no rAF scheduled, no re-render. |
+| ~~UT-SPEEDOMETER-015~~ (retired S2) | [NFR-PERF-006] `useInView` false→true → exactly one rAF scheduled; true→false → `cancelAnimationFrame`, no further frames. |
+| ~~UT-SPEEDOMETER-016~~ (retired S2) | [NFR-PERF-006] Resume after pause continues from tRef (speed ≠ speedAt(0.006) after resume). |
+| ~~UT-SPEEDOMETER-017~~ (retired S2) | [NFR-RELI-004] StrictMode: one active loop. |
 
 ### UNIT-NAV — `src/components/layout/Nav.jsx` (ARC-014) → `tests/unit/components/layout/Nav.test.jsx`
 
@@ -2224,3 +2224,346 @@ Added in Amendment R1 (DEF-017): unit exists in code, was missing from the catal
 - Requirements: 128; with ≥1 QT case: 128; without QT: none.
 - Test cases: 130 QT, 43 IT, 441 UT across 61 units.
 - Orphan check: every QT and IT case cites at least one requirement; every UT unit maps to a SUDS unit.
+
+## 7. Sprint 2 (Release 2.0 "Cockpit") additions
+
+Authority: `docs/sprint2/SRS_v1.2_DELTA.md` and `docs/sprint2/BACKLOG.md`. Numbering continues from QT-130 / IT-043. Test results: `docs/sprint2/TEST_REPORT_S2.md`.
+Per NFR-MAINT-009 the visual and structural baselines are the Sprint 2 approved baselines (`tests/fixtures/baseline-css-s2.txt`, `tests/integration/__baseline__/dom.json`); the Release 1.0 baselines remain only as references (`baseline-css.txt`, `dom.v1.1.json`).
+
+### 7.1 New qualification test cases (SWE.6)
+
+### QT-131 Computed colours resolve to v2 tokens ((per theme))
+
+- **Story:** US-201 · **Requirements:** FR-UX-001, FR-UX-002, NFR-A11Y-010, NFR-MAINT-009 · **File:** `tests/qualification/us201-tokens.spec.js`
+
+### QT-132 Visual baseline re-capture for tokens v2 (night/day), PO approval
+
+- **Story:** US-201 · **Requirements:** FR-UX-001, FR-UX-002, NFR-A11Y-010, NFR-MAINT-009 · **File:** manual: re-captured by the Engineering Manager with `tests/qualification/baseline/capture-baseline.mjs`; compared by QT-109/110/111
+
+### QT-133 Button feedback uses --dur-fast and scales on :active
+
+- **Story:** US-202 · **Requirements:** FR-MOTION-001, FR-MOTION-002, FR-MOTION-007 · **File:** `tests/qualification/us202-motion.spec.js`
+
+### QT-134 Focus ring visible with >= 3:1 contrast ((per theme))
+
+- **Story:** US-203 · **Requirements:** FR-UX-006, NFR-A11Y-011 · **File:** `tests/qualification/us203-a11y.spec.js`
+
+### QT-135 Skip link appears on first Tab and activates #main; targets >= 44px
+
+- **Story:** US-203 · **Requirements:** FR-UX-006, NFR-A11Y-011 · **File:** `tests/qualification/us203-a11y.spec.js`
+
+### QT-136 Axe: 0 serious/critical violations ((per theme))
+
+- **Story:** US-203 · **Requirements:** FR-UX-006, NFR-A11Y-011 · **File:** `tests/qualification/us203-a11y.spec.js`
+
+### QT-137 Srcset selects -300.avif at DPR1
+
+- **Story:** US-205 · **Requirements:** FR-MEDIA-001..004, NFR-MEDIA-001, NFR-SEO-002/003 · **File:** `tests/qualification/us205-media.spec.js`
+
+### QT-138 Mobile downloads no large profile image
+
+- **Story:** US-205 · **Requirements:** FR-MEDIA-001..004, NFR-MEDIA-001, NFR-SEO-002/003 · **File:** `tests/qualification/us205-media.spec.js`
+
+### QT-139 OG meta, icons and manifest resolve with right types
+
+- **Story:** US-205 · **Requirements:** FR-MEDIA-001..004, NFR-MEDIA-001, NFR-SEO-002/003 · **File:** `tests/qualification/us205-media.spec.js`
+
+### QT-140 Profile image causes no layout shift (CLS < 0.05)
+
+- **Story:** US-205 · **Requirements:** FR-MEDIA-001..004, NFR-MEDIA-001, NFR-SEO-002/003 · **File:** `tests/qualification/us205-media.spec.js`
+
+### QT-141 One primary and one secondary CTA above the fold, labels unchanged
+
+- **Story:** US-206 · **Requirements:** FR-UX-003, FR-UX-004, FR-HERO-014 · **File:** `tests/qualification/us206-hero.spec.js`
+
+### QT-142 Mobile: h1 and stacked full-width CTAs fit above the fold
+
+- **Story:** US-206 · **Requirements:** FR-UX-003, FR-UX-004, FR-HERO-014 · **File:** `tests/qualification/us206-hero.spec.js`
+
+### QT-143 Tab reaches primary then secondary CTA with visible focus
+
+- **Story:** US-206 · **Requirements:** FR-UX-003, FR-UX-004, FR-HERO-014 · **File:** `tests/qualification/us206-hero.spec.js`
+
+### QT-144 Cluster renders with HMI CLUSTER DEMO and SIMULATED labels
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/qualification/us207-cluster.spec.js`
+
+### QT-145 RAF is not scheduled while the cluster is off-screen and resumes in view
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/qualification/us207-cluster.spec.js`
+
+### QT-146 Reduced motion shows a static frame
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/qualification/us207-cluster.spec.js`
+
+### QT-147 Mobile: compact cluster below hero text, no horizontal scroll, paused until in view
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/qualification/us207-cluster.spec.js`
+
+### QT-148 Hidden tab stops the loop
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/qualification/us207-cluster.spec.js`
+
+### QT-149 Visual baseline for the new instrument cluster hero
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** manual: re-captured by the Engineering Manager with `tests/qualification/baseline/capture-baseline.mjs`; compared by QT-109/110/111
+
+### QT-150 First load plays the intro for <= 1200 ms, sets the session key, page interactive afterwards
+
+- **Story:** US-208 · **Requirements:** FR-MOTION-005, FR-MOTION-007 · **File:** `tests/qualification/us208-intro.spec.js`
+
+### QT-151 Second load in the same session shows no intro
+
+- **Story:** US-208 · **Requirements:** FR-MOTION-005, FR-MOTION-007 · **File:** `tests/qualification/us208-intro.spec.js`
+
+### QT-152 Skip by button and by key; no intro under reduced motion
+
+- **Story:** US-208 · **Requirements:** FR-MOTION-005, FR-MOTION-007 · **File:** `tests/qualification/us208-intro.spec.js`
+
+### QT-153 Intro lasts <= 1.2 s and adds no long task beyond the no-intro baseline
+
+- **Story:** US-208 · **Requirements:** FR-MOTION-005, FR-MOTION-007 · **File:** `tests/qualification/us208-intro.spec.js`
+
+### QT-154 Toggle flips data-theme synchronously and the transient class is added then removed
+
+- **Story:** US-209 · **Requirements:** FR-MOTION-006, FR-MOTION-007 · **File:** `tests/qualification/us209-theme.spec.js`
+
+### QT-155 Reload paints the stored theme with no transition class and no flash
+
+- **Story:** US-209 · **Requirements:** FR-MOTION-006, FR-MOTION-007 · **File:** `tests/qualification/us209-theme.spec.js`
+
+### QT-156 Reduced motion switches theme instantly without class, overlay or icon animation
+
+- **Story:** US-209 · **Requirements:** FR-MOTION-006, FR-MOTION-007 · **File:** `tests/qualification/us209-theme.spec.js`
+
+### QT-157 Rapid double toggle ends in the last theme and leaves no stuck class
+
+- **Story:** US-209 · **Requirements:** FR-MOTION-006, FR-MOTION-007 · **File:** `tests/qualification/us209-theme.spec.js`
+
+### QT-158 Reveal uses --dur-slow with a <= 60 ms stagger and runs once
+
+- **Story:** US-210 · **Requirements:** FR-MOTION-002, FR-MOTION-007, FR-UX-001 · **File:** `tests/qualification/us210-motion.spec.js`
+
+### QT-159 Hover lifts <= 4 px on hover devices; reduced motion shows sections with no reveal transform
+
+- **Story:** US-210 · **Requirements:** FR-MOTION-002, FR-MOTION-007, FR-UX-001 · **File:** `tests/qualification/us210-motion.spec.js`
+
+### QT-160 Each card: Problem, Role, Solution, Impact in order (present rows), with domain, period, tags and colour retained
+
+- **Story:** US-211 · **Requirements:** FR-UX-005, FR-PROJ-001..003 · **File:** `tests/qualification/us211-projects.spec.js`
+
+### QT-161 Rows without a supported fact are omitted: no Impact row, no TBD, for projects 1, 4, 5
+
+- **Story:** US-211 · **Requirements:** FR-UX-005, FR-PROJ-001..003 · **File:** `tests/qualification/us211-projects.spec.js`
+
+### QT-162 Layout: no horizontal scroll; wide cards span the grid on desktop, single column on mobile
+
+- **Story:** US-211 · **Requirements:** FR-UX-005, FR-PROJ-001..003 · **File:** `tests/qualification/us211-projects.spec.js`
+
+### QT-163 Visual baseline for case-study project cards
+
+- **Story:** US-211 · **Requirements:** FR-UX-005, FR-PROJ-001..003 · **File:** manual: re-captured by the Engineering Manager with `tests/qualification/baseline/capture-baseline.mjs`; compared by QT-109/110/111
+
+### QT-164 Lazy: no video bytes before the slot is within one viewport; poster, sizes and preload=none present
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/qualification/us212-media.spec.js`
+
+### QT-165 Reduced motion: ambient clip never autoplays and offers a play button
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/qualification/us212-media.spec.js`
+
+### QT-166 Ambient clip plays muted when visible, pauses when scrolled away and when the tab is hidden
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/qualification/us212-media.spec.js`
+
+### QT-167 Long clip: keyboard-operable named pause/play button; narrated video exposes a captions track
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/qualification/us212-media.spec.js`
+
+### QT-168 Preview (?placeholders=1) shows the labelled placeholder; production default shows none
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/qualification/us212-media.spec.js`
+
+### QT-169 Design cards without owner media render the existing SVG art, aria-hidden, no media slot or placeholder
+
+- **Story:** US-213 · **Requirements:** FR-MEDIA-008, FR-MEDIA-009 · **File:** `tests/qualification/us213-design.spec.js`
+
+### QT-170 Reduced motion: no animation or transition runs on design art
+
+- **Story:** US-213 · **Requirements:** FR-MEDIA-008, FR-MEDIA-009 · **File:** `tests/qualification/us213-design.spec.js`
+
+### 7.2 New integration test cases (SWE.5)
+
+### IT-044 Defines the v2 semantic tokens for night and day
+
+- **Story:** US-201 · **Requirements:** FR-UX-001, FR-UX-002, NFR-A11Y-010, NFR-MAINT-009 · **File:** `tests/integration/us201-tokens.test.js`
+
+### IT-045 Text pairs >= 4.5:1 ((per theme))
+
+- **Story:** US-201 · **Requirements:** FR-UX-001, FR-UX-002, NFR-A11Y-010, NFR-MAINT-009 · **File:** `tests/integration/us201-tokens.test.js`
+
+### IT-046 Motion.css defines the duration and easing tokens
+
+- **Story:** US-202 · **Requirements:** FR-MOTION-001, FR-MOTION-002, FR-MOTION-007 · **File:** `tests/integration/us201-tokens.test.js`
+
+### IT-047 Only var(--dur-*) is used (infinite keyframe loops exempt)
+
+- **Story:** US-202 · **Requirements:** FR-MOTION-001, FR-MOTION-002, FR-MOTION-007 · **File:** `tests/integration/us201-tokens.test.js`
+
+### IT-048 A :focus-visible rule uses --color-focus and outline:none is only on :focus:not(:focus-visible)
+
+- **Story:** US-203 · **Requirements:** FR-UX-006, NFR-A11Y-011 · **File:** `tests/integration/us201-tokens.test.js`
+
+### IT-049 Exits 0 for compliant fixtures and 1 for an oversized OG JPEG
+
+- **Story:** US-204 · **Requirements:** NFR-MEDIA-010, NFR-MEDIA-002, FR-MEDIA-009, FR-MEDIA-011 · **File:** `tests/integration/us204-media.test.js`
+
+### IT-050 Flags placeholder-* files and EXIF-bearing JPEGs
+
+- **Story:** US-204 · **Requirements:** NFR-MEDIA-010, NFR-MEDIA-002, FR-MEDIA-009, FR-MEDIA-011 · **File:** `tests/integration/us204-media.test.js`
+
+### IT-051 Hero profile is <picture> with AVIF+WebP 300/450/600/900 and WebP img fallback
+
+- **Story:** US-205 · **Requirements:** FR-MEDIA-001..004, NFR-MEDIA-001, NFR-SEO-002/003 · **File:** `tests/integration/us205-media.test.jsx`
+
+### IT-052 Favicon.svg has no <text> and no font reference
+
+- **Story:** US-205 · **Requirements:** FR-MEDIA-001..004, NFR-MEDIA-001, NFR-SEO-002/003 · **File:** `tests/integration/us205-media.test.jsx`
+
+### IT-053 Profile.js text is unchanged (sha256 of v1.1 source)
+
+- **Story:** US-206 · **Requirements:** FR-UX-003, FR-UX-004, FR-HERO-014 · **File:** `tests/integration/us206-hero.test.jsx`
+
+### IT-054 Role=img with aria-label, labels present, and Speedometer is no longer imported
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/integration/us207-cluster.test.jsx`
+
+### IT-055 No rAF while off-screen; loop starts in view; stops when tab hidden and resumes
+
+- **Story:** US-207 · **Requirements:** FR-MOTION-003, FR-MOTION-004, FR-UX-004 · **File:** `tests/integration/us207-cluster.test.jsx`
+
+### IT-056 Flag defaults to a boolean and App code-splits the intro
+
+- **Story:** US-208 · **Requirements:** FR-MOTION-005, FR-MOTION-007 · **File:** `tests/integration/us208-intro.test.jsx`
+
+### IT-057 Transitions only list colour, opacity and transform properties; keyframes animate opacity/transform only
+
+- **Story:** US-209 · **Requirements:** FR-MOTION-006, FR-MOTION-007 · **File:** `tests/integration/us209-illum-css.test.js`
+
+### IT-058 No raw ms/s in transitions or animations (infinite loops exempt)
+
+- **Story:** US-210 · **Requirements:** FR-MOTION-002, FR-MOTION-007, FR-UX-001 · **File:** `tests/integration/us210-sections.test.js`
+
+### IT-059 Every caseStudy statement: no digit and no capitalised word absent from that project text
+
+- **Story:** US-211 · **Requirements:** FR-UX-005, FR-PROJ-001..003 · **File:** `tests/integration/us211-casestudy.test.js`
+
+### IT-060 NDA project 5 has no OEM name, logo or screenshot in data
+
+- **Story:** US-211 · **Requirements:** FR-UX-005, FR-PROJ-001..003 · **File:** `tests/integration/us211-casestudy.test.js`
+
+### IT-061 Manifest: rights confirmed, alt/description, local URLs only, unique ids
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/integration/us212-media.test.js`
+
+### IT-062 Production bundle has no placeholder file or reference
+
+- **Story:** US-212 · **Requirements:** FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · **File:** `tests/integration/us212-media.test.js`
+
+### IT-063 Each card art wrapper is aria-hidden; art SVG text carries no personal names
+
+- **Story:** US-213 · **Requirements:** FR-MEDIA-008, FR-MEDIA-009 · **File:** `tests/integration/us213-design.test.jsx`
+
+### 7.3 New unit test cases (SWE.4)
+
+| ID | Story · Requirements · Description |
+|---|---|
+| UT-CASESTUDY-001 | US-211 · FR-UX-005, FR-PROJ-001..003 · CreateCaseStudy keeps only present rows in order, frozen (`tests/unit/models/us211-casestudy.test.js`) |
+| UT-CASESTUDY-002 | US-211 · FR-UX-005, FR-PROJ-001..003 · Rejects empty, blank, unknown rows (`tests/unit/models/us211-casestudy.test.js`) |
+| UT-CASESTUDY-003 | US-211 · FR-UX-005, FR-PROJ-001..003 · Project accepts optional caseStudy/nda; v1.1 projects stay valid; impact omitted where unsupported (`tests/unit/models/us211-casestudy.test.js`) |
+| UT-CLUSTER-001 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Spring converges and never overshoots more than 3 % (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-002 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Frame-rate independent: 2x8 ms equals 1x16 ms within 1 % (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-003 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Dt is clamped to 50 ms (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-004 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Gear changes with hysteresis (no flicker at boundaries) (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-005 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Drive cycle is deterministic, looped and bounded (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-006 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Ticker is deterministic with a seeded RNG, bounded and CAN-shaped (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-007 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Static frame is deterministic, at rest and cruising (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-CLUSTER-008 | US-207 · FR-MOTION-003, FR-MOTION-004, FR-UX-004 · Snapshot angles stay in range and digital text is quantised (`tests/unit/lib/us207-cluster.test.js`) |
+| UT-ILLUM-001 | US-209 · FR-MOTION-006, FR-MOTION-007 · Adds the transient class for --dur-theme and removes it on completion (`tests/unit/lib/us209-illumination.test.js`) |
+| UT-ILLUM-002 | US-209 · FR-MOTION-006, FR-MOTION-007 · Rapid double toggle restarts the lifecycle; stale completion cannot strip the new class; none stuck (`tests/unit/lib/us209-illumination.test.js`) |
+| UT-ILLUM-003 | US-209 · FR-MOTION-006, FR-MOTION-007 · Reduced motion (or no WAAPI) never adds the class (`tests/unit/lib/us209-illumination.test.js`) |
+| UT-INTRO-001 | US-208 · FR-MOTION-005, FR-MOTION-007 · First load with motion allowed and flag on plays full; key and cap are per spec (`tests/unit/lib/us208-intro.test.js`) |
+| UT-INTRO-002 | US-208 · FR-MOTION-005, FR-MOTION-007 · Second load in the same session does not play (`tests/unit/lib/us208-intro.test.js`) |
+| UT-INTRO-003 | US-208 · FR-MOTION-005, FR-MOTION-007 · Reduced motion or flag off never plays (`tests/unit/lib/us208-intro.test.js`) |
+| UT-INTRO-004 | US-208 · FR-MOTION-005, FR-MOTION-007 · Throwing or missing storage disables the intro and never throws (`tests/unit/lib/us208-intro.test.js`) |
+| UT-MEDIABUDGET-001 | US-204 · NFR-MEDIA-010, NFR-MEDIA-002, FR-MEDIA-009, FR-MEDIA-011 · Flags files over budget and passes files within budget (`tests/unit/scripts/us204-mediabudget.test.js`) |
+| UT-MEDIABUDGET-002 | US-204 · NFR-MEDIA-010, NFR-MEDIA-002, FR-MEDIA-009, FR-MEDIA-011 · Manifest entries need rightsConfirmed and non-empty alt/description (`tests/unit/scripts/us204-mediabudget.test.js`) |
+| UT-MEDIASLOT-001 | US-212 · FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · Video: no sources before near; poster/size/playsinline/preload=none; WebM + MP4 once within a viewport (`tests/unit/components/media/us212-mediaslot.test.jsx`) |
+| UT-MEDIASLOT-002 | US-212 · FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · Narrated video without a caption track is refused: empty state, no <video> (`tests/unit/components/media/us212-mediaslot.test.jsx`) |
+| UT-MEDIASLOT-003 | US-212 · FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · Ambient: plays muted at >= 50 % visible, pauses when scrolled away; reduced motion never autoplays and shows play (`tests/unit/components/media/us212-mediaslot.test.jsx`) |
+| UT-MEDIASLOT-004 | US-212 · FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · Clips > 5 s get a named pause/play button; user play starts loading (`tests/unit/components/media/us212-mediaslot.test.jsx`) |
+| UT-MEDIASLOT-005 | US-212 · FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · No item: production renders fallback only; DEV renders the labelled placeholder; NDA never (`tests/unit/components/media/us212-mediaslot.test.jsx`) |
+| UT-MEDIASLOT-006 | US-212 · FR-MEDIA-005..007, FR-MEDIA-012, FR-MEDIA-013, NFR-SEC-006 · Validation: rights, alt/description, local URLs only; image renders lazily with alt and size (`tests/unit/components/media/us212-mediaslot.test.jsx`) |
+| UT-MOTION-001 | US-202 · FR-MOTION-001, FR-MOTION-002, FR-MOTION-007 · Returns the token value when motion is allowed (`tests/unit/lib/us202-motion.test.js`) |
+| UT-MOTION-002 | US-202 · FR-MOTION-001, FR-MOTION-002, FR-MOTION-007 · Returns 0 for every token when reduced motion is on (`tests/unit/lib/us202-motion.test.js`) |
+| UT-MOTION-003 | US-202 · FR-MOTION-001, FR-MOTION-002, FR-MOTION-007 · Unknown tokens resolve to 0 and never throw (`tests/unit/lib/us202-motion.test.js`) |
+
+### 7.4 Retired test cases
+
+| ID | Disposition | Reason / replacement |
+|---|---|---|
+| UT-SPEEDOMETER-001..017 | Retired (unit removed) | `Speedometer.jsx` deleted by US-207 (AC8; supersedes FR-HERO-009/010). Replaced by UT-CLUSTER-001..008 and IT-054/055. `src/lib/gauge.js` is kept, so UT-GAUGE-001..012 remain valid. |
+
+No other case was retired. The 17 retired rows in section 4 are struck through and no longer part of the orphan-guard catalogue.
+
+### 7.5 Existing test cases changed for intended Sprint 2 behaviour (IDs kept)
+
+| ID | Change | Driver |
+|---|---|---|
+| UT-STYLE_TOKENS-001..003 | Assert v2 semantic tokens, brand signal values and fonts unchanged, v1 names resolve via aliases | FR-UX-001/002 |
+| UT-STYLE_INDEX-001/002 | Eleven imports; cascade equals the Sprint 2 approved baseline fixture | NFR-MAINT-009 |
+| UT-STYLE_BASE-001/003/004/005 | Reduced motion via `--dur-*` tokens (0.01 ms); reveal 24 px and `--stagger-step`; theme transitions on `--dur-theme`; focus ring `--color-focus` | FR-MOTION-001/007, FR-UX-006 |
+| UT-STYLE_SECTIONS-001/002/003/005 | Hero/projects layout asserted on the cascade (rules live in hero.css/projects.css); compact cluster at <= 900 px; CTAs via `.hero .hero-cta` | FR-UX-004, FR-HERO-001/014 (changed) |
+| UT-STYLE_COMPONENTS-002/005/006/007/009 | Transitions on motion tokens; skip-link uses `--z-skip` (400, above nav) and spacing token | FR-MOTION-002 |
+| UT-HERO-006/007/008 | Buttons primary/secondary/ghost; InstrumentCluster replaces Speedometer; profile status moved to `.hero-status` | FR-UX-003, FR-MOTION-003 |
+| UT-PROJECTS-002 | Case-study rows replace `.project-desc` where `caseStudy` exists; colour via `--pc` | FR-UX-005 |
+| UT-DESIGN_ART-003 | Medical art shows "Sample" instead of a personal name | FR-MEDIA-008 |
+| UT-DATA_PROFILE-007 | `photo.src` is `/img/profile-600.webp` | FR-MEDIA-001 |
+| IT-021, IT-022, IT-037 | Retargeted from the speedometer to the instrument cluster (`.cluster`, `.cl-speed`) | FR-MOTION-004/007 |
+| IT-023, IT-024 | Visibility gating retargeted to `InstrumentCluster` (replaces Speedometer; gauge.js unit tests unchanged) | FR-MOTION-004 |
+| IT-038 | Layer table adds `media` (components/media) and `assets`; sections may import media | ARC-005 (Sprint 2) |
+| IT-039 | CSS equivalence against the Sprint 2 approved baseline fixture | NFR-MAINT-009 |
+| IT-040 | Structure vs Sprint 2 baseline `dom.json`; every v1.1 text node still present except the PO-approved removals (project descriptions replaced by case-study rows, sample patient name) | NFR-MAINT-009 |
+| IT-041 | Shell asserts icons, manifest, OG card and responsive AVIF preload | FR-MEDIA-003/004 |
+| IT-043 | Same ID may label several cases in one file (duplicates across files still fail); Sprint 2 IDs registered in `tests/stp-ids.json` | process |
+| IT-053 | Profile text hash ignores only the `photo.src` move (asserted explicitly) | FR-UX-003, FR-MEDIA-001 |
+
+### 7.6 Sprint 2 traceability (SRS v1.2 delta requirement → test cases)
+
+| Requirement | QT | IT | UT |
+|---|---|---|---|
+| FR-UX-001 | QT-131 | IT-044, IT-058 | UT-STYLE_TOKENS-* |
+| FR-UX-002 | QT-131 | IT-044 | UT-STYLE_TOKENS-001..003 |
+| FR-UX-003 | QT-141, QT-143 | IT-053 | UT-HERO-006 |
+| FR-UX-004 | QT-147 | IT-055 | UT-STYLE_SECTIONS-002 |
+| FR-UX-005 | QT-160, QT-161, QT-162, QT-163 | IT-059, IT-060 | UT-CASESTUDY-001..003, UT-PROJECTS-002 |
+| FR-UX-006 | QT-134, QT-135 | IT-048 | UT-STYLE_BASE-005 |
+| FR-MOTION-001 | QT-133 | IT-046 | UT-MOTION-001..003 |
+| FR-MOTION-002 | QT-133, QT-159 | IT-047, IT-058 | UT-STYLE_COMPONENTS-002/006/009 |
+| FR-MOTION-003 | QT-144, QT-149 | IT-054 | UT-CLUSTER-001..008, UT-HERO-007 |
+| FR-MOTION-004 | QT-145, QT-148 | IT-021, IT-022, IT-023, IT-024, IT-037, IT-055 | UT-CLUSTER-* |
+| FR-MOTION-005 | QT-150, QT-151, QT-152, QT-153 | IT-056 | UT-INTRO-001..004 |
+| FR-MOTION-006 | QT-154, QT-155, QT-156, QT-157 | IT-057 | UT-ILLUM-001..003 |
+| FR-MOTION-007 | QT-146, QT-152, QT-156, QT-159, QT-165, QT-170 | IT-021, IT-022 | UT-STYLE_BASE-001, UT-MOTION-002 |
+| FR-MEDIA-001, FR-MEDIA-002 | QT-137, QT-138, QT-140 | IT-051 | UT-DATA_PROFILE-007, UT-HERO-008 |
+| FR-MEDIA-003, FR-MEDIA-004 | QT-139 | IT-041, IT-052 | — |
+| FR-MEDIA-005..007, FR-MEDIA-012 | QT-164, QT-165, QT-166, QT-167 | IT-061 | UT-MEDIASLOT-001..006 |
+| FR-MEDIA-008 | QT-169, QT-170 | IT-063 | UT-DESIGN_ART-003 |
+| FR-MEDIA-009, FR-MEDIA-011, FR-MEDIA-013 | QT-168 | IT-050, IT-061, IT-062 | UT-MEDIASLOT-005, UT-MEDIABUDGET-002 |
+| NFR-A11Y-010 | — | IT-045 | — |
+| NFR-A11Y-011 | QT-136 | — | — |
+| NFR-PERF-007 | QT-140, QT-153 | — | — |
+| NFR-MAINT-009 | QT-132, QT-149, QT-163 (visual baselines, manual) | IT-038, IT-039, IT-040 | UT-STYLE_INDEX-001/002 |
+| NFR-SEC-006 | QT-139 | IT-061 | — |
+| NFR-MEDIA-010 | — | IT-049, IT-050 | UT-MEDIABUDGET-001/002 |
+| FR-HERO-009, FR-HERO-010, NFR-PERF-006 (superseded) | — | IT-023, IT-024 (retargeted) | UT-SPEEDOMETER-* retired; UT-GAUGE-* kept |

@@ -1,4 +1,12 @@
 @import "./tokens.css";
+@import "./motion.css";
 @import "./base.css";
 @import "./components.css";
 @import "./sections.css";
+/* Sprint 2 stylesheets (stubs delivered by US-201; each owner fills their own). */
+@import "./hero.css";
+@import "./cluster.css";
+@import "./intro.css";
+@import "./theme-transition.css";
+@import "./projects.css";
+@import "./media.css";

@@ -26,8 +26,8 @@ vi.mock('../../../src/hooks/useParallax.js', () => ({
     return h.parRef
   },
 }))
-vi.mock('../../../src/components/widgets/Speedometer.jsx', () => ({
-  default: () => <svg data-testid="speedometer" />,
+vi.mock('../../../src/components/widgets/InstrumentCluster.jsx', () => ({
+  default: () => <svg data-testid="cluster" role="img" aria-label="cluster" />,
 }))
 
 beforeEach(() => {
@@ -85,24 +85,24 @@ describe('UNIT-HERO', () => {
     expect(badges).toHaveLength(8)
   })
 
-  it('UT-HERO-006 3 Buttons: amber #projects, outline #contact, green resume with download name', () => {
+  it('UT-HERO-006 3 Buttons: primary #projects, secondary #contact, ghost resume with download name', () => {
     const { container } = render(<Hero />)
     const btns = [...container.querySelectorAll('.hero-cta a')]
     expect(btns).toHaveLength(3)
-    expect(btns[0]).toHaveClass('btn-amber')
+    expect(btns[0]).toHaveClass('btn-primary')
     expect(btns[0]).toHaveAttribute('href', '#projects')
-    expect(btns[1]).toHaveClass('btn-outline')
+    expect(btns[1]).toHaveClass('btn-secondary')
     expect(btns[1]).toHaveAttribute('href', '#contact')
-    expect(btns[2]).toHaveClass('btn-green')
+    expect(btns[2]).toHaveClass('btn-ghost')
     expect(btns[2]).toHaveAttribute('href', RESUME.href)
     expect(btns[2]).toHaveAttribute('download', RESUME.downloadName)
   })
 
-  it('UT-HERO-007 gauge widget: label, Speedometer, 3 gauge stats with inline colours, 5 stack tags', () => {
+  it('UT-HERO-007 gauge widget: label, InstrumentCluster, 3 gauge stats with inline colours, 5 stack tags', () => {
     const { container } = render(<Hero />)
     const gw = container.querySelector('.gauge-widget')
     expect(gw.querySelector('.gauge-label-top').textContent).toBe(PROFILE.gaugeLabel)
-    expect(screen.getByTestId('speedometer')).toBeInTheDocument()
+    expect(screen.getByTestId('cluster')).toBeInTheDocument()
     const stats = [...gw.querySelectorAll('.gauge-stat')]
     expect(stats).toHaveLength(3)
     stats.forEach((s, i) => {
@@ -126,7 +126,9 @@ describe('UNIT-HERO', () => {
     expect(container.querySelectorAll('.corner')).toHaveLength(4)
     expect(container.querySelector('.pname').textContent).toBe(PROFILE.displayName)
     expect(container.querySelector('.prole').textContent).toBe(PROFILE.titleCaps)
-    expect(container.querySelector('.status-row').textContent).toBe(PROFILE.status)
+    // US-206: status moved out of the profile panel to .hero-status (single node)
+    expect(container.querySelector('.status-row')).toBeNull()
+    expect(container.querySelector('.hero-status').textContent).toBe(PROFILE.status)
     const tags = [...container.querySelectorAll('.ptag')].map((t) => t.textContent)
     expect(tags).toEqual([...PROFILE_TAGS])
     expect(tags).toHaveLength(4)

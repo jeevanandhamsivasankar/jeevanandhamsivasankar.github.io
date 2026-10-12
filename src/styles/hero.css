@@ -1,0 +1,114 @@
+/* Hero v2 (US-206): CTA hierarchy. Loaded after sections.css; selectors are scoped to .hero for precedence. */
+
+/* DEF-201 fix: the base hero, gauge-widget, hero-rings, profile-card and hero typography rules were deleted from
+   sections.css by US-210 ("dead rules removed") on the assumption that hero.css would own them, but hero.css only
+   carried the CTA hierarchy. Restored here verbatim from Release 1.0 (durations tokenised). */
+.hero { position: relative; min-height: 100vh; display: grid; grid-template-columns: 1fr 360px 260px; align-items: center; padding: 100px 44px 80px; gap: 32px; z-index: 1; overflow: hidden; }
+.hero-center { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
+.gauge-widget { width: 100%; background: var(--glass-bg); backdrop-filter: blur(28px) saturate(200%); -webkit-backdrop-filter: blur(28px) saturate(200%); border: 1px solid rgba(245,158,11,0.22); border-radius: 20px; padding: 18px 20px 16px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 0 60px rgba(245,158,11,0.08), 0 24px 48px rgba(0,0,0,0.25), inset 0 1.5px 0 rgba(255,255,255,0.12); animation: fadeIn var(--dur-deliberate) calc(var(--stagger-step) * 8) both; position: relative; overflow: hidden; }
+.gauge-widget::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(245,158,11,0.5), rgba(34,211,238,0.4), rgba(167,139,250,0.3), transparent); pointer-events: none; }
+[data-theme="day"] .gauge-widget { border-color: rgba(180,83,9,0.28); box-shadow: 0 0 40px rgba(180,83,9,0.1), 0 20px 40px rgba(0,0,0,0.1), inset 0 1.5px 0 rgba(255,255,255,0.95); }
+.gauge-label-top { font-family: var(--mono); font-size: 9px; color: rgba(34,211,238,0.65); letter-spacing: 0.28em; text-transform: uppercase; }
+.gauge-stats-row { display: flex; gap: 8px; width: 100%; }
+.gauge-stat { display: flex; flex-direction: column; align-items: center; gap: 3px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 8px 6px; flex: 1; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+[data-theme="day"] .gauge-stat { background: rgba(255,255,255,0.5); border-color: rgba(0,0,0,0.08); }
+.gauge-stat-val { font-family: var(--disp); font-size: 17px; font-weight: 800; line-height: 1; }
+.gauge-stat-lbl { font-family: var(--mono); font-size: 7.5px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; text-align: center; }
+.gauge-divider { width: 100%; height: 1px; background: var(--bdr); }
+.gauge-stack-tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.gauge-stack-tag { font-family: var(--mono); font-size: 8.5px; color: rgba(34,211,238,0.6); border: 1px solid rgba(34,211,238,0.18); border-radius: 3px; padding: 3px 9px; letter-spacing: 0.1em; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+[data-theme="day"] .gauge-stack-tag { color: var(--cyan); border-color: rgba(3,105,161,0.25); background: rgba(3,105,161,0.06); }
+.hero-rings { position: absolute; right: -60px; top: 50%; width: 600px; height: 600px; z-index: 0; pointer-events: none; }
+.hring { position: absolute; border-radius: 50%; border: 1px solid; top: 50%; left: 50%; transform: translate(-50%,-50%); animation: ringPop var(--dur-deliberate) ease both; }
+.hring-1 { width:580px; height:580px; border-color:rgba(245,158,11,0.04); animation: rspin 80s linear infinite; }
+.hring-2 { width:440px; height:440px; border-color:rgba(245,158,11,0.07); animation: rspinRev 55s linear infinite; }
+.hring-3 { width:300px; height:300px; border-color:rgba(34,211,238,0.08); border-style:dashed; animation: rspin 36s linear infinite; }
+.hring-4 { width:180px; height:180px; border-color:rgba(52,211,153,0.06); animation: rspinRev 24s linear infinite; }
+[data-theme="day"] .hring-1 { border-color: rgba(180,83,9,0.07); }
+[data-theme="day"] .hring-2 { border-color: rgba(180,83,9,0.10); }
+[data-theme="day"] .hring-3 { border-color: rgba(3,105,161,0.12); }
+[data-theme="day"] .hring-4 { border-color: rgba(21,128,61,0.10); }
+.hero-content { position: relative; z-index: 2; }
+.hero-tag { font-family: var(--mono); font-size: 10.5px; color: var(--amber); letter-spacing: 0.24em; text-transform: uppercase; margin-bottom: 22px; display: flex; align-items: center; gap: 8px; opacity: 0; animation: fadeUp var(--dur-deliberate) calc(var(--stagger-step) * 3) forwards; }
+.hero-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--amber); }
+.hero-name { font-family: var(--disp); font-size: clamp(38px,5.5vw,72px); font-weight: 800; line-height: 1.0; letter-spacing: -0.01em; text-transform: uppercase; opacity: 0; animation: fadeUp var(--dur-deliberate) calc(var(--stagger-step) * 5) forwards; }
+.hero-name em { color: var(--amber); font-style: normal; }
+.hero-typewriter { margin-top: 20px; font-family: var(--mono); font-size: 13px; color: var(--cyan); letter-spacing: 0.06em; min-height: 22px; display: flex; align-items: center; gap: 2px; opacity: 0; animation: fadeUp var(--dur-deliberate) calc(var(--stagger-step) * 7) forwards; }
+.cursor { animation: blink 1s infinite; color: var(--amber); }
+.hero-bio { margin-top: 18px; font-size: 15px; color: var(--text2); max-width: 520px; line-height: 1.9; opacity: 0; animation: fadeUp var(--dur-deliberate) calc(var(--stagger-step) * 9) forwards; }
+.hero-bio strong { color: var(--text); font-weight: 500; }
+.hero-badges { margin-top: 26px; display: flex; gap: 7px; flex-wrap: wrap; opacity: 0; animation: fadeUp var(--dur-deliberate) calc(var(--stagger-step) * 10) forwards; }
+.hero-cta { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; opacity: 0; animation: fadeUp var(--dur-deliberate) calc(var(--stagger-step) * 12) forwards; }
+.hero-right { position: relative; z-index: 2; display: flex; justify-content: center; align-items: center; }
+.profile-card { position: relative; width: 300px; opacity: 0; animation: fadeIn var(--dur-deliberate) calc(var(--stagger-step) * 7) forwards; }
+.profile-photo-frame { position: relative; width: 220px; height: 265px; margin: 0 auto; animation: float 6s ease-in-out infinite; }
+.profile-photo-frame::before { content: ''; position: absolute; inset: -2px; border-radius: 18px; background: linear-gradient(135deg, var(--amber), var(--violet) 40%, var(--cyan)); z-index: 0; animation: glow 3s ease-in-out infinite; }
+.profile-photo-frame::after { content: ''; position: absolute; inset: 1px; border-radius: 16px; background: var(--bg); z-index: 1; }
+.profile-photo { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: cover; object-position: center top; border-radius: 16px; display: block; filter: brightness(1.05) contrast(1.03) saturate(1.05); }
+.profile-photo-placeholder { position: relative; z-index: 2; width: 100%; height: 100%; border-radius: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(135deg, #0d1626, #111d30); }
+.scan { position: absolute; z-index: 3; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--amber), transparent); animation: scanline 3s ease-in-out infinite; pointer-events: none; opacity: 0.6; }
+.corner { position: absolute; width: 16px; height: 16px; z-index: 4; }
+.corner-tl { top:-4px; left:-4px; border-top:2px solid var(--amber); border-left:2px solid var(--amber); }
+.corner-tr { top:-4px; right:-4px; border-top:2px solid var(--amber); border-right:2px solid var(--amber); }
+.corner-bl { bottom:-4px; left:-4px; border-bottom:2px solid var(--amber); border-left:2px solid var(--amber); }
+.corner-br { bottom:-4px; right:-4px; border-bottom:2px solid var(--amber); border-right:2px solid var(--amber); }
+.profile-info-panel { margin-top: 18px; background: var(--glass-bg); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid var(--glass-bdr); border-radius: 14px; padding: 16px 18px; font-family: var(--mono); box-shadow: 0 4px 24px rgba(0,0,0,0.15), inset 0 1px 0 var(--glass-shine); position: relative; overflow: hidden; }
+.pname { font-size: 12px; color: var(--text); letter-spacing: 0.08em; margin-bottom: 3px; }
+.prole { font-size: 10px; color: var(--amber); letter-spacing: 0.12em; margin-bottom: 10px; }
+.status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; flex-shrink: 0; }
+.profile-tags-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.ptag { font-size: 9px; color: var(--text2); background: rgba(255,255,255,0.05); border: 1px solid var(--bdr); border-radius: 2px; padding: 3px 7px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+[data-theme="day"] .ptag { background: rgba(255,255,255,0.6); border-color: rgba(0,0,0,0.1); }
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr !important; padding: 80px 24px 60px !important; }
+  .hero-center { display: none; }
+  .hero-right { display: none; }
+}
+
+.hero .hero-cta { margin-top: 28px; align-items: center; gap: 12px; }
+.hero .hero-cta .btn { min-height: 44px; justify-content: center; }
+
+.hero .hero-cta .btn-primary {
+  background: linear-gradient(135deg, var(--amber) 0%, #fbbf24 100%);
+  color: #06080f; font-weight: 700;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+}
+.hero .hero-cta .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(245, 158, 11, 0.4); }
+[data-theme="day"] .hero .hero-cta .btn-primary { border: 1px solid var(--amber); }
+
+.hero .hero-cta .btn-secondary {
+  background: var(--glass-bg); color: var(--text); border: 1px solid var(--glass-bdr);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.hero .hero-cta .btn-secondary:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-2px); background: rgba(245, 158, 11, 0.08); }
+
+.hero .hero-cta .btn-ghost {
+  background: transparent; color: var(--text2); padding: 12px 10px;
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--bdr);
+}
+.hero .hero-cta .btn-ghost:hover { color: var(--amber); text-decoration-color: currentColor; }
+
+.hero .hero-cta .btn:active { transform: scale(0.97); transition-duration: var(--dur-instant); } /* DEF-202: keep press feedback over the hover lift */
+.hero .hero-cta .btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+/* Status badge sits right after the CTAs and uses the success colour. */
+.hero-status {
+  margin-top: 18px; display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  color: var(--color-success, var(--green));
+  border: 1px solid color-mix(in srgb, var(--color-success, var(--green)) 40%, transparent);
+  border-radius: 999px; padding: 5px 12px;
+}
+.hero-status .status-dot { background: var(--color-success, var(--green)); }
+.hero .hero-badges { margin-top: 18px; }
+
+@media (max-width: 900px) {
+  .hero { padding: 76px 24px 40px !important; }
+  .hero .hero-tag { margin-bottom: 12px; }
+  .hero .hero-typewriter { margin-top: 12px; }
+  .hero .hero-bio { margin-top: 12px; font-size: 14px; line-height: 1.6; }
+}
+@media (max-width: 540px) {
+  .hero .hero-cta { flex-direction: column; align-items: stretch; margin-top: 18px; gap: 8px; }
+  .hero .hero-cta .btn { width: 100%; }
+}

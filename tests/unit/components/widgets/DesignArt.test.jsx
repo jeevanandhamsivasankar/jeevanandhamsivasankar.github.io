@@ -23,12 +23,12 @@ describe('UNIT-DESIGN_ART', () => {
     }
   })
 
-  it('UT-DESIGN_ART-003 cluster art has 12 tick lines; medical contains "Rajesh Kumar"', () => {
+  it('UT-DESIGN_ART-003 cluster art has 12 tick lines; medical contains "Sample"', () => {
     const { container, unmount } = render(<DesignArt artKey="cluster" />)
     const ticks = [...container.querySelectorAll('line')].filter((l) => l.getAttribute('stroke') === 'rgba(245,158,11,0.5)')
     expect(ticks).toHaveLength(12)
     unmount()
     const { container: c2 } = render(<DesignArt artKey="medical" />)
-    expect(c2.textContent).toContain('Rajesh Kumar')
+    expect(c2.textContent).toContain('Sample')
   })
 })

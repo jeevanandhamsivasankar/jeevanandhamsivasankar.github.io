@@ -39,7 +39,7 @@ test('QT-068 Cursor glow follows the pointer and hides under reduced motion', as
   await expect(glow).toHaveAttribute('aria-hidden', 'true')
   expect(await glow.evaluate((e) => [e.style.left, e.style.top])).toEqual(['-500px', '-500px'])
   expect(await css(glow, 'width')).toBe('380px')
-  expect(await css(glow, 'transition')).toMatch(/0\.06s linear/)
+  expect(await css(glow, 'transition')).toMatch(/0\.08s linear/) // Sprint 2: --dur-instant (80 ms)
   await page.mouse.move(400, 300)
   await page.waitForTimeout(100)
   expect(await glow.evaluate((e) => [e.style.left, e.style.top])).toEqual(['400px', '300px'])
@@ -114,7 +114,7 @@ test('QT-071 Reveal-on-scroll including lazy sections and stagger classes', asyn
   const cert = page.locator('.cert-card').first()
   await expect(cert).not.toHaveClass(/visible/)
   expect(await css(cert, 'opacity')).toBe('0')
-  expect(await css(cert, 'transform')).toBe('matrix(1, 0, 0, 1, 0, 30)')
+  expect(await css(cert, 'transform')).toBe('matrix(1, 0, 0, 1, 0, 24)')
   await loadAllSections(page)
   await page.waitForTimeout(500)
   await expect
@@ -136,7 +136,7 @@ test('QT-081 Baseline micro-interactions', async ({ page }, testInfo) => {
   const stat = page.locator('.stat-card').first()
   await hoverAt(stat)
   await expect.poll(() => css(stat, 'border-top-color')).toBe('rgba(245, 158, 11, 0.4)')
-  expect(await css(stat, 'box-shadow')).toContain('0px 16px 48px')
+  await expect.poll(() => css(stat, 'box-shadow')).toContain('0px 16px 48px')
   // project card
   const pc = page.locator('.project-card').first()
   const before = await pc.evaluate((e) => e.style.borderColor)
@@ -156,9 +156,10 @@ test('QT-081 Baseline micro-interactions', async ({ page }, testInfo) => {
   const cta = card.locator('.bc-cta')
   await page.mouse.move(2, 400)
   await centre(card)
-  expect(await css(cta, 'column-gap')).toBe('6px')
+  expect(await css(cta, 'transform')).toBe('none')
   await hoverAt(card)
-  await expect.poll(() => css(cta, 'column-gap')).toBe('10px')
+  // Sprint 2 (US-210): no layout transition; the CTA nudges 4 px with transform instead of widening its gap
+  await expect.poll(() => css(cta, 'transform')).toBe('matrix(1, 0, 0, 1, 4, 0)')
   // contact email
   const email = page.locator('.c-email')
   await hoverAt(email)
@@ -169,6 +170,11 @@ test('QT-081 Baseline micro-interactions', async ({ page }, testInfo) => {
       getComputedStyle(document.querySelector(s)).animationDelay,
     ),
   )
-  expect(delays).toEqual(['0.15s', '0.28s', '0.42s', '0.52s', '0.62s', '0.72s'])
+  // Sprint 2 (FR-MOTION-002): entry delays are multiples of --stagger-step (60 ms), in the v1.1 order
+  const ms = delays.map((d) => Math.round(parseFloat(d) * 1000))
+  ms.forEach((v, i) => {
+    expect(v % 60, `delay ${i}`).toBe(0)
+    if (i) expect(v).toBeGreaterThan(ms[i - 1])
+  })
   await scrollToSection(page, 'hero')
 })

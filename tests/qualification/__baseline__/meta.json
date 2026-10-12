@@ -137,5 +137,10 @@
     "approvedBy": "Repository owner",
     "date": "2026-10-12",
     "reason": "DEF-020: Icon renders a fixed size x size box; with the icon font blocked (test environment) ligature names are clipped instead of laid out as text, so the hero CTA row no longer wraps. No difference when the font loads. Reviewed side by side before approval. Only PNGs exceeding tolerance were re-captured (via QT-109/110 capture path); DOM snapshots unchanged. Previous baseline: dd9a86d."
+  },
+  "approval_r2": {
+    "approvedBy": "Engineering Manager under owner authorisation (2026-10-12: proceed without confirmation)",
+    "date": "2026-10-12",
+    "reason": "Release 2.0 intended redesign (SRS v1.2 delta, US-201..213; NFR-MAINT-009 approved new baselines). Full-page review of the Sprint 2 build before approval. DOM snapshots re-captured here (environment-independent); PNGs captured on the CI runner by visual-baselines.yml."
   }
 }

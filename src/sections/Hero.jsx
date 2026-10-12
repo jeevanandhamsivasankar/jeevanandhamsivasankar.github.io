@@ -8,7 +8,12 @@ import Badge from "../components/ui/Badge.jsx";
 import Button from "../components/ui/Button.jsx";
 import RichText from "../components/ui/RichText.jsx";
 import Particles from "../components/effects/Particles.jsx";
-import Speedometer from "../components/widgets/Speedometer.jsx";
+import InstrumentCluster from "../components/widgets/InstrumentCluster.jsx";
+
+const srcset = ext => [300, 450, 600, 900].map(w => `/img/profile-${w}.${ext} ${w}w`).join(", ");
+/** Responsive profile candidates (FR-MEDIA-001). 1px at <=900px where the card is hidden (FR-MEDIA-002). */
+const PROFILE_SRCSET = { avif: srcset("avif"), webp: srcset("webp") };
+const PROFILE_SIZES = "(max-width: 900px) 1px, 220px";
 
 export default function Hero() {
   const reduced = usePrefersReducedMotion();
@@ -37,15 +42,17 @@ export default function Hero() {
         <p className="hero-bio">
           <RichText segments={PROFILE.bio} />
         </p>
+        {/* US-206: one primary + one secondary CTA; Resume is a quiet tertiary link. */}
+        <div className="hero-cta">
+          <Button variant="primary" href="#projects" icon="rocket_launch">View Projects</Button>
+          <Button variant="secondary" href="#contact" icon="mail">Get In Touch</Button>
+          <Button variant="ghost" href={RESUME.href} download={RESUME.downloadName} icon="download">Resume</Button>
+        </div>
+        <div className="hero-status"><span className="status-dot" />{PROFILE.status}</div>
         <div className="hero-badges">
           {HERO_BADGES.map(b => (
             <Badge key={b}>{b}</Badge>
           ))}
-        </div>
-        <div className="hero-cta">
-          <Button variant="amber" href="#projects" icon="rocket_launch">View Projects</Button>
-          <Button variant="outline" href="#contact" icon="mail">Get In Touch</Button>
-          <Button variant="green" href={RESUME.href} download={RESUME.downloadName} icon="download">Resume</Button>
         </div>
       </div>
 
@@ -53,7 +60,7 @@ export default function Hero() {
       <div className="hero-center">
         <div className="gauge-widget">
           <div className="gauge-label-top">{PROFILE.gaugeLabel}</div>
-          <Speedometer />
+          <InstrumentCluster />
           <div className="gauge-divider" />
           <div className="gauge-stats-row">
             {GAUGE_STATS.map(s => (
@@ -79,19 +86,22 @@ export default function Hero() {
             <div className="scan" />
             <div className="corner corner-tl" /><div className="corner corner-tr" />
             <div className="corner corner-bl" /><div className="corner corner-br" />
-            <img
-              src={PROFILE.photo.src}
-              width={PROFILE.photo.width} height={PROFILE.photo.height}
-              decoding="async"
-              alt={PROFILE.photo.alt}
-              className="profile-photo"
-              onError={e => { e.target.style.display = "none"; }}
-            />
+            <picture>
+              <source type="image/avif" srcSet={PROFILE_SRCSET.avif} sizes={PROFILE_SIZES} />
+              <source type="image/webp" srcSet={PROFILE_SRCSET.webp} sizes={PROFILE_SIZES} />
+              <img
+                src="/img/profile-600.webp"
+                width={PROFILE.photo.width} height={PROFILE.photo.height}
+                decoding="async"
+                alt={PROFILE.photo.alt}
+                className="profile-photo"
+                onError={e => { e.target.style.display = "none"; }}
+              />
+            </picture>
           </div>
           <div className="profile-info-panel">
             <div className="pname">{PROFILE.displayName}</div>
             <div className="prole">{PROFILE.titleCaps}</div>
-            <div className="status-row"><span className="status-dot" />{PROFILE.status}</div>
             <div className="profile-tags-row">
               {PROFILE_TAGS.map(t => (
                 <span key={t} className="ptag">{t}</span>

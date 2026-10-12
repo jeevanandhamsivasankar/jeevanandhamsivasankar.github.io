@@ -35,8 +35,10 @@ test('QT-084 Profile image preload, explicit size and CLS', async ({ page }, tes
   const link = [...html.matchAll(/<link\b[^>]*>/g)].map((m) => m[0]).find((l) => /rel="preload"/.test(l))
   expect(link, 'preload link').toBeTruthy()
   expect(link).toMatch(/as="image"/)
-  expect(link).toMatch(/href="\/profile\.webp"/)
-  expect(link).toMatch(/type="image\/webp"/)
+  // Sprint 2 (FR-MEDIA-001/002): responsive AVIF preload, desktop layout only
+  expect(link).toMatch(/imagesrcset="\/img\/profile-300\.avif 300w/)
+  expect(link).toMatch(/media="\(min-width: 901px\)"/)
+  expect(link).toMatch(/type="image\/avif"/)
   await page.addInitScript(() => {
     window.__cls = 0
     new PerformanceObserver((list) => {
@@ -91,7 +93,7 @@ async function rafCount(page) {
   return page.evaluate(() => window.__raf)
 }
 
-test('QT-087 Speedometer loop runs only when visible', async ({ page }, testInfo) => {
+test('QT-087 Instrument cluster loop runs only when visible', async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     window.__raf = 0
     const orig = window.requestAnimationFrame.bind(window)
@@ -103,13 +105,8 @@ test('QT-087 Speedometer loop runs only when visible', async ({ page }, testInfo
   await gotoHome(page, { at: null })
   await page.waitForLoadState('networkidle')
   await page.waitForTimeout(1000)
-  if (testInfo.project.name === 'mobile-chromium') {
-    const a = await rafCount(page)
-    await page.waitForTimeout(2000)
-    expect(await rafCount(page) - a, 'new rAF calls over 2 s while the gauge is hidden').toBe(0)
-    return
-  }
-  const speed = () => page.locator('.gauge-widget svg text').first().textContent()
+  // Sprint 2 (FR-UX-004): the compact cluster is shown on mobile too, so both projects run the same flow.
+  const speed = () => page.locator('.gauge-widget .cl-speed').textContent()
   let a = await rafCount(page)
   await page.waitForTimeout(1000)
   expect(await rafCount(page)).toBeGreaterThan(a)

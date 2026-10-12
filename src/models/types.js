@@ -82,7 +82,10 @@
  * @property {string} desc
  * @property {ReadonlyArray<string>} tags
  * @property {CssColor} line
+ * @property {CaseStudy} [caseStudy]  rows traceable to desc/domain/tags/period only (US-211)
+ * @property {boolean} [nda]          true: no OEM name, logo or screenshot is ever shown
  */
+/** @typedef {{ problem?: string, role?: string, solution?: string, impact?: string }} CaseStudy */
 /** @typedef {{ title: string, tag: string, icon: MsIcon, color: HexColor, desc: string, wide?: boolean, artKey: "cluster"|"medical"|"infotainment"|"multiplatform"|"profile", href: SafeUrl }} DesignCard */
 /** @typedef {{ title: string, subtitle: string, icon: MsIcon, iconColor: HexColor, tags: ReadonlyArray<string>, tagVariant: "edu"|"domain" }} Education */
 /** @typedef {{ name: string, org: string, icon: MsIcon }} Certification */

@@ -16,6 +16,7 @@ function layerOf(rel) {
   if (rel.startsWith('components/effects/')) return 'effects'
   if (rel.startsWith('components/widgets/')) return 'widgets'
   if (rel.startsWith('components/layout/')) return 'layout'
+  if (rel.startsWith('components/media/')) return 'media' // Sprint 2 (US-212)
   const top = rel.split('/')[0]
   return top // models, lib, data, hooks, context, sections
 }
@@ -32,9 +33,11 @@ const ALLOWED = {
   tech: ['ui', 'tech'],
   effects: ['hooks', 'lib', 'effects'],
   widgets: ['hooks', 'lib', 'widgets'],
+  assets: [], // Sprint 2: static placeholder URLs, leaf layer (dev/preview only)
+  media: ['models', 'hooks', 'ui', 'media'], // Sprint 2 (US-212): MediaSlot
   layout: ['ui', 'context', 'hooks', 'config-site', 'error-boundary', 'layout'],
   'error-boundary': ['ui'],
-  sections: ['data', 'config-site', 'ui', 'tech', 'widgets', 'effects', 'hooks', 'context'],
+  sections: ['data', 'config-site', 'ui', 'tech', 'widgets', 'media', 'effects', 'hooks', 'context'],
   app: ['context', 'hooks', 'layout', 'effects', 'error-boundary', 'ui', 'config-sections', 'config-site'],
   main: ['app', 'error-boundary', 'config-site', 'styles'],
 }

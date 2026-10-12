@@ -1,3 +1,4 @@
+import { useCanHover } from "../hooks/useCanHover.js";
 import { RESUME } from "../config/site.js";
 import { RESUME_PREVIEW } from "../data/profile.js";
 import Section from "../components/ui/Section.jsx";
@@ -7,6 +8,7 @@ import Button from "../components/ui/Button.jsx";
 const DEFAULT_META = { id: "resume", icon: "description", labelText: "08 — Resume", title: null };
 
 export default function Resume({ meta = DEFAULT_META }) {
+  const hover = useCanHover();
   return (
     <Section as="div" id={meta.id} className="full-band" inner label={{ icon: meta.icon, text: meta.labelText }}>
       <div className="resume-inner">
@@ -38,12 +40,12 @@ export default function Resume({ meta = DEFAULT_META }) {
           ))}
           <div className="rdp-line" />
           <div style={{ display:"flex", gap:10 }}>
-            <a href={RESUME.href} download={RESUME.downloadName} style={{ display:"inline-flex", alignItems:"center", gap:4, fontFamily:"'Share Tech Mono',monospace", fontSize:9, color:"var(--green)", border:"1px solid rgba(52,211,153,0.25)", borderRadius:3, padding:"5px 10px", transition:"all 0.2s", textDecoration:"none" }}
-              onMouseOver={e => e.currentTarget.style.background="rgba(52,211,153,0.1)"} onMouseOut={e => e.currentTarget.style.background="transparent"}>
+            <a href={RESUME.href} download={RESUME.downloadName} style={{ display:"inline-flex", alignItems:"center", gap:4, fontFamily:"'Share Tech Mono',monospace", fontSize:9, color:"var(--green)", border:"1px solid rgba(52,211,153,0.25)", borderRadius:3, padding:"5px 10px", transition:"background-color var(--dur-base) var(--ease-standard)", textDecoration:"none" }}
+              onMouseOver={e => { if (hover) e.currentTarget.style.background="rgba(52,211,153,0.1)"; }} onMouseOut={e => e.currentTarget.style.background="transparent"}>
               <Icon name="download" size={12} />Download
             </a>
-            <a href={RESUME.href} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:4, fontFamily:"'Share Tech Mono',monospace", fontSize:9, color:"var(--amber)", border:"1px solid rgba(245,158,11,0.25)", borderRadius:3, padding:"5px 10px", transition:"all 0.2s", textDecoration:"none" }}
-              onMouseOver={e => e.currentTarget.style.background="rgba(245,158,11,0.1)"} onMouseOut={e => e.currentTarget.style.background="transparent"}>
+            <a href={RESUME.href} target="_blank" rel="noopener noreferrer" style={{ display:"inline-flex", alignItems:"center", gap:4, fontFamily:"'Share Tech Mono',monospace", fontSize:9, color:"var(--amber)", border:"1px solid rgba(245,158,11,0.25)", borderRadius:3, padding:"5px 10px", transition:"background-color var(--dur-base) var(--ease-standard)", textDecoration:"none" }}
+              onMouseOver={e => { if (hover) e.currentTarget.style.background="rgba(245,158,11,0.1)"; }} onMouseOut={e => e.currentTarget.style.background="transparent"}>
               <Icon name="open_in_new" size={12} />View
             </a>
           </div>
