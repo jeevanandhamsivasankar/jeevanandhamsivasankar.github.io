@@ -1,6 +1,6 @@
 import { chromium } from '@playwright/test'
 const b = await chromium.launch()
-for (const w of [320]) {
+for (const w of [320,360,390,1366]) {
   const c = await b.newContext({ viewport:{width:w,height:800} })
   const p = await c.newPage()
   await p.route(/fonts\.(googleapis|gstatic)\.com/, r=>r.abort()); await p.route(/simpleicons/, r=>r.abort())

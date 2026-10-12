@@ -600,6 +600,7 @@ footer {
   .btn { width: 100%; justify-content: center; }
   .nav-right { gap: 6px; }
   .exp-header { flex-wrap: wrap; }
+  .contact-item { max-width: 100%; overflow-wrap: anywhere; }
 }
 
 /* ── ACCESSIBILITY: respect reduced-motion preference ── */
