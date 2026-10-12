@@ -1,5 +1,5 @@
 // Reproduces the capture conditions of baseline/capture-baseline.mjs (same constants, same steps) against the build under test.
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import {
   BLOCKED_HOSTS, HIDDEN_SELECTORS, HIDE_CSS, FREEZE_CSS, CLOCKS, VIEWPORTS, CONTEXT_OPTIONS, SECTION_IDS, EXTRA_TARGETS,
@@ -85,7 +85,15 @@ export async function preparePage(browser, baseURL, vpName, theme) {
 
 export const baselinePng = (name) => decodePng(readFileSync(join(BASELINE_DIR, name)))
 
+// Baselines are authoritative only for the environment they were captured in (CI runner). Set
+// UPDATE_VISUAL_BASELINES=1 to (re)capture them there — see .github/workflows/visual-baselines.yml.
+export const UPDATING_BASELINES = process.env.UPDATE_VISUAL_BASELINES === '1'
+
 export function compare(actualBuf, baselineName, threshold = 0.2) {
+  if (UPDATING_BASELINES) {
+    writeFileSync(join(BASELINE_DIR, baselineName), actualBuf)
+    return { ratio: 0, mismatched: 0, total: 0 }
+  }
   return diffPng(decodePng(actualBuf), baselinePng(baselineName), threshold)
 }
 
