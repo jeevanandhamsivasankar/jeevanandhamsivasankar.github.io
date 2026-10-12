@@ -21,6 +21,8 @@ jobs:
       - name: Unit + integration tests
         run: npm test
       - run: npm run build
+      - name: Coverage (enforces thresholds; report read by QT-106)
+        run: npm run test:coverage
       - name: Install Playwright Chromium
         run: npx playwright install --with-deps chromium
       - name: Qualification tests
