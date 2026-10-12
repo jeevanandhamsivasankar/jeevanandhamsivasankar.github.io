@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Profiler, createElement, useEffect } from 'react'
 import { renderHook, act } from '@testing-library/react'
 import { useTheme, THEME_RECHECK_MS, CLOCK_TICK_MS } from '../../../src/hooks/useTheme.js'
 import { readThemeOverride, writeThemeOverride } from '../../../src/lib/storage.js'
@@ -77,7 +77,6 @@ describe('UNIT-USE_THEME', () => {
     renderHook(() => {
       const theme = useTheme({ storage: stubStorage() })
       // sibling passive effect observing the attribute
-      // eslint-disable-next-line react-hooks/rules-of-hooks
       useEffectProbe(seen)
       return theme
     })
@@ -223,26 +222,20 @@ describe('UNIT-USE_THEME', () => {
     expect(vi.getTimerCount()).toBe(2)
   })
 
-  it('UT-USE_THEME-017 no re-render when the tick computes an unchanged phase', () => {
-    let renders = 0
-    renderHook(() => {
-      renders += 1
-      return useTheme({ storage: stubStorage() })
-    })
-    const base = renders
-    // Timers fire in creation order: theme interval first, then the clock.
-    act(() => {
-      vi.advanceTimersToNextTimer()
-    })
-    expect(renders).toBe(base) // theme tick, same phase: bail-out
-    act(() => {
-      vi.advanceTimersToNextTimer()
-    })
-    expect(renders).toBe(base + 1) // clock tick: `now` changed
+  it('UT-USE_THEME-017 no re-render when the tick computes an unchanged phase (setState bail-out)', () => {
+    let commits = 0
+    const wrapper = ({ children }) =>
+      createElement(Profiler, { id: 'theme', onRender: () => { commits += 1 } }, children)
+    renderHook(() => useTheme({ storage: stubStorage() }), { wrapper })
+    const base = commits
+    // Both intervals fire at +60 s; only the clock changes state (theme phase is unchanged).
+    advance(60_000)
+    expect(commits).toBe(base + 1)
+    advance(60_000)
+    expect(commits).toBe(base + 2)
   })
 })
 
-import { useEffect } from 'react'
 function useEffectProbe(seen) {
   useEffect(() => {
     seen.push(document.documentElement.getAttribute('data-theme'))

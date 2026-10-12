@@ -121,20 +121,24 @@ export async function settleScroll(page, { from } = {}) {
 }
 
 /**
- * Tap an element; if it lies outside the layout viewport (nav overflow with icon fonts blocked, DEF-QT-002)
- * fall back to a synthetic click so the behaviour under test can still be verified.
+ * Click/tap an element. With Google Fonts blocked the Material Symbols ligature names render as text, so the
+ * nav overflows the viewport (DEF-QT-001/002): controls may then lie outside the visible area. In that case a
+ * synthetic click is used so the behaviour under test can still be verified, and the test is annotated.
  */
-export async function tapOrClick(locator) {
+export async function press(locator) {
   const inView = await locator.evaluate((el) => {
     const r = el.getBoundingClientRect()
     return r.left >= 0 && r.right <= document.documentElement.clientWidth
   })
-  if (inView) await locator.tap()
-  else {
-    base.info().annotations.push({ type: 'defect', description: 'control outside the viewport; synthetic click used' })
+  if (inView) {
+    if (base.info().project.name === 'mobile-chromium') await locator.tap()
+    else await locator.click()
+  } else {
+    base.info().annotations.push({ type: 'defect-workaround', description: 'control outside the viewport; synthetic click used' })
     await locator.dispatchEvent('click')
   }
 }
+export const tapOrClick = press
 
 /** Scroll through every section so reveal-on-scroll fires, then back to top. */
 export async function revealAll(page) {

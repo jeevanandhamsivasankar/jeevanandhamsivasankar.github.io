@@ -1,6 +1,6 @@
 /* global document, window, getComputedStyle */
 import {
-  test, expect, only, gotoHome, freshPage, css, style, trackCount, resolvedColor, ownTexts,
+  test, expect, only, gotoHome, freshPage, press, css, style, trackCount, resolvedColor, ownTexts,
   baselineTexts, baselineDom,
 } from './helpers.js'
 import { RESUME_DOWNLOAD, BEHANCE } from './expected.js'
@@ -154,7 +154,10 @@ test('QT-036 Tech icon fallback when the CDN fails', async ({ page, browser }, t
   const siNames = await page.locator('.skill-chip').evaluateAll((els) =>
     els.filter((e) => e.querySelector('img')).map((e) => e.querySelector('.chip-label').textContent),
   )
-  expect(siNames).toHaveLength(19)
+  // 24 chips resolve through "si:" slugs; they use 19 distinct slugs (qt x5, stmicroelectronics x2)
+  const slugs = await page.locator('.skill-chip img').evaluateAll((els) => new Set(els.map((i) => i.alt)).size)
+  expect(slugs).toBe(19)
+  expect(siNames).toHaveLength(24)
   const { page: bp, context } = await freshPage(browser, testInfo)
   await bp.route(/^https:\/\/cdn\.simpleicons\.org\//, (r) => r.abort('failed'))
   await gotoHome(bp)
@@ -175,7 +178,8 @@ test('QT-037 ISO 26262 awareness strip', async ({ page }) => {
   await gotoHome(page)
   const strip = page.locator('.iso-strip')
   await expect(strip.locator('.iso-strip-title')).toContainText('ISO 26262 Awareness')
-  await expect(strip.locator('.iso-strip-title span').first()).toHaveText('verified_user')
+  await expect(strip.locator('.iso-strip-icon span').first()).toHaveText('verified_user')
+  await expect(strip.locator('.iso-strip-title span').first()).toHaveText('shield')
   expect(await ownTexts(page, '.iso-strip-desc')).toEqual(baselineTexts('skills', { cls: 'iso-strip-desc' }))
   await expect(strip.locator('.iso-chip')).toHaveText([
     'Safety-Aware UI', 'Deterministic Performance', 'Structured Validation', 'FMEA Awareness', 'Fail-Safe Patterns',
@@ -188,7 +192,7 @@ test('QT-038 Chip image filters per theme', async ({ page }, testInfo) => {
   const img = page.locator('.chip-icon-wrap img').first()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'night')
   expect(await css(img, 'filter')).toBe('brightness(1.5) saturate(1.1)')
-  await page.locator('.theme-btn').first().click()
+  await press(page.locator('.theme-btn').first())
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'day')
   await expect.poll(() => css(img, 'filter')).toBe('brightness(0.85) saturate(1.05)')
 })
@@ -204,7 +208,7 @@ test('QT-040 Six project cards with wide spans and tags', async ({ page }, testI
   const cards = page.locator('.project-card')
   await expect(cards).toHaveCount(6)
   const wideIdx = baselineDom('desktop')
-    .projects.elements.filter((e) => e.className.startsWith('project-card'))
+    .projects.elements.filter((e) => /^project-card( |$)/.test(e.className))
     .map((e, i) => (/\bwide\b/.test(e.className) ? i : -1))
     .filter((i) => i >= 0)
   const gotWide = await cards.evaluateAll((els) => els.map((e, i) => (e.classList.contains('wide') ? i : -1)).filter((i) => i >= 0))
