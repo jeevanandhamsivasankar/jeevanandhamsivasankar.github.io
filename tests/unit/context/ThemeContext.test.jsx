@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { render, screen, act, fireEvent } from '@testing-library/react'
 import { ThemeProvider, useThemeContext } from '../../../src/context/ThemeContext.jsx'
 import { useTheme } from '../../../src/hooks/useTheme.js'
@@ -10,8 +10,6 @@ const stable = { toggle: vi.fn() }
 
 function Consumer({ id = 'c' }) {
   const ctx = useThemeContext()
-  const renders = useRef(0)
-  renders.current += 1
   return (
     <div data-testid={id}>
       <span data-testid={`${id}-theme`}>{ctx.theme}</span>
@@ -39,9 +37,9 @@ describe('UNIT-THEME_CONTEXT', () => {
   })
 
   it('UT-THEME_CONTEXT-002 consumer receives {theme, isDay, toggle, now} from useTheme', () => {
-    let seen
+    const captured = []
     function Probe() {
-      seen = useThemeContext()
+      captured.push(useThemeContext())
       return null
     }
     render(
@@ -49,6 +47,7 @@ describe('UNIT-THEME_CONTEXT', () => {
         <Probe />
       </ThemeProvider>,
     )
+    const seen = captured[captured.length - 1]
     expect(seen).toEqual(
       expect.objectContaining({ theme: 'day', isDay: true, toggle: stable.toggle, now: NOW }),
     )
