@@ -1,0 +1,7 @@
+{
+  "commit": "dd9a86d",
+  "entry": "/assets/index-BPzSo8te.js",
+  "rawBytes": 304141,
+  "gzipBytesLevel9": 84520,
+  "method": "git archive dd9a86d; npx vite build; zlib.gzipSync(entry chunk, { level: 9 }); vite reported 84.79 kB (level 6)"
+}

@@ -1,0 +1,170 @@
+/* ── GRADIENT ORBS ── */
+.orbs-wrap { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.orb { position: absolute; border-radius: 50%; }
+.orb-1 {
+  width: 700px; height: 700px; top: -15%; right: -10%;
+  background: radial-gradient(circle, rgba(167,139,250,0.22) 0%, rgba(167,139,250,0.08) 40%, transparent 70%);
+  filter: blur(70px);
+  animation: orbFloat1 20s ease-in-out infinite;
+  transition: background 1.4s ease;
+}
+.orb-2 {
+  width: 600px; height: 600px; bottom: 10%; left: -10%;
+  background: radial-gradient(circle, rgba(34,211,238,0.18) 0%, rgba(34,211,238,0.05) 45%, transparent 70%);
+  filter: blur(80px);
+  animation: orbFloat2 25s ease-in-out infinite;
+  transition: background 1.4s ease;
+}
+.orb-3 {
+  width: 500px; height: 500px; top: 35%; right: 15%;
+  background: radial-gradient(circle, rgba(245,158,11,0.16) 0%, rgba(245,158,11,0.04) 50%, transparent 70%);
+  filter: blur(65px);
+  animation: orbFloat3 18s ease-in-out infinite;
+  transition: background 1.4s ease;
+}
+.orb-4 {
+  width: 400px; height: 400px; bottom: 5%; right: 35%;
+  background: radial-gradient(circle, rgba(52,211,153,0.14) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: orbFloat4 28s ease-in-out infinite;
+  transition: background 1.4s ease;
+}
+
+/* Day mode orbs — warm, vibrant, sky-like */
+[data-theme="day"] .orb-1 {
+  background: radial-gradient(circle, rgba(250,204,21,0.45) 0%, rgba(251,146,60,0.2) 40%, transparent 70%);
+  top: -5%; left: -5%; right: auto;
+}
+[data-theme="day"] .orb-2 {
+  background: radial-gradient(circle, rgba(244,114,182,0.30) 0%, rgba(168,85,247,0.12) 45%, transparent 70%);
+  bottom: 5%; right: -8%; left: auto;
+}
+[data-theme="day"] .orb-3 {
+  background: radial-gradient(circle, rgba(56,189,248,0.40) 0%, rgba(34,211,238,0.18) 45%, transparent 70%);
+  top: 25%; right: 5%;
+}
+[data-theme="day"] .orb-4 {
+  background: radial-gradient(circle, rgba(167,243,208,0.38) 0%, rgba(52,211,153,0.15) 50%, transparent 70%);
+  bottom: 25%; left: 15%; right: auto;
+}
+
+/* ── CURSOR GLOW ── */
+.cursor-glow {
+  position: fixed; z-index: 9998; pointer-events: none;
+  width: 380px; height: 380px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 65%);
+  transform: translate(-50%, -50%);
+  will-change: left, top;
+  mix-blend-mode: screen;
+  animation: cursorPulse 3s ease-in-out infinite;
+  transition: left 0.06s linear, top 0.06s linear;
+}
+[data-theme="day"] .cursor-glow {
+  background: radial-gradient(circle, rgba(251,191,36,0.22) 0%, rgba(249,115,22,0.08) 45%, transparent 65%);
+  mix-blend-mode: multiply;
+}
+
+/* ── LIQUID GLASS BASE ── */
+.glass {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(28px) saturate(200%) brightness(1.12);
+  -webkit-backdrop-filter: blur(28px) saturate(200%) brightness(1.12);
+  border: 1px solid var(--glass-bdr) !important;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18), inset 0 1.5px 0 var(--glass-shine) !important;
+}
+
+/* Glass specular highlight (top inner shine) */
+.glass::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: var(--glass-shine);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid var(--glass-bdr);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.14), inset 0 1px 0 var(--glass-shine);
+  position: relative; overflow: hidden;
+}
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; width: 60%; height: 100%;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.07) 50%, transparent 60%);
+  pointer-events: none; z-index: 0;
+  transition: left 0.6s ease;
+}
+.glass-card:hover::after { left: 140%; }
+
+/* ── THEME TOGGLE BUTTON ── */
+.theme-btn {
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  color: var(--text2); background: var(--glass-bg);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-bdr); border-radius: 20px;
+  padding: 6px 13px; cursor: pointer; transition: all 0.3s;
+  white-space: nowrap;
+}
+.theme-btn:hover { color: var(--amber); border-color: var(--amber); transform: scale(1.04); }
+.theme-btn .ms { font-size: 14px; transition: transform 0.4s ease; }
+.theme-btn:hover .ms { transform: rotate(30deg); }
+
+/* ── THEME BADGE ── */
+.theme-badge {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+  color: var(--amber); background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.22);
+  border-radius: 20px; padding: 4px 10px;
+  animation: sunriseFade 0.5s ease both;
+}
+[data-theme="day"] .theme-badge {
+  color: var(--amber);
+  background: rgba(180,83,9,0.1);
+  border-color: rgba(180,83,9,0.3);
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 36px; height: 64px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid var(--glass-bdr);
+  box-shadow: 0 1px 0 var(--glass-shine), 0 4px 32px rgba(0,0,0,0.12);
+  transition: all 0.3s;
+}
+.nav.scrolled { height: 54px; }
+[data-theme="day"] .nav { box-shadow: 0 1px 0 var(--glass-shine), 0 4px 24px rgba(0,0,0,0.06); }
+.nav-logo { font-family: var(--mono); font-size: 11px; color: var(--amber); letter-spacing: 0.15em; display: flex; align-items: center; gap: 9px; }
+.nav-links { display: flex; gap: 2px; list-style: none; }
+.nav-link {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; color: var(--text2);
+  text-transform: uppercase; padding: 7px 12px; border-radius: 5px;
+  display: flex; align-items: center; gap: 5px; transition: all 0.2s; cursor: pointer;
+}
+.nav-link:hover, .nav-link.active { color: var(--amber); background: rgba(245,158,11,0.12); }
+.nav-link .ms { font-size: 13px; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--amber); border-radius: 2px; transition: all 0.3s; }
+.mobile-menu {
+  display: none; position: fixed; top: 64px; left: 0; right: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 1px solid var(--glass-bdr);
+  z-index: 299; padding: 16px 24px; flex-direction: column; gap: 4px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu .nav-link { font-size: 12px; padding: 11px 14px; }
+

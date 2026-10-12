@@ -10,10 +10,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # tests read the parity baseline commit dd9a86d
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - name: Unit + integration tests
+        run: npm test
       - run: npm run build
+      - name: Coverage (enforces thresholds; report read by QT-106)
+        run: npm run test:coverage
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Qualification tests
+        run: npm run test:qualification
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

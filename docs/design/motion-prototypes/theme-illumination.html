@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" data-theme="night">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theme Illumination – Motion Prototype</title>
+<!--
+  MOTION PROTOTYPE P-3 · Day/night "dashboard illumination" theme switch (Release 2.0 candidate)
+  See docs/design/MOTION_SPEC.md §4.6 / §5.6 and FR-MOTION-020..024.
+  Self-contained: no external dependencies, no network.
+
+  Three paths, chosen at switch time:
+    1. view-transition  (Chromium 111+, Safari 18+, Firefox 144+): document.startViewTransition() snapshots the old and new page;
+       the new theme is revealed by a circular "light spill" from the toggle (clip-path on ::view-transition-new(root),
+       600 ms, decelerate). Snapshot-based: zero per-element transitions, so no mid-switch contrast dip.
+       Then the "illumination" step: backlit accents (gauge arcs, needle, telltale) warm up with a 40 ms stagger (night)
+       or dim to daylight levels (day), opacity-only.
+    2. css-fallback     (no View Transitions, or ?vt=0): html.theme-switching scopes ONE synchronised token transition
+       (all colour properties 360 ms, same easing) for the duration of the switch only.
+    3. instant          (prefers-reduced-motion: reduce): attribute flip, no animation.
+  Test hooks: window.__theme = { log: [...], switchTheme(next) }   ?vt=0 forces the fallback path
+-->
+<style>
+:root {
+  --dur-instant: 80ms; --dur-fast: 140ms; --dur-base: 220ms; --dur-slow: 360ms; --dur-deliberate: 600ms;
+  --dur-theme: var(--dur-slow);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --stagger-tight: 40ms;
+
+  --bg: #060c18; --bg2: #090f1e; --surf: #0d1626;
+  --bdr: rgba(255,255,255,0.07); --bdr2: rgba(255,255,255,0.13);
+  --amber: #f59e0b; --cyan: #22d3ee; --green: #34d399; --rose: #fb7185; --violet: #a78bfa;
+  --text: #e2e8f0; --text2: #94a3b8; --muted: #475569;
+  --glass-bg: rgba(13,22,38,0.55); --glass-bdr: rgba(255,255,255,0.10); --glass-shine: rgba(255,255,255,0.06);
+  /* Illumination tokens: how "backlit" accents are. Night = lit, day = ambient-dimmed. */
+  --illum: 1; --illum-glow: 0.85;
+  --dial-face: #0a1222; --dial-track: rgba(255,255,255,0.07); --dial-text: rgba(226,232,240,0.75);
+  --mono: 'Share Tech Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --disp: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+}
+[data-theme="day"] {
+  --bg: #fef9f0; --bg2: #fdf3e2; --surf: rgba(255,255,255,0.62);
+  --bdr: rgba(0,0,0,0.07); --bdr2: rgba(0,0,0,0.13);
+  --amber: #b45309; --cyan: #0369a1; --green: #15803d; --rose: #be123c; --violet: #6d28d9;
+  --text: #1e293b; --text2: #475569; --muted: #94a3b8;
+  --glass-bg: rgba(255,255,255,0.52); --glass-bdr: rgba(255,255,255,0.80); --glass-shine: rgba(255,255,255,0.95);
+  --illum: 0.9; --illum-glow: 0;
+  --dial-face: #f8f1e4; --dial-track: rgba(0,0,0,0.08); --dial-text: rgba(30,41,59,0.75);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--bg); color-scheme: dark; }
+[data-theme="day"] { color-scheme: light; }
+body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; font-weight: 300; min-height: 100vh; }
+
+/* ---- Path 1: View Transitions ---- */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+::view-transition-old(root) { z-index: 1; }
+
+/* ---- Path 2: scoped, synchronised fallback transition ---- */
+html.theme-switching, html.theme-switching *, html.theme-switching *::before, html.theme-switching *::after {
+  transition-property: background-color, color, border-color, fill, stroke, box-shadow, opacity !important;
+  transition-duration: var(--dur-theme) !important;
+  transition-timing-function: var(--ease-standard) !important;
+  transition-delay: 0s !important;
+}
+
+.nav { position: sticky; top: 0; height: 60px; display: flex; align-items: center; justify-content: space-between; padding: 0 20px;
+       background: var(--glass-bg); border-bottom: 1px solid var(--glass-bdr); backdrop-filter: blur(20px) saturate(180%); z-index: 5; }
+.logo { font-family: var(--mono); font-size: 11px; letter-spacing: .15em; color: var(--amber); display: flex; gap: 10px; align-items: center; }
+.illum-tt { width: 16px; height: 16px; color: var(--green); opacity: 0; }
+.nav-r { display: flex; gap: 10px; align-items: center; }
+.badge { font-family: var(--mono); font-size: 9px; letter-spacing: .18em; color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 30%, transparent); border-radius: 20px; padding: 4px 10px; }
+.theme-btn { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 10px; letter-spacing: .1em; color: var(--text2);
+  background: var(--glass-bg); border: 1px solid var(--glass-bdr); border-radius: 20px; padding: 6px 13px; cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard); }
+.theme-btn:hover { color: var(--amber); border-color: var(--amber); }
+.theme-btn:active { transform: scale(0.96); transition-duration: var(--dur-instant); }
+.theme-btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.theme-btn svg { width: 14px; height: 14px; display: block; }
+
+.page { max-width: 1100px; margin: 0 auto; padding: 32px 16px 64px; display: grid; grid-template-columns: 1.2fr 1fr; gap: 28px; align-items: start; }
+.eyebrow { font-family: var(--mono); font-size: 10.5px; color: var(--amber); letter-spacing: .24em; text-transform: uppercase; }
+h1 { font-family: var(--disp); font-size: clamp(40px, 6vw, 76px); font-weight: 800; line-height: 1; text-transform: uppercase; margin-top: 12px; }
+h1 em { color: var(--amber); font-style: normal; }
+.lede { margin-top: 16px; color: var(--text2); line-height: 1.8; max-width: 52ch; }
+.cards { margin-top: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.card { background: var(--glass-bg); border: 1px solid var(--glass-bdr); border-radius: 14px; padding: 16px; box-shadow: inset 0 1px 0 var(--glass-shine); }
+.card b { display: block; font-family: var(--disp); font-size: 30px; font-weight: 800; line-height: 1; }
+.card span { font-family: var(--mono); font-size: 9.5px; color: var(--muted); letter-spacing: .16em; text-transform: uppercase; }
+
+.gauge { position: relative; background: var(--glass-bg); border: 1px solid color-mix(in srgb, var(--amber) 25%, transparent); border-radius: 20px; padding: 16px; }
+.gauge-l { font-family: var(--mono); font-size: 9px; letter-spacing: .28em; color: var(--cyan); text-align: center; opacity: .8; }
+.dial { position: relative; aspect-ratio: 1; }
+.dial svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.dial .face circle.bg { fill: var(--dial-face); }
+.dial .face .track { stroke: var(--dial-track); }
+.dial .face text { fill: var(--dial-text); }
+/* Backlit layer: the glow is a separate element whose OPACITY is the only animated property */
+.dial .lit { opacity: var(--illum); }
+.dial .glow { opacity: var(--illum-glow); filter: blur(6px); }
+.readout { position: absolute; left: 50%; top: 68%; transform: translate(-50%, -50%); font-family: var(--disp); font-size: 40px; font-weight: 700; color: var(--text); }
+.log { margin-top: 14px; font-family: var(--mono); font-size: 10px; color: var(--text2); line-height: 1.6; min-height: 4.8em; }
+.log b { color: var(--amber); font-weight: 400; }
+.hint { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 12px; }
+
+@media (max-width: 820px) {
+  .page { grid-template-columns: 1fr; }
+  .badge { display: none; }
+  .cards { grid-template-columns: 1fr 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0s !important; }
+}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="logo">
+    ▣ JEEVANANDHAM
+    <!-- ISO 7000-2011 style "panel illumination" lamp: lights for 600 ms when night illumination switches on -->
+    <svg class="illum-tt" id="illumTt" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M5 19l3-3M16 8l3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </div>
+  <div class="nav-r">
+    <span class="badge" id="badge">NIGHT · 21:40</span>
+    <button class="theme-btn" id="themeBtn" type="button" aria-pressed="false" title="Toggle day/night theme">
+      <span id="icon" aria-hidden="true"></span><span id="btnLabel">Day</span>
+    </button>
+  </div>
+</header>
+
+<main class="page">
+  <section>
+    <div class="eyebrow">Dashboard illumination</div>
+    <h1>Day / <em>Night</em><br>Switch</h1>
+    <p class="lede">Switching theme behaves like a cluster changing illumination when the headlamps come on: the new palette spills out from the
+      control you pressed, then the backlit accents warm up. One synchronised change, no mid-switch contrast dip.</p>
+    <div class="cards">
+      <div class="card"><b style="color:var(--amber)">4.9+</b><span>Years</span></div>
+      <div class="card"><b style="color:var(--cyan)">8+</b><span>Projects</span></div>
+      <div class="card"><b style="color:var(--green)">2</b><span>Domains</span></div>
+    </div>
+    <p class="hint">Path is chosen per switch: view-transition → css-fallback (?vt=0) → instant (reduced motion).</p>
+  </section>
+
+  <aside class="gauge" aria-label="Gauge preview">
+    <div class="gauge-l">⚡ LIVE HMI CLUSTER DEMO</div>
+    <div class="dial">
+      <svg class="face" viewBox="0 0 260 260" aria-hidden="true">
+        <circle class="bg" cx="130" cy="130" r="122"/>
+        <path class="track" id="track" fill="none" stroke-width="9" stroke-linecap="round"/>
+        <g id="labels" font-family="ui-monospace,monospace" font-size="10" text-anchor="middle"></g>
+      </svg>
+      <svg viewBox="0 0 260 260" aria-hidden="true">
+        <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#34d399"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+        <path class="glow" id="arcGlow" fill="none" stroke="url(#g1)" stroke-width="16" stroke-linecap="round"/>
+        <path class="lit" id="arc" fill="none" stroke="url(#g1)" stroke-width="9" stroke-linecap="round"/>
+        <g class="lit"><line id="ndl" x1="130" y1="130" x2="130" y2="46" stroke="#fbbf24" stroke-width="3" stroke-linecap="round"/><circle cx="130" cy="130" r="8" fill="#f59e0b"/></g>
+      </svg>
+      <div class="readout">96</div>
+    </div>
+    <div class="log" id="log" aria-live="polite"></div>
+  </aside>
+</main>
+
+<script>
+(() => {
+  'use strict';
+  const root = document.documentElement;
+  const params = new URLSearchParams(location.search);
+  const forceFallback = params.get('vt') === '0';
+  const mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const EASE_DECEL = 'cubic-bezier(0.05, 0.7, 0.1, 1)', EASE_STD = 'cubic-bezier(0.2, 0, 0, 1)';
+  const log = [];
+  const logEl = document.getElementById('log');
+  const note = (path, theme, ms) => {
+    log.push({ path, theme, ms });
+    logEl.innerHTML = log.slice(-3).map(l => `→ <b>${l.theme}</b> via ${l.path}${l.ms != null ? ` (${l.ms} ms)` : ''}`).join('<br>');
+  };
+
+  // ---- static dial ----
+  const rad = d => d * Math.PI / 180, P = (r, a) => [130 + r * Math.cos(rad(a)), 130 + r * Math.sin(rad(a))];
+  const arc = (r, a, b) => { const [x0, y0] = P(r, a), [x1, y1] = P(r, b); return `M${x0} ${y0} A${r} ${r} 0 ${b - a > 180 ? 1 : 0} 1 ${x1} ${y1}`; };
+  document.getElementById('track').setAttribute('d', arc(100, -215, 35));
+  const v = 96 / 180, a = -215 + 250 * v;
+  document.getElementById('arc').setAttribute('d', arc(100, -215, a));
+  document.getElementById('arcGlow').setAttribute('d', arc(100, -215, a));
+  const [nx, ny] = P(84, a); const n = document.getElementById('ndl'); n.setAttribute('x2', nx); n.setAttribute('y2', ny);
+  const labels = document.getElementById('labels');
+  for (let i = 0; i <= 6; i++) { const [x, y] = P(78, -215 + 250 * i / 6); const t = document.createElementNS('http://www.w3.org/2000/svg', 'text'); t.setAttribute('x', x); t.setAttribute('y', y + 4); t.textContent = i * 30; labels.appendChild(t); }
+
+  // ---- icon (sun / moon) ----
+  const SUN = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>';
+  const MOON = '<svg viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z" fill="currentColor"/></svg>';
+  const icon = document.getElementById('icon'), label = document.getElementById('btnLabel'), btn = document.getElementById('themeBtn'), badge = document.getElementById('badge');
+  function syncChrome(theme, animateIcon) {
+    const isDay = theme === 'day';
+    icon.innerHTML = isDay ? MOON : SUN;     // icon shows the TARGET theme (FR-THEME-004)
+    label.textContent = isDay ? 'Night' : 'Day';
+    btn.setAttribute('aria-pressed', String(isDay));
+    badge.textContent = (isDay ? 'DAY' : 'NIGHT') + ' · 21:40';
+    if (animateIcon) icon.animate([{ transform: 'rotate(-90deg) scale(0.6)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 220, easing: EASE_DECEL });
+  }
+  syncChrome(root.dataset.theme, false);
+
+  // ---- illumination step (opacity only, composited) ----
+  function illuminate(theme) {
+    const lit = [...document.querySelectorAll('.dial .glow, .dial .lit')];
+    if (theme === 'night') {
+      lit.forEach((el, i) => el.animate([{ opacity: 0.25 }, { opacity: getComputedStyle(el).opacity }], { duration: 360, delay: i * 40, easing: EASE_DECEL, fill: 'backwards' }));
+      document.getElementById('illumTt').animate([{ opacity: 0 }, { opacity: 1, offset: 0.1 }, { opacity: 1, offset: 0.8 }, { opacity: 0 }], { duration: 600, easing: 'linear' });
+    }
+  }
+
+  function apply(theme) { root.dataset.theme = theme; syncChrome(theme, !mqReduce.matches); }
+
+  async function switchTheme(next, originEl) {
+    next = next || (root.dataset.theme === 'day' ? 'night' : 'day');
+    const t0 = performance.now();
+    // Path 3: reduced motion — instant
+    if (mqReduce.matches) { apply(next); note('instant', next, 0); return; }
+    // Path 1: View Transitions
+    if (!forceFallback && document.startViewTransition) {
+      const r = (originEl || btn).getBoundingClientRect();     // single read, before any write
+      const x = r.left + r.width / 2, y = r.top + r.height / 2;
+      const R = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      const vt = document.startViewTransition(() => apply(next));
+      try {
+        await vt.ready;
+        root.animate({ clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${R}px at ${x}px ${y}px)`] },
+          { duration: 600, easing: EASE_DECEL, pseudoElement: '::view-transition-new(root)' });
+        await vt.finished;
+      } catch (e) { /* transition skipped (e.g. hidden tab): theme is still applied */ }
+      illuminate(next);
+      note('view-transition', next, Math.round(performance.now() - t0));
+      return;
+    }
+    // Path 2: scoped synchronised CSS transition
+    root.classList.add('theme-switching');
+    apply(next);
+    illuminate(next);
+    setTimeout(() => { root.classList.remove('theme-switching'); note('css-fallback', next, Math.round(performance.now() - t0)); }, 400);
+  }
+
+  btn.addEventListener('click', e => switchTheme(null, e.currentTarget));
+  window.__theme = { log, switchTheme };
+})();
+</script>
+</body>
+</html>
