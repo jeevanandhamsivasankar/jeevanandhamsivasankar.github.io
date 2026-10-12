@@ -43,3 +43,20 @@ Rule: fix the code unless the test contradicts the baselined SRS/SUDS; spec conf
 | DEF-022 | CR-001 | Sections ignore registry `meta` (labels/titles hard-coded) | S3 | Fix code: sections read `meta`; amend SUDS 6.14 |
 | — | UT-SOLAR-025 | STP expects TypeError; SUDS fails safe to `night` | — | SUDS wins; test already follows SUDS |
 | — | QT notes | STP statements not matching baseline markup (chip counts, link counts) | — | Tests adjusted to baseline; STP amended |
+
+## Round 2 results (after fixes) — 2026-10-12
+
+| Level | Tests | Pass | Fail | Skipped |
+|---|---|---|---|---|
+| Lint | — | clean | 0 | — |
+| Unit + Integration (Vitest) | 700 | 700 | 0 | 0 |
+| Qualification (Playwright, desktop + mobile) | 262 | 188 | 0 (1 flaky, passes on re-run) | 73 (viewport-specific / declared manual gates) |
+| Build | — | OK | — | — |
+
+All DEF-001..022 verified fixed. Coverage thresholds met (≥90% lines models/lib/hooks, ≥80% overall).
+
+**Visual baseline update (approved by repository owner, 2026-10-12):** DEF-020 makes each Icon a fixed size×size box. With the icon font blocked in the test environment, ligature names are now clipped instead of laid out as text, so the hero CTA row no longer wraps (hero 800 px vs 835 px). Reviewed side by side; no difference when the icon font loads. The 51 PNGs exceeding tolerance were re-captured through the QT-109/110 capture path; DOM snapshots unchanged. Previous baseline: `dd9a86d`.
+
+**Known flake:** QT-109 `about` section (desktop) occasionally differs by ~0.10% (limit 0.10%) from backdrop-filter rasterisation jitter; the test re-captures twice before judging and passed on re-run.
+
+**Exit criteria (STP §1): met.**
