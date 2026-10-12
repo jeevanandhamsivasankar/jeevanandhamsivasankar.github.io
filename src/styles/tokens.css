@@ -1,0 +1,46 @@
+
+/* ── NIGHT (default) THEME ── */
+:root {
+  --bg:     #060c18;
+  --bg2:    #090f1e;
+  --surf:   #0d1626;
+  --surf2:  #111d30;
+  --bdr:    rgba(255,255,255,0.07);
+  --bdr2:   rgba(255,255,255,0.13);
+  --amber:  #f59e0b;
+  --cyan:   #22d3ee;
+  --green:  #34d399;
+  --rose:   #fb7185;
+  --violet: #a78bfa;
+  --text:   #e2e8f0;
+  --text2:  #94a3b8;
+  --muted:  #475569;
+  --mono:   'Share Tech Mono', monospace;
+  --sans:   'Barlow', sans-serif;
+  --disp:   'Barlow Condensed', sans-serif;
+  --glass-bg:   rgba(13,22,38,0.55);
+  --glass-bdr:  rgba(255,255,255,0.10);
+  --glass-shine:rgba(255,255,255,0.06);
+}
+
+/* ── DAY THEME ── */
+[data-theme="day"] {
+  --bg:     #fef9f0;
+  --bg2:    #fdf3e2;
+  --surf:   rgba(255,255,255,0.62);
+  --surf2:  rgba(255,255,255,0.48);
+  --bdr:    rgba(0,0,0,0.07);
+  --bdr2:   rgba(0,0,0,0.13);
+  --amber:  #b45309;
+  --cyan:   #0369a1;
+  --green:  #15803d;
+  --rose:   #be123c;
+  --violet: #6d28d9;
+  --text:   #1e293b;
+  --text2:  #475569;
+  --muted:  #94a3b8;
+  --glass-bg:   rgba(255,255,255,0.52);
+  --glass-bdr:  rgba(255,255,255,0.80);
+  --glass-shine:rgba(255,255,255,0.95);
+}
+

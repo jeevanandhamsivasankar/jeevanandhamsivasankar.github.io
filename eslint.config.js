@@ -26,6 +26,13 @@ export default defineConfig([
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
+  // ThemeContext exports the provider component plus the consumer hook (SUDS 6.7)
+  {
+    files: ['src/context/ThemeContext.jsx'],
+    rules: {
+      'react-refresh/only-export-components': ['error', { allowConstantExport: true, allowExportNames: ['useThemeContext'] }],
+    },
+  },
   // Node-side config files
   {
     files: ['*.config.js'],
