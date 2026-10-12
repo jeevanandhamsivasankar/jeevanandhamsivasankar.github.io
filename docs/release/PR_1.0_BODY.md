@@ -19,8 +19,7 @@ Re-architects the portfolio into layered modules and adds a V-model documentatio
 | Check | Result |
 |---|---|
 | Lint | clean |
-| UT | 655 / 655 pass |
-| IT | 45 / 45 pass (Vitest total 700 / 700) |
+| UT + IT (Vitest) | 700 / 700 pass |
 | QT | 188 pass, 0 fail, 73 viewport-specific skips (desktop + mobile Chromium) |
 | Coverage | thresholds met (≥90% models/lib/hooks, ≥80% overall) |
 | Build | OK; initial JS 74 KB gzip (was 85 KB) |
