@@ -10,7 +10,7 @@
 import { writeFileSync } from 'node:fs'
 import { test, expect, baselineDom } from './helpers.js'
 import {
-  preparePage, scrollTop, compare, collectDom, TARGETS, HIDDEN_SELECTORS, HIDE_NAV_CSS,
+  preparePage, scrollTop, settleLazyImages, compare, collectDom, TARGETS, HIDDEN_SELECTORS, HIDE_NAV_CSS,
 } from './visual-helpers.js'
 
 const vpOf = (testInfo) => (testInfo.project.name === 'mobile-chromium' ? 'mobile' : 'desktop')
@@ -75,6 +75,7 @@ test('QT-111 Text-content and class-name parity snapshot', async ({ browser }, t
   for (const theme of ['night', 'day']) {
     const { context, page } = await preparePage(browser, testInfo.project.use.baseURL, vp, theme)
     const base = baselineDom(vp, theme)
+    await settleLazyImages(page)
     for (const [id, selector] of TARGETS) {
       const live = await page.evaluate(collectDom, { selector, hidden: HIDDEN_SELECTORS })
       const exp = base[id]

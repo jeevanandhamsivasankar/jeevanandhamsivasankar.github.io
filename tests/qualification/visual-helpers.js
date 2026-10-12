@@ -34,6 +34,25 @@ export async function scrollTop(page) {
   await finishAnimations(page)
 }
 
+/**
+ * Scroll the page through and wait until every img[loading=lazy] has settled (loaded or errored into its fallback),
+ * matching the baseline, whose full-page screenshot forced all lazy images to resolve before the DOM was dumped.
+ */
+export async function settleLazyImages(page) {
+  const height = await page.evaluate(() => document.documentElement.scrollHeight)
+  const step = Math.max(200, Math.floor((page.viewportSize()?.height ?? 800) / 2))
+  for (let y = 0; y <= height; y += step) {
+    await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y)
+    await page.waitForTimeout(30)
+  }
+  await page.waitForFunction(
+    () => Array.from(document.querySelectorAll('img[loading="lazy"]')).every((img) => img.complete),
+    null,
+    { timeout: 15_000 },
+  )
+  await scrollTop(page)
+}
+
 /** Open the page under the baseline's conditions, with all lazy sections loaded and revealed. */
 export async function preparePage(browser, baseURL, vpName, theme) {
   const context = await browser.newContext({ ...VIEWPORTS[vpName], ...CONTEXT_OPTIONS, baseURL })
