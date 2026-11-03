@@ -23,7 +23,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%238E1426'/%3E%3Cpath d='M12 3c3 4 3.4 8 0 12c-3.4-4-3-8 0-12z' fill='%23E8B54C'/%3E%3Crect x='11.2' y='14' width='1.6' height='7' fill='%23E8B54C'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Mukta+Malar:wght@400;600;700&family=Rozha+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Mukta+Malar:wght@400;600;700&family=Anek+Malayalam:wght@400;600;700&family=Anek+Kannada:wght@400;600;700&family=Anek+Telugu:wght@400;600;700&family=Rozha+One&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -43,7 +43,7 @@
     --line: #EBD8C6;
     --tint-gold: #FFF2D6;
     --display: "Rozha One", Georgia, "Times New Roman", serif;
-    --body: "Mukta", "Mukta Malar", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --body: "Mukta", "Mukta Malar", "Anek Malayalam", "Anek Kannada", "Anek Telugu", system-ui, -apple-system, "Segoe UI", sans-serif;
     --tamil: "Mukta Malar", "Mukta", "Noto Sans Tamil", "Tamil Sangam MN", sans-serif;
     --zari: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='30' viewBox='0 0 32 30'%3E%3Crect width='32' height='30' fill='%235E0B17'/%3E%3Crect width='32' height='3' fill='%23E8B54C'/%3E%3Crect y='4.6' width='32' height='.9' fill='%23E8B54C' opacity='.7'/%3E%3Cpath d='M0 26L8 9L16 26ZM16 26L24 9L32 26Z' fill='%23E8B54C'/%3E%3Cpath d='M4.3 26L8 17.6L11.7 26ZM20.3 26L24 17.6L27.7 26Z' fill='%238E1426'/%3E%3Ccircle cx='8' cy='7.1' r='1.3' fill='%23F9DC8A'/%3E%3Ccircle cx='24' cy='7.1' r='1.3' fill='%23F9DC8A'/%3E%3Ccircle cx='16' cy='13' r='1.5' fill='%23F9DC8A'/%3E%3Ccircle cx='0' cy='13' r='1.5' fill='%23F9DC8A'/%3E%3Ccircle cx='32' cy='13' r='1.5' fill='%23F9DC8A'/%3E%3Crect y='26' width='32' height='4' fill='%23E8B54C'/%3E%3C/svg%3E");
     --butta: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='80'%20height='80'%20viewBox='0%200%2080%2080'%3E%3Cg%20fill='%23C9972F'%20opacity='.085'%3E%3Cg%20transform='translate%2820%2020%29'%3E%3Ccircle%20cy='-3.2'%20r='2.3'/%3E%3Ccircle%20cy='3.2'%20r='2.3'/%3E%3Ccircle%20cx='-3.2'%20r='2.3'/%3E%3Ccircle%20cx='3.2'%20r='2.3'/%3E%3C/g%3E%3Cg%20transform='translate%2860%2060%29'%3E%3Ccircle%20cy='-3.2'%20r='2.3'/%3E%3Ccircle%20cy='3.2'%20r='2.3'/%3E%3Ccircle%20cx='-3.2'%20r='2.3'/%3E%3Ccircle%20cx='3.2'%20r='2.3'/%3E%3C/g%3E%3Ccircle%20cx='60'%20cy='20'%20r='1.2'/%3E%3Ccircle%20cx='20'%20cy='60'%20r='1.2'/%3E%3C/g%3E%3Cg%20fill='%23FFF9EF'%3E%3Ccircle%20cx='20'%20cy='20'%20r='1.3'/%3E%3Ccircle%20cx='60'%20cy='60'%20r='1.3'/%3E%3C/g%3E%3C/svg%3E");
@@ -62,7 +62,32 @@
   p, figure { margin: 0; }
   a { color: inherit; }
   img { max-width: 100%; display: block; }
-  [lang="ta"] { font-family: var(--tamil); }
+  body [lang="ta"] { font-family: var(--tamil); }
+
+  /* Per-language display type: Rozha One covers English and Hindi; other scripts use a bold matching face */
+  html[data-lang="ta"] { --display: "Mukta Malar", "Rozha One", serif; --dw: 700; }
+  html[data-lang="ml"] { --display: "Anek Malayalam", "Rozha One", serif; --dw: 700; }
+  html[data-lang="kn"] { --display: "Anek Kannada", "Rozha One", serif; --dw: 700; }
+  html[data-lang="te"] { --display: "Anek Telugu", "Rozha One", serif; --dw: 700; }
+  h1, h2, h3, .names, .footer-names, .cover-names, .venue-name, .cover-greet, .wel-guest, .hero-date .d { font-weight: var(--dw, 400); }
+  html:not([data-lang="en"]) .names { line-height: 1.12; }
+  html:not([data-lang="en"]) .hero-date .d { font-size: clamp(1.2rem, 5vw, 1.7rem); line-height: 1.35; }
+  html:not([data-lang="en"]):not([data-lang="hi"]) .sec-head h2 { font-size: clamp(1.9rem, 7.6vw, 2.6rem); line-height: 1.3; }
+  html:not([data-lang="en"]) .event-card h3, html:not([data-lang="en"]) .pcard h3 { line-height: 1.3; }
+  .cd b, .ec-day { font-family: "Rozha One", Georgia, serif !important; font-weight: 400 !important; }
+
+  /* Language picker */
+  .lang-pick { position: relative; display: inline-flex; align-items: center; gap: .4rem; cursor: pointer; }
+  .lang-pick select { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 16px; border: 0; -webkit-appearance: none; appearance: none; }
+  .lang-pick svg { width: 18px; height: 18px; flex: none; }
+  .lang-pick:focus-within { outline: 3px solid var(--marigold); outline-offset: 3px; }
+  .lang-pick.on-cover {
+    margin-bottom: 1.1rem; padding: .45rem .95rem; border-radius: 999px;
+    border: 1px solid rgba(232, 181, 76, .65); background: rgba(255, 255, 255, .08);
+    color: var(--gold-light); font-weight: 600; font-size: 1rem;
+  }
+  .lang-pick.on-cover .chev { width: 16px; height: 16px; }
+  .in-dock .chev { display: none; }
   :focus-visible { outline: 3px solid var(--marigold); outline-offset: 3px; border-radius: 6px; }
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
@@ -187,7 +212,7 @@
     box-shadow: inset 0 0 0 6px #fff, inset 0 0 0 7px rgba(232, 181, 76, .55), 0 18px 40px -22px rgba(94, 11, 23, .45);
   }
   .pcard .lotus { width: 46px; height: 28px; margin: 0 auto .6rem; display: block; }
-  .pc-ta { font-family: var(--tamil); font-weight: 700; color: var(--kumkum); font-size: 1.15rem; }
+  .pc-ta { font-weight: 700; color: var(--kumkum); font-size: 1.15rem; }
   .pc-en { color: var(--rose); font-weight: 600; font-size: .95rem; }
   .pcard h3 { font-size: clamp(1.9rem, 7vw, 2.3rem); color: var(--maroon); margin-top: .6rem; }
   .pcard .qual { margin-top: .25rem; font-weight: 600; }
@@ -204,7 +229,7 @@
   }
 
   /* Tamil invitation */
-  .tamil-sec { text-align: center; background: linear-gradient(180deg, transparent, rgba(255, 242, 214, .7)); }
+  .letter-sec { text-align: center; background: linear-gradient(180deg, transparent, rgba(255, 242, 214, .7)); }
   .ta-card {
     position: relative; background: #fff; border-radius: 22px; padding: 2.2rem 1.4rem;
     border: 1.5px solid var(--gold); box-shadow: inset 0 0 0 6px #fff, inset 0 0 0 7px rgba(232, 181, 76, .55);
@@ -229,7 +254,7 @@
     border: 1px solid rgba(232, 181, 76, .45);
   }
   .ec-date { display: inline-grid; justify-items: center; padding: .9rem 1.6rem 1rem; border-radius: 120px 120px 16px 16px; background: rgba(255, 255, 255, .07); border: 1px solid rgba(232, 181, 76, .5); }
-  .ec-wd { font-family: var(--tamil); color: var(--gold-light); font-weight: 600; }
+  .ec-wd { color: var(--gold-light); font-weight: 600; }
   .ec-wd-en { font-size: .95rem; opacity: .85; }
   .ec-day { font-family: var(--display); font-size: 4rem; line-height: 1; margin: .2rem 0 .05rem; background: var(--gold-grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
   .ec-my { font-weight: 600; }
@@ -347,7 +372,7 @@
     border-radius: 999px 999px 14px 14px; border: 2px solid var(--gold);
     box-shadow: 0 0 0 5px rgba(232, 181, 76, .2), 0 14px 34px rgba(20, 0, 4, .5);
   }
-  .cover-ta { font-family: var(--tamil); font-weight: 700; color: var(--gold); font-size: 1.15rem; }
+  .cover-ta { font-weight: 700; color: var(--gold); font-size: 1.15rem; }
   .cover-greet { font-family: var(--display); font-size: clamp(1.5rem, 6.6vw, 2rem); color: var(--gold-light); line-height: 1.2; margin-top: .3rem; }
   .cover-line { margin-top: .3rem; font-size: 1.1rem; opacity: .9; }
   .cover-names { font-family: var(--display); font-size: clamp(2.6rem, 12.5vw, 4.2rem); line-height: 1.05; margin: .7rem 0 .5rem; }
@@ -356,21 +381,22 @@
 
   /* Quick actions */
   .dock {
-    position: fixed; left: 50%; bottom: calc(14px + env(safe-area-inset-bottom)); z-index: 45;
-    display: flex; gap: 4px; padding: 5px; border-radius: 999px;
-    background: rgba(62, 7, 16, .82); border: 1px solid rgba(232, 181, 76, .55);
+    position: fixed; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 45;
+    display: flex; gap: 2px; padding: 5px; border-radius: 22px;
+    background: rgba(62, 7, 16, .86); border: 1px solid rgba(232, 181, 76, .55);
     -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
     box-shadow: 0 14px 30px -12px rgba(30, 0, 6, .6);
-    transform: translate(-50%, 140%); transition: transform .45s cubic-bezier(.22, 1, .36, 1);
+    transform: translate(-50%, 150%); transition: transform .45s cubic-bezier(.22, 1, .36, 1);
   }
   .dock.show { transform: translate(-50%, 0); }
-  .dock a, .dock button {
-    display: inline-flex; align-items: center; gap: .4rem; min-height: 44px; padding: 0 1rem;
-    border: 0; border-radius: 999px; background: transparent; color: var(--jasmine);
-    font: 600 .95rem/1 var(--body); text-decoration: none; cursor: pointer; white-space: nowrap;
+  .dock > a, .dock > button, .dock > .lang-pick {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+    min-width: 66px; min-height: 52px; padding: 5px 8px; border: 0; border-radius: 17px;
+    background: transparent; color: var(--jasmine); text-decoration: none; cursor: pointer;
+    font: 600 .74rem/1.1 var(--body); white-space: nowrap;
   }
-  .dock a:first-child { background: var(--gold-grad); color: #3A1A00; }
-  .dock svg { width: 18px; height: 18px; flex: none; }
+  .dock > a:first-child { background: var(--gold-grad); color: #3A1A00; }
+  .dock svg { width: 20px; height: 20px; flex: none; }
 
   /* 3D effects */
   .petals { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 70; pointer-events: none; }
@@ -412,21 +438,83 @@
    - Put "" (empty quotes) or [] (empty list) to hide that part of the page.
    ===================================================================== */
 const WEDDING = {
+  // Languages guests can pick, in the order shown. The first visit opens in defaultLanguage.
+  // A link can open in a language directly: add ?lang=ta (or en, hi, ml, kn, te) to the end.
+  languages: ["ta", "en", "hi", "ml", "kn", "te"],
+  defaultLanguage: "en",
+
+  // Any text below can be one string (same in every language) or a list per language:
+  //   { en: "English", ta: "தமிழ்", hi: "हिन्दी", ml: "മലയാളം", kn: "ಕನ್ನಡ", te: "తెలుగు" }
+  // If a language is missing, English is shown.
   couple: {
-    first:  { name: "Ganesh", fullName: "S. Ganesh", title: "The groom", titleTa: "மணமகன்",
-              qualification: "B.A., Army",
-              parents: "Son of Mr. V. Siva Sankaran & Mrs. S. Sathiya",
-              place: "Avarkarai Village, Ranipet Dist." },
-    second: { name: "Pavithra", fullName: "M. Pavithra", title: "The bride", titleTa: "மணமகள்",
-              qualification: "M.Sc.",
-              parents: "Daughter of Mr. B. Mani & Mrs. M. Padmavathi",
-              place: "Kalangamedu Village, Vellore Dist." }
+    first: {
+      name:     { en: "Ganesh", ta: "கணேஷ்", hi: "गणेश", ml: "ഗണേഷ്", kn: "ಗಣೇಶ್", te: "గణేష్" },
+      fullName: { en: "S. Ganesh", ta: "S. கணேஷ்", hi: "एस. गणेश", ml: "എസ്. ഗണേഷ്", kn: "ಎಸ್. ಗಣೇಶ್", te: "ఎస్. గణేష్" },
+      qualification: "B.A., Army",
+      parents: {
+        en: "Son of Mr. V. Siva Sankaran & Mrs. S. Sathiya",
+        ta: "திரு. V. சிவசங்கரன் – திருமதி. S. சத்யா தம்பதியரின் இளைய குமாரன்",
+        hi: "श्री वी. शिवशंकरन एवं श्रीमती एस. सत्या के सुपुत्र",
+        ml: "ശ്രീ. വി. ശിവശങ്കരന്റെയും ശ്രീമതി. എസ്. സത്യയുടെയും മകൻ",
+        kn: "ಶ್ರೀ ವಿ. ಶಿವಶಂಕರನ್ ಮತ್ತು ಶ್ರೀಮತಿ ಎಸ್. ಸತ್ಯ ಅವರ ಪುತ್ರ",
+        te: "శ్రీ వి. శివశంకరన్ & శ్రీమతి ఎస్. సత్య గార్ల కుమారుడు"
+      },
+      place: {
+        en: "Avarkarai Village, Ranipet Dist.",
+        ta: "அவரைக்கரை கிராமம், இராணிப்பேட்டை மாவட்டம்",
+        hi: "अवरैक्करै ग्राम, रानीपेट जिला",
+        ml: "അവരൈക്കരൈ ഗ്രാമം, റാണിപ്പേട്ട് ജില്ല",
+        kn: "ಅವರೈಕ್ಕರೈ ಗ್ರಾಮ, ರಾಣಿಪೇಟೆ ಜಿಲ್ಲೆ",
+        te: "అవరైక్కరై గ్రామం, రాణిపేట జిల్లా"
+      }
+    },
+    second: {
+      name:     { en: "Pavithra", ta: "பவித்ரா", hi: "पवित्रा", ml: "പവിത്ര", kn: "ಪವಿತ್ರಾ", te: "పవిత్ర" },
+      fullName: { en: "M. Pavithra", ta: "M. பவித்ரா", hi: "एम. पवित्रा", ml: "എം. പവിത്ര", kn: "ಎಂ. ಪವಿತ್ರಾ", te: "ఎం. పవిత్ర" },
+      qualification: "M.Sc.",
+      parents: {
+        en: "Daughter of Mr. B. Mani & Mrs. M. Padmavathi",
+        ta: "திரு. B. மணி – திருமதி. M. பத்மாவதி தம்பதியரின் மூத்த குமாரத்தி",
+        hi: "श्री बी. मणि एवं श्रीमती एम. पद्मावती की सुपुत्री",
+        ml: "ശ്രീ. ബി. മണിയുടെയും ശ്രീമതി. എം. പത്മാവതിയുടെയും മകൾ",
+        kn: "ಶ್ರೀ ಬಿ. ಮಣಿ ಮತ್ತು ಶ್ರೀಮತಿ ಎಂ. ಪದ್ಮಾವತಿ ಅವರ ಪುತ್ರಿ",
+        te: "శ్రీ బి. మణి & శ్రీమతి ఎం. పద్మావతి గార్ల కుమార్తె"
+      },
+      place: {
+        en: "Kalangamedu Village, Vellore Dist.",
+        ta: "கலங்கமேடு கிராமம், வேலூர் மாவட்டம்",
+        hi: "कलंगमेडु ग्राम, वेल्लोर जिला",
+        ml: "കലങ്കമേട് ഗ്രാമം, വെല്ലൂർ ജില്ല",
+        kn: "ಕಲಂಗಮೇಡು ಗ್ರಾಮ, ವೆಲ್ಲೂರು ಜಿಲ್ಲೆ",
+        te: "కలంగమేడు గ్రామం, వెల్లూరు జిల్లా"
+      }
+    }
   },
 
-  intro:   "Sri Murugan Thunai",
+  // Blessing at the top. The Tamil line always shows; the second line is in the chosen language.
   introTa: "ஸ்ரீ முருகன் துணை",
-  message: "With full hearts, we invite you and your family to share in the joy as our son begins his new journey. We request the pleasure of your presence for a wonderful day of celebration.",
-  city:    "Thirumalaikodi, Vellore",
+  intro: { en: "Sri Murugan Thunai", ta: "", hi: "श्री मुरुगन तुणै", ml: "ശ്രീ മുരുകൻ തുണ", kn: "ಶ್ರೀ ಮುರುಗನ್ ತುಣೈ", te: "శ్రీ మురుగన్ తుణై" },
+
+  // The invitation letter, signed by the groom's parents
+  message: {
+    en: "With full hearts, we invite you and your family to share in the joy as our son begins his new journey. We request the pleasure of your presence for a wonderful day of celebration.",
+    ta: "மணமக்கள் S. கணேஷ், B.A., Army., M. பவித்ரா, M.Sc., ஆகிய இவர்களுக்கு 13.11.2026, வெள்ளிக்கிழமை காலை 6.00 மணிக்குமேல் 7.30 மணிக்குள்ளாக நடைபெறும் திருமணத்திற்கு நானே நேரில் வந்து அழைத்ததாக கருதி தாங்கள் தங்கள் சுற்றமும் நட்பும் சூழ வருகைதந்து மணமக்களை வாழ்த்துமாறு அன்புடன் அழைக்கின்றேன்.",
+    hi: "हम पूरे हृदय से आपको और आपके परिवार को आमंत्रित करते हैं कि आप हमारे पुत्र के नए जीवन की शुरुआत की खुशी में शामिल हों। इस शुभ अवसर पर आपकी उपस्थिति हमारे लिए सौभाग्य होगी।",
+    ml: "ഞങ്ങളുടെ മകൻ പുതിയ ജീവിതത്തിലേക്ക് കടക്കുന്ന ഈ സന്തോഷവേളയിൽ പങ്കുചേരാൻ നിങ്ങളെയും കുടുംബത്തെയും ഹൃദയപൂർവ്വം ക്ഷണിക്കുന്നു. ഈ ആഘോഷദിനത്തിൽ നിങ്ങളുടെ സാന്നിധ്യം ഞങ്ങൾ ആഗ്രഹിക്കുന്നു.",
+    kn: "ನಮ್ಮ ಮಗನು ಹೊಸ ಜೀವನದ ಪಯಣವನ್ನು ಆರಂಭಿಸುತ್ತಿರುವ ಈ ಸಂತೋಷದ ಸಂದರ್ಭದಲ್ಲಿ ಪಾಲ್ಗೊಳ್ಳಲು ನಿಮ್ಮನ್ನು ಮತ್ತು ನಿಮ್ಮ ಕುಟುಂಬವನ್ನು ಹೃತ್ಪೂರ್ವಕವಾಗಿ ಆಹ್ವಾನಿಸುತ್ತೇವೆ. ಈ ಶುಭ ದಿನದಂದು ನಿಮ್ಮ ಉಪಸ್ಥಿತಿಯನ್ನು ಕೋರುತ್ತೇವೆ.",
+    te: "మా కుమారుడు నూతన జీవితంలోకి అడుగుపెడుతున్న ఈ ఆనంద సమయంలో పాలుపంచుకోవాలని మిమ్మల్ని మరియు మీ కుటుంబాన్ని హృదయపూర్వకంగా ఆహ్వానిస్తున్నాము. ఈ శుభ దినాన మీ రాక మాకు ఎంతో సంతోషాన్నిస్తుంది."
+  },
+  signature: {
+    label: { en: "With love,", ta: "தங்கள் அன்புள்ள", hi: "आपके स्नेहाकांक्षी", ml: "സ്നേഹപൂർവ്വം", kn: "ಪ್ರೀತಿಯಿಂದ", te: "ప్రేమతో" },
+    names: {
+      en: "Mr. V. Siva Sankaran & Mrs. S. Sathiya", ta: "திரு. V. சிவசங்கரன் திருமதி. S. சத்யா",
+      hi: "श्री वी. शिवशंकरन एवं श्रीमती एस. सत्या", ml: "ശ്രീ. വി. ശിവശങ്കരൻ & ശ്രീമതി. എസ്. സത്യ",
+      kn: "ಶ್ರೀ ವಿ. ಶಿವಶಂಕರನ್ ಮತ್ತು ಶ್ರೀಮತಿ ಎಸ್. ಸತ್ಯ", te: "శ్రీ వి. శివశంకరన్ & శ్రీమతి ఎస్. సత్య"
+    },
+    place: { en: "Avarkarai Village", ta: "அவரைக்கரை கிராமம்", hi: "अवरैक्करै ग्राम", ml: "അവരൈക്കരൈ ഗ്രാമം", kn: "ಅವರೈಕ್ಕರೈ ಗ್ರಾಮ", te: "అవరైక్కరై గ్రామం" }
+  },
+
+  city: { en: "Thirumalaikodi, Vellore", ta: "திருமலைக்கோடி, வேலூர்", hi: "तिरुमलैकोडि, वेल्लोर", ml: "തിരുമലൈക്കോടി, വെല്ലൂർ", kn: "ತಿರುಮಲೈಕೋಡಿ, ವೆಲ್ಲೂರು", te: "తిరుమలైకోడి, వెల్లూరు" },
   timezone: "Asia/Kolkata",
 
   // The countdown on the first screen counts down to this date
@@ -435,39 +523,55 @@ const WEDDING = {
   // Main venue. mapLink is the location from the QR code on the printed card.
   // mapQuery is what the small map on the page searches for.
   venue: {
-    name: "Arulmigu Subramani Swami Temple",
-    address: "Thirumalaikodi, Ariyur, Vellore Dist.",
+    name: {
+      en: "Arulmigu Subramani Swami Temple", ta: "அருள்மிகு சுப்பிரமணி சுவாமி திருக்கோயில்",
+      hi: "अरुल्मिगु सुब्रमणि स्वामी मंदिर", ml: "അരുൾമിഗു സുബ്രമണി സ്വാമി ക്ഷേത്രം",
+      kn: "ಅರುಳ್ಮಿಗು ಸುಬ್ರಮಣಿ ಸ್ವಾಮಿ ದೇವಸ್ಥಾನ", te: "అరుల్మిగు సుబ్రమణి స్వామి ఆలయం"
+    },
+    address: {
+      en: "Thirumalaikodi, Ariyur, Vellore Dist.", ta: "திருமலைக்கோடி, அரியூர், வேலூர் மாவட்டம்",
+      hi: "तिरुमलैकोडि, अरियूर, वेल्लोर जिला", ml: "തിരുമലൈക്കോടി, അരിയൂർ, വെല്ലൂർ ജില്ല",
+      kn: "ತಿರುಮಲೈಕೋಡಿ, ಅರಿಯೂರು, ವೆಲ್ಲೂರು ಜಿಲ್ಲೆ", te: "తిరుమలైకోడి, అరియూర్, వెల్లూరు జిల్లా"
+    },
     mapLink: "https://share.google/Nhaz3XlV5KJExkd40",
     mapQuery: "Thirumalaikodi, Vellore, Tamil Nadu",
-    notes: "The map shows the area. Tap \"Open in Google Maps\" for the exact temple location."
+    notes: {
+      en: "The map shows the area. Tap \"Open in Google Maps\" for the exact temple location.",
+      ta: "வரைபடம் அப்பகுதியைக் காட்டுகிறது. கோயிலின் சரியான இடத்திற்கு மேலே உள்ள பொத்தானைத் தொடவும்.",
+      hi: "नक्शा क्षेत्र दिखाता है। मंदिर के सही स्थान के लिए ऊपर दिए बटन पर टैप करें।",
+      ml: "മാപ്പ് പ്രദേശം കാണിക്കുന്നു. ക്ഷേത്രത്തിന്റെ കൃത്യമായ സ്ഥാനത്തിന് മുകളിലെ ബട്ടൺ അമർത്തുക.",
+      kn: "ನಕ್ಷೆ ಪ್ರದೇಶವನ್ನು ತೋರಿಸುತ್ತದೆ. ದೇವಾಲಯದ ನಿಖರ ಸ್ಥಳಕ್ಕಾಗಿ ಮೇಲಿನ ಬಟನ್ ಒತ್ತಿರಿ.",
+      te: "మ్యాప్ ప్రాంతాన్ని చూపిస్తుంది. ఆలయం యొక్క ఖచ్చితమైన స్థానం కోసం పై బటన్‌ను నొక్కండి."
+    }
   },
-
-  // Section title for the events below (Tamil and English)
-  eventsTitleTa: "முகூர்த்த நேரம்",
-  eventsTitle: "Muhurtham",
 
   // Add, remove or reorder events. An event without its own venue uses the main venue.
   events: [
-    { name: "Wedding (Muhurtham)",
+    {
+      name: { en: "Wedding (Muhurtham)", ta: "திருமண முகூர்த்தம்", hi: "विवाह मुहूर्त", ml: "വിവാഹ മുഹൂർത്തം", kn: "ವಿವಾಹ ಮುಹೂರ್ತ", te: "వివాహ ముహూర్తం" },
       start: "2026-11-13T06:00:00+05:30", end: "2026-11-13T07:30:00+05:30",
-      note: "பராபவ வருடம் ஐப்பசி 27, வளர்பிறை சதுர்த்தி, மூலம் நட்சத்திரம், விருச்சிக லக்னம்" }
+      note: {
+        en: "Parabhava year, Aippasi 27, Valarpirai Chathurthi, Moolam nakshatram, Vrischika lagnam",
+        ta: "பராபவ வருடம் ஐப்பசி 27, வளர்பிறை சதுர்த்தி, மூலம் நட்சத்திரம், விருச்சிக லக்னம்",
+        hi: "पराभव संवत्सर, ऐप्पसि 27, शुक्ल चतुर्थी, मूल नक्षत्र, वृश्चिक लग्न",
+        ml: "പരാഭവ വർഷം, ഐപ്പസി 27, ശുക്ല ചതുർത്ഥി, മൂലം നക്ഷത്രം, വൃശ്ചിക ലഗ്നം",
+        kn: "ಪರಾಭವ ಸಂವತ್ಸರ, ಐಪ್ಪಸಿ 27, ಶುಕ್ಲ ಚತುರ್ಥಿ, ಮೂಲ ನಕ್ಷತ್ರ, ವೃಶ್ಚಿಕ ಲಗ್ನ",
+        te: "పరాభవ సంవత్సరం, ఐప్పసి 27, శుక్ల చతుర్థి, మూల నక్షత్రం, వృశ్చిక లగ్నం"
+      }
+    }
   ],
-
-  // Tamil invitation from the printed card (shown in its own section)
-  tamil: {
-    heading: "திருமண அழைப்பிதழ்",
-    text: "மணமக்கள் S. கணேஷ், B.A., Army., M. பவித்ரா, M.Sc., ஆகிய இவர்களுக்கு 13.11.2026, வெள்ளிக்கிழமை காலை 6.00 மணிக்குமேல் 7.30 மணிக்குள்ளாக நடைபெறும் திருமணத்திற்கு நானே நேரில் வந்து அழைத்ததாக கருதி தாங்கள் தங்கள் சுற்றமும் நட்பும் சூழ வருகைதந்து மணமக்களை வாழ்த்துமாறு அன்புடன் அழைக்கின்றேன்.",
-    signatureLabel: "தங்கள் அன்புள்ள",
-    signature: "திரு. V. சிவசங்கரன் திருமதி. S. சத்யா",
-    signaturePlace: "அவரைக்கரை கிராமம்"
-  },
 
   // General welcome for every guest (shown near the end of the page)
   welcome: {
-    heading: "அன்புடன் வரவேற்கிறோம்",
-    tamil: "தங்கள் பெயர் எங்கள் மனதில் என்றும் உள்ளது. இந்த இனிய நாளில் உங்களையும் உங்கள் குடும்பத்தினரையும் அன்புடன் எதிர்பார்க்கிறோம்.",
-    english: "Your name is always in our hearts. We are eagerly expecting you and your family for this special occasion.",
-    closing: "மறவாமல் வாருங்கள்!"
+    text: {
+      en: "Your name is always in our hearts. We are eagerly expecting you and your family for this special occasion.",
+      ta: "தங்கள் பெயர் எங்கள் மனதில் என்றும் உள்ளது. இந்த இனிய நாளில் உங்களையும் உங்கள் குடும்பத்தினரையும் அன்புடன் எதிர்பார்க்கிறோம்.",
+      hi: "आपका नाम सदा हमारे हृदय में है। इस विशेष अवसर पर हम आपकी और आपके परिवार की उत्सुकता से प्रतीक्षा कर रहे हैं।",
+      ml: "നിങ്ങളുടെ പേര് എന്നും ഞങ്ങളുടെ ഹൃദയത്തിലുണ്ട്. ഈ പ്രത്യേക ദിനത്തിൽ നിങ്ങളെയും കുടുംബത്തെയും ഞങ്ങൾ ആകാംക്ഷയോടെ പ്രതീക്ഷിക്കുന്നു.",
+      kn: "ನಿಮ್ಮ ಹೆಸರು ಸದಾ ನಮ್ಮ ಹೃದಯದಲ್ಲಿದೆ. ಈ ವಿಶೇಷ ಸಂದರ್ಭಕ್ಕೆ ನಿಮ್ಮನ್ನು ಮತ್ತು ನಿಮ್ಮ ಕುಟುಂಬವನ್ನು ಕಾತರದಿಂದ ಎದುರುನೋಡುತ್ತಿದ್ದೇವೆ.",
+      te: "మీ పేరు ఎల్లప్పుడూ మా హృదయంలో ఉంటుంది. ఈ ప్రత్యేక సందర్భానికి మిమ్మల్ని మరియు మీ కుటుంబాన్ని ఆత్రుతగా ఎదురుచూస్తున్నాము."
+    },
+    closing: { en: "Please do come!", ta: "மறவாமல் வாருங்கள்!", hi: "अवश्य पधारें!", ml: "തീർച്ചയായും വരണേ!", kn: "ತಪ್ಪದೇ ಬನ್ನಿ!", te: "తప్పక రండి!" }
   },
 
   rsvp: {
@@ -485,7 +589,11 @@ const WEDDING = {
   contacts: [],
 
   hashtag: "",                  // e.g. "#GaneshWedsPavithra"
-  closing: "With best compliments from relatives & friends",
+  closing: {
+    en: "With best compliments from relatives & friends", ta: "உற்றார் உறவினர் நண்பர்களின் வாழ்த்துகளுடன்",
+    hi: "सभी सगे-संबंधियों एवं मित्रों की शुभकामनाओं सहित", ml: "ബന്ധുമിത്രാദികളുടെ ആശംസകളോടെ",
+    kn: "ಬಂಧುಮಿತ್ರರ ಶುಭಾಶಯಗಳೊಂದಿಗೆ", te: "బంధుమిత్రుల శుభాకాంక్షలతో"
+  },
 
   // Optional extras: upload the files to your repository, then put their names here
   couplePhoto: "couple.webp",   // transparent photo, shown on the first screen
@@ -507,57 +615,117 @@ const WEDDING = {
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const reduceMotion = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-  const hasTamil = (s) => /[\u0B80-\u0BFF]/.test(String(s || ""));
-  const langAttr = (s) => (hasTamil(s) ? ' lang="ta"' : "");
+
+  /* ---------- Languages ---------- */
+  const LANG_NAMES = { ta: "தமிழ்", en: "English", hi: "हिन्दी", ml: "മലയാളം", kn: "ಕನ್ನಡ", te: "తెలుగు" };
+  const LOCALES = { ta: "ta-IN", en: "en-IN", hi: "hi-IN", ml: "ml-IN", kn: "kn-IN", te: "te-IN" };
+  const UI = {
+    en: { language: "Language", invitation: "Wedding invitation", invited: "You're invited to the wedding of", dear: "Dear {n},", open: "Open invitation",
+          couple: "The couple", groom: "The groom", bride: "The bride", events: "Muhurtham", venue: "Venue", welcome: "A warm welcome", story: "Our story", moments: "Moments",
+          directions: "Directions", dirShort: "Directions", maps: "Open in Google Maps", addCal: "Add to calendar", saveDate: "Save date", share: "Share", shareInvite: "Share this invitation",
+          cd: ["days", "hours", "mins", "secs"], now: "The wedding is happening now", thanks: "Thank you for celebrating with us",
+          shareText: "You're invited to {p}'s wedding on {d}.", rsvp: "Will you join us?" },
+    ta: { language: "மொழி", invitation: "திருமண அழைப்பிதழ்", invited: "உங்களை அன்புடன் அழைக்கிறோம்", dear: "அன்புள்ள {n},", open: "அழைப்பிதழைத் திறக்கவும்",
+          couple: "மணமக்கள்", groom: "மணமகன்", bride: "மணமகள்", events: "முகூர்த்த நேரம்", venue: "திருமண இடம்", welcome: "அன்புடன் வரவேற்கிறோம்", story: "எங்கள் கதை", moments: "நினைவுகள்",
+          directions: "வழி காட்டு", dirShort: "வழி", maps: "Google Maps-இல் திறக்கவும்", addCal: "நாட்காட்டியில் சேர்க்க", saveDate: "நாட்காட்டி", share: "பகிர்", shareInvite: "அழைப்பிதழைப் பகிரவும்",
+          cd: ["நாள்", "மணி", "நிமிடம்", "விநாடி"], now: "திருமணம் இப்போது நடைபெறுகிறது", thanks: "எங்களுடன் கொண்டாடியதற்கு நன்றி",
+          shareText: "{d} அன்று நடைபெறும் {p} திருமணத்திற்கு உங்களை அன்புடன் அழைக்கிறோம்.", rsvp: "வருகையை உறுதிசெய்யவும்" },
+    hi: { language: "भाषा", invitation: "विवाह निमंत्रण", invited: "आप सादर आमंत्रित हैं", dear: "प्रिय {n},", open: "निमंत्रण खोलें",
+          couple: "वर-वधू", groom: "वर", bride: "वधू", events: "शुभ मुहूर्त", venue: "विवाह स्थल", welcome: "हार्दिक स्वागत", story: "हमारी कहानी", moments: "यादें",
+          directions: "रास्ता देखें", dirShort: "रास्ता", maps: "Google Maps में खोलें", addCal: "कैलेंडर में जोड़ें", saveDate: "कैलेंडर", share: "शेयर", shareInvite: "यह निमंत्रण शेयर करें",
+          cd: ["दिन", "घंटे", "मिनट", "सेकंड"], now: "विवाह अभी हो रहा है", thanks: "हमारे साथ खुशियाँ मनाने के लिए धन्यवाद",
+          shareText: "{d} को {p} के विवाह में आप सादर आमंत्रित हैं।", rsvp: "क्या आप आएँगे?" },
+    ml: { language: "ഭാഷ", invitation: "വിവാഹ ക്ഷണക്കത്ത്", invited: "നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു", dear: "പ്രിയ {n},", open: "ക്ഷണക്കത്ത് തുറക്കുക",
+          couple: "വധൂവരന്മാർ", groom: "വരൻ", bride: "വധു", events: "മുഹൂർത്തം", venue: "വിവാഹ വേദി", welcome: "ഹൃദ്യമായ സ്വാഗതം", story: "ഞങ്ങളുടെ കഥ", moments: "ഓർമ്മകൾ",
+          directions: "വഴി കാണുക", dirShort: "വഴി", maps: "Google Maps-ൽ തുറക്കുക", addCal: "കലണ്ടറിൽ ചേർക്കുക", saveDate: "കലണ്ടർ", share: "പങ്കിടുക", shareInvite: "ഈ ക്ഷണം പങ്കിടുക",
+          cd: ["ദിവസം", "മണിക്കൂർ", "മിനിറ്റ്", "സെക്കൻഡ്"], now: "വിവാഹം ഇപ്പോൾ നടക്കുന്നു", thanks: "ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി",
+          shareText: "{d}-ന് നടക്കുന്ന {p} വിവാഹത്തിലേക്ക് നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.", rsvp: "നിങ്ങൾ വരുമോ?" },
+    kn: { language: "ಭಾಷೆ", invitation: "ವಿವಾಹ ಆಮಂತ್ರಣ", invited: "ನಿಮ್ಮನ್ನು ಪ್ರೀತಿಯಿಂದ ಆಹ್ವಾನಿಸುತ್ತೇವೆ", dear: "ಪ್ರೀತಿಯ {n},", open: "ಆಮಂತ್ರಣ ತೆರೆಯಿರಿ",
+          couple: "ವಧು-ವರರು", groom: "ವರ", bride: "ವಧು", events: "ಮುಹೂರ್ತ", venue: "ವಿವಾಹ ಸ್ಥಳ", welcome: "ಆತ್ಮೀಯ ಸ್ವಾಗತ", story: "ನಮ್ಮ ಕಥೆ", moments: "ನೆನಪುಗಳು",
+          directions: "ದಾರಿ ನೋಡಿ", dirShort: "ದಾರಿ", maps: "Google Maps ನಲ್ಲಿ ತೆರೆಯಿರಿ", addCal: "ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಸೇರಿಸಿ", saveDate: "ಕ್ಯಾಲೆಂಡರ್", share: "ಹಂಚಿಕೊಳ್ಳಿ", shareInvite: "ಈ ಆಮಂತ್ರಣವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ",
+          cd: ["ದಿನ", "ಗಂಟೆ", "ನಿಮಿಷ", "ಸೆಕೆಂಡ್"], now: "ವಿವಾಹ ಈಗ ನಡೆಯುತ್ತಿದೆ", thanks: "ನಮ್ಮೊಂದಿಗೆ ಸಂಭ್ರಮಿಸಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು",
+          shareText: "{d} ರಂದು ನಡೆಯುವ {p} ಅವರ ವಿವಾಹಕ್ಕೆ ನಿಮ್ಮನ್ನು ಪ್ರೀತಿಯಿಂದ ಆಹ್ವಾನಿಸುತ್ತೇವೆ.", rsvp: "ನೀವು ಬರುವಿರಾ?" },
+    te: { language: "భాష", invitation: "శుభలేఖ", invited: "మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము", dear: "ప్రియమైన {n},", open: "ఆహ్వానాన్ని తెరవండి",
+          couple: "వధూవరులు", groom: "వరుడు", bride: "వధువు", events: "ముహూర్తం", venue: "వివాహ వేదిక", welcome: "హృదయపూర్వక స్వాగతం", story: "మా కథ", moments: "జ్ఞాపకాలు",
+          directions: "దారి చూడండి", dirShort: "దారి", maps: "Google Maps లో తెరవండి", addCal: "క్యాలెండర్‌కు జోడించండి", saveDate: "క్యాలెండర్", share: "షేర్", shareInvite: "ఈ ఆహ్వానాన్ని షేర్ చేయండి",
+          cd: ["రోజులు", "గంటలు", "నిమిషాలు", "సెకన్లు"], now: "వివాహం ఇప్పుడు జరుగుతోంది", thanks: "మాతో కలిసి వేడుక జరుపుకున్నందుకు ధన్యవాదాలు",
+          shareText: "{d}న జరిగే {p} వివాహానికి మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము.", rsvp: "మీరు వస్తారా?" }
+  };
+  const LANGS = (W.languages || ["en"]).filter((c) => UI[c]);
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
+  const params = new URLSearchParams(location.search);
+  let lang = [params.get("lang"), store.get("wedding-lang"), W.defaultLanguage, "en"].find((c) => c && LANGS.indexOf(c) > -1) || LANGS[0];
+  const t = (k) => (UI[lang] && UI[lang][k]) || UI.en[k];
+  const tIn = (code, k) => (UI[code] && UI[code][k]) || UI.en[k];
+  // The small line under each heading: English, or Tamil when the page is in English
+  const altLang = () => (lang === "en" ? "ta" : "en");
+  const tr = (v) => (v && typeof v === "object" && !Array.isArray(v) ? (v[lang] != null ? v[lang] : v.en != null ? v.en : Object.values(v)[0]) : v);
+  const fill = (s, o) => String(s).replace(/\{(\w)\}/g, (m, k) => (o[k] != null ? o[k] : m));
 
   /* ---------- Dates ---------- */
   const tz = W.timezone || "Asia/Kolkata";
-  const dtf = (opts, loc) => new Intl.DateTimeFormat(loc || "en-IN", Object.assign({ timeZone: tz }, opts));
-  const longDate = (d) => dtf({ weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(d);
-  const clock = (d) => dtf({ hour: "numeric", minute: "2-digit", hour12: true }).format(d)
-    .replace(/[\s\u202f]+/g, " ").replace(/(am|pm)/i, (m) => m.toLowerCase());
+  const dtf = (opts, loc) => new Intl.DateTimeFormat(loc || LOCALES[lang], Object.assign({ timeZone: tz }, opts));
   const TA_DAYS = ["ஞாயிற்றுக்கிழமை", "திங்கட்கிழமை", "செவ்வாய்க்கிழமை", "புதன்கிழமை", "வியாழக்கிழமை", "வெள்ளிக்கிழமை", "சனிக்கிழமை"];
-  const taDay = (d) => TA_DAYS[["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(dtf({ weekday: "short" }, "en-US").format(d))] || "";
+  const dayIndex = (d) => ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(dtf({ weekday: "short" }, "en-US").format(d));
+  const weekday = (d, code) => ((code || lang) === "ta" ? TA_DAYS[dayIndex(d)] : dtf({ weekday: "long" }, LOCALES[code || lang]).format(d));
+  const longDate = (d) => (lang === "ta" ? weekday(d) + ", " + dtf({ day: "numeric", month: "long", year: "numeric" }).format(d)
+    : dtf({ weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(d));
+  const clockEn = (d) => dtf({ hour: "numeric", minute: "2-digit", hour12: true }, "en-IN").format(d).replace(/[\s\u202f]+/g, " ").replace(/(am|pm)/i, (m) => m.toLowerCase());
+  const PERIODS = {
+    ta: ["காலை", "மதியம்", "மாலை", "இரவு"], hi: ["सुबह", "दोपहर", "शाम", "रात"], ml: ["രാവിലെ", "ഉച്ചയ്ക്ക്", "വൈകുന്നേരം", "രാത്രി"],
+    kn: ["ಬೆಳಿಗ್ಗೆ", "ಮಧ್ಯಾಹ್ನ", "ಸಂಜೆ", "ರಾತ್ರಿ"], te: ["ఉదయం", "మధ్యాహ్నం", "సాయంత్రం", "రాత్రి"]
+  };
+  const RANGE = {
+    ta: (a, b) => a + " மணி முதல் " + b + " மணி வரை", hi: (a, b) => a + " बजे से " + b + " बजे तक",
+    ml: (a, b) => a + " മുതൽ " + b + " വരെ", kn: (a, b) => a + " ರಿಂದ " + b + " ರವರೆಗೆ", te: (a, b) => a + " నుండి " + b + " వరకు"
+  };
+  function timeRange(s, e) {
+    if (!PERIODS[lang]) return clockEn(s) + " to " + clockEn(e);
+    const hm = (d) => dtf({ hour: "2-digit", minute: "2-digit", hourCycle: "h23" }, "en-GB").format(d).split(":").map(Number);
+    const sep = lang === "ta" || lang === "ml" ? "." : ":";
+    const per = (h) => PERIODS[lang][h < 12 ? 0 : h < 16 ? 1 : h < 19 ? 2 : 3];
+    const num = (h, m) => (h % 12 || 12) + sep + String(m).padStart(2, "0");
+    const [h1, m1] = hm(s), [h2, m2] = hm(e);
+    return RANGE[lang](per(h1) + " " + num(h1, m1), (per(h2) === per(h1) ? "" : per(h2) + " ") + num(h2, m2));
+  }
   const events = (W.events || []).filter((e) => e && e.start);
   const startOf = (e) => new Date(e.start);
   const endOf = (e) => (e.end ? new Date(e.end) : new Date(startOf(e).getTime() + 3 * 3600e3));
   const main = new Date(W.mainDate || (events[0] && events[0].start));
   const A = W.couple.first, B = W.couple.second;
-  const pair = A.name + " & " + B.name;
-  const pageUrl = () => location.href.split(/[?#]/)[0];
-  const guest = (new URLSearchParams(location.search).get("to") || "").trim().slice(0, 60);
+  const pair = () => tr(A.name) + " & " + tr(B.name);
+  const baseUrl = () => location.href.split(/[?#]/)[0];
+  const shareUrl = () => baseUrl() + (lang !== (W.defaultLanguage || "en") ? "?lang=" + lang : "");
+  const guest = (params.get("to") || "").trim().slice(0, 60);
 
   /* ---------- Maps & calendars ---------- */
   const venueOf = (e) => (e.venue && e.venue.name ? e.venue : W.venue || {});
-  const place = (v) => [v.name, v.address].filter(Boolean).join(", ");
-  const mapsLink = (v) => v.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(place(v));
-  const mapEmbed = (v) => "https://maps.google.com/maps?q=" + encodeURIComponent(v.mapQuery || place(v)) + "&z=" + (v.mapQuery ? 13 : 15) + "&output=embed";
+  const place = (v) => [tr(v.name), tr(v.address)].filter(Boolean).join(", ");
+  const placeEn = (v) => [v.name && v.name.en || tr(v.name), v.address && v.address.en || tr(v.address)].filter(Boolean).join(", ");
+  const mapsLink = (v) => v.mapLink || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(placeEn(v));
+  const mapEmbed = (v) => "https://maps.google.com/maps?q=" + encodeURIComponent(v.mapQuery || placeEn(v)) + "&z=" + (v.mapQuery ? 13 : 15) + "&output=embed";
   const utc = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const calTitle = (e) => e.name + ": " + pair;
-  const calDetails = (e) => [e.note, "Invitation: " + pageUrl()].filter(Boolean).join("\n");
+  const calTitle = (e) => tr(e.name) + ": " + pair();
+  const calDetails = (e) => [tr(e.note), shareUrl()].filter(Boolean).join("\n");
   const gcalLink = (e) => "https://calendar.google.com/calendar/render?action=TEMPLATE" +
     "&text=" + encodeURIComponent(calTitle(e)) + "&dates=" + utc(startOf(e)) + "/" + utc(endOf(e)) +
     "&details=" + encodeURIComponent(calDetails(e)) + "&location=" + encodeURIComponent(place(venueOf(e)));
-
   function icsFile(e, i) {
-    const t = (s) => String(s).replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/([,;])/g, "\\$1");
-    const fold = (line) => { const out = []; while (line.length > 73) { out.push(line.slice(0, 73)); line = " " + line.slice(73); } out.push(line); return out.join("\r\n"); };
+    const x = (s) => String(s).replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/([,;])/g, "\\$1");
     return ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Wedding invitation//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH",
       "BEGIN:VEVENT", "UID:" + utc(startOf(e)) + "-" + i + "@wedding-invitation", "DTSTAMP:" + utc(new Date()),
-      "DTSTART:" + utc(startOf(e)), "DTEND:" + utc(endOf(e)), "SUMMARY:" + t(calTitle(e)),
-      "LOCATION:" + t(place(venueOf(e))), "DESCRIPTION:" + t(calDetails(e)), "END:VEVENT", "END:VCALENDAR"
-    ].map(fold).join("\r\n");
+      "DTSTART:" + utc(startOf(e)), "DTEND:" + utc(endOf(e)), "SUMMARY:" + x(calTitle(e)),
+      "LOCATION:" + x(place(venueOf(e))), "DESCRIPTION:" + x(calDetails(e)), "END:VEVENT", "END:VCALENDAR"].join("\r\n");
   }
   function downloadIcs(i) {
-    const e = events[i];
-    const url = URL.createObjectURL(new Blob([icsFile(e, i)], { type: "text/calendar;charset=utf-8" }));
+    const url = URL.createObjectURL(new Blob([icsFile(events[i], i)], { type: "text/calendar;charset=utf-8" }));
     const a = document.createElement("a");
-    a.href = url; a.download = (e.name || "event").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + ".ics";
+    a.href = url; a.download = "wedding.ics";
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 5000);
   }
 
-  /* ---------- Graphics: flowers, Vel, peacock feather, lotus, mandala ---------- */
+  /* ---------- Graphics ---------- */
   function flower(id, outer, mid, inner, centre) {
     let s = '<symbol id="' + id + '" viewBox="0 0 24 24">';
     for (let a = 0; a < 10; a++) { const r = (a / 10) * Math.PI * 2; s += '<circle cx="' + (12 + 7.2 * Math.cos(r)).toFixed(2) + '" cy="' + (12 + 7.2 * Math.sin(r)).toFixed(2) + '" r="3.9" fill="' + outer + '"/>'; }
@@ -604,12 +772,17 @@ const WEDDING = {
   const velMark = () => use("vel", "vel-mark", "0 0 40 124");
   const watermark = () => use("mandala", "watermark", "-100 -100 200 200");
   const flourish = '<div class="flourish" aria-hidden="true"><span></span><svg viewBox="0 0 40 24"><use href="#lotus"/></svg><span></span></div>';
+  const svgI = (p) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + "</svg>";
   const icon = {
-    pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>',
-    cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
-    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/></svg>'
+    pin: svgI('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
+    cal: svgI('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
+    share: svgI('<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>'),
+    globe: svgI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>'),
+    chev: svgI('<path d="M6 9l6 6 6-6"/>').replace("<svg ", '<svg class="chev" ')
   };
-  const head = (kicker, title, id) => '<div class="sec-head"><p class="kicker"' + langAttr(kicker) + ">" + esc(kicker) + '</p><h2 id="' + id + '"' + langAttr(title) + ">" + esc(title) + "</h2>" + flourish + "</div>";
+  const head = (key, id) => '<div class="sec-head"><p class="kicker" lang="' + altLang() + '">' + esc(tIn(altLang(), key)) + '</p><h2 id="' + id + '">' + esc(t(key)) + "</h2>" + flourish + "</div>";
+  const picker = (cls) => '<label class="lang-pick ' + cls + '">' + icon.globe + '<span class="lp-name">' + esc(LANG_NAMES[lang]) + "</span>" + icon.chev +
+    '<select data-lang aria-label="' + esc(t("language")) + '">' + LANGS.map((c) => '<option value="' + c + '"' + (c === lang ? " selected" : "") + ' lang="' + c + '">' + LANG_NAMES[c] + "</option>").join("") + "</select></label>";
 
   const hills = '<svg class="hills" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
     '<path d="M0 220V96C40 80 90 68 120 64C150 68 190 86 240 104C340 130 440 122 540 116C640 110 700 96 780 92C880 88 960 110 1060 120C1120 126 1170 130 1200 132V220Z" fill="#6A0F1D"/>' +
@@ -640,67 +813,62 @@ const WEDDING = {
 
   /* ---------- Sections ---------- */
   function hero() {
-    const photo = W.couplePhoto;
+    const photo = W.couplePhoto, intro = tr(W.intro);
     return '<header class="hero' + (photo ? " has-couple" : "") + '" id="top">' + watermark() + hills +
       use("feather", "feather l", "0 0 60 170") + use("feather", "feather r", "0 0 60 170") +
       '<div class="garland" aria-hidden="true"><div class="rope"></div><div class="strands" id="strands"></div></div>' +
       '<div class="hero-inner"><div class="hero-text">' + velMark() +
         (W.introTa ? '<p class="hero-ta" lang="ta">' + esc(W.introTa) + "</p>" : "") +
-        (W.intro ? '<p class="hero-intro">' + esc(W.intro) + "</p>" : "") +
-        '<h1 class="names" id="names" tabindex="-1"><span>' + esc(A.name) + '</span><span class="amp">&amp;</span><span>' + esc(B.name) + "</span></h1>" +
-        '<p class="hero-date"><time class="d" datetime="' + main.toISOString() + '">' + longDate(main) + "</time>" +
-          (events.length === 1 ? '<span class="t">' + clock(startOf(events[0])) + " to " + clock(endOf(events[0])) + "</span>" : "") +
-          (W.city ? '<span class="p">' + esc(W.city) + "</span>" : "") + "</p>" +
+        (intro ? '<p class="hero-intro">' + esc(intro) + "</p>" : "") +
+        '<h1 class="names" id="names" tabindex="-1"><span>' + esc(tr(A.name)) + '</span><span class="amp">&amp;</span><span>' + esc(tr(B.name)) + "</span></h1>" +
+        '<p class="hero-date"><time class="d" datetime="' + main.toISOString() + '">' + esc(longDate(main)) + "</time>" +
+          (events.length === 1 ? '<span class="t">' + esc(timeRange(startOf(events[0]), endOf(events[0]))) + "</span>" : "") +
+          (W.city ? '<span class="p">' + esc(tr(W.city)) + "</span>" : "") + "</p>" +
         '<div id="countdown"></div></div>' +
-        (photo ? '<figure class="hero-couple"><img src="' + esc(photo) + '" alt="' + esc(A.name + " and " + B.name) + '" width="640" height="1240" fetchpriority="high"></figure>' : "") +
+        (photo ? '<figure class="hero-couple"><img src="' + esc(photo) + '" alt="' + esc(tr(A.name) + " & " + tr(B.name)) + '" width="640" height="1240" fetchpriority="high"></figure>' : "") +
       "</div></header>" + '<div class="zari" aria-hidden="true"></div>';
   }
 
-  function couple() {
-    const card = (p) => '<article class="pcard">' + use("lotus", "lotus", "0 0 40 24") +
-      (p.titleTa ? '<p class="pc-ta" lang="ta">' + esc(p.titleTa) + "</p>" : "") +
-      (p.title ? '<p class="pc-en">' + esc(p.title) + "</p>" : "") +
-      "<h3>" + esc(p.fullName || p.name) + "</h3>" +
-      (p.qualification ? '<p class="qual">' + esc(p.qualification) + "</p>" : "") +
-      (p.parents ? '<p class="parents">' + esc(p.parents) + (p.place ? '<span class="place">' + esc(p.place) + "</span>" : "") + "</p>" : "") +
-      "</article>";
-    return '<section class="section couple" aria-labelledby="couple-h"><div class="wrap reveal">' +
-      head("மணமக்கள்", "The couple", "couple-h") +
-      (W.message ? '<p class="message">' + esc(W.message) + "</p>" : "") +
-      '<div class="cards">' + card(A) + '<div class="medallion" aria-hidden="true">&amp;</div>' + card(B) + "</div></div></section>";
+  function letter() {
+    const msg = tr(W.message), S = W.signature || {};
+    if (!msg) return "";
+    return '<section class="section letter-sec" aria-labelledby="inv-h">' + watermark() + '<div class="wrap reveal">' + head("invitation", "inv-h") +
+      '<div class="ta-card"><p class="ta-text">' + esc(msg) + "</p>" +
+      (tr(S.names) ? '<p class="ta-sign">' + esc(tr(S.label) || "") + "<br><strong>" + esc(tr(S.names)) + "</strong>" + (tr(S.place) ? "<br>" + esc(tr(S.place)) : "") + "</p>" : "") +
+      "</div></div></section>";
   }
 
-  function tamilInvite() {
-    const T = W.tamil;
-    if (!T || !T.text) return "";
-    return '<section class="section tamil-sec" aria-labelledby="ta-h">' + watermark() + '<div class="wrap reveal">' +
-      head("Wedding invitation", T.heading || "திருமண அழைப்பிதழ்", "ta-h") +
-      '<div class="ta-card" lang="ta"><p class="ta-text">' + esc(T.text) + "</p>" +
-      (T.signature ? '<p class="ta-sign">' + esc(T.signatureLabel || "") + "<br><strong>" + esc(T.signature) + "</strong>" + (T.signaturePlace ? "<br>" + esc(T.signaturePlace) : "") + "</p>" : "") +
-      "</div></div></section>";
+  function couple() {
+    const card = (p, key) => '<article class="pcard">' + use("lotus", "lotus", "0 0 40 24") +
+      '<p class="pc-ta">' + esc(t(key)) + '</p><p class="pc-en" lang="' + altLang() + '">' + esc(tIn(altLang(), key)) + "</p>" +
+      "<h3>" + esc(tr(p.fullName) || tr(p.name)) + "</h3>" +
+      (p.qualification ? '<p class="qual">' + esc(tr(p.qualification)) + "</p>" : "") +
+      (tr(p.parents) ? '<p class="parents">' + esc(tr(p.parents)) + (tr(p.place) ? '<span class="place">' + esc(tr(p.place)) + "</span>" : "") + "</p>" : "") +
+      "</article>";
+    return '<section class="section couple" aria-labelledby="couple-h"><div class="wrap reveal">' + head("couple", "couple-h") +
+      '<div class="cards">' + card(A, "groom") + '<div class="medallion" aria-hidden="true">&amp;</div>' + card(B, "bride") + "</div></div></section>";
   }
 
   function story() {
     if (!W.story || !W.story.length) return "";
-    return '<section class="section story" aria-labelledby="story-h"><div class="wrap reveal">' + head("எங்கள் கதை", "Our story", "story-h") +
-      W.story.map((p) => "<p>" + esc(p) + "</p>").join("") + "</div></section>";
+    return '<section class="section story" aria-labelledby="story-h"><div class="wrap reveal">' + head("story", "story-h") +
+      W.story.map((p) => "<p>" + esc(tr(p)) + "</p>").join("") + "</div></section>";
   }
 
   function schedule() {
     if (!events.length) return "";
-    return '<section class="section events" id="events" aria-labelledby="events-h"><div class="wrap reveal">' +
-      head(W.eventsTitleTa || "நிகழ்ச்சிகள்", W.eventsTitle || "Celebrations", "events-h") + '<div class="events-list">' +
+    return '<section class="section events" id="events" aria-labelledby="events-h"><div class="wrap reveal">' + head("events", "events-h") + '<div class="events-list">' +
       events.map((e, i) => {
         const s = startOf(e), v = venueOf(e);
         return '<article class="event-card"><div class="zari" aria-hidden="true"></div>' +
-          '<div class="ec-date"><span class="ec-wd" lang="ta">' + taDay(s) + '</span><span class="ec-wd-en">' + dtf({ weekday: "long" }).format(s) + "</span>" +
-            '<span class="ec-day">' + dtf({ day: "numeric" }).format(s) + '</span><span class="ec-my">' + dtf({ month: "long", year: "numeric" }).format(s) + "</span></div>" +
-          "<h3>" + esc(e.name) + "</h3>" +
-          '<p class="ec-time">' + clock(s) + " to " + clock(endOf(e)) + "</p>" +
-          '<p class="ec-venue"><strong>' + esc(v.name) + "</strong>" + (v.address ? "<br><span>" + esc(v.address) + "</span>" : "") + "</p>" +
-          (e.note ? '<p class="ec-note"' + langAttr(e.note) + ">" + esc(e.note) + "</p>" : "") +
-          '<div class="ec-actions"><a class="btn btn-gold" href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + "Directions</a></div>" +
-          '<p class="cal"><span>Add to calendar</span><a href="' + esc(gcalLink(e)) + '" target="_blank" rel="noopener">Google</a><button type="button" data-ics="' + i + '">Apple / Outlook</button></p>' +
+          '<div class="ec-date"><span class="ec-wd">' + esc(weekday(s)) + '</span><span class="ec-wd-en" lang="' + altLang() + '">' + esc(weekday(s, altLang())) + "</span>" +
+            '<span class="ec-day">' + dtf({ day: "numeric" }, "en-IN").format(s) + '</span><span class="ec-my">' + esc(dtf({ month: "long", year: "numeric" }).format(s)) + "</span></div>" +
+          "<h3>" + esc(tr(e.name)) + "</h3>" +
+          '<p class="ec-time">' + esc(timeRange(s, endOf(e))) + "</p>" +
+          '<p class="ec-venue"><strong>' + esc(tr(v.name)) + "</strong>" + (v.address ? "<br><span>" + esc(tr(v.address)) + "</span>" : "") + "</p>" +
+          (e.note ? '<p class="ec-note">' + esc(tr(e.note)) + "</p>" : "") +
+          '<div class="ec-actions"><a class="btn btn-gold" href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + esc(t("directions")) + "</a></div>" +
+          '<p class="cal"><span>' + esc(t("addCal")) + '</span><a href="' + esc(gcalLink(e)) + '" target="_blank" rel="noopener">Google</a><button type="button" data-ics="' + i + '">Apple / Outlook</button></p>' +
           "</article>";
       }).join("") + "</div></div></section>";
   }
@@ -708,29 +876,26 @@ const WEDDING = {
   function venue() {
     const v = W.venue;
     if (!v || !v.name) return "";
-    return '<section class="section venue-sec" id="venue" aria-labelledby="venue-h"><div class="wrap reveal">' +
-      head("திருமண இடம்", "Venue", "venue-h") +
-      '<p class="venue-name">' + esc(v.name) + "</p>" + (v.address ? '<p class="venue-addr">' + esc(v.address) + "</p>" : "") +
-      '<div class="map-card"><iframe class="map" title="Map showing ' + esc(v.name) + '" src="' + esc(mapEmbed(v)) + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>' +
-      '<a class="btn btn-large" href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + "Open in Google Maps</a>" +
-      (v.notes ? '<p class="venue-notes">' + esc(v.notes) + "</p>" : "") + "</div></section>";
+    return '<section class="section venue-sec" id="venue" aria-labelledby="venue-h"><div class="wrap reveal">' + head("venue", "venue-h") +
+      '<p class="venue-name">' + esc(tr(v.name)) + "</p>" + (v.address ? '<p class="venue-addr">' + esc(tr(v.address)) + "</p>" : "") +
+      '<div class="map-card"><iframe class="map" title="' + esc(tr(v.name)) + '" src="' + esc(mapEmbed(v)) + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>' +
+      '<a class="btn btn-large" href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + esc(t("maps")) + "</a>" +
+      (v.notes ? '<p class="venue-notes">' + esc(tr(v.notes)) + "</p>" : "") + "</div></section>";
   }
 
   function welcome() {
     const V = W.welcome;
-    if (!V || !(V.tamil || V.english)) return "";
-    return '<section class="section welcome" aria-labelledby="wel-h">' + watermark() + '<div class="wrap reveal">' +
-      head("A warm welcome", V.heading || "அன்புடன் வரவேற்கிறோம்", "wel-h") +
-      (guest ? '<p class="wel-guest">Dear ' + esc(guest) + ",</p>" : "") +
-      (V.tamil ? '<p class="wel-ta" lang="ta">' + esc(V.tamil) + "</p>" : "") +
-      (V.english ? '<p class="wel-en">' + esc(V.english) + "</p>" : "") +
-      (V.closing ? '<p class="wel-close"' + langAttr(V.closing) + ">" + esc(V.closing) + "</p>" : "") + "</div></section>";
+    if (!V || !tr(V.text)) return "";
+    return '<section class="section welcome" aria-labelledby="wel-h">' + watermark() + '<div class="wrap reveal">' + head("welcome", "wel-h") +
+      (guest ? '<p class="wel-guest">' + esc(fill(t("dear"), { n: guest })) + "</p>" : "") +
+      '<p class="wel-ta">' + esc(tr(V.text)) + "</p>" +
+      (tr(V.closing) ? '<p class="wel-close">' + esc(tr(V.closing)) + "</p>" : "") + "</div></section>";
   }
 
   function gallery() {
     if (!W.photos || !W.photos.length) return "";
-    return '<section class="section gallery" aria-labelledby="gallery-h"><div class="wrap reveal" style="max-width:60rem">' + head("நினைவுகள்", "Moments", "gallery-h") + '<div class="grid">' +
-      W.photos.map((p) => { const src = typeof p === "string" ? p : p.src, alt = typeof p === "string" ? "Photo of " + pair : p.alt || ""; return '<img src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy">'; }).join("") +
+    return '<section class="section gallery" aria-labelledby="gallery-h"><div class="wrap reveal" style="max-width:60rem">' + head("moments", "gallery-h") + '<div class="grid">' +
+      W.photos.map((p) => { const src = typeof p === "string" ? p : p.src; return '<img src="' + esc(src) + '" alt="' + esc(pair()) + '" loading="lazy">'; }).join("") +
       "</div></div></section>";
   }
 
@@ -740,7 +905,7 @@ const WEDDING = {
     if (!waNumber && !R.formUrl) return "";
     const deadline = R.deadline ? '<p class="lead">Please reply by ' + longDate(new Date(R.deadline + "T12:00:00Z")) + ".</p>" : "";
     let body;
-    if (!waNumber) body = '<p style="text-align:center"><a class="btn btn-large" href="' + esc(R.formUrl) + '" target="_blank" rel="noopener">Open the RSVP form</a></p>';
+    if (!waNumber) body = '<p style="text-align:center"><a class="btn btn-large" href="' + esc(R.formUrl) + '" target="_blank" rel="noopener">RSVP</a></p>';
     else {
       const max = Math.max(1, Math.min(30, Number(R.maxGuests) || 10));
       body = '<form class="rsvp-form" id="rsvp-form" novalidate>' +
@@ -748,68 +913,62 @@ const WEDDING = {
         '<fieldset class="field"><legend>Can you come?</legend><label class="choice"><input type="radio" name="attend" value="yes" checked> Yes, I\'ll be there</label>' +
         '<label class="choice"><input type="radio" name="attend" value="no"> Sorry, I can\'t make it</label></fieldset>' +
         '<div class="if-yes" id="if-yes"><div class="field"><label for="r-guests">Number of guests, including you</label><select id="r-guests" name="guests">' +
-        Array.from({ length: max }, (_, i) => "<option>" + (i + 1) + "</option>").join("") + "</select></div>" +
-        (events.length > 1 ? '<fieldset class="field"><legend>Which events will you attend?</legend>' + events.map((e) => '<label class="choice"><input type="checkbox" name="events" value="' + esc(e.name) + '" checked> ' + esc(e.name) + "</label>").join("") + "</fieldset>" : "") +
-        '</div><div class="field"><label for="r-msg">Message for the couple <span class="opt">(optional)</span></label><textarea id="r-msg" name="message" rows="3"></textarea></div>' +
-        '<p class="form-error" id="r-err" role="alert"></p><button class="btn btn-large" type="submit">Send RSVP on WhatsApp</button>' +
-        '<p class="hint">This opens WhatsApp with your reply ready to send.</p></form>';
+        Array.from({ length: max }, (_, i) => "<option>" + (i + 1) + "</option>").join("") + "</select></div></div>" +
+        '<div class="field"><label for="r-msg">Message for the couple <span class="opt">(optional)</span></label><textarea id="r-msg" name="message" rows="3"></textarea></div>' +
+        '<p class="form-error" id="r-err" role="alert"></p><button class="btn btn-large" type="submit">Send RSVP on WhatsApp</button></form>';
     }
-    return '<section class="section rsvp" id="rsvp" aria-labelledby="rsvp-h"><div class="wrap reveal">' + head("வருகை", "Will you join us?", "rsvp-h") + deadline + body + "</div></section>";
+    return '<section class="section rsvp" id="rsvp" aria-labelledby="rsvp-h"><div class="wrap reveal">' + head("rsvp", "rsvp-h") + deadline + body + "</div></section>";
   }
 
   function footer() {
     const people = (W.contacts || []).filter((c) => c && c.phone);
     return '<footer class="footer"><div class="zari flip" aria-hidden="true"></div>' + velMark() +
-      '<p class="footer-names">' + esc(A.name) + " <span>&amp;</span> " + esc(B.name) + "</p>" +
+      '<p class="footer-names">' + esc(tr(A.name)) + " <span>&amp;</span> " + esc(tr(B.name)) + "</p>" +
       (W.hashtag ? '<p class="hashtag">' + esc(W.hashtag) + "</p>" : "") +
-      (W.closing ? '<p class="closing">' + esc(W.closing) + "</p>" : "") +
-      (people.length ? '<div class="contacts"><p>For anything you need, call</p><ul>' + people.map((c) => "<li>" + esc(c.name) + ': <a href="tel:' + esc(String(c.phone).replace(/[^\d+]/g, "")) + '">' + esc(c.phone) + "</a></li>").join("") + "</ul></div>" : "") +
-      '<button type="button" class="btn btn-gold" data-share>' + icon.share + "Share this invitation</button></footer>";
+      (tr(W.closing) ? '<p class="closing">' + esc(tr(W.closing)) + "</p>" : "") +
+      (people.length ? '<div class="contacts"><ul>' + people.map((c) => "<li>" + esc(tr(c.name)) + ': <a href="tel:' + esc(String(c.phone).replace(/[^\d+]/g, "")) + '">' + esc(c.phone) + "</a></li>").join("") + "</ul></div>" : "") +
+      '<button type="button" class="btn btn-gold" data-share>' + icon.share + esc(t("shareInvite")) + "</button></footer>";
   }
 
-  function cover() {
-    return '<div class="cover" id="cover" role="dialog" aria-modal="true" aria-labelledby="cover-names">' +
-      '<div class="rope" aria-hidden="true"></div><div class="cover-inner">' +
+  function coverInner() {
+    return picker("on-cover") +
       (W.deityPhoto ? '<figure class="deity"><img src="' + esc(W.deityPhoto) + '" alt="Lord Murugan" width="540" height="892" fetchpriority="high"></figure>' : velMark()) +
-      '<p class="cover-ta" lang="ta">திருமண அழைப்பிதழ்</p>' +
-      (guest ? '<p class="cover-greet">Dear ' + esc(guest) + ',</p><p class="cover-line">you\'re invited to the wedding of</p>' : '<p class="cover-line">You\'re invited to the wedding of</p>') +
-      '<p class="cover-names" id="cover-names">' + esc(A.name) + " <span>&amp;</span> " + esc(B.name) + "</p>" +
-      '<p class="cover-date">' + longDate(main) + "</p>" +
-      '<button type="button" class="btn btn-gold btn-large btn-shine" id="open-invite">Open invitation</button>' +
-      '</div><div class="zari" aria-hidden="true"></div></div>';
+      '<p class="cover-ta">' + esc(t("invitation")) + "</p>" +
+      (guest ? '<p class="cover-greet">' + esc(fill(t("dear"), { n: guest })) + "</p>" : "") +
+      '<p class="cover-line">' + esc(t("invited")) + "</p>" +
+      '<p class="cover-names" id="cover-names">' + esc(tr(A.name)) + " <span>&amp;</span> " + esc(tr(B.name)) + "</p>" +
+      '<p class="cover-date">' + esc(longDate(main)) + "</p>" +
+      '<button type="button" class="btn btn-gold btn-large btn-shine" id="open-invite">' + esc(t("open")) + "</button>";
   }
 
-  function dock() {
+  function dockInner() {
     const v = events[0] ? venueOf(events[0]) : W.venue || {};
-    return '<nav class="dock" id="dock" aria-label="Quick actions">' +
-      (v.name ? '<a href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + "Directions</a>" : "") +
-      (events.length ? '<button type="button" data-save>' + icon.cal + "Save date</button>" : "") +
-      '<button type="button" data-share>' + icon.share + "Share</button></nav>";
+    return (v.name ? '<a href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + "<span>" + esc(t("dirShort")) + "</span></a>" : "") +
+      (events.length ? '<button type="button" data-save>' + icon.cal + "<span>" + esc(t("saveDate")) + "</span></button>" : "") +
+      '<button type="button" data-share>' + icon.share + "<span>" + esc(t("share")) + "</span></button>" + picker("in-dock");
   }
 
   /* ---------- Countdown ---------- */
+  let cdTimer = null;
   function startCountdown() {
+    clearTimeout(cdTimer);
     const box = $("#countdown");
     if (!box) return;
     const endAll = events.length ? Math.max.apply(null, events.map((e) => endOf(e).getTime())) : main.getTime() + 3 * 3600e3;
     const pad = (n) => String(n).padStart(2, "0");
+    const labels = t("cd");
     let built = false;
-    function tick() {
+    (function tick() {
       const ms = main.getTime() - Date.now();
-      if (ms <= 0) {
-        box.innerHTML = '<p class="cd-done">' + (Date.now() < endAll ? "The wedding is happening now" : "Thank you for celebrating with us") + "</p>";
-        return;
-      }
-      const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60, s = Math.floor(ms / 1e3) % 60;
+      if (ms <= 0) { box.innerHTML = '<p class="cd-done">' + esc(Date.now() < endAll ? t("now") : t("thanks")) + "</p>"; return; }
+      const v = [Math.floor(ms / 864e5), Math.floor(ms / 36e5) % 24, Math.floor(ms / 6e4) % 60, Math.floor(ms / 1e3) % 60];
       if (!built) {
-        box.innerHTML = '<div class="countdown" role="timer" aria-label="Time until the wedding">' +
-          [["d", "days"], ["h", "hours"], ["m", "mins"], ["s", "secs"]].map(([k, l]) => '<div class="cd"><b id="cd-' + k + '">00</b><span>' + l + "</span></div>").join("") + "</div>";
+        box.innerHTML = '<div class="countdown" role="timer">' + labels.map((l, i) => '<div class="cd"><b data-cd="' + i + '">00</b><span>' + esc(l) + "</span></div>").join("") + "</div>";
         built = true;
       }
-      $("#cd-d").textContent = pad(d); $("#cd-h").textContent = pad(h); $("#cd-m").textContent = pad(m); $("#cd-s").textContent = pad(s);
-      setTimeout(tick, 1000 - (Date.now() % 1000));
-    }
-    tick();
+      box.querySelectorAll("[data-cd]").forEach((b, i) => { b.textContent = pad(v[i]); });
+      cdTimer = setTimeout(tick, 1000 - (Date.now() % 1000));
+    })();
   }
 
   /* ---------- 3D effects (Three.js, loaded after the page shows) ---------- */
@@ -817,23 +976,21 @@ const WEDDING = {
   let fxPromise = null;
   const loadFx = () => fxPromise || (fxPromise = (reduceMotion || !webgl || !W.effects3d) ? Promise.reject(new Error("3D off")) : import(new URL(W.effects3d, document.baseURI).href));
   let emberFx = null;
-
   function flatPetals() {
     if (reduceMotion) return;
     const c = document.createElement("canvas"); c.className = "petals"; document.body.appendChild(c);
     const g = c.getContext("2d"), dpr = Math.min(devicePixelRatio || 1, 2);
-    const size = () => { c.width = innerWidth * dpr; c.height = innerHeight * dpr; };
-    size();
+    c.width = innerWidth * dpr; c.height = innerHeight * dpr;
     const cols = ["#F28C1E", "#F6B416", "#E8467A", "#FFF4E6", "#C8102E"];
     const P = Array.from({ length: innerWidth < 700 ? 40 : 70 }, () => ({ x: Math.random() * innerWidth, y: -Math.random() * innerHeight, r: 5 + Math.random() * 6, v: 60 + Math.random() * 80, a: Math.random() * 6, s: (Math.random() - .5) * 4, c: cols[(Math.random() * cols.length) | 0] }));
     const t0 = performance.now(); let last = t0;
-    (function f(t) {
-      const dt = (t - last) / 1000; last = t;
+    (function f(now) {
+      const dt = (now - last) / 1000; last = now;
       g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, innerWidth, innerHeight);
       let alive = 0;
       P.forEach((p) => {
-        p.y += p.v * dt; p.x += Math.sin(t / 600 + p.a) * 20 * dt; p.a += p.s * dt;
-        if (p.y > innerHeight + 20) { if (t - t0 < 6000) { p.y = -20; p.x = Math.random() * innerWidth; } else return; }
+        p.y += p.v * dt; p.x += Math.sin(now / 600 + p.a) * 20 * dt; p.a += p.s * dt;
+        if (p.y > innerHeight + 20) { if (now - t0 < 6000) { p.y = -20; p.x = Math.random() * innerWidth; } else return; }
         alive++;
         g.save(); g.translate(p.x, p.y); g.rotate(p.a); g.scale(1, Math.abs(Math.cos(p.a)) * .7 + .3);
         g.fillStyle = p.c; g.beginPath(); g.ellipse(0, 0, p.r * .6, p.r, 0, 0, Math.PI * 2); g.fill(); g.restore();
@@ -859,13 +1016,8 @@ const WEDDING = {
   function play() { if (audio) audio.play().then(() => musicBtn.setAttribute("aria-pressed", "true")).catch(() => {}); }
   function pause() { if (audio) { audio.pause(); musicBtn.setAttribute("aria-pressed", "false"); } }
 
-  /* ---------- Build ---------- */
-  $("#app").innerHTML = hero() + couple() + tamilInvite() + story() + schedule() + venue() + welcome() + gallery() + rsvp() + footer();
-  document.body.insertAdjacentHTML("beforeend", dock());
-  renderStrands();
-  startCountdown();
-  setupMusic();
-
+  /* ---------- Render ---------- */
+  let firstRender = true, revealIO = null;
   function fitNames() {
     const h = $("#names");
     if (!h) return;
@@ -874,89 +1026,113 @@ const WEDDING = {
     const widest = Math.max.apply(null, Array.from(h.children).map((el) => el.getBoundingClientRect().width));
     if (widest > room) h.style.fontSize = (parseFloat(getComputedStyle(h).fontSize) * room / widest * 0.97) + "px";
   }
-  fitNames();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
+  function render() {
+    document.documentElement.lang = lang;
+    document.documentElement.dataset.lang = lang;
+    $("#app").innerHTML = hero() + letter() + couple() + story() + schedule() + venue() + welcome() + gallery() + rsvp() + footer();
+    $("#dock").innerHTML = dockInner();
+    const ci = $("#cover .cover-inner");
+    if (ci) ci.innerHTML = coverInner();
+    renderStrands();
+    startCountdown();
+    fitNames();
+    requestAnimationFrame(() => { if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames); });
+    setTimeout(fitNames, 700);
+    if (emberFx && !$("#cover")) emberFx.moveTo($("#top"));
+    const reveals = document.querySelectorAll(".reveal");
+    if (firstRender && "IntersectionObserver" in window && !reduceMotion) {
+      revealIO = new IntersectionObserver((list) => list.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); revealIO.unobserve(en.target); } }), { threshold: 0.12 });
+      reveals.forEach((el) => revealIO.observe(el));
+    } else reveals.forEach((el) => el.classList.add("in"));
+    firstRender = false;
+  }
+  function setLang(code) {
+    if (!UI[code] || code === lang) return;
+    lang = code;
+    store.set("wedding-lang", code);
+    const p = new URLSearchParams(location.search);
+    p.set("lang", code);
+    try { history.replaceState(null, "", location.pathname + "?" + p.toString() + location.hash); } catch (e) {}
+    const y = window.scrollY;
+    render();
+    window.scrollTo(0, y);
+  }
+
+  /* ---------- Build ---------- */
+  document.body.insertAdjacentHTML("beforeend", '<nav class="dock" id="dock" aria-label="Quick actions"></nav>');
+  const showCover = W.showCover !== false;
+  if (showCover) {
+    document.body.insertAdjacentHTML("beforeend", '<div class="cover" id="cover" role="dialog" aria-modal="true" aria-labelledby="cover-names">' +
+      '<div class="rope" aria-hidden="true"></div><div class="cover-inner"></div><div class="zari" aria-hidden="true"></div></div>');
+    document.body.classList.add("locked");
+    window.scrollTo(0, 0);
+  }
+  render();
+  setupMusic();
   let resizeTimer;
   window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { renderStrands(); fitNames(); }, 150); });
 
-  // Gentle reveal as each section scrolls into view
-  const reveals = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window && !reduceMotion) {
-    const io = new IntersectionObserver((list) => list.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } }), { threshold: 0.12 });
-    reveals.forEach((el) => io.observe(el));
-  } else reveals.forEach((el) => el.classList.add("in"));
-
-  // Quick-action bar appears once the first screen is scrolled past
-  const dockEl = $("#dock"), heroEl = $("#top");
-  if (dockEl && heroEl && "IntersectionObserver" in window) {
-    new IntersectionObserver((en) => dockEl.classList.toggle("show", !en[0].isIntersecting && !$("#cover")), { threshold: 0.15 }).observe(heroEl);
-  }
-
+  // The quick-action bar appears once the guest starts scrolling, so it never covers the countdown
+  const dockToggle = () => { const d = $("#dock"); if (d) d.classList.toggle("show", !$("#cover") && window.scrollY > innerHeight * 0.45); };
+  window.addEventListener("scroll", dockToggle, { passive: true });
   function reveal() {
     document.body.classList.add("is-open");
     setTimeout(() => document.body.classList.add("settled"), 3200);
     showerPetals();
-    loadFx().then((fx) => { if (emberFx) emberFx.moveTo(heroEl); else emberFx = fx.embers(heroEl); }).catch(() => {});
+    loadFx().then((fx) => { if (emberFx) emberFx.moveTo($("#top")); else emberFx = fx.embers($("#top")); }).catch(() => {});
   }
-
-  if (W.showCover !== false) {
-    document.body.insertAdjacentHTML("beforeend", cover());
-    document.body.classList.add("locked");
-    window.scrollTo(0, 0);
+  function openInvite() {
+    const c = $("#cover");
+    if (!c || c.classList.contains("leaving")) return;
+    c.classList.add("leaving");
+    document.body.classList.remove("locked");
+    const done = () => { if (c.isConnected) { c.remove(); if (emberFx) emberFx.moveTo($("#top")); } };
+    c.addEventListener("transitionend", done, { once: true });
+    setTimeout(done, 1300);
+    reveal();
+    $("#names").focus({ preventScroll: true });
+    play();
+  }
+  if (showCover) {
     loadFx().then((fx) => { if (!emberFx && $("#cover")) emberFx = fx.embers($("#cover")); }).catch(() => {});
-    const btn = $("#open-invite");
-    btn.focus({ preventScroll: true });
-    btn.addEventListener("click", () => {
-      const c = $("#cover");
-      c.classList.add("leaving");
-      document.body.classList.remove("locked");
-      const done = () => { if (c.isConnected) { if (emberFx) emberFx.moveTo(heroEl); c.remove(); } };
-      c.addEventListener("transitionend", done, { once: true });
-      setTimeout(done, 1300);
-      reveal();
-      $("#names").focus({ preventScroll: true });
-      play();
-    });
-  } else {
-    requestAnimationFrame(() => requestAnimationFrame(reveal));
-  }
+    $("#open-invite").focus({ preventScroll: true });
+  } else requestAnimationFrame(() => requestAnimationFrame(reveal));
 
   /* ---------- Interactions ---------- */
   const isApple = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
   async function share() {
-    const text = "You're invited to " + pair + "'s wedding on " + longDate(main) + ".";
-    if (navigator.share) { try { await navigator.share({ title: document.title, text: text, url: pageUrl() }); } catch (e) {} return; }
-    window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + pageUrl()), "_blank", "noopener");
+    const text = fill(t("shareText"), { p: pair(), d: longDate(main) });
+    if (navigator.share) { try { await navigator.share({ title: document.title, text: text, url: shareUrl() }); } catch (e) {} return; }
+    window.open("https://wa.me/?text=" + encodeURIComponent(text + " " + shareUrl()), "_blank", "noopener");
   }
+  document.addEventListener("change", (ev) => { if (ev.target.matches("select[data-lang]")) setLang(ev.target.value); });
   document.addEventListener("click", (ev) => {
-    const t = ev.target.closest("[data-ics],[data-share],[data-save]");
-    if (!t) return;
-    if (t.hasAttribute("data-ics")) downloadIcs(Number(t.dataset.ics));
-    else if (t.hasAttribute("data-share")) share();
+    if (ev.target.closest("#open-invite")) { openInvite(); return; }
+    const el = ev.target.closest("[data-ics],[data-share],[data-save]");
+    if (!el) return;
+    if (el.hasAttribute("data-ics")) downloadIcs(Number(el.dataset.ics));
+    else if (el.hasAttribute("data-share")) share();
     else if (isApple) downloadIcs(0);
     else window.open(gcalLink(events[0]), "_blank", "noopener");
   });
-
-  const form = $("#rsvp-form");
-  if (form) {
-    const err = $("#r-err"), ifYes = $("#if-yes");
-    form.addEventListener("change", () => { ifYes.hidden = form.elements.attend.value !== "yes"; });
-    form.addEventListener("submit", (ev) => {
-      ev.preventDefault();
-      const fd = new FormData(form);
-      const name = String(fd.get("name") || "").trim();
-      if (!name) { err.textContent = "Enter your name so the family knows who's replying."; $("#r-name").focus(); return; }
-      const yes = fd.get("attend") === "yes";
-      const lines = ["RSVP for " + pair + "'s wedding", "Name: " + name, "Attending: " + (yes ? "Yes" : "No")];
-      if (yes) { lines.push("Guests: " + fd.get("guests")); if (events.length > 1) { const c = fd.getAll("events"); lines.push("Events: " + (c.length ? c.join(", ") : "None selected")); } }
-      const note = String(fd.get("message") || "").trim();
-      if (note) lines.push("Message: " + note);
-      err.textContent = "";
-      const a = document.createElement("a");
-      a.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(lines.join("\n")); a.target = "_blank"; a.rel = "noopener";
-      document.body.appendChild(a); a.click(); a.remove();
-    });
-  }
+  document.addEventListener("submit", (ev) => {
+    const form = ev.target;
+    if (form.id !== "rsvp-form") return;
+    ev.preventDefault();
+    const fd = new FormData(form), err = $("#r-err");
+    const name = String(fd.get("name") || "").trim();
+    if (!name) { err.textContent = "Enter your name so the family knows who's replying."; $("#r-name").focus(); return; }
+    const yes = fd.get("attend") === "yes";
+    const lines = ["RSVP: " + pair(), "Name: " + name, "Attending: " + (yes ? "Yes" : "No")];
+    if (yes) lines.push("Guests: " + fd.get("guests"));
+    const note = String(fd.get("message") || "").trim();
+    if (note) lines.push("Message: " + note);
+    err.textContent = "";
+    const a = document.createElement("a");
+    a.href = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(lines.join("\n")); a.target = "_blank"; a.rel = "noopener";
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+  document.addEventListener("change", (ev) => { if (ev.target.name === "attend") { const y = $("#if-yes"); if (y) y.hidden = ev.target.value !== "yes"; } });
 })();
 </script>
 </body>
