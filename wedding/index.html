@@ -309,8 +309,21 @@
     transition: transform .9s cubic-bezier(.7, 0, .2, 1);
   }
   .cover.leaving { transform: translateY(-100%); }
+  .cover { overflow-y: auto; }
+  .cover > .rope { flex: none; }
   .cover-inner { margin: auto; padding: 2rem 1.5rem; max-width: 30rem; }
   .cover .vel-mark { width: 26px; height: 80px; margin-bottom: 1.2rem; }
+  .deity { margin: 0 auto 1.4rem; width: fit-content; position: relative; }
+  .deity::before {
+    content: ""; position: absolute; inset: -18% -30%; z-index: -1;
+    background: radial-gradient(closest-side, rgba(255, 200, 100, .35), transparent 75%);
+  }
+  .deity img {
+    display: block; height: min(36vh, 380px); width: auto; aspect-ratio: 540 / 892;
+    border-radius: 999px 999px 14px 14px; border: 2px solid var(--gold);
+    box-shadow: 0 0 0 5px rgba(232, 181, 76, .18), 0 14px 34px rgba(20, 0, 4, .5);
+  }
+  .cover-inner { position: relative; z-index: 0; }
   .cover-greet { font-family: var(--display); font-size: clamp(1.6rem, 7vw, 2.1rem); color: var(--gold); line-height: 1.2; }
   .cover-line { margin-top: .4rem; font-size: 1.15rem; opacity: .9; }
   .cover-names { font-family: var(--display); font-size: clamp(2.8rem, 13vw, 4.4rem); line-height: 1.05; margin: .9rem 0 .6rem; }
@@ -443,6 +456,7 @@ const WEDDING = {
   story: [],                    // e.g. ["First paragraph...", "Second paragraph..."]
   music: "",                    // e.g. "nadaswaram.mp3" (plays after the guest opens the invitation)
 
+  deityPhoto: "murugan.webp",   // Lord Murugan, shown on the opening screen
   showCover: true               // the "Open invitation" screen
 };
 </script>
@@ -759,7 +773,8 @@ const WEDDING = {
 
   function cover() {
     return '<div class="cover" id="cover" role="dialog" aria-modal="true" aria-labelledby="cover-names">' +
-      '<div class="rope" aria-hidden="true"></div><div class="cover-inner">' + velMark() +
+      '<div class="rope" aria-hidden="true"></div><div class="cover-inner">' +
+      (W.deityPhoto ? '<figure class="deity"><img src="' + esc(W.deityPhoto) + '" alt="Lord Murugan" width="540" height="892" fetchpriority="high"></figure>' : velMark()) +
       (guest ? '<p class="cover-greet">Dear ' + esc(guest) + ',</p><p class="cover-line">you\'re invited to the wedding of</p>'
              : '<p class="cover-line">You\'re invited to the wedding of</p>') +
       '<p class="cover-names" id="cover-names">' + esc(A.name) + " <span>&amp;</span> " + esc(B.name) + "</p>" +
