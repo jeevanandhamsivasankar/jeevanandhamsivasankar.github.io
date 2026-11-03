@@ -136,7 +136,7 @@
       radial-gradient(130% 85% at 50% 40%, #A51D30 0%, #7E1121 45%, var(--maroon-deep) 100%);
   }
   .hero.has-couple { padding-bottom: 0; align-content: end; }
-  .hero > .watermark { top: 34%; width: min(760px, 170vw); opacity: .09; }
+  .hero > .watermark { top: 34%; width: min(760px, 170vw); opacity: .07; }
   .hero-inner { position: relative; z-index: 3; width: 100%; max-width: 66rem; }
   .hero-ta { font-family: var(--tamil); font-weight: 600; color: var(--gold); font-size: 1.1rem; }
   .hero-intro { font-size: .98rem; opacity: .8; margin-top: .1rem; }
@@ -609,7 +609,12 @@ const WEDDING = {
   // "photos coming soon" note. Example (cover and count are optional):
   //   { title: { en: "Wedding ceremony", ta: "திருமண விழா" },
   //     link: "https://photos.app.goo.gl/xxxx", cover: "album-cover.jpg", count: 250 },
-  albums: [],
+  albums: [
+    {
+      title: { en: "Wedding photos", ta: "திருமணப் புகைப்படங்கள்", hi: "विवाह की तस्वीरें", ml: "വിവാഹ ഫോട്ടോകൾ", kn: "ವಿವಾಹದ ಫೋಟೋಗಳು", te: "వివాహ ఫోటోలు" },
+      link: "https://photos.icloud.com/shared/album/079gF73vyFAdrmLaEwQfsIPHA"
+    }
+  ],
 
   rsvp: {
     // WhatsApp number that receives replies, with country code, digits only: "919xxxxxxxxx"
@@ -813,7 +818,7 @@ const WEDDING = {
 
   const use = (id, cls, vb) => '<svg class="' + cls + '" viewBox="' + vb + '" aria-hidden="true"><use href="#' + id + '"/></svg>';
   const velMark = () => use("vel", "vel-mark", "0 0 40 124");
-  const watermark = () => use("mandala", "watermark", "-100 -100 200 200");
+  const watermark = () => use("mandala", "watermark", "0 0 200 200");
   const flourish = '<div class="flourish" aria-hidden="true"><span></span><svg viewBox="0 0 40 24"><use href="#lotus"/></svg><span></span></div>';
   const svgI = (p) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + p + "</svg>";
   const icon = {
@@ -939,7 +944,7 @@ const WEDDING = {
 
   function albums() {
     const list = (W.albums || []).filter((a) => a && a.link);
-    const source = (u) => (/photos\.(app\.goo\.gl|google\.com)/.test(u) ? "Google Photos" : /drive\.google\.com/.test(u) ? "Google Drive" : "");
+    const source = (u) => (/photos\.(app\.goo\.gl|google\.com)/.test(u) ? "Google Photos" : /drive\.google\.com/.test(u) ? "Google Drive" : /icloud\.com/.test(u) ? "iCloud" : "");
     const body = list.length
       ? '<div class="album-grid">' + list.map((a) => {
           const title = tr(a.title) || t("albums");
