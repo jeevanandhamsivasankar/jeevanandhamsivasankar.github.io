@@ -343,6 +343,26 @@
   .album-tip { margin-top: 1.4rem; color: var(--muted); font-size: .98rem; text-wrap: balance; }
   @media (min-width: 760px) { .albums-sec .wrap { max-width: 58rem; } }
 
+  /* Contact */
+  .contact-sec { text-align: center; background: linear-gradient(180deg, transparent, rgba(255, 242, 214, .8)); }
+  .contact-lead { color: var(--muted); max-width: 34ch; margin: -1rem auto 1.75rem; text-wrap: balance; }
+  .contact-list { display: grid; gap: 1rem; }
+  .contact-card {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .9rem 1rem;
+    background: #fff; border: 1.5px solid var(--gold); border-radius: 20px; padding: 1rem 1.1rem; text-align: left;
+    box-shadow: 0 16px 32px -24px rgba(94, 11, 23, .55);
+  }
+  .cc-who { display: flex; align-items: center; gap: .8rem; }
+  .cc-who > span:last-child { display: grid; }
+  .cc-icon { width: 46px; height: 46px; flex: none; border-radius: 50%; display: grid; place-items: center; background: var(--gold-grad); color: #3A1A00; }
+  .cc-icon svg { width: 22px; height: 22px; }
+  .cc-name { font-size: .95rem; color: var(--muted); }
+  .cc-num { font-family: "Rozha One", Georgia, serif; font-size: 1.4rem; color: var(--maroon); white-space: nowrap; }
+  .cc-actions { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .btn-small { min-height: 42px; padding: .4rem .95rem; font-size: .95rem; }
+  .btn-line { background: #fff; color: var(--kumkum); }
+  @media (min-width: 760px) { .contact-sec .wrap { max-width: 46rem; } }
+
   /* Gallery, story */
   .grid { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 16px; border: 1.5px solid var(--gold); }
@@ -626,9 +646,12 @@ const WEDDING = {
     maxGuests: 10
   },
 
-  // People guests can call. Example:
-  // contacts: [ { name: "V. Siva Sankaran", phone: "+91 9xxxx xxxxx" } ],
-  contacts: [],
+  // Numbers guests can call or WhatsApp for help. A name is optional, e.g.
+  //   { name: { en: "Jeeva", ta: "ஜீவா" }, phone: "+91 81110 10315" }
+  contacts: [
+    { name: "", phone: "+91 81110 10315" },
+    { name: "", phone: "+91 86086 11510" }
+  ],
 
   hashtag: "",                  // e.g. "#GaneshWedsPavithra"
   closing: {
@@ -667,37 +690,43 @@ const WEDDING = {
           directions: "Directions", dirShort: "Directions", maps: "Open in Google Maps", addCal: "Add to calendar", saveDate: "Save date", share: "Share", shareInvite: "Share this invitation",
           cd: ["days", "hours", "mins", "secs"], now: "The wedding is happening now", thanks: "Thank you for celebrating with us",
           shareText: "You're invited to {p}'s wedding on {d}.", rsvp: "Will you join us?",
-          albums: "Photo albums", albumsEmpty: "Wedding photos will be shared here after the ceremony. Come back to view and download them.", viewDl: "View & download", photosN: "{n} photos", albumTip: "Open an album and use its download button to save photos to your phone." },
+          albums: "Photo albums", albumsEmpty: "Wedding photos will be shared here after the ceremony. Come back to view and download them.", viewDl: "View & download", photosN: "{n} photos", albumTip: "Open an album and use its download button to save photos to your phone.",
+          help: "Need any help?", helpText: "For directions, timings or anything else, call or WhatsApp us.", call: "Call", callShort: "Call" },
     ta: { language: "மொழி", invitation: "திருமண அழைப்பிதழ்", invited: "உங்களை அன்புடன் அழைக்கிறோம்", dear: "அன்புள்ள {n},", open: "அழைப்பிதழைத் திறக்கவும்",
           couple: "மணமக்கள்", groom: "மணமகன்", bride: "மணமகள்", events: "முகூர்த்த நேரம்", venue: "திருமண இடம்", welcome: "அன்புடன் வரவேற்கிறோம்", story: "எங்கள் கதை", moments: "நினைவுகள்",
           directions: "வழி காட்டு", dirShort: "வழி", maps: "Google Maps-இல் திறக்கவும்", addCal: "நாட்காட்டியில் சேர்க்க", saveDate: "நாட்காட்டி", share: "பகிர்", shareInvite: "அழைப்பிதழைப் பகிரவும்",
           cd: ["நாள்", "மணி", "நிமிடம்", "விநாடி"], now: "திருமணம் இப்போது நடைபெறுகிறது", thanks: "எங்களுடன் கொண்டாடியதற்கு நன்றி",
           shareText: "{d} அன்று நடைபெறும் {p} திருமணத்திற்கு உங்களை அன்புடன் அழைக்கிறோம்.", rsvp: "வருகையை உறுதிசெய்யவும்",
-          albums: "புகைப்பட ஆல்பங்கள்", albumsEmpty: "திருமணப் புகைப்படங்கள் விழாவுக்குப் பிறகு இங்கே பகிரப்படும். பார்த்துப் பதிவிறக்க மீண்டும் வாருங்கள்.", viewDl: "பார்க்க & பதிவிறக்க", photosN: "{n} புகைப்படங்கள்", albumTip: "ஆல்பத்தைத் திறந்து, அதன் பதிவிறக்க பொத்தானைத் தொட்டு புகைப்படங்களை உங்கள் போனில் சேமிக்கலாம்." },
+          albums: "புகைப்பட ஆல்பங்கள்", albumsEmpty: "திருமணப் புகைப்படங்கள் விழாவுக்குப் பிறகு இங்கே பகிரப்படும். பார்த்துப் பதிவிறக்க மீண்டும் வாருங்கள்.", viewDl: "பார்க்க & பதிவிறக்க", photosN: "{n} புகைப்படங்கள்", albumTip: "ஆல்பத்தைத் திறந்து, அதன் பதிவிறக்க பொத்தானைத் தொட்டு புகைப்படங்களை உங்கள் போனில் சேமிக்கலாம்.",
+          help: "உதவி தேவையா?", helpText: "வழி, நேரம் அல்லது வேறு எந்த உதவிக்கும் எங்களை அழைக்கவும் அல்லது WhatsApp செய்யவும்.", call: "அழைக்க", callShort: "அழை" },
     hi: { language: "भाषा", invitation: "विवाह निमंत्रण", invited: "आप सादर आमंत्रित हैं", dear: "प्रिय {n},", open: "निमंत्रण खोलें",
           couple: "वर-वधू", groom: "वर", bride: "वधू", events: "शुभ मुहूर्त", venue: "विवाह स्थल", welcome: "हार्दिक स्वागत", story: "हमारी कहानी", moments: "यादें",
           directions: "रास्ता देखें", dirShort: "रास्ता", maps: "Google Maps में खोलें", addCal: "कैलेंडर में जोड़ें", saveDate: "कैलेंडर", share: "शेयर", shareInvite: "यह निमंत्रण शेयर करें",
           cd: ["दिन", "घंटे", "मिनट", "सेकंड"], now: "विवाह अभी हो रहा है", thanks: "हमारे साथ खुशियाँ मनाने के लिए धन्यवाद",
           shareText: "{d} को {p} के विवाह में आप सादर आमंत्रित हैं।", rsvp: "क्या आप आएँगे?",
-          albums: "फ़ोटो एल्बम", albumsEmpty: "विवाह की तस्वीरें समारोह के बाद यहाँ साझा की जाएँगी। देखने और डाउनलोड करने के लिए फिर से आएँ।", viewDl: "देखें और डाउनलोड करें", photosN: "{n} तस्वीरें", albumTip: "एल्बम खोलें और उसके डाउनलोड बटन से तस्वीरें अपने फ़ोन में सेव करें।" },
+          albums: "फ़ोटो एल्बम", albumsEmpty: "विवाह की तस्वीरें समारोह के बाद यहाँ साझा की जाएँगी। देखने और डाउनलोड करने के लिए फिर से आएँ।", viewDl: "देखें और डाउनलोड करें", photosN: "{n} तस्वीरें", albumTip: "एल्बम खोलें और उसके डाउनलोड बटन से तस्वीरें अपने फ़ोन में सेव करें।",
+          help: "कोई सहायता चाहिए?", helpText: "रास्ता, समय या किसी भी जानकारी के लिए हमें कॉल या WhatsApp करें।", call: "कॉल करें", callShort: "कॉल" },
     ml: { language: "ഭാഷ", invitation: "വിവാഹ ക്ഷണക്കത്ത്", invited: "നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു", dear: "പ്രിയ {n},", open: "ക്ഷണക്കത്ത് തുറക്കുക",
           couple: "വധൂവരന്മാർ", groom: "വരൻ", bride: "വധു", events: "മുഹൂർത്തം", venue: "വിവാഹ വേദി", welcome: "ഹൃദ്യമായ സ്വാഗതം", story: "ഞങ്ങളുടെ കഥ", moments: "ഓർമ്മകൾ",
           directions: "വഴി കാണുക", dirShort: "വഴി", maps: "Google Maps-ൽ തുറക്കുക", addCal: "കലണ്ടറിൽ ചേർക്കുക", saveDate: "കലണ്ടർ", share: "പങ്കിടുക", shareInvite: "ഈ ക്ഷണം പങ്കിടുക",
           cd: ["ദിവസം", "മണിക്കൂർ", "മിനിറ്റ്", "സെക്കൻഡ്"], now: "വിവാഹം ഇപ്പോൾ നടക്കുന്നു", thanks: "ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി",
           shareText: "{d}-ന് നടക്കുന്ന {p} വിവാഹത്തിലേക്ക് നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.", rsvp: "നിങ്ങൾ വരുമോ?",
-          albums: "ഫോട്ടോ ആൽബങ്ങൾ", albumsEmpty: "വിവാഹ ഫോട്ടോകൾ ചടങ്ങിന് ശേഷം ഇവിടെ പങ്കിടും. കാണാനും ഡൗൺലോഡ് ചെയ്യാനും വീണ്ടും വരൂ.", viewDl: "കാണുക & ഡൗൺലോഡ്", photosN: "{n} ഫോട്ടോകൾ", albumTip: "ആൽബം തുറന്ന് അതിലെ ഡൗൺലോഡ് ബട്ടൺ ഉപയോഗിച്ച് ഫോട്ടോകൾ ഫോണിൽ സേവ് ചെയ്യാം." },
+          albums: "ഫോട്ടോ ആൽബങ്ങൾ", albumsEmpty: "വിവാഹ ഫോട്ടോകൾ ചടങ്ങിന് ശേഷം ഇവിടെ പങ്കിടും. കാണാനും ഡൗൺലോഡ് ചെയ്യാനും വീണ്ടും വരൂ.", viewDl: "കാണുക & ഡൗൺലോഡ്", photosN: "{n} ഫോട്ടോകൾ", albumTip: "ആൽബം തുറന്ന് അതിലെ ഡൗൺലോഡ് ബട്ടൺ ഉപയോഗിച്ച് ഫോട്ടോകൾ ഫോണിൽ സേവ് ചെയ്യാം.",
+          help: "എന്തെങ്കിലും സഹായം വേണോ?", helpText: "വഴി, സമയം അല്ലെങ്കിൽ മറ്റെന്തിനും ഞങ്ങളെ വിളിക്കുകയോ WhatsApp ചെയ്യുകയോ ചെയ്യുക.", call: "വിളിക്കുക", callShort: "വിളിക്കൂ" },
     kn: { language: "ಭಾಷೆ", invitation: "ವಿವಾಹ ಆಮಂತ್ರಣ", invited: "ನಿಮ್ಮನ್ನು ಪ್ರೀತಿಯಿಂದ ಆಹ್ವಾನಿಸುತ್ತೇವೆ", dear: "ಪ್ರೀತಿಯ {n},", open: "ಆಮಂತ್ರಣ ತೆರೆಯಿರಿ",
           couple: "ವಧು-ವರರು", groom: "ವರ", bride: "ವಧು", events: "ಮುಹೂರ್ತ", venue: "ವಿವಾಹ ಸ್ಥಳ", welcome: "ಆತ್ಮೀಯ ಸ್ವಾಗತ", story: "ನಮ್ಮ ಕಥೆ", moments: "ನೆನಪುಗಳು",
           directions: "ದಾರಿ ನೋಡಿ", dirShort: "ದಾರಿ", maps: "Google Maps ನಲ್ಲಿ ತೆರೆಯಿರಿ", addCal: "ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಸೇರಿಸಿ", saveDate: "ಕ್ಯಾಲೆಂಡರ್", share: "ಹಂಚಿಕೊಳ್ಳಿ", shareInvite: "ಈ ಆಮಂತ್ರಣವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ",
           cd: ["ದಿನ", "ಗಂಟೆ", "ನಿಮಿಷ", "ಸೆಕೆಂಡ್"], now: "ವಿವಾಹ ಈಗ ನಡೆಯುತ್ತಿದೆ", thanks: "ನಮ್ಮೊಂದಿಗೆ ಸಂಭ್ರಮಿಸಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು",
           shareText: "{d} ರಂದು ನಡೆಯುವ {p} ಅವರ ವಿವಾಹಕ್ಕೆ ನಿಮ್ಮನ್ನು ಪ್ರೀತಿಯಿಂದ ಆಹ್ವಾನಿಸುತ್ತೇವೆ.", rsvp: "ನೀವು ಬರುವಿರಾ?",
-          albums: "ಫೋಟೋ ಆಲ್ಬಮ್‌ಗಳು", albumsEmpty: "ವಿವಾಹದ ಫೋಟೋಗಳನ್ನು ಸಮಾರಂಭದ ನಂತರ ಇಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳಲಾಗುವುದು. ನೋಡಲು ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಮತ್ತೆ ಬನ್ನಿ.", viewDl: "ನೋಡಿ & ಡೌನ್‌ಲೋಡ್", photosN: "{n} ಫೋಟೋಗಳು", albumTip: "ಆಲ್ಬಮ್ ತೆರೆದು ಅದರ ಡೌನ್‌ಲೋಡ್ ಬಟನ್ ಬಳಸಿ ಫೋಟೋಗಳನ್ನು ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಉಳಿಸಿ." },
+          albums: "ಫೋಟೋ ಆಲ್ಬಮ್‌ಗಳು", albumsEmpty: "ವಿವಾಹದ ಫೋಟೋಗಳನ್ನು ಸಮಾರಂಭದ ನಂತರ ಇಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳಲಾಗುವುದು. ನೋಡಲು ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಮತ್ತೆ ಬನ್ನಿ.", viewDl: "ನೋಡಿ & ಡೌನ್‌ಲೋಡ್", photosN: "{n} ಫೋಟೋಗಳು", albumTip: "ಆಲ್ಬಮ್ ತೆರೆದು ಅದರ ಡೌನ್‌ಲೋಡ್ ಬಟನ್ ಬಳಸಿ ಫೋಟೋಗಳನ್ನು ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಉಳಿಸಿ.",
+          help: "ಏನಾದರೂ ಸಹಾಯ ಬೇಕೆ?", helpText: "ದಾರಿ, ಸಮಯ ಅಥವಾ ಯಾವುದೇ ಸಹಾಯಕ್ಕಾಗಿ ನಮಗೆ ಕರೆ ಮಾಡಿ ಅಥವಾ WhatsApp ಮಾಡಿ.", call: "ಕರೆ ಮಾಡಿ", callShort: "ಕರೆ" },
     te: { language: "భాష", invitation: "శుభలేఖ", invited: "మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము", dear: "ప్రియమైన {n},", open: "ఆహ్వానాన్ని తెరవండి",
           couple: "వధూవరులు", groom: "వరుడు", bride: "వధువు", events: "ముహూర్తం", venue: "వివాహ వేదిక", welcome: "హృదయపూర్వక స్వాగతం", story: "మా కథ", moments: "జ్ఞాపకాలు",
           directions: "దారి చూడండి", dirShort: "దారి", maps: "Google Maps లో తెరవండి", addCal: "క్యాలెండర్‌కు జోడించండి", saveDate: "క్యాలెండర్", share: "షేర్", shareInvite: "ఈ ఆహ్వానాన్ని షేర్ చేయండి",
           cd: ["రోజులు", "గంటలు", "నిమిషాలు", "సెకన్లు"], now: "వివాహం ఇప్పుడు జరుగుతోంది", thanks: "మాతో కలిసి వేడుక జరుపుకున్నందుకు ధన్యవాదాలు",
           shareText: "{d}న జరిగే {p} వివాహానికి మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము.", rsvp: "మీరు వస్తారా?",
-          albums: "ఫోటో ఆల్బమ్‌లు", albumsEmpty: "వివాహ ఫోటోలు వేడుక తర్వాత ఇక్కడ పంచుకోబడతాయి. చూడటానికి మరియు డౌన్‌లోడ్ చేసుకోవడానికి మళ్లీ రండి.", viewDl: "చూడండి & డౌన్‌లోడ్", photosN: "{n} ఫోటోలు", albumTip: "ఆల్బమ్‌ను తెరిచి, దాని డౌన్‌లోడ్ బటన్‌తో ఫోటోలను మీ ఫోన్‌లో సేవ్ చేసుకోండి." }
+          albums: "ఫోటో ఆల్బమ్‌లు", albumsEmpty: "వివాహ ఫోటోలు వేడుక తర్వాత ఇక్కడ పంచుకోబడతాయి. చూడటానికి మరియు డౌన్‌లోడ్ చేసుకోవడానికి మళ్లీ రండి.", viewDl: "చూడండి & డౌన్‌లోడ్", photosN: "{n} ఫోటోలు", albumTip: "ఆల్బమ్‌ను తెరిచి, దాని డౌన్‌లోడ్ బటన్‌తో ఫోటోలను మీ ఫోన్‌లో సేవ్ చేసుకోండి.",
+          help: "ఏదైనా సహాయం కావాలా?", helpText: "దారి, సమయం లేదా ఏ సహాయం కావాలన్నా మాకు కాల్ లేదా WhatsApp చేయండి.", call: "కాల్ చేయండి", callShort: "కాల్" }
   };
   const LANGS = (W.languages || ["en"]).filter((c) => UI[c]);
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
@@ -826,6 +855,8 @@ const WEDDING = {
     cal: svgI('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
     share: svgI('<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>'),
     camera: svgI('<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="4"/>'),
+    phone: svgI('<path d="M5 3.5h3.2l1.6 4.2-2.1 1.4a11.5 11.5 0 0 0 5.2 5.2l1.4-2.1 4.2 1.6V17a2.5 2.5 0 0 1-2.5 2.5A15.5 15.5 0 0 1 2.5 6 2.5 2.5 0 0 1 5 3.5z"/>'),
+    chat: svgI('<path d="M4 19.5l1.3-3.9A8 8 0 1 1 8.4 18.7L4 19.5z"/><path d="M9 10.5h6M9 13.5h4"/>'),
     download: svgI('<path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/>'),
     globe: svgI('<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3z"/>'),
     chev: svgI('<path d="M6 9l6 6 6-6"/>').replace("<svg ", '<svg class="chev" ')
@@ -958,6 +989,20 @@ const WEDDING = {
     return '<section class="section albums-sec" id="albums" aria-labelledby="albums-h"><div class="wrap reveal">' + head("albums", "albums-h") + body + "</div></section>";
   }
 
+  const people = (W.contacts || []).filter((c) => c && c.phone);
+  function contact() {
+    if (!people.length) return "";
+    return '<section class="section contact-sec" id="contact" aria-labelledby="help-h"><div class="wrap reveal">' + head("help", "help-h") +
+      '<p class="contact-lead">' + esc(t("helpText")) + '</p><div class="contact-list">' +
+      people.map((c) => {
+        const digits = String(c.phone).replace(/[^\d]/g, ""), name = tr(c.name);
+        return '<div class="contact-card"><div class="cc-who"><span class="cc-icon" aria-hidden="true">' + icon.phone + "</span><span>" +
+          (name ? '<span class="cc-name">' + esc(name) + "</span>" : "") + '<span class="cc-num">' + esc(c.phone) + "</span></span></div>" +
+          '<div class="cc-actions"><a class="btn btn-small" href="tel:+' + digits + '">' + icon.phone + esc(t("call")) + "</a>" +
+          '<a class="btn btn-small btn-line" href="https://wa.me/' + digits + '" target="_blank" rel="noopener">' + icon.chat + "WhatsApp</a></div></div>";
+      }).join("") + "</div></div></section>";
+  }
+
   function gallery() {
     if (!W.photos || !W.photos.length) return "";
     return '<section class="section gallery" aria-labelledby="gallery-h"><div class="wrap reveal" style="max-width:60rem">' + head("moments", "gallery-h") + '<div class="grid">' +
@@ -987,12 +1032,10 @@ const WEDDING = {
   }
 
   function footer() {
-    const people = (W.contacts || []).filter((c) => c && c.phone);
     return '<footer class="footer"><div class="zari flip" aria-hidden="true"></div>' + velMark() +
       '<p class="footer-names">' + esc(tr(A.name)) + " <span>&amp;</span> " + esc(tr(B.name)) + "</p>" +
       (W.hashtag ? '<p class="hashtag">' + esc(W.hashtag) + "</p>" : "") +
       (tr(W.closing) ? '<p class="closing">' + esc(tr(W.closing)) + "</p>" : "") +
-      (people.length ? '<div class="contacts"><ul>' + people.map((c) => "<li>" + esc(tr(c.name)) + ': <a href="tel:' + esc(String(c.phone).replace(/[^\d+]/g, "")) + '">' + esc(c.phone) + "</a></li>").join("") + "</ul></div>" : "") +
       '<button type="button" class="btn btn-gold" data-share>' + icon.share + esc(t("shareInvite")) + "</button></footer>";
   }
 
@@ -1011,7 +1054,8 @@ const WEDDING = {
     const v = events[0] ? venueOf(events[0]) : W.venue || {};
     return (v.name ? '<a href="' + esc(mapsLink(v)) + '" target="_blank" rel="noopener">' + icon.pin + "<span>" + esc(t("dirShort")) + "</span></a>" : "") +
       (events.length ? '<button type="button" data-save>' + icon.cal + "<span>" + esc(t("saveDate")) + "</span></button>" : "") +
-      '<button type="button" data-share>' + icon.share + "<span>" + esc(t("share")) + "</span></button>" + picker("in-dock");
+      '<button type="button" data-share>' + icon.share + "<span>" + esc(t("share")) + "</span></button>" +
+      (people.length ? '<a href="#contact">' + icon.phone + "<span>" + esc(t("callShort")) + "</span></a>" : "") + picker("in-dock");
   }
 
   /* ---------- Countdown ---------- */
@@ -1095,7 +1139,7 @@ const WEDDING = {
   function render() {
     document.documentElement.lang = lang;
     document.documentElement.dataset.lang = lang;
-    $("#app").innerHTML = hero() + letter() + couple() + story() + schedule() + venue() + welcome() + albums() + gallery() + rsvp() + footer();
+    $("#app").innerHTML = hero() + letter() + couple() + story() + schedule() + venue() + welcome() + albums() + gallery() + rsvp() + contact() + footer();
     $("#dock").innerHTML = dockInner();
     const ci = $("#cover .cover-inner");
     if (ci) ci.innerHTML = coverInner();
@@ -1139,7 +1183,10 @@ const WEDDING = {
   window.addEventListener("resize", () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => { renderStrands(); fitNames(); }, 150); });
 
   // The quick-action bar appears once the guest starts scrolling, so it never covers the countdown
-  const dockToggle = () => { const d = $("#dock"); if (d) d.classList.toggle("show", !$("#cover") && window.scrollY > innerHeight * 0.45); };
+  const dockToggle = () => {
+    const d = $("#dock"), c = $("#cover");
+    if (d) d.classList.toggle("show", !(c && !c.classList.contains("leaving")) && window.scrollY > innerHeight * 0.45);
+  };
   window.addEventListener("scroll", dockToggle, { passive: true });
   function reveal() {
     document.body.classList.add("is-open");
@@ -1152,7 +1199,7 @@ const WEDDING = {
     if (!c || c.classList.contains("leaving")) return;
     c.classList.add("leaving");
     document.body.classList.remove("locked");
-    const done = () => { if (c.isConnected) { c.remove(); if (emberFx) emberFx.moveTo($("#top")); } };
+    const done = () => { if (c.isConnected) { c.remove(); if (emberFx) emberFx.moveTo($("#top")); dockToggle(); } };
     c.addEventListener("transitionend", done, { once: true });
     setTimeout(done, 1300);
     reveal();
