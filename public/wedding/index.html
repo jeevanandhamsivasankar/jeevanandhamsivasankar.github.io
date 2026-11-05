@@ -14,7 +14,7 @@
 <meta property="og:description" content="Friday, 13 November 2026, 6:00 to 7:30 am at Arulmigu Subramani Swami Temple, Thirumalaikodi. Tap to open your invitation in Tamil, English, Hindi, Malayalam, Kannada or Telugu.">
 <meta property="og:type" content="website">
 <!-- Preview picture shown when the link is shared on WhatsApp -->
-<meta property="og:image" content="https://jeevanandhamsivasankar.github.io/wedding/og.jpg?v=3">
+<meta property="og:image" content="https://jeevanandhamsivasankar.github.io/wedding/og.jpg?v=4">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://jeevanandhamsivasankar.github.io/wedding/">
@@ -171,23 +171,24 @@
   .feather { position: absolute; bottom: -14px; width: clamp(78px, 20vw, 140px); aspect-ratio: 60 / 170; height: auto; z-index: 2; pointer-events: none; }
   .feather.l { left: -10px; transform: rotate(-16deg); transform-origin: bottom center; }
   .feather.r { right: -10px; transform: scaleX(-1) rotate(-16deg); transform-origin: bottom center; }
-  .hero-couple { position: relative; margin: 2rem auto 0; width: min(320px, 78vw); }
+  .hero-couple { position: relative; margin: 2rem -1.25rem 0; width: auto; }
   .hero-couple::before {
-    content: ""; position: absolute; z-index: -1; left: 50%; top: -22%;
-    width: 150%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%;
+    content: ""; position: absolute; z-index: -1; left: 50%; top: -38%;
+    width: min(130%, 720px); aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%;
     background:
       radial-gradient(closest-side, rgba(255, 205, 110, .55), rgba(255, 170, 60, .18) 55%, transparent 72%),
       repeating-conic-gradient(from 0deg, rgba(255, 210, 120, .14) 0 4deg, transparent 4deg 12deg);
     -webkit-mask: radial-gradient(closest-side, #000 55%, transparent 100%);
             mask: radial-gradient(closest-side, #000 55%, transparent 100%);
   }
-  .hero-couple img { width: 100%; height: auto; filter: drop-shadow(0 10px 24px rgba(30, 0, 6, .45)); }
+  .hero-couple img { width: min(100%, 560px); height: auto; margin: 0 auto; filter: drop-shadow(0 10px 24px rgba(30, 0, 6, .45)); }
   @media (min-width: 900px) {
-    .hero.has-couple { padding-top: 190px; }
-    .hero.has-couple .hero-inner { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); align-items: end; gap: 2.5rem; }
-    .hero.has-couple .hero-text { align-self: center; padding-bottom: 5rem; }
-    .hero.has-couple .hero-couple { margin: 0; width: auto; justify-self: center; }
-    .hero.has-couple .hero-couple img { width: auto; height: min(74vh, 700px); max-width: 100%; }
+    .hero.has-couple { padding-top: 170px; }
+    .hero.has-couple .hero-inner { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: end; gap: 1.5rem; max-width: 74rem; }
+    .hero.has-couple .names { font-size: clamp(3.6rem, 6.4vw, 6rem); }
+    .hero.has-couple .hero-text { align-self: center; padding-bottom: 3.5rem; }
+    .hero.has-couple .hero-couple { margin: 0; width: 100%; justify-self: center; }
+    .hero.has-couple .hero-couple img { width: 100%; max-width: 680px; height: auto; max-height: calc(100vh - 190px); object-fit: contain; object-position: bottom; }
   }
 
   /* ---------- Sections ---------- */
@@ -661,7 +662,7 @@ const WEDDING = {
   },
 
   // Optional extras: upload the files to your repository, then put their names here
-  couplePhoto: "couple.webp",   // transparent photo, shown on the first screen
+  couplePhoto: "couple.webp?v=2",   // transparent photo, shown on the first screen
   photos: [],                   // e.g. ["photo1.jpg", "photo2.jpg"]
   story: [],                    // e.g. ["First paragraph...", "Second paragraph..."]
   music: "",                    // e.g. "nadaswaram.mp3" (plays after the guest opens the invitation)
@@ -906,7 +907,7 @@ const WEDDING = {
           (events.length === 1 ? '<span class="t">' + esc(timeRange(startOf(events[0]), endOf(events[0]))) + "</span>" : "") +
           (W.city ? '<span class="p">' + esc(tr(W.city)) + "</span>" : "") + "</p>" +
         '<div id="countdown"></div></div>' +
-        (photo ? '<figure class="hero-couple"><img src="' + esc(photo) + '" alt="' + esc(tr(A.name) + " & " + tr(B.name)) + '" width="640" height="1240" fetchpriority="high"></figure>' : "") +
+        (photo ? '<figure class="hero-couple"><img src="' + esc(photo) + '" alt="' + esc(tr(A.name) + " & " + tr(B.name)) + '" width="900" height="796" fetchpriority="high"></figure>' : "") +
       "</div></header>" + '<div class="zari" aria-hidden="true"></div>';
   }
 
