@@ -17,7 +17,6 @@
 <meta property="og:image" content="https://jeevanandhamsivasankar.github.io/wedding/og.jpg?v=4">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:url" content="https://jeevanandhamsivasankar.github.io/wedding/">
 
 <meta name="color-scheme" content="light dark">
 <meta name="darkreader-lock">
@@ -546,6 +545,10 @@
    - Put "" (empty quotes) or [] (empty list) to hide that part of the page.
    ===================================================================== */
 const WEDDING = {
+  // Short link with the couple's names (for example https://tinyurl.com/ganesh-weds-pavithra).
+  // When set, the Share buttons and calendar entries use it instead of the github.io address.
+  shortLink: "",
+
   // Languages guests can pick, in the order shown. The first visit opens in defaultLanguage.
   // A link can open in a language directly: add ?lang=ta (or en, hi, ml, kn, te) to the end.
   languages: ["ta", "en", "hi", "ml", "kn", "te"],
@@ -830,7 +833,7 @@ const WEDDING = {
   const A = W.couple.first, B = W.couple.second;
   const pair = () => tr(A.name) + " & " + tr(B.name);
   const baseUrl = () => location.href.split(/[?#]/)[0];
-  const shareUrl = () => baseUrl() + (lang !== (W.defaultLanguage || "en") ? "?lang=" + lang : "");
+  const shareUrl = () => (W.shortLink ? W.shortLink : baseUrl() + (lang !== (W.defaultLanguage || "en") ? "?lang=" + lang : ""));
   const guest = (params.get("to") || "").trim().slice(0, 60);
 
   /* ---------- Maps & calendars ---------- */
