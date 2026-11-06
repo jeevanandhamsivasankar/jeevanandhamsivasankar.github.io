@@ -25,11 +25,11 @@
 <link rel="preload" as="image" href="murugan.webp" fetchpriority="high">
 <link rel="preload" as="image" href="couple.webp?v=2">
 <script>
-  // Pick Day or Night before anything draws, so the page never flashes the wrong colours
+  // Follow the phone / browser setting for Day or Night, before anything draws
   (function () {
-    var t = null; try { t = localStorage.getItem("wedding-theme"); } catch (e) {}
+    try { localStorage.removeItem("wedding-theme"); } catch (e) {}
     var dark = window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches;
-    var theme = t === "light" || t === "dark" ? t : (dark ? "dark" : "light");
+    var theme = dark ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", theme);
     var m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = theme === "dark" ? "#5A1020" : "#7E1121";
   })();
@@ -256,6 +256,7 @@
 
   html[data-theme="light"] .section[data-tone] { --focus: var(--kumkum); }
   .event-card { --focus: var(--marigold); }
+  html[data-theme="dark"] .letter-sec > .watermark { opacity: .08; }
   .reveal { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s cubic-bezier(.22, 1, .36, 1); }
   .reveal.in { opacity: 1; transform: none; }
 
@@ -581,21 +582,9 @@
   html[data-theme="dark"] .dock { background: rgba(46, 14, 34, .84); border-color: rgba(232, 181, 76, .55); }
   html[data-theme="dark"] .event-card { box-shadow: 0 26px 50px -24px rgba(0, 0, 0, .45), 0 0 0 1px rgba(232, 181, 76, .25); }
 
-  /* Day / Night switch */
   .tools { display: flex; justify-content: center; gap: .5rem; flex-wrap: wrap; }
-  .theme-toggle {
-    display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .95rem; border-radius: 999px; cursor: pointer;
-    border: 1px solid rgba(232, 181, 76, .65); background: rgba(255, 255, 255, .08); color: var(--gold-light);
-    font: 600 1rem/1.2 var(--body);
-  }
-  .theme-toggle svg { width: 18px; height: 18px; flex: none; }
-  .theme-toggle { padding: 3px; gap: 2px; }
-  .theme-toggle .seg { display: inline-flex; align-items: center; gap: .35rem; padding: .36rem .75rem; border-radius: 999px; opacity: .8; transition: background-color .2s, opacity .2s; }
-  html[data-theme="light"] .seg-day, html[data-theme="dark"] .seg-night { background: var(--gold-grad); color: #3A1A00; opacity: 1; }
-  html[data-theme="dark"] .seg-day > span { display: none; }
   .cover .tools { margin-bottom: 1.1rem; }
   .cover .lang-pick.on-cover { margin-bottom: 0; }
-  .footer .tools { margin-top: 1rem; }
 
   @media (max-height: 780px) {
     .cover-inner { padding-top: 1rem; padding-bottom: 1rem; }
@@ -610,6 +599,148 @@
   .hero-date .t, .ec-time, .closing, .venue-name { text-wrap: balance; }
   .ta-sign strong { display: block; text-wrap: balance; }
   #open-invite:focus-visible { outline: 2px solid rgba(249, 220, 138, .85); outline-offset: 4px; }
+
+
+  /* ===== Cards: their own ivory-silk surface, so the inner layout never repeats the panel colour ===== */
+  :root { --card: linear-gradient(170deg, #FFFFFF 0%, #FFFDF9 60%, #FFF8EE 100%); --card-solid: #FFFDF9; --card-ring: #FFFFFF;
+           --c-tl: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='44'%20height='44'%20viewBox='0%200%2044%2044'%3E%3Cg%20transform='rotate%280%2022%2022%29'%3E%3Cg%20fill='none'%20stroke='%23C9972F'%20stroke-linecap='round'%3E%3Cpath%20d='M3%2040V12Q3%203%2012%203H40'%20stroke-width='1.3'/%3E%3Cpath%20d='M8%2032V15Q8%208%2015%208H32'%20stroke-width='.8'%20opacity='.75'/%3E%3C/g%3E%3Cg%20fill='%23C9972F'%3E%3Cpath%20d='M12.5%2012.5C17%209.5%2023.5%2011%2024.5%2016.5C25.2%2020.5%2022%2023.5%2018.6%2022.3C16%2021.4%2015.6%2018.2%2017.8%2017.2C15.2%2015.8%2013.2%2014.6%2012.5%2012.5Z'/%3E%3Ccircle%20cx='40'%20cy='3'%20r='1.7'/%3E%3Ccircle%20cx='3'%20cy='40'%20r='1.7'/%3E%3Ccircle%20cx='34.5'%20cy='8'%20r='1.1'/%3E%3Ccircle%20cx='8'%20cy='34.5'%20r='1.1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); --c-tr: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='44'%20height='44'%20viewBox='0%200%2044%2044'%3E%3Cg%20transform='rotate%2890%2022%2022%29'%3E%3Cg%20fill='none'%20stroke='%23C9972F'%20stroke-linecap='round'%3E%3Cpath%20d='M3%2040V12Q3%203%2012%203H40'%20stroke-width='1.3'/%3E%3Cpath%20d='M8%2032V15Q8%208%2015%208H32'%20stroke-width='.8'%20opacity='.75'/%3E%3C/g%3E%3Cg%20fill='%23C9972F'%3E%3Cpath%20d='M12.5%2012.5C17%209.5%2023.5%2011%2024.5%2016.5C25.2%2020.5%2022%2023.5%2018.6%2022.3C16%2021.4%2015.6%2018.2%2017.8%2017.2C15.2%2015.8%2013.2%2014.6%2012.5%2012.5Z'/%3E%3Ccircle%20cx='40'%20cy='3'%20r='1.7'/%3E%3Ccircle%20cx='3'%20cy='40'%20r='1.7'/%3E%3Ccircle%20cx='34.5'%20cy='8'%20r='1.1'/%3E%3Ccircle%20cx='8'%20cy='34.5'%20r='1.1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); --c-bl: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='44'%20height='44'%20viewBox='0%200%2044%2044'%3E%3Cg%20transform='rotate%28270%2022%2022%29'%3E%3Cg%20fill='none'%20stroke='%23C9972F'%20stroke-linecap='round'%3E%3Cpath%20d='M3%2040V12Q3%203%2012%203H40'%20stroke-width='1.3'/%3E%3Cpath%20d='M8%2032V15Q8%208%2015%208H32'%20stroke-width='.8'%20opacity='.75'/%3E%3C/g%3E%3Cg%20fill='%23C9972F'%3E%3Cpath%20d='M12.5%2012.5C17%209.5%2023.5%2011%2024.5%2016.5C25.2%2020.5%2022%2023.5%2018.6%2022.3C16%2021.4%2015.6%2018.2%2017.8%2017.2C15.2%2015.8%2013.2%2014.6%2012.5%2012.5Z'/%3E%3Ccircle%20cx='40'%20cy='3'%20r='1.7'/%3E%3Ccircle%20cx='3'%20cy='40'%20r='1.7'/%3E%3Ccircle%20cx='34.5'%20cy='8'%20r='1.1'/%3E%3Ccircle%20cx='8'%20cy='34.5'%20r='1.1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); --c-br: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='44'%20height='44'%20viewBox='0%200%2044%2044'%3E%3Cg%20transform='rotate%28180%2022%2022%29'%3E%3Cg%20fill='none'%20stroke='%23C9972F'%20stroke-linecap='round'%3E%3Cpath%20d='M3%2040V12Q3%203%2012%203H40'%20stroke-width='1.3'/%3E%3Cpath%20d='M8%2032V15Q8%208%2015%208H32'%20stroke-width='.8'%20opacity='.75'/%3E%3C/g%3E%3Cg%20fill='%23C9972F'%3E%3Cpath%20d='M12.5%2012.5C17%209.5%2023.5%2011%2024.5%2016.5C25.2%2020.5%2022%2023.5%2018.6%2022.3C16%2021.4%2015.6%2018.2%2017.8%2017.2C15.2%2015.8%2013.2%2014.6%2012.5%2012.5Z'/%3E%3Ccircle%20cx='40'%20cy='3'%20r='1.7'/%3E%3Ccircle%20cx='3'%20cy='40'%20r='1.7'/%3E%3Ccircle%20cx='34.5'%20cy='8'%20r='1.1'/%3E%3Ccircle%20cx='8'%20cy='34.5'%20r='1.1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); --bell: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='24'%20height='76'%20viewBox='0%200%2024%2076'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20x2='1'%3E%3Cstop%20offset='0'%20stop-color='%23F9DC8A'/%3E%3Cstop%20offset='.5'%20stop-color='%23E2AE45'/%3E%3Cstop%20offset='1'%20stop-color='%23A8741F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg%20fill='url%28%23g%29'%3E%3Ccircle%20cx='12'%20cy='4'%20r='2.2'/%3E%3Ccircle%20cx='12'%20cy='10'%20r='2'/%3E%3Ccircle%20cx='12'%20cy='16'%20r='2'/%3E%3Ccircle%20cx='12'%20cy='22'%20r='2'/%3E%3Ccircle%20cx='12'%20cy='28'%20r='2'/%3E%3Ccircle%20cx='12'%20cy='34'%20r='2'/%3E%3Cpath%20d='M12%2038c-2%200-3%201.2-3%202.6v1.2C5.6%2043.6%204.2%2048.5%204%2054.5c-.1%203.4-1%205.6-2.6%207.2h21.2c-1.6-1.6-2.5-3.8-2.6-7.2-.2-6-1.6-10.9-5-12.7v-1.2c0-1.4-1-2.6-3-2.6z'/%3E%3Crect%20x='1'%20y='61.5'%20width='22'%20height='3'%20rx='1.5'/%3E%3Ccircle%20cx='12'%20cy='69'%20r='3.4'/%3E%3C/g%3E%3Cpath%20d='M7%2050c.6-3%202-5%204-6'%20stroke='%23FFF6E0'%20stroke-width='1.2'%20fill='none'%20opacity='.7'%20stroke-linecap='round'/%3E%3C/svg%3E"); }
+  html[data-theme="dark"] :is(.pcard, .ta-card, .map-card, .album-card, .contact-card, .album-empty, .rsvp-form) {
+    --card: linear-gradient(165deg, #F8EFDD 0%, #F1E3C6 55%, #E8D3AA 100%); --card-solid: #F1E3C6; --card-ring: #F6ECD8; --field: #FFFDF8;
+    --ink: #3A1418; --muted: #74504A; --title: #6E0E1B; --heading: #8E1426; --kicker: #0E6A6E; --accent-text: #B0402A; --line: #E6CFA6;
+    --focus: var(--kumkum);
+    color: var(--ink); color-scheme: light;
+  }
+  html[data-theme="dark"] :is(.ta-card, .contact-card, .album-card, .map-card) {
+    box-shadow: inset 0 0 0 6px var(--card-ring), inset 0 0 0 7px rgba(201, 151, 47, .6), 0 26px 50px -24px rgba(10, 0, 4, .55);
+  }
+  html[data-theme="dark"] .pcard {
+    background: radial-gradient(90% 55% at 50% 0%, rgba(232, 150, 70, .16), transparent 70%), var(--card) !important;
+    box-shadow: inset 0 0 0 6px var(--card-ring), inset 0 0 0 7px rgba(201, 151, 47, .6), 0 26px 50px -24px rgba(10, 0, 4, .55);
+  }
+  html[data-theme="dark"] .contact-card .btn-line { background: #FFFDF8; color: var(--kumkum); border-color: var(--kumkum); }
+  html[data-theme="dark"] .contact-card .btn:not(.btn-line), html[data-theme="dark"] .album-card .btn { border-color: #B57E26; }
+
+  /* Gold paisley corners on the cards */
+  .ta-card, .contact-card, .album-card, .pcard { position: relative; isolation: isolate; }
+  .ta-card::after, .contact-card::after, .album-card::after, .pcard::after {
+    content: ""; position: absolute; inset: 11px; pointer-events: none; z-index: -1;
+    background:
+      var(--c-tl) top left / var(--cs, 40px) var(--cs, 40px) no-repeat, var(--c-tr) top right / var(--cs, 40px) var(--cs, 40px) no-repeat,
+      var(--c-bl) bottom left / var(--cs, 40px) var(--cs, 40px) no-repeat, var(--c-br) bottom right / var(--cs, 40px) var(--cs, 40px) no-repeat;
+  }
+  .contact-card { --cs: 24px; padding: 1.15rem 2.1rem; }
+  .contact-card::after { inset: 8px; background: var(--c-tl) top left / 24px 24px no-repeat, var(--c-br) bottom right / 24px 24px no-repeat; }
+  .album-body { text-align: center; padding: 1.1rem 3.4rem 1.7rem; }
+  .album-body .btn { justify-self: center; }
+  .pcard { padding-bottom: 3rem; --cs: 34px; }
+  .pcard::after, .album-card::after {
+    background: var(--c-bl) bottom left / var(--cs, 40px) var(--cs, 40px) no-repeat, var(--c-br) bottom right / var(--cs, 40px) var(--cs, 40px) no-repeat;
+  }
+  .ta-card { padding: 3.2rem 1.8rem; }
+  html[data-theme="light"] :is(.ta-card, .pcard, .contact-card, .album-card, .map-card) {
+    box-shadow: inset 0 0 0 6px #FFFFFF, inset 0 0 0 7px rgba(201, 151, 47, .55), 0 22px 44px -20px rgba(120, 52, 20, .36);
+  }
+
+  /* Hanging temple bells from the zari border of every panel */
+  .section[data-tone]::after {
+    content: ""; position: absolute; top: 9px; left: 12px; right: 12px; height: 76px; pointer-events: none; z-index: 1;
+    background: var(--bell) left top / 22px 70px no-repeat, var(--bell) right top / 22px 70px no-repeat;
+    filter: drop-shadow(0 4px 6px rgba(40, 10, 0, .25));
+  }
+  @media (min-width: 760px) { .section[data-tone]::after { left: 6%; right: 6%; height: 96px; background-size: 28px 90px, 28px 90px; } }
+
+  /* Kolam patterns on alternate panels */
+  [data-tone="peacock"], [data-tone="plum"] { --butta-tone: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='72'%20height='72'%20viewBox='0%200%2072%2072'%3E%3Cg%20fill='none'%20stroke='%23B8862B'%20stroke-width='1.1'%20opacity='.16'%3E%3Cpath%20d='M36%2014Q58%2014%2058%2036Q58%2058%2036%2058Q14%2058%2014%2036Q14%2014%2036%2014Z'/%3E%3Cpath%20d='M36%204Q46%2014%2036%2024Q26%2014%2036%204ZM36%2048Q46%2058%2036%2068Q26%2058%2036%2048ZM4%2036Q14%2026%2024%2036Q14%2046%204%2036ZM48%2036Q58%2026%2068%2036Q58%2046%2048%2036Z'/%3E%3C/g%3E%3Cg%20fill='%23B8862B'%20opacity='.16'%3E%3Ccircle%20cx='36'%20cy='36'%20r='2.2'/%3E%3Ccircle%20cx='36'%20cy='14'%20r='1.4'/%3E%3Ccircle%20cx='36'%20cy='58'%20r='1.4'/%3E%3Ccircle%20cx='14'%20cy='36'%20r='1.4'/%3E%3Ccircle%20cx='58'%20cy='36'%20r='1.4'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='1.6'/%3E%3Ccircle%20cx='72'%20cy='0'%20r='1.6'/%3E%3Ccircle%20cx='0'%20cy='72'%20r='1.6'/%3E%3Ccircle%20cx='72'%20cy='72'%20r='1.6'/%3E%3C/g%3E%3C/svg%3E"); }
+  html[data-theme="dark"] [data-tone="peacock"], html[data-theme="dark"] [data-tone="plum"] { --butta-tone: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='72'%20height='72'%20viewBox='0%200%2072%2072'%3E%3Cg%20fill='none'%20stroke='%23F2C766'%20stroke-width='1.1'%20opacity='.10'%3E%3Cpath%20d='M36%2014Q58%2014%2058%2036Q58%2058%2036%2058Q14%2058%2014%2036Q14%2014%2036%2014Z'/%3E%3Cpath%20d='M36%204Q46%2014%2036%2024Q26%2014%2036%204ZM36%2048Q46%2058%2036%2068Q26%2058%2036%2048ZM4%2036Q14%2026%2024%2036Q14%2046%204%2036ZM48%2036Q58%2026%2068%2036Q58%2046%2048%2036Z'/%3E%3C/g%3E%3Cg%20fill='%23F2C766'%20opacity='.10'%3E%3Ccircle%20cx='36'%20cy='36'%20r='2.2'/%3E%3Ccircle%20cx='36'%20cy='14'%20r='1.4'/%3E%3Ccircle%20cx='36'%20cy='58'%20r='1.4'/%3E%3Ccircle%20cx='14'%20cy='36'%20r='1.4'/%3E%3Ccircle%20cx='58'%20cy='36'%20r='1.4'/%3E%3Ccircle%20cx='0'%20cy='0'%20r='1.6'/%3E%3Ccircle%20cx='72'%20cy='0'%20r='1.6'/%3E%3Ccircle%20cx='0'%20cy='72'%20r='1.6'/%3E%3Ccircle%20cx='72'%20cy='72'%20r='1.6'/%3E%3C/g%3E%3C/svg%3E"); }
+  .section[data-tone] { background-size: 72px 72px, auto; }
+  [data-tone="indigo"], [data-tone="emerald"], [data-tone="kumkum"] { background-size: 80px 80px, auto; }
+
+  /* A temple gopuram drawn faintly inside the Muhurtham card */
+  .event-card { isolation: isolate; }
+  .event-card::before {
+    content: ""; position: absolute; left: 50%; bottom: 10px; width: min(50%, 220px); aspect-ratio: 120 / 140; transform: translateX(-50%);
+    -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 92%); mask-image: linear-gradient(to top, #000 45%, transparent 92%);
+    background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='140'%20viewBox='0%200%20120%20140'%3E%3Cg%20fill='none'%20stroke='%23F9DC8A'%20stroke-width='1.6'%20stroke-linejoin='round'%3E%3Cpath%20d='M14%20138H106'/%3E%3Cpath%20d='M24%20138V112H96V138'/%3E%3Cpath%20d='M28%20112L35%2092H85L92%20112'/%3E%3Cpath%20d='M37%2092L43%2074H77L83%2092'/%3E%3Cpath%20d='M45%2074L50%2058H70L75%2074'/%3E%3Cpath%20d='M52%2058L55%2046H65L68%2058'/%3E%3Cpath%20d='M54%2046Q60%2032%2066%2046'/%3E%3Cpath%20d='M60%2032V24'/%3E%3Cpath%20d='M51%20138V124Q60%20114%2069%20124V138'/%3E%3Cpath%20d='M34%20124H44M76%20124H86M42%20102H52M68%20102H78M48%2084H56M64%2084H72M53%2066H58M62%2066H67'/%3E%3C/g%3E%3Ccircle%20cx='60'%20cy='21'%20r='3'%20fill='%23F9DC8A'/%3E%3C/svg%3E") center bottom / contain no-repeat; opacity: .11; z-index: -1; pointer-events: none;
+  }
+
+  /* Heading dividers: dotted ends on the gold lines */
+  .flourish span { height: 6px; width: 70px; background: radial-gradient(circle at 3px 50%, var(--gold) 0 2.3px, transparent 2.8px), linear-gradient(90deg, transparent 4px, rgba(232, 181, 76, .55) 6px, var(--gold)) 0 50% / 100% 1.5px no-repeat !important; }
+  .flourish span:last-child { background: radial-gradient(circle at calc(100% - 3px) 50%, var(--gold) 0 2.3px, transparent 2.8px), linear-gradient(90deg, var(--gold), rgba(232, 181, 76, .55) calc(100% - 6px), transparent calc(100% - 4px)) 0 50% / 100% 1.5px no-repeat !important; }
+
+  /* Lit diyas in the footer */
+  .diyas { display: flex; justify-content: center; align-items: flex-end; gap: clamp(1.2rem, 6vw, 2.4rem); margin-bottom: 1.4rem; }
+  .diya { width: 46px; height: auto; overflow: visible; }
+  .diyas .diya:nth-child(2) { width: 58px; }
+  .diya .flame { transform-origin: 32px 24px; animation: flicker 2.6s ease-in-out infinite; }
+  .diyas .diya:nth-child(2) .flame { animation-delay: -.9s; }
+  .diyas .diya:nth-child(3) .flame { animation-delay: -1.7s; }
+  .diyas:not(.lit) .flame { animation-play-state: paused; }
+  @keyframes flicker { 0%, 100% { transform: scale(1, 1); } 30% { transform: scale(.94, 1.06) rotate(-2deg); } 60% { transform: scale(1.04, .95) rotate(1.5deg); } }
+
+
+  /* ===== Travel & help guide ===== */
+  .guide-sec .wrap { max-width: 46rem; }
+  .guide-notes { display: grid; gap: .7rem; margin: -.6rem auto 2.2rem; max-width: 36rem; }
+  .gn { display: flex; gap: .7rem; align-items: flex-start; text-align: left; color: var(--ink); font-size: 1.02rem; line-height: 1.6; }
+  .gn-i { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-grad); color: #3A1A00; margin-top: .05rem; }
+  .gn-i svg { width: 18px; height: 18px; }
+  .sub-h { font-family: var(--display); font-weight: var(--dw, 400); color: var(--heading); font-size: clamp(1.45rem, 5.6vw, 1.75rem); text-align: center; margin: 2.4rem 0 1rem; line-height: 1.3; }
+  .guide-notes + .sub-h { margin-top: 0; }
+  .sub-note { text-align: center; color: var(--muted); margin: -.5rem auto 1.1rem; font-size: .98rem; }
+  .route-grid { display: grid; gap: .9rem; }
+  .route-card {
+    position: relative; display: flex; gap: .9rem; align-items: flex-start; text-align: left;
+    background: var(--card); border: 1.5px solid var(--gold); border-radius: 20px; padding: 1.05rem 1.1rem 1.1rem;
+    box-shadow: inset 0 0 0 5px var(--card-ring), inset 0 0 0 6px rgba(201, 151, 47, .5), 0 16px 32px -24px rgba(40, 6, 12, .5);
+  }
+  .rc-icon { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; color: var(--jasmine);
+    background: linear-gradient(160deg, #9B1A2C, #6E0E1B); box-shadow: 0 0 0 2px var(--card-ring), 0 0 0 3.2px var(--gold); }
+  .rc-icon svg { width: 24px; height: 24px; }
+  .rc-body h4 { margin: 0; font-family: var(--display); font-weight: var(--dw, 400); font-size: 1.3rem; color: var(--title); line-height: 1.25; }
+  .rc-body p { margin-top: .3rem; color: var(--ink); font-size: 1rem; line-height: 1.6; }
+  .rc-link { display: inline-flex; align-items: center; gap: .35rem; margin-top: .55rem; padding: .3rem 0; font-weight: 700; font-size: .98rem; color: var(--kumkum);
+    text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .rc-link svg { width: 16px; height: 16px; }
+  .near-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .7rem; }
+  .near-tile {
+    display: flex; align-items: center; gap: .65rem; min-height: 58px; padding: .6rem .8rem; text-decoration: none; color: var(--ink);
+    background: var(--card); border: 1.5px solid var(--gold); border-radius: 16px; font-weight: 600; font-size: .98rem; line-height: 1.25;
+    box-shadow: 0 10px 22px -18px rgba(40, 6, 12, .55); transition: transform .15s, box-shadow .15s;
+  }
+  .near-tile:hover { transform: translateY(-2px); box-shadow: 0 14px 26px -16px rgba(40, 6, 12, .6); }
+  .nt-icon { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-grad); color: #3A1A00; }
+  .nt-icon svg { width: 20px; height: 20px; }
+  .sos-list { display: grid; gap: .7rem; grid-template-columns: minmax(0, 1fr); }
+  .sos { display: flex; gap: .5rem; align-items: stretch; }
+  .sos-call {
+    flex: 1; min-width: 0; display: flex; align-items: center; gap: .9rem; padding: .75rem 1rem; border-radius: 18px; text-decoration: none; color: #FFF6EE;
+    background: radial-gradient(80% 120% at 0% 0%, rgba(255, 196, 92, .22), transparent 60%), linear-gradient(160deg, #A51D30, #6E0E1B);
+    border: 1.5px solid rgba(232, 181, 76, .75); box-shadow: 0 14px 28px -18px rgba(62, 7, 16, .7);
+  }
+  .sos-num { font-family: "Rozha One", Georgia, serif; font-size: 1.55rem; color: var(--gold-light); white-space: nowrap; min-width: 3.2rem; }
+  .sos-label { flex: 1; min-width: 0; text-align: left; font-weight: 600; line-height: 1.35; font-size: .98rem; overflow-wrap: anywhere; }
+  .sos-num.long { font-size: 1.12rem; min-width: 0; }
+  @media (max-width: 480px) {
+    .sos-call:has(.sos-num.long) { flex-wrap: wrap; row-gap: .15rem; }
+    .sos-call:has(.sos-num.long) .sos-label { order: 3; flex-basis: 100%; }
+    .sos-call:has(.sos-num.long) .sos-ic { margin-left: auto; }
+  }
+  .sos-ic { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--gold-grad); color: #3A1A00; }
+  .sos-ic svg { width: 19px; height: 19px; }
+  .sos-map { flex: none; width: 54px; display: grid; place-items: center; border-radius: 18px; color: var(--kumkum); background: var(--card); border: 1.5px solid var(--gold); }
+  .sos-map svg { width: 22px; height: 22px; }
+  .sos-call .sos-num:only-child { min-width: 0; }
+  @media (min-width: 760px) {
+    .route-grid { grid-template-columns: 1fr 1fr; }
+    .near-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    .near-tile { flex-direction: column; text-align: center; padding: .9rem .5rem; gap: .5rem; }
+  }
+  html[data-theme="dark"] :is(.route-card, .near-tile, .sos-map) {
+    --card: linear-gradient(165deg, #F8EFDD 0%, #F1E3C6 55%, #E8D3AA 100%); --card-ring: #F6ECD8;
+    --ink: #3A1418; --muted: #74504A; --title: #6E0E1B; --heading: #8E1426; color: var(--ink); color-scheme: light;
+  }
+  html[data-theme="dark"] .guide-sec { --focus: var(--gold-light); }
+  html[data-theme="dark"] .route-card { --focus: var(--kumkum); }
 
   /* Reading progress, a thin gold thread along the top */
   .progress { position: fixed; left: 0; right: 0; top: 0; height: 3px; z-index: 50; pointer-events: none; opacity: 0; transition: opacity .3s; }
@@ -790,6 +921,88 @@ const WEDDING = {
     }
   ],
 
+  // Travel & help guide (shown after the venue). Edit freely; any text can be per language.
+  guide: {
+    destination: "Thirumalaikodi, Vellore, Tamil Nadu",
+    landmark: {
+      en: "Thirumalaikodi is the Sripuram Golden Temple area, about 9 km from Vellore town. Ask autos and taxis for \"Sripuram, Thirumalaikodi\".",
+      ta: "திருமலைக்கோடி என்பது ஸ்ரீபுரம் தங்கக் கோயில் அமைந்துள்ள பகுதி; வேலூர் நகரிலிருந்து சுமார் 9 கி.மீ. ஆட்டோ, டாக்ஸியில் \"ஸ்ரீபுரம், திருமலைக்கோடி\" என்று கேளுங்கள்.",
+      hi: "तिरुमलैकोडि श्रीपुरम स्वर्ण मंदिर का इलाका है, वेल्लोर शहर से लगभग 9 किमी। ऑटो या टैक्सी में \"श्रीपुरम, तिरुमलैकोडि\" बताएँ।",
+      ml: "തിരുമലൈക്കോടി ശ്രീപുരം സുവർണ്ണ ക്ഷേത്രം ഉള്ള പ്രദേശമാണ്, വെല്ലൂർ നഗരത്തിൽ നിന്ന് ഏകദേശം 9 കി.മീ. ഓട്ടോയിലും ടാക്സിയിലും \"ശ്രീപുരം, തിരുമലൈക്കോടി\" എന്ന് പറയുക.",
+      kn: "ತಿರುಮಲೈಕೋಡಿ ಶ್ರೀಪುರಂ ಸ್ವರ್ಣ ದೇವಾಲಯದ ಪ್ರದೇಶ, ವೆಲ್ಲೂರು ನಗರದಿಂದ ಸುಮಾರು 9 ಕಿ.ಮೀ. ಆಟೋ ಅಥವಾ ಟ್ಯಾಕ್ಸಿಯಲ್ಲಿ \"ಶ್ರೀಪುರಂ, ತಿರುಮಲೈಕೋಡಿ\" ಎಂದು ಹೇಳಿ.",
+      te: "తిరుమలైకోడి శ్రీపురం స్వర్ణ దేవాలయం ఉన్న ప్రాంతం, వెల్లూరు పట్టణం నుండి సుమారు 9 కి.మీ. ఆటో లేదా టాక్సీలో \"శ్రీపురం, తిరుమలైకోడి\" అని చెప్పండి."
+    },
+    tip: {
+      en: "Muhurtham begins at 6:00 am, so please plan to arrive by 5:30 am.",
+      ta: "முகூர்த்தம் காலை 6.00 மணிக்கு; காலை 5.30 மணிக்குள் வந்து சேருமாறு திட்டமிடுங்கள்.",
+      hi: "मुहूर्त सुबह 6:00 बजे है, कृपया सुबह 5:30 बजे तक पहुँचने की योजना बनाएँ।",
+      ml: "മുഹൂർത്തം രാവിലെ 6.00-ന്; രാവിലെ 5.30-നകം എത്താൻ ശ്രമിക്കുക.",
+      kn: "ಮುಹೂರ್ತ ಬೆಳಿಗ್ಗೆ 6:00ಕ್ಕೆ; ದಯವಿಟ್ಟು ಬೆಳಿಗ್ಗೆ 5:30ರೊಳಗೆ ತಲುಪಲು ಯೋಜಿಸಿ.",
+      te: "ముహూర్తం ఉదయం 6:00కి; దయచేసి ఉదయం 5:30 లోపు చేరుకునేలా ప్లాన్ చేసుకోండి."
+    },
+    routes: [
+      { icon: "train", from: "Katpadi Junction railway station, Vellore", mode: "driving",
+        title: { en: "By train", ta: "ரயிலில்", hi: "ट्रेन से", ml: "ട്രെയിനിൽ", kn: "ರೈಲಿನಲ್ಲಿ", te: "రైలులో" },
+        text: {
+          en: "Get down at Katpadi Junction (KPD), Vellore's main station on the Chennai–Bengaluru line. Taxis and autos to Thirumalaikodi are available outside.",
+          ta: "சென்னை–பெங்களூரு வழித்தடத்தில் உள்ள வேலூரின் முக்கிய ரயில் நிலையமான காட்பாடி சந்திப்பில் (KPD) இறங்கவும். அங்கிருந்து திருமலைக்கோடிக்கு டாக்ஸி, ஆட்டோ கிடைக்கும்.",
+          hi: "चेन्नई–बेंगलुरु लाइन पर वेल्लोर के मुख्य स्टेशन काटपाडी जंक्शन (KPD) पर उतरें। वहाँ से तिरुमलैकोडि के लिए टैक्सी और ऑटो मिलते हैं।",
+          ml: "ചെന്നൈ–ബെംഗളൂരു പാതയിലെ വെല്ലൂരിന്റെ പ്രധാന സ്റ്റേഷനായ കാട്പാടി ജംഗ്ഷനിൽ (KPD) ഇറങ്ങുക. അവിടെ നിന്ന് തിരുമലൈക്കോടിയിലേക്ക് ടാക്സിയും ഓട്ടോയും ലഭിക്കും.",
+          kn: "ಚೆನ್ನೈ–ಬೆಂಗಳೂರು ಮಾರ್ಗದಲ್ಲಿರುವ ವೆಲ್ಲೂರಿನ ಮುಖ್ಯ ನಿಲ್ದಾಣ ಕಾಟ್ಪಾಡಿ ಜಂಕ್ಷನ್‌ನಲ್ಲಿ (KPD) ಇಳಿಯಿರಿ. ಅಲ್ಲಿಂದ ತಿರುಮಲೈಕೋಡಿಗೆ ಟ್ಯಾಕ್ಸಿ ಮತ್ತು ಆಟೋ ಸಿಗುತ್ತವೆ.",
+          te: "చెన్నై–బెంగళూరు మార్గంలోని వెల్లూరు ప్రధాన స్టేషన్ కాట్పాడి జంక్షన్ (KPD) వద్ద దిగండి. అక్కడి నుండి తిరుమలైకోడికి టాక్సీలు, ఆటోలు దొరుకుతాయి."
+        } },
+      { icon: "bus", from: "Vellore New Bus Stand", mode: "transit",
+        title: { en: "By bus", ta: "பேருந்தில்", hi: "बस से", ml: "ബസിൽ", kn: "ಬಸ್ಸಿನಲ್ಲಿ", te: "బస్సులో" },
+        text: {
+          en: "Come to Vellore New Bus Stand, then take a town bus to Sripuram (Golden Temple), or a bus on the Vellore–Anicut / Odugathur route, which passes through Thirumalaikodi.",
+          ta: "வேலூர் புதிய பேருந்து நிலையத்திற்கு வந்து, ஸ்ரீபுரம் (தங்கக் கோயில்) செல்லும் நகரப் பேருந்து அல்லது திருமலைக்கோடி வழியாகச் செல்லும் வேலூர்–அணைக்கட்டு / ஒடுகத்தூர் பேருந்தில் வரலாம்.",
+          hi: "वेल्लोर नए बस स्टैंड पहुँचें, फिर श्रीपुरम (स्वर्ण मंदिर) की सिटी बस या तिरुमलैकोडि होकर जाने वाली वेल्लोर–अणैक्कट्टु / ओडुगत्तूर रूट की बस लें।",
+          ml: "വെല്ലൂർ പുതിയ ബസ് സ്റ്റാൻഡിൽ എത്തി, ശ്രീപുരം (സുവർണ്ണ ക്ഷേത്രം) ടൗൺ ബസിലോ തിരുമലൈക്കോടി വഴി പോകുന്ന വെല്ലൂർ–അണൈക്കട്ട് / ഒടുഗത്തൂർ ബസിലോ കയറുക.",
+          kn: "ವೆಲ್ಲೂರು ಹೊಸ ಬಸ್ ನಿಲ್ದಾಣಕ್ಕೆ ಬನ್ನಿ, ನಂತರ ಶ್ರೀಪುರಂ (ಸ್ವರ್ಣ ದೇವಾಲಯ) ಟೌನ್ ಬಸ್ ಅಥವಾ ತಿರುಮಲೈಕೋಡಿ ಮೂಲಕ ಹೋಗುವ ವೆಲ್ಲೂರು–ಅಣೈಕಟ್ಟು / ಒಡುಗತ್ತೂರು ಬಸ್ ಹತ್ತಿರಿ.",
+          te: "వెల్లూరు కొత్త బస్ స్టాండ్‌కు వచ్చి, శ్రీపురం (స్వర్ణ దేవాలయం) టౌన్ బస్సు లేదా తిరుమలైకోడి మీదుగా వెళ్ళే వెల్లూరు–అణైకట్టు / ఒడుగత్తూరు బస్సు ఎక్కండి."
+        } },
+      { icon: "car", pin: true,
+        title: { en: "By car", ta: "காரில்", hi: "कार से", ml: "കാറിൽ", kn: "ಕಾರಿನಲ್ಲಿ", te: "కారులో" },
+        text: {
+          en: "Vellore is on the Chennai–Bengaluru highway (NH 48). From Vellore, follow the signs to Sripuram Golden Temple, then the temple pin takes you the rest of the way.",
+          ta: "வேலூர் சென்னை–பெங்களூரு நெடுஞ்சாலையில் (NH 48) உள்ளது. வேலூரிலிருந்து ஸ்ரீபுரம் தங்கக் கோயில் வழிகாட்டிப் பலகைகளைப் பின்பற்றுங்கள்; மீதி வழிக்குக் கோயிலின் வரைபடக் குறியைப் பயன்படுத்துங்கள்.",
+          hi: "वेल्लोर चेन्नई–बेंगलुरु हाईवे (NH 48) पर है। वेल्लोर से श्रीपुरम स्वर्ण मंदिर के संकेतों का पालन करें; आगे का रास्ता मंदिर के मैप पिन से देखें।",
+          ml: "വെല്ലൂർ ചെന്നൈ–ബെംഗളൂരു ഹൈവേയിലാണ് (NH 48). വെല്ലൂരിൽ നിന്ന് ശ്രീപുരം സുവർണ്ണ ക്ഷേത്രത്തിലേക്കുള്ള ബോർഡുകൾ പിന്തുടരുക; ബാക്കി വഴിക്ക് ക്ഷേത്രത്തിന്റെ മാപ്പ് പിൻ ഉപയോഗിക്കുക.",
+          kn: "ವೆಲ್ಲೂರು ಚೆನ್ನೈ–ಬೆಂಗಳೂರು ಹೆದ್ದಾರಿಯಲ್ಲಿದೆ (NH 48). ವೆಲ್ಲೂರಿನಿಂದ ಶ್ರೀಪುರಂ ಸ್ವರ್ಣ ದೇವಾಲಯದ ಫಲಕಗಳನ್ನು ಅನುಸರಿಸಿ; ಉಳಿದ ದಾರಿಗೆ ದೇವಾಲಯದ ಮ್ಯಾಪ್ ಪಿನ್ ಬಳಸಿ.",
+          te: "వెల్లూరు చెన్నై–బెంగళూరు హైవే (NH 48) పై ఉంది. వెల్లూరు నుండి శ్రీపురం స్వర్ణ దేవాలయం బోర్డులను అనుసరించండి; మిగతా దారికి ఆలయ మ్యాప్ పిన్ ఉపయోగించండి."
+        } },
+      { icon: "plane", from: "Chennai International Airport", mode: "driving",
+        title: { en: "By air", ta: "விமானத்தில்", hi: "हवाई मार्ग से", ml: "വിമാനത്തിൽ", kn: "ವಿಮಾನದಲ್ಲಿ", te: "విమానంలో" },
+        text: {
+          en: "Chennai International Airport is the nearest major airport, about 130 km from Vellore (around 3 hours by road). Bengaluru airport is the other option.",
+          ta: "அருகிலுள்ள பெரிய விமான நிலையம் சென்னை சர்வதேச விமான நிலையம்; வேலூரிலிருந்து சுமார் 130 கி.மீ. (சாலை வழியாக சுமார் 3 மணி நேரம்). பெங்களூரு விமான நிலையமும் மற்றொரு வாய்ப்பு.",
+          hi: "सबसे नज़दीकी बड़ा हवाई अड्डा चेन्नई अंतरराष्ट्रीय हवाई अड्डा है, वेल्लोर से लगभग 130 किमी (सड़क से लगभग 3 घंटे)। बेंगलुरु हवाई अड्डा दूसरा विकल्प है।",
+          ml: "ഏറ്റവും അടുത്ത പ്രധാന വിമാനത്താവളം ചെന്നൈ അന്താരാഷ്ട്ര വിമാനത്താവളമാണ്, വെല്ലൂരിൽ നിന്ന് ഏകദേശം 130 കി.മീ. (റോഡ് വഴി ഏകദേശം 3 മണിക്കൂർ). ബെംഗളൂരു വിമാനത്താവളവും ഉപയോഗിക്കാം.",
+          kn: "ಹತ್ತಿರದ ಪ್ರಮುಖ ವಿಮಾನ ನಿಲ್ದಾಣ ಚೆನ್ನೈ ಅಂತರರಾಷ್ಟ್ರೀಯ ವಿಮಾನ ನಿಲ್ದಾಣ, ವೆಲ್ಲೂರಿನಿಂದ ಸುಮಾರು 130 ಕಿ.ಮೀ. (ರಸ್ತೆಯಲ್ಲಿ ಸುಮಾರು 3 ಗಂಟೆ). ಬೆಂಗಳೂರು ವಿಮಾನ ನಿಲ್ದಾಣವೂ ಇನ್ನೊಂದು ಆಯ್ಕೆ.",
+          te: "సమీప ప్రధాన విమానాశ్రయం చెన్నై అంతర్జాతీయ విమానాశ్రయం, వెల్లూరు నుండి సుమారు 130 కి.మీ. (రోడ్డు మార్గంలో సుమారు 3 గంటలు). బెంగళూరు విమానాశ్రయం మరో ఎంపిక."
+        } }
+    ],
+    // Each tile opens a Google Maps search for that place type near Thirumalaikodi
+    nearby: [
+      { icon: "hospital", q: "hospital", label: { en: "Hospitals", ta: "மருத்துவமனை", hi: "अस्पताल", ml: "ആശുപത്രി", kn: "ಆಸ್ಪತ್ರೆ", te: "ఆసుపత్రి" } },
+      { icon: "pill", q: "pharmacy medical shop", label: { en: "Medical shops", ta: "மருந்தகம்", hi: "दवा की दुकान", ml: "മെഡിക്കൽ ഷോപ്പ്", kn: "ಔಷಧಿ ಅಂಗಡಿ", te: "మందుల షాప్" } },
+      { icon: "fuel", q: "petrol bunk", label: { en: "Fuel stations", ta: "பெட்ரோல் பங்க்", hi: "पेट्रोल पंप", ml: "പെട്രോൾ പമ്പ്", kn: "ಪೆಟ್ರೋಲ್ ಬಂಕ್", te: "పెట్రోల్ బంక్" } },
+      { icon: "parking", q: "parking", label: { en: "Parking", ta: "வாகன நிறுத்தம்", hi: "पार्किंग", ml: "പാർക്കിംഗ്", kn: "ಪಾರ್ಕಿಂಗ್", te: "పార్కింగ్" } },
+      { icon: "wc", q: "public toilet", label: { en: "Restrooms", ta: "கழிப்பறை", hi: "शौचालय", ml: "ശുചിമുറി", kn: "ಶೌಚಾಲಯ", te: "మరుగుదొడ్డి" } },
+      { icon: "atm", q: "ATM", label: { en: "ATMs", ta: "ஏடிஎம்", hi: "एटीएम", ml: "എടിഎം", kn: "ಎಟಿಎಂ", te: "ఏటీఎం" } },
+      { icon: "food", q: "restaurant", label: { en: "Food", ta: "உணவகம்", hi: "भोजनालय", ml: "ഭക്ഷണശാല", kn: "ಊಟದ ಹೋಟೆಲ್", te: "భోజనశాల" } },
+      { icon: "bed", q: "hotel lodge", label: { en: "Places to stay", ta: "தங்குமிடம்", hi: "ठहरने की जगह", ml: "താമസസ്ഥലം", kn: "ವಸತಿ", te: "వసతి" } },
+      { icon: "shield", q: "police station", label: { en: "Police", ta: "காவல் நிலையம்", hi: "पुलिस थाना", ml: "പോലീസ് സ്റ്റേഷൻ", kn: "ಪೊಲೀಸ್ ಠಾಣೆ", te: "పోలీస్ స్టేషన్" } },
+      { icon: "taxi", q: "taxi auto stand", label: { en: "Taxi & auto", ta: "டாக்ஸி & ஆட்டோ", hi: "टैक्सी और ऑटो", ml: "ടാക്സി & ഓട്ടോ", kn: "ಟ್ಯಾಕ್ಸಿ & ಆಟೋ", te: "టాక్సీ & ఆటో" } }
+    ],
+    emergency: [
+      { number: "112", tel: "112", label: { en: "All emergencies", ta: "அனைத்து அவசரங்களுக்கும்", hi: "सभी आपात स्थितियाँ", ml: "എല്ലാ അടിയന്തര സാഹചര്യങ്ങൾക്കും", kn: "ಎಲ್ಲಾ ತುರ್ತು ಸಂದರ್ಭಗಳಿಗೆ", te: "అన్ని అత్యవసరాలకు" } },
+      { number: "108", tel: "108", label: { en: "Ambulance", ta: "ஆம்புலன்ஸ்", hi: "एम्बुलेंस", ml: "ആംബുലൻസ്", kn: "ಆಂಬ್ಯುಲೆನ್ಸ್", te: "అంబులెన్స్" } },
+      { number: "0416 220 6300", tel: "+914162206300", map: "Sri Narayani Hospital and Research Centre, Thirumalaikodi, Vellore",
+        label: { en: "Sri Narayani Hospital, Thirumalaikodi (24×7 emergency)", ta: "ஸ்ரீ நாராயணி மருத்துவமனை, திருமலைக்கோடி (24 மணி நேர அவசர சிகிச்சை)", hi: "श्री नारायणी अस्पताल, तिरुमलैकोडि (24×7 आपातकालीन)", ml: "ശ്രീ നാരായണി ആശുപത്രി, തിരുമലൈക്കോടി (24×7 അടിയന്തരം)", kn: "ಶ್ರೀ ನಾರಾಯಣಿ ಆಸ್ಪತ್ರೆ, ತಿರುಮಲೈಕೋಡಿ (24×7 ತುರ್ತು)", te: "శ్రీ నారాయణి ఆసుపత్రి, తిరుమలైకోడి (24×7 అత్యవసరం)" } }
+    ]
+  },
+
   rsvp: {
     // WhatsApp number that receives replies, with country code, digits only: "919xxxxxxxxx"
     // Leave both whatsapp and formUrl empty to hide the RSVP section.
@@ -845,48 +1058,42 @@ const WEDDING = {
           cd: ["days", "hours", "mins", "secs"], now: "The wedding is happening now", thanks: "Thank you for celebrating with us",
           shareText: "You're invited to {p}'s wedding on {d}.", rsvp: "Will you join us?",
           albums: "Photo albums", albumsEmpty: "Wedding photos will be shared here after the ceremony. Come back to view and download them.", viewDl: "View & download", photosN: "{n} photos", albumTip: "Open an album and use its download button to save photos to your phone.",
-          help: "Need any help?", helpText: "For directions, timings or anything else, call or WhatsApp us.", call: "Call", callShort: "Call",
-          day: "Day", night: "Night", themeLabel: "Switch between day and night colours" },
+          help: "Need any help?", helpText: "For directions, timings or anything else, call or WhatsApp us.", call: "Call", callShort: "Call", guide: "Travel & help", howTo: "How to get here", nearbyH: "Nearby help", nearbyNote: "Tap to see the nearest ones on Google Maps.", emergencyH: "Emergency", seeRoute: "See route", openPin: "Open temple pin" },
     ta: { language: "மொழி", invitation: "திருமண அழைப்பிதழ்", invited: "உங்களை அன்புடன் அழைக்கிறோம்", dear: "அன்புள்ள {n},", open: "அழைப்பிதழைத் திறக்கவும்",
           couple: "மணமக்கள்", groom: "மணமகன்", bride: "மணமகள்", events: "முகூர்த்த நேரம்", venue: "திருமண இடம்", welcome: "அன்புடன் வரவேற்கிறோம்", story: "எங்கள் கதை", moments: "நினைவுகள்",
           directions: "வழி காட்டு", dirShort: "வழி", maps: "Google Maps-இல் திறக்கவும்", addCal: "நாட்காட்டியில் சேர்க்க", saveDate: "நாட்காட்டி", share: "பகிர்", shareInvite: "அழைப்பிதழைப் பகிரவும்",
           cd: ["நாள்", "மணி", "நிமிடம்", "விநாடி"], now: "திருமணம் இப்போது நடைபெறுகிறது", thanks: "எங்களுடன் கொண்டாடியதற்கு நன்றி",
           shareText: "{d} அன்று நடைபெறும் {p} திருமணத்திற்கு உங்களை அன்புடன் அழைக்கிறோம்.", rsvp: "வருகையை உறுதிசெய்யவும்",
           albums: "புகைப்பட ஆல்பங்கள்", albumsEmpty: "திருமணப் புகைப்படங்கள் விழாவுக்குப் பிறகு இங்கே பகிரப்படும். பார்த்துப் பதிவிறக்க மீண்டும் வாருங்கள்.", viewDl: "பார்க்க & பதிவிறக்க", photosN: "{n} புகைப்படங்கள்", albumTip: "ஆல்பத்தைத் திறந்து, அதன் பதிவிறக்க பொத்தானைத் தொட்டு புகைப்படங்களை உங்கள் போனில் சேமிக்கலாம்.",
-          help: "உதவி தேவையா?", helpText: "வழி, நேரம் அல்லது வேறு எந்த உதவிக்கும் எங்களை அழைக்கவும் அல்லது WhatsApp செய்யவும்.", call: "அழைக்க", callShort: "அழை",
-          day: "பகல்", night: "இரவு", themeLabel: "பகல் / இரவு வண்ணங்களை மாற்ற" },
+          help: "உதவி தேவையா?", helpText: "வழி, நேரம் அல்லது வேறு எந்த உதவிக்கும் எங்களை அழைக்கவும் அல்லது WhatsApp செய்யவும்.", call: "அழைக்க", callShort: "அழை", guide: "பயணம் & உதவி", howTo: "எப்படி வருவது", nearbyH: "அருகிலுள்ள உதவிகள்", nearbyNote: "அருகில் உள்ளவற்றை Google Maps-இல் பார்க்கத் தொடவும்.", emergencyH: "அவசர உதவி", seeRoute: "வழியைப் பார்", openPin: "கோயில் இருப்பிடம்" },
     hi: { language: "भाषा", invitation: "विवाह निमंत्रण", invited: "आप सादर आमंत्रित हैं", dear: "प्रिय {n},", open: "निमंत्रण खोलें",
           couple: "वर-वधू", groom: "वर", bride: "वधू", events: "शुभ मुहूर्त", venue: "विवाह स्थल", welcome: "हार्दिक स्वागत", story: "हमारी कहानी", moments: "यादें",
           directions: "रास्ता देखें", dirShort: "रास्ता", maps: "Google Maps में खोलें", addCal: "कैलेंडर में जोड़ें", saveDate: "कैलेंडर", share: "शेयर", shareInvite: "यह निमंत्रण शेयर करें",
           cd: ["दिन", "घंटे", "मिनट", "सेकंड"], now: "विवाह अभी हो रहा है", thanks: "हमारे साथ खुशियाँ मनाने के लिए धन्यवाद",
           shareText: "{d} को {p} के विवाह में आप सादर आमंत्रित हैं।", rsvp: "क्या आप आएँगे?",
           albums: "फ़ोटो एल्बम", albumsEmpty: "विवाह की तस्वीरें समारोह के बाद यहाँ साझा की जाएँगी। देखने और डाउनलोड करने के लिए फिर से आएँ।", viewDl: "देखें और डाउनलोड करें", photosN: "{n} तस्वीरें", albumTip: "एल्बम खोलें और उसके डाउनलोड बटन से तस्वीरें अपने फ़ोन में सेव करें।",
-          help: "कोई सहायता चाहिए?", helpText: "रास्ता, समय या किसी भी जानकारी के लिए हमें कॉल या WhatsApp करें।", call: "कॉल करें", callShort: "कॉल",
-          day: "दिन", night: "रात", themeLabel: "दिन और रात के रंग बदलें" },
+          help: "कोई सहायता चाहिए?", helpText: "रास्ता, समय या किसी भी जानकारी के लिए हमें कॉल या WhatsApp करें।", call: "कॉल करें", callShort: "कॉल", guide: "यात्रा और सहायता", howTo: "कैसे पहुँचें", nearbyH: "आसपास की सुविधाएँ", nearbyNote: "Google Maps पर नज़दीकी जगहें देखने के लिए टैप करें।", emergencyH: "आपातकालीन", seeRoute: "रास्ता देखें", openPin: "मंदिर का स्थान" },
     ml: { language: "ഭാഷ", invitation: "വിവാഹ ക്ഷണക്കത്ത്", invited: "നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു", dear: "പ്രിയ {n},", open: "ക്ഷണക്കത്ത് തുറക്കുക",
           couple: "വധൂവരന്മാർ", groom: "വരൻ", bride: "വധു", events: "മുഹൂർത്തം", venue: "വിവാഹ വേദി", welcome: "ഹൃദ്യമായ സ്വാഗതം", story: "ഞങ്ങളുടെ കഥ", moments: "ഓർമ്മകൾ",
           directions: "വഴി കാണുക", dirShort: "വഴി", maps: "Google Maps-ൽ തുറക്കുക", addCal: "കലണ്ടറിൽ ചേർക്കുക", saveDate: "കലണ്ടർ", share: "പങ്കിടുക", shareInvite: "ഈ ക്ഷണം പങ്കിടുക",
           cd: ["ദിവസം", "മണിക്കൂർ", "മിനിറ്റ്", "സെക്കൻഡ്"], now: "വിവാഹം ഇപ്പോൾ നടക്കുന്നു", thanks: "ഞങ്ങളോടൊപ്പം ആഘോഷിച്ചതിന് നന്ദി",
           shareText: "{d}-ന് നടക്കുന്ന {p} വിവാഹത്തിലേക്ക് നിങ്ങളെ സ്നേഹപൂർവ്വം ക്ഷണിക്കുന്നു.", rsvp: "നിങ്ങൾ വരുമോ?",
           albums: "ഫോട്ടോ ആൽബങ്ങൾ", albumsEmpty: "വിവാഹ ഫോട്ടോകൾ ചടങ്ങിന് ശേഷം ഇവിടെ പങ്കിടും. കാണാനും ഡൗൺലോഡ് ചെയ്യാനും വീണ്ടും വരൂ.", viewDl: "കാണുക & ഡൗൺലോഡ്", photosN: "{n} ഫോട്ടോകൾ", albumTip: "ആൽബം തുറന്ന് അതിലെ ഡൗൺലോഡ് ബട്ടൺ ഉപയോഗിച്ച് ഫോട്ടോകൾ ഫോണിൽ സേവ് ചെയ്യാം.",
-          help: "എന്തെങ്കിലും സഹായം വേണോ?", helpText: "വഴി, സമയം അല്ലെങ്കിൽ മറ്റെന്തിനും ഞങ്ങളെ വിളിക്കുകയോ WhatsApp ചെയ്യുകയോ ചെയ്യുക.", call: "വിളിക്കുക", callShort: "വിളിക്കൂ",
-          day: "പകൽ", night: "രാത്രി", themeLabel: "പകൽ / രാത്രി നിറങ്ങൾ മാറ്റുക" },
+          help: "എന്തെങ്കിലും സഹായം വേണോ?", helpText: "വഴി, സമയം അല്ലെങ്കിൽ മറ്റെന്തിനും ഞങ്ങളെ വിളിക്കുകയോ WhatsApp ചെയ്യുകയോ ചെയ്യുക.", call: "വിളിക്കുക", callShort: "വിളിക്കൂ", guide: "യാത്രയും സഹായവും", howTo: "എങ്ങനെ എത്താം", nearbyH: "അടുത്തുള്ള സൗകര്യങ്ങൾ", nearbyNote: "Google Maps-ൽ ഏറ്റവും അടുത്തുള്ളവ കാണാൻ ടാപ്പ് ചെയ്യുക.", emergencyH: "അടിയന്തരം", seeRoute: "വഴി കാണുക", openPin: "ക്ഷേത്ര സ്ഥാനം" },
     kn: { language: "ಭಾಷೆ", invitation: "ವಿವಾಹ ಆಮಂತ್ರಣ", invited: "ನಿಮ್ಮನ್ನು ಪ್ರೀತಿಯಿಂದ ಆಹ್ವಾನಿಸುತ್ತೇವೆ", dear: "ಪ್ರೀತಿಯ {n},", open: "ಆಮಂತ್ರಣ ತೆರೆಯಿರಿ",
           couple: "ವಧು-ವರರು", groom: "ವರ", bride: "ವಧು", events: "ಮುಹೂರ್ತ", venue: "ವಿವಾಹ ಸ್ಥಳ", welcome: "ಆತ್ಮೀಯ ಸ್ವಾಗತ", story: "ನಮ್ಮ ಕಥೆ", moments: "ನೆನಪುಗಳು",
           directions: "ದಾರಿ ನೋಡಿ", dirShort: "ದಾರಿ", maps: "Google Maps ನಲ್ಲಿ ತೆರೆಯಿರಿ", addCal: "ಕ್ಯಾಲೆಂಡರ್‌ಗೆ ಸೇರಿಸಿ", saveDate: "ಕ್ಯಾಲೆಂಡರ್", share: "ಹಂಚಿಕೊಳ್ಳಿ", shareInvite: "ಈ ಆಮಂತ್ರಣವನ್ನು ಹಂಚಿಕೊಳ್ಳಿ",
           cd: ["ದಿನ", "ಗಂಟೆ", "ನಿಮಿಷ", "ಸೆಕೆಂಡ್"], now: "ವಿವಾಹ ಈಗ ನಡೆಯುತ್ತಿದೆ", thanks: "ನಮ್ಮೊಂದಿಗೆ ಸಂಭ್ರಮಿಸಿದ್ದಕ್ಕೆ ಧನ್ಯವಾದಗಳು",
           shareText: "{d} ರಂದು ನಡೆಯುವ {p} ಅವರ ವಿವಾಹಕ್ಕೆ ನಿಮ್ಮನ್ನು ಪ್ರೀತಿಯಿಂದ ಆಹ್ವಾನಿಸುತ್ತೇವೆ.", rsvp: "ನೀವು ಬರುವಿರಾ?",
           albums: "ಫೋಟೋ ಆಲ್ಬಮ್‌ಗಳು", albumsEmpty: "ವಿವಾಹದ ಫೋಟೋಗಳನ್ನು ಸಮಾರಂಭದ ನಂತರ ಇಲ್ಲಿ ಹಂಚಿಕೊಳ್ಳಲಾಗುವುದು. ನೋಡಲು ಮತ್ತು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಮತ್ತೆ ಬನ್ನಿ.", viewDl: "ನೋಡಿ & ಡೌನ್‌ಲೋಡ್", photosN: "{n} ಫೋಟೋಗಳು", albumTip: "ಆಲ್ಬಮ್ ತೆರೆದು ಅದರ ಡೌನ್‌ಲೋಡ್ ಬಟನ್ ಬಳಸಿ ಫೋಟೋಗಳನ್ನು ನಿಮ್ಮ ಫೋನ್‌ಗೆ ಉಳಿಸಿ.",
-          help: "ಏನಾದರೂ ಸಹಾಯ ಬೇಕೆ?", helpText: "ದಾರಿ, ಸಮಯ ಅಥವಾ ಯಾವುದೇ ಸಹಾಯಕ್ಕಾಗಿ ನಮಗೆ ಕರೆ ಮಾಡಿ ಅಥವಾ WhatsApp ಮಾಡಿ.", call: "ಕರೆ ಮಾಡಿ", callShort: "ಕರೆ",
-          day: "ಹಗಲು", night: "ರಾತ್ರಿ", themeLabel: "ಹಗಲು / ರಾತ್ರಿ ಬಣ್ಣಗಳನ್ನು ಬದಲಿಸಿ" },
+          help: "ಏನಾದರೂ ಸಹಾಯ ಬೇಕೆ?", helpText: "ದಾರಿ, ಸಮಯ ಅಥವಾ ಯಾವುದೇ ಸಹಾಯಕ್ಕಾಗಿ ನಮಗೆ ಕರೆ ಮಾಡಿ ಅಥವಾ WhatsApp ಮಾಡಿ.", call: "ಕರೆ ಮಾಡಿ", callShort: "ಕರೆ", guide: "ಪ್ರಯಾಣ ಮತ್ತು ಸಹಾಯ", howTo: "ಹೇಗೆ ತಲುಪುವುದು", nearbyH: "ಹತ್ತಿರದ ಸೌಲಭ್ಯಗಳು", nearbyNote: "Google Maps ನಲ್ಲಿ ಹತ್ತಿರದವುಗಳನ್ನು ನೋಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ.", emergencyH: "ತುರ್ತು", seeRoute: "ದಾರಿ ನೋಡಿ", openPin: "ದೇವಾಲಯದ ಸ್ಥಳ" },
     te: { language: "భాష", invitation: "శుభలేఖ", invited: "మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము", dear: "ప్రియమైన {n},", open: "ఆహ్వానాన్ని తెరవండి",
           couple: "వధూవరులు", groom: "వరుడు", bride: "వధువు", events: "ముహూర్తం", venue: "వివాహ వేదిక", welcome: "హృదయపూర్వక స్వాగతం", story: "మా కథ", moments: "జ్ఞాపకాలు",
           directions: "దారి చూడండి", dirShort: "దారి", maps: "Google Maps లో తెరవండి", addCal: "క్యాలెండర్‌కు జోడించండి", saveDate: "క్యాలెండర్", share: "షేర్", shareInvite: "ఈ ఆహ్వానాన్ని షేర్ చేయండి",
           cd: ["రోజులు", "గంటలు", "నిమిషాలు", "సెకన్లు"], now: "వివాహం ఇప్పుడు జరుగుతోంది", thanks: "మాతో కలిసి వేడుక జరుపుకున్నందుకు ధన్యవాదాలు",
           shareText: "{d}న జరిగే {p} వివాహానికి మిమ్మల్ని సాదరంగా ఆహ్వానిస్తున్నాము.", rsvp: "మీరు వస్తారా?",
           albums: "ఫోటో ఆల్బమ్‌లు", albumsEmpty: "వివాహ ఫోటోలు వేడుక తర్వాత ఇక్కడ పంచుకోబడతాయి. చూడటానికి మరియు డౌన్‌లోడ్ చేసుకోవడానికి మళ్లీ రండి.", viewDl: "చూడండి & డౌన్‌లోడ్", photosN: "{n} ఫోటోలు", albumTip: "ఆల్బమ్‌ను తెరిచి, దాని డౌన్‌లోడ్ బటన్‌తో ఫోటోలను మీ ఫోన్‌లో సేవ్ చేసుకోండి.",
-          help: "ఏదైనా సహాయం కావాలా?", helpText: "దారి, సమయం లేదా ఏ సహాయం కావాలన్నా మాకు కాల్ లేదా WhatsApp చేయండి.", call: "కాల్ చేయండి", callShort: "కాల్",
-          day: "పగలు", night: "రాత్రి", themeLabel: "పగలు / రాత్రి రంగులు మార్చండి" }
+          help: "ఏదైనా సహాయం కావాలా?", helpText: "దారి, సమయం లేదా ఏ సహాయం కావాలన్నా మాకు కాల్ లేదా WhatsApp చేయండి.", call: "కాల్ చేయండి", callShort: "కాల్", guide: "ప్రయాణం & సహాయం", howTo: "ఎలా చేరుకోవాలి", nearbyH: "సమీప సౌకర్యాలు", nearbyNote: "Google Maps లో సమీపంలోనివి చూడటానికి నొక్కండి.", emergencyH: "అత్యవసరం", seeRoute: "దారి చూడండి", openPin: "ఆలయ స్థానం" }
   };
   const LANGS = (W.languages || ["en"]).filter((c) => UI[c]);
   const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
@@ -1001,7 +1208,7 @@ const WEDDING = {
     '<path d="M20 22C14 20 9 14 8 7C14 9 18 14 20 22Z"/><path d="M20 22C26 20 31 14 32 7C26 9 22 14 20 22Z"/>' +
     '<path d="M20 2C25 9 25 16 20 22C15 16 15 9 20 2Z"/></g></symbol>';
   document.body.insertAdjacentHTML("afterbegin", '<svg width="0" height="0" style="position:absolute" aria-hidden="true">' +
-    '<defs><linearGradient id="velg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#F9DC8A"/><stop offset=".5" stop-color="#E8B54C"/><stop offset="1" stop-color="#B57E26"/></linearGradient></defs>' +
+    '<defs><radialGradient id="dglow" cx="50%" cy="40%" r="50%"><stop offset="0" stop-color="#FFE7A0" stop-opacity=".9"/><stop offset="1" stop-color="#FFB347" stop-opacity="0"/></radialGradient><linearGradient id="dflame" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#F26B1D"/><stop offset=".55" stop-color="#FFC233"/><stop offset="1" stop-color="#FFF4C2"/></linearGradient><linearGradient id="dbowl" x1="0" x2="1"><stop offset="0" stop-color="#F9DC8A"/><stop offset=".5" stop-color="#E2AE45"/><stop offset="1" stop-color="#A8741F"/></linearGradient><linearGradient id="velg" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#F9DC8A"/><stop offset=".5" stop-color="#E8B54C"/><stop offset="1" stop-color="#B57E26"/></linearGradient></defs>' +
     flower("mg0", "#D8620B", "#EC7C10", "#F7992B", "#A9480A") + flower("mg1", "#E39A08", "#F6B416", "#FCCB45", "#B97A06") +
     vel + feather() + mandala() + lotus + "</svg>");
 
@@ -1014,6 +1221,21 @@ const WEDDING = {
     pin: svgI('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>'),
     cal: svgI('<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>'),
     share: svgI('<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.8l7.6-4.1M8.2 13.2l7.6 4.1"/>'),
+    train: svgI('<rect x="5" y="3" width="14" height="13" rx="3"/><path d="M5 10h14M9 20l-2 2M15 20l2 2M8.5 13.5h.01M15.5 13.5h.01"/><path d="M7 16l-1 3h12l-1-3"/>'),
+    bus: svgI('<rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 18v3M16 18v3M7.5 14.5h.01M16.5 14.5h.01"/>'),
+    car: svgI('<path d="M5 16V12l2-5h10l2 5v4"/><path d="M3 16h18v3H3zM6.5 19v2M17.5 19v2M5 12h14"/>'),
+    plane: svgI('<path d="M21 15.5v-2l-8-5V3.8a1.5 1.5 0 0 0-3 0v4.7l-8 5v2l8-2.5v5.2L8 19.6V21l3.5-1 3.5 1v-1.4l-2-1.4V13z"/>'),
+    hospital: svgI('<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/>'),
+    pill: svgI('<path d="M10.5 20.5a5 5 0 0 1-7-7l6-6a5 5 0 0 1 7 7z"/><path d="M8.5 8.5l7 7"/>'),
+    fuel: svgI('<path d="M4 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h12M4 10h10"/><path d="M14 8l3 3v6a1.5 1.5 0 0 0 3 0V9l-3-3"/>'),
+    parking: svgI('<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M9.5 17V7h3.5a3 3 0 0 1 0 6H9.5"/>'),
+    wc: svgI('<circle cx="7.5" cy="5" r="1.8"/><circle cx="16.5" cy="5" r="1.8"/><path d="M7.5 8.5v12M5 9h5v6M14.5 9h4l1.5 7h-2.5v4.5h-2V16h-2.5z"/>'),
+    atm: svgI('<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><path d="M2.5 10h19M6 14.5h4"/>'),
+    food: svgI('<path d="M4 13h16a8 8 0 0 1-16 0zM12 4v4M8.5 5.5l1 2.5M15.5 5.5l-1 2.5"/>'),
+    bed: svgI('<path d="M3 19V6M3 12h18v7M21 19v-4M3 15h18"/><path d="M7 12V9h5v3"/>'),
+    shield: svgI('<path d="M12 3l7.5 3v5.5c0 4.5-3.2 8-7.5 9.5-4.3-1.5-7.5-5-7.5-9.5V6z"/><path d="M9 12l2 2 4-4"/>'),
+    taxi: svgI('<path d="M5 17v-4l2-5h10l2 5v4M3 17h18v3H3zM10 5h4v3h-4zM5 13h14"/>'),
+    clock: svgI('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>'),
     camera: svgI('<path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="4"/>'),
     phone: svgI('<path d="M5 3.5h3.2l1.6 4.2-2.1 1.4a11.5 11.5 0 0 0 5.2 5.2l1.4-2.1 4.2 1.6V17a2.5 2.5 0 0 1-2.5 2.5A15.5 15.5 0 0 1 2.5 6 2.5 2.5 0 0 1 5 3.5z"/>'),
     chat: svgI('<path d="M4 19.5l1.3-3.9A8 8 0 1 1 8.4 18.7L4 19.5z"/><path d="M9 10.5h6M9 13.5h4"/>'),
@@ -1027,22 +1249,19 @@ const WEDDING = {
   const picker = (cls) => '<label class="lang-pick ' + cls + '">' + icon.globe + '<span class="lp-name">' + esc(LANG_NAMES[lang]) + "</span>" + icon.chev +
     '<select data-lang aria-label="' + esc(t("language")) + '">' + LANGS.map((c) => '<option value="' + c + '"' + (c === lang ? " selected" : "") + ' lang="' + c + '">' + LANG_NAMES[c] + "</option>").join("") + "</select></label>";
 
-  /* ---------- Day / Night ---------- */
-  const THEME_KEY = "wedding-theme";
-  const themeNow = () => (document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light");
-  const themeBtnInner = () => '<span class="seg seg-day">' + icon.sun + "<span>" + esc(t("day")) + '</span></span><span class="seg seg-night">' + icon.moon + "<span>" + esc(t("night")) + "</span></span>";
-  const themeBtn = () => '<button type="button" class="theme-toggle" data-theme-toggle role="switch" aria-checked="' + (themeNow() === "dark") + '" aria-label="' + esc(t("night")) + '" title="' + esc(t("themeLabel")) + '">' + themeBtnInner() + "</button>";
-  let userTheme = null;
-  function applyTheme(next, remember) {
+  /* ---------- Day / Night: always follows the phone or browser setting ---------- */
+  function applyTheme(next) {
     document.documentElement.setAttribute("data-theme", next);
-    if (remember) { userTheme = next; store.set(THEME_KEY, next); }
     const m = document.querySelector('meta[name="theme-color"]');
     if (m) m.content = next === "dark" ? "#5A1020" : "#7E1121";
-    document.querySelectorAll("[data-theme-toggle]").forEach((b) => { b.innerHTML = themeBtnInner(); b.setAttribute("aria-checked", String(next === "dark")); });
   }
   const mq = window.matchMedia ? matchMedia("(prefers-color-scheme: dark)") : null;
-  if (mq && mq.addEventListener) mq.addEventListener("change", (e) => { if (!userTheme && !store.get(THEME_KEY)) applyTheme(e.matches ? "dark" : "light", false); });
+  if (mq) {
+    const follow = (e) => applyTheme(e.matches ? "dark" : "light");
+    if (mq.addEventListener) mq.addEventListener("change", follow); else if (mq.addListener) mq.addListener(follow);
+  }
 
+  const DIYA = '<svg class="diya" viewBox="0 0 64 56" aria-hidden="true"><circle cx="32" cy="18" r="17" fill="url(#dglow)"/><path class="flame" d="M32 6C36 13 38 18 35.5 23.5C34.5 25.5 29.5 25.5 28.5 23.5C26 18 28 13 32 6Z" fill="url(#dflame)"/><path d="M6 30C10 30 14 31 18 31H46C50 31 54 30 58 30C56 41 46 48 32 48C18 48 8 41 6 30Z" fill="url(#dbowl)"/><path d="M12 33C20 36 44 36 52 33" stroke="#8A5A12" stroke-width="1" fill="none" opacity=".6"/><path d="M24 48H40L37 53H27Z" fill="url(#dbowl)"/></svg>';
   const hills = '<svg class="hills" viewBox="0 0 1200 220" preserveAspectRatio="xMidYMax slice" aria-hidden="true">' +
     '<path d="M0 220V96C40 80 90 68 120 64C150 68 190 86 240 104C340 130 440 122 540 116C640 110 700 96 780 92C880 88 960 110 1060 120C1120 126 1170 130 1200 132V220Z" fill="#6A0F1D"/>' +
     '<g fill="#3E0710"><rect x="108" y="50" width="24" height="16"/><path d="M110 50h20l-4-20h-12z"/><rect x="115" y="26" width="10" height="4.5" rx="1"/><circle cx="120" cy="23" r="2.6"/><rect x="119.4" y="15" width="1.2" height="6"/></g>' +
@@ -1142,6 +1361,33 @@ const WEDDING = {
       (v.notes ? '<p class="venue-notes">' + esc(tr(v.notes)) + "</p>" : "") + "</div></section>";
   }
 
+  function guideSec() {
+    const G = W.guide;
+    if (!G) return "";
+    const dest = encodeURIComponent(G.destination || placeEn(W.venue || {}));
+    const near = (q) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q + " near " + (G.destination || "Thirumalaikodi, Vellore"));
+    const route = (r) => r.pin ? mapsLink(W.venue || {}) :
+      "https://www.google.com/maps/dir/?api=1&origin=" + encodeURIComponent(r.from) + "&destination=" + dest + "&travelmode=" + (r.mode || "driving");
+    return '<section class="section guide-sec" data-tone="peacock" id="guide" aria-labelledby="guide-h"><div class="wrap reveal">' + head("guide", "guide-h") +
+      '<div class="guide-notes">' +
+        (tr(G.landmark) ? '<p class="gn">' + '<span class="gn-i" aria-hidden="true">' + icon.pin + "</span><span>" + esc(tr(G.landmark)) + "</span></p>" : "") +
+        (tr(G.tip) ? '<p class="gn">' + '<span class="gn-i" aria-hidden="true">' + icon.clock + "</span><span>" + esc(tr(G.tip)) + "</span></p>" : "") +
+      "</div>" +
+      '<h3 class="sub-h">' + esc(t("howTo")) + "</h3>" +
+      '<div class="route-grid">' + (G.routes || []).map((r) =>
+        '<article class="route-card"><span class="rc-icon" aria-hidden="true">' + (icon[r.icon] || icon.pin) + "</span>" +
+        '<div class="rc-body"><h4>' + esc(tr(r.title)) + "</h4><p>" + esc(tr(r.text)) + "</p>" +
+        '<a class="rc-link" href="' + esc(route(r)) + '" target="_blank" rel="noopener">' + icon.pin + esc(r.pin ? t("openPin") : t("seeRoute")) + "</a></div></article>").join("") + "</div>" +
+      '<h3 class="sub-h">' + esc(t("nearbyH")) + '</h3><p class="sub-note">' + esc(t("nearbyNote")) + "</p>" +
+      '<div class="near-grid">' + (G.nearby || []).map((n) =>
+        '<a class="near-tile" href="' + esc(near(n.q)) + '" target="_blank" rel="noopener"><span class="nt-icon" aria-hidden="true">' + (icon[n.icon] || icon.pin) + "</span><span class=\"nt-label\">" + esc(tr(n.label)) + "</span></a>").join("") + "</div>" +
+      '<h3 class="sub-h">' + esc(t("emergencyH")) + "</h3>" +
+      '<div class="sos-list">' + (G.emergency || []).map((e) =>
+        '<div class="sos"><a class="sos-call" href="tel:' + esc(e.tel || e.number) + '"><span class="sos-num' + (String(e.number).length > 5 ? " long" : "") + '">' + esc(e.number) + '</span><span class="sos-label">' + esc(tr(e.label)) + '</span><span class="sos-ic" aria-hidden="true">' + icon.phone + "</span></a>" +
+        (e.map ? '<a class="sos-map" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.map) + '" target="_blank" rel="noopener" aria-label="' + esc(t("directions")) + '">' + icon.pin + "</a>" : "") + "</div>").join("") + "</div>" +
+      "</div></section>";
+  }
+
   function welcome() {
     const V = W.welcome;
     if (!V || !tr(V.text)) return "";
@@ -1170,7 +1416,7 @@ const WEDDING = {
   const people = (W.contacts || []).filter((c) => c && c.phone);
   function contact() {
     if (!people.length) return "";
-    return '<section class="section contact-sec" data-tone="peacock" id="contact" aria-labelledby="help-h"><div class="wrap reveal">' + head("help", "help-h") +
+    return '<section class="section contact-sec" data-tone="emerald" id="contact" aria-labelledby="help-h"><div class="wrap reveal">' + head("help", "help-h") +
       '<p class="contact-lead">' + esc(t("helpText")) + '</p><div class="contact-list">' +
       people.map((c) => {
         const digits = String(c.phone).replace(/[^\d]/g, ""), name = tr(c.name);
@@ -1210,16 +1456,16 @@ const WEDDING = {
   }
 
   function footer() {
-    return '<footer class="footer"><div class="zari flip" aria-hidden="true"></div>' + velMark() +
+    return '<footer class="footer"><div class="zari flip" aria-hidden="true"></div>' + '<div class="diyas" aria-hidden="true">' + DIYA + DIYA + DIYA + "</div>" + velMark() +
       '<p class="footer-names">' + esc(tr(A.name)) + " <span>&amp;</span> " + esc(tr(B.name)) + "</p>" +
       (W.hashtag ? '<p class="hashtag">' + esc(W.hashtag) + "</p>" : "") +
       (tr(W.closing) ? '<p class="closing">' + esc(tr(W.closing)) + "</p>" : "") +
       '<button type="button" class="btn btn-gold" data-share>' + icon.share + esc(t("shareInvite")) + "</button>" +
-      '<div class="tools">' + themeBtn() + "</div></footer>";
+      "</footer>";
   }
 
   function coverInner() {
-    return '<div class="tools">' + picker("on-cover") + themeBtn() + "</div>" +
+    return '<div class="tools">' + picker("on-cover") + "</div>" +
       (W.deityPhoto ? '<figure class="deity"><img src="' + esc(W.deityPhoto) + '" alt="Lord Murugan" width="540" height="892" fetchpriority="high"></figure>' : velMark()) +
       '<p class="cover-ta">' + esc(t("invitation")) + "</p>" +
       (guest ? '<p class="cover-greet">' + esc(fill(t("dear"), { n: guest })) + "</p>" : "") +
@@ -1318,7 +1564,7 @@ const WEDDING = {
   function render() {
     document.documentElement.lang = lang;
     document.documentElement.dataset.lang = lang;
-    $("#app").innerHTML = hero() + letter() + couple() + story() + schedule() + venue() + welcome() + albums() + gallery() + rsvp() + contact() + footer();
+    $("#app").innerHTML = hero() + letter() + couple() + story() + schedule() + venue() + guideSec() + welcome() + albums() + gallery() + rsvp() + contact() + footer();
     $("#dock").innerHTML = dockInner();
     const ci = $("#cover .cover-inner");
     if (ci) ci.innerHTML = coverInner();
@@ -1335,6 +1581,7 @@ const WEDDING = {
     } else reveals.forEach((el) => el.classList.add("in"));
     firstRender = false;
     armMap();
+    armDiyas();
   }
   let mapIO = null;
   function armMap() {
@@ -1344,6 +1591,15 @@ const WEDDING = {
     if (!("IntersectionObserver" in window)) { m.src = m.dataset.src; return; }
     mapIO = new IntersectionObserver((l) => { if (l[0].isIntersecting) { m.src = m.dataset.src; mapIO.disconnect(); } }, { rootMargin: "800px 0px" });
     mapIO.observe(m);
+  }
+  let diyaIO = null;
+  function armDiyas() {
+    const d = $(".diyas");
+    if (diyaIO) diyaIO.disconnect();
+    if (!d) return;
+    if (!("IntersectionObserver" in window)) { d.classList.add("lit"); return; }
+    diyaIO = new IntersectionObserver((l) => d.classList.toggle("lit", l[0].isIntersecting));
+    diyaIO.observe(d);
   }
   function setLang(code) {
     if (!UI[code] || code === lang) return;
@@ -1433,7 +1689,6 @@ const WEDDING = {
   document.addEventListener("keydown", (ev) => { if (ev.key === "Escape" && $("#cover")) openInvite(); });
   document.addEventListener("click", (ev) => {
     if (ev.target.closest("#open-invite")) { openInvite(); return; }
-    if (ev.target.closest("[data-theme-toggle]")) { applyTheme(themeNow() === "dark" ? "light" : "dark", true); return; }
     const el = ev.target.closest("[data-ics],[data-share],[data-save]");
     if (!el) return;
     if (el.hasAttribute("data-ics")) downloadIcs(Number(el.dataset.ics));
